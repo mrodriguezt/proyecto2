@@ -1,0 +1,2525 @@
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                      TreeGrid CSS style                                                 */
+
+/*                                                         Office style                                                    */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* To remove all the comments replace such RegEx: \/\*([^\*]|\n|\r)*\*\/|\s*\r\n?\s*(?=\r\n?)|\s+(?=[\{\}])|\s+(?=\r)
+
+   In the description, the sentence starting by "@" lists what only should be changed in the CSS class
+*/
+
+
+/* ------------- Group definition for all TreeGrid tags ------------- */
+
+/* ! Note, here is no style prefix, it is shared among all TreeGrid styles 
+   @ Set here default values for CSS attributes of tags <td>, <th>, <tr>, <table>, <tbody>, <div>, <span>, <u>,
+   if your global style sheet redefined them, especially attributes controlling size and measurement, otherwise TreeGrid will be switched to Safe CSS mode 
+*/
+.GridMain * { }
+
+/* ------------- Base tags ------------- */
+
+/* @ Do not change.
+   FF3 version is used for Firefox 3 - 19 due its slow bug in rendering table cells with different borders 
+*/
+.GONone { display:none; }
+.GOSection,.GOSectionFF3 { table-layout:fixed; width:0px; font-size:0px; line-height:0px; }
+.GOSectionFF3 { border-collapse:collapse; }
+
+/* -------------- Main TreeGrid <table> tag, contains the table sections ------------------ */
+
+/* It controls border around the grid. 
+   @ Set margin, border and padding. 
+   Padding is ignored in IE7 strict, IE6 strict and IE5 quirks modes. 
+*/
+.GOMainTable { background:white; border:1px solid white; border-collapse:separate; text-align:left; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                        Grid sections                                                    */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* -------------- Table sections with cells, <div> tag inside <td> tag ------------------ */
+
+/* They control border and spaces between grid sections. 
+   @ Set border, padding and margin. Set them with relation to Splitters, Scrollbars and Space rows settings.
+   ...Head... (<Head> top fixed rows), ...Body... (<Body> variable rows), ...Foot... (<Foot> bottom fixed rows)
+   ...Left (<LefCols> left fixed columns), ...Mid (<Cols> variable columns), ...Right (<RightCols> right fixed columns)
+!! Sections on horizontal direction (...Left, ...Mid, ...Right) must have the same height (border+padding+margin)
+!! Sections on vertical direction (...Head..., ...Body..., ...Foot...) must have the same width (border+padding+margin)
+*/
+.GOBodyLeft,.GOBodyMid,.GOBodyRight,.GOHeadLeft,.GOHeadMid,.GOHeadRight,.GOFootLeft,.GOFootMid,.GOFootRight { }
+.GOHeadLeft,.GOHeadMid,.GOHeadRight { border-top:1px solid #e9e9e9; border-bottom:1px solid white; }
+.GOBodyLeft,.GOBodyMid,.GOBodyRight { }
+.GOFootLeft,.GOFootMid,.GOFootRight { border-top:1px solid #CBCBCB; }
+.GOHeadLeft,.GOBodyLeft,.GOFootLeft { border-right:1px solid #e9e9e9; }
+.GOHeadMid,.GOBodyMid,.GOFootMid { }
+.GOHeadRight,.GOBodyRight,.GOFootRight { border-left:1px solid #e9e9e9; }
+
+/* -------------- Splitters between resizable table sections, <td> tag ------------------ */
+
+/* The <td> tags are shown between the sections <td> tags when set <Cfg LeftWidth, MidWidth, RightWidth/> attributes and <Cfg SectionResizing='1'/>
+   They control horizontal space between the resizable sections. 
+   @ Set left/right border and padding and also width and background.
+   LeftSplitter is between ...Left and ...Mid column sections and RightSplitter is between ...Mid and ...Right column sections.
+   The splitter tag is shown in every row section (Head,Body,Foot) and in the horizontal scrollbars section.
+   ...Touch versions are shown instead on touch screens like iPad
+   ...HeadSplitter, ...BodySplitter, ...FootSplitter is added for appropriate row section, ...ScrollSplitter is added to splitter between horizontal scrollbars
+   ...SplitterDisabled is added if the sections cannot be resized now, due their actual width or permissions
+*/
+.GOLeftSplitter,.GORightSplitter,.GOLeftSplitterTouch,.GORightSplitterTouch { width:5px; background:#f4f4f4; overflow:hidden; cursor:e-resize; font-size:1px; }
+.GOLeftSplitterTouch,.GORightSplitterTouch { width:15px; }
+.GOLeftSplitter,.GOLeftSplitterTouch { border-right:1px solid #e9e9e9; }
+.GORightSplitter,.GORightSplitterTouch { border-left:1px solid #e9e9e9; }
+.GOHeadSplitter { }
+.GOBodySplitter { }
+.GOFootSplitter { }
+.GOScrollSplitter { }
+.GOSplitterDisabled { background:white; cursor:default; }
+
+/* -------------- Vertical scrollbar, <div> tag inside <td> tag ------------------ */
+
+/* The vertical scrollbar is placed on right side to <td> tag in Head section and is spanned through Body section and inner Space rows to Foot section 
+   It controls the border and space around the scrollbar. 
+   @ Set border, padding and margin, optionally background.
+   @ You can control the scrollbar shape and look in IE or WebKit on its immediate child <div> as .GOVScroll > div
+*/
+.GOVScroll { padding-top:1px; border-top:1px solid #e9e9e9; border-right:1px solid #e9e9e9; overflow:hidden; }
+
+/* -------------- Horizontal scrollbars, <div> tag inside <td> tag ------------------ */
+
+/* ...Left (for <LefCols> left fixed columns), ...Mid (for <Cols> variable columns), ...Right (for <RightCols> right fixed columns)
+   They control the border and space around the scrollbar. 
+   @ Set border, padding and margin, optionally background.
+   @ You can control the scrollbar shape and look in IE or WebKit on their immediate child <div> as .GOHScroll... > div
+   ...Resize versions are shown instead for resizable sections, when set <Cfg LeftWidth, MidWidth, RightWidth/> attributes and <Cfg SectionResizing='2'/>
+   ...ResizeTouch versions are shown instead on touch screens like iPad 
+   ...HScrollWide is shown instead of all the section scrollbars when set <Cfg WideHScroll='1'/>
+   ...ScrollHidden is shown instead if the column section does not need to show scrollbar (but the other sections do)
+   ...XScroll is shown in the horizontal scrollbars row in place of vertical scrollbar
+*/
+.GOHScrollLeft,.GOHScrollMid,.GOHScrollRight { overflow:hidden; }
+.GOHScrollLeft { padding-right:1px; }
+.GOHScrollMid { }
+.GOHScrollRight { padding-left:1px; }
+.GOHScrollLeftResize,.GOHScrollRightResize,.GOHScrollMidLeftResize,.GOHScrollMidRightResize { background:#F4F4F4; overflow:hidden; }
+.GOHScrollLeftResize { border-right:1px dotted black; padding-right:5px; margin-right:1px; }
+.GOHScrollRightResize { border-left:1px dotted black; padding-left:5px; margin-left:1px; }
+.GOHScrollMidLeftResize { border-left:1px dotted black; padding-left:5px; }
+.GOHScrollMidRightResize { border-right:1px dotted black; padding-right:5px; }
+.GOHScrollLeftResizeTouch,.GOHScrollRightResizeTouch,.GOHScrollMidLeftResizeTouch,.GOHScrollMidRightResizeTouch { background:#F4F4F4; overflow:hidden; }
+.GOHScrollLeftResizeTouch { border-right:1px dotted black; padding-right:18px; margin-right:1px; }
+.GOHScrollRightResizeTouch { border-left:1px dotted black; padding-left:18px; margin-left:1px; }
+.GOHScrollMidLeftResizeTouch { border-left:1px dotted black; padding-left:19px; }
+.GOHScrollMidRightResizeTouch { border-right:1px dotted black; padding-right:19px; }
+.GOHScrollWide { overflow:hidden; }
+.GOHScrollHidden { }
+.GOXScroll { background:#FFF; border-right:1px solid #e9e9e9; cursor:default; }
+
+/* -------------- Special scrollbar setting for Safari and Chrome, <div> tag inside <td> tag ------------------ */
+
+/* Added to vertical and horizontal scrollbar to force showing scrollbars in Safari and Chrome if they are automatically hidden
+   @ Change here the scrollbars look; The scrollbars must be defined as permanently visible
+   ! Note, here is no style prefix
+*/
+.GridHiddenScroll > div::-webkit-scrollbar { -webkit-appearance:none; width:11px; height:11px; } 
+.GridHiddenScroll > div::-webkit-scrollbar-thumb { border-radius:8px; border:2px solid white; background-color:rgba(0,0,0,0.5); }
+
+/* ------------------ Round corners ------------------ */
+
+/* Used to render something above and below the grid, to simulate e.g. rounded corners with special effects compatible in all browsers */
+
+/* ...Top is set to <div> tag rendered directly above ...MainTable with the same width as the table 
+   ...Top0 to ...Top9 is set to up 10 <div> tags inside ...Top. The tag is not rendered if the class has not set height.
+   ...TopSpace0 to ...TopSpace9 is added to ...Top0 to ...Top9 in case there is some visible Space row width Space = 0
+*/
+.GOTop { }
+.GOTop1 { }
+.GOTop2 { }
+.GOTop3 { }
+.GOTop4 { }
+.GOTop5 { }
+
+/* ...Bottom is set to <div> tag rendered directly below ...MainTable with the same width as the table 
+   ...Bottom0 to ...Top9 is set to up 10 <div> tags inside ...Top. The tag is not rendered if the class has not set height.
+   ...BottomSpace0 to ...BottomSpace9 is added to ...Bottom0 to ...Bottom9 in case there is some visible Space row width Space = 4
+*/
+.GOBottom { }
+.GOBottom5 { }
+.GOBottom4 { }
+.GOBottom3 { }
+.GOBottom2 { }
+.GOBottom1 { }
+
+/* -------------- Row pages, <div> tag ------------------ */
+
+/* They control the border and space around the row page */
+/* @ Set here vertical border, padding and margin.
+   ...PageOne is shown if no root paging is set (<Cfg Paging='0'/>. 
+   ...PageFirst is the first root page, the ...Page are all the next root pages
+   ...ChildPart is shown around the row children, regardless on the <Cfg ChildParts/> is set or not
+*/
+.GOPageFirst { }
+.GOPage {  border-top:1px solid #D4D4D4; }
+.GOPageOne { }
+.GOChildPart { }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                        Rows                                                             */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+ 
+/* ------------- Table row height ------------------ */
+
+/* Classes are not assigned, only the height attribute is read. 
+   @ Set the height in pixels only. 
+   ...RowHeight is default minimal height in pixels of all rows in table (not Space rows). It is outer height including all cell border and padding.
+   ...RowHeightTouch is used instead on touch screens like iPad 
+*/
+.GORowHeight { height:17px; }
+.GORowHeightTouch { height:23px; }
+
+/* ------------- Table rows, <tr> tag ------------------ */
+
+/* Sets the class to the whole column section of the row. Useful to set for special backgrounds.
+   ...DataRow is set for all standard table rows without Kind attribute set
+   @ Set here only background
+*/
+.GOHeaderRow { }
+.GOFilterRow { }
+.GODataRow { }
+
+/* ------------- Space row height ------------------ */
+
+/* Classes are not assigned, only the height or margin attribute is read. 
+   @ Set the height or margin in pixels only. 
+   ...SpaceRowHeight is default minimal height in pixels of all Space rows. It is outer height including all cell border and padding, but not the margin.
+   ...SpaceMargin is horizontal and vertical margin in pixels around all Space row cells. 
+   ...SpaceMarginTouch is used instead on touch screens like iPad 
+*/
+.GOSpaceRowHeight { height:19px; }
+.GOSpaceMargin { margin:0px; }
+.GOSpaceMarginTouch { margin:0px; }
+
+/* ------------- Space rows, <div> tag inside <td> tag ------------------ */
+
+/* Space row class according to the row Kind as prefix+Kind+"Row". In XML the Kind can be set as tag name like <Group ... />. Default Kind is "Space".
+   Every Space row is placed in its own <tr><td> tag, on the same level as table sections like Head/Body/Foot (...Left/Mid/Right).
+   @ Set here border, padding, margin and background
+   The horizontal border and spacing of Space rows should be synchronized with the table sections
+*/
+.GOSpaceRow,.GOGroupRow,.GOSearchRow,.GOPagerRow,.GOToolbarRow,.GOToolbar1Row,.GOToolbar2Row,.GOToolbar3Row,.GOTopbarRow,.GOTopbar1Row,.GOTopbar2Row,.GOTopbar3Row,.GOTabberRow {
+   background:#E9E9E9 url(Backgrounds.gif?v110) 0px 0px repeat-x; border:1px solid #e9e9e9; border-top:1px solid #F4F4F4; border-bottom:1px solid #CBCBCB;
+   margin:1px 0px 2px 0px; padding:2px 0px 2px 2px; font-size:0px; overflow:hidden; white-space:nowrap;
+   }
+.GOSpaceRow { }                                                                    /* Standard Space row with no special meaning */
+.GOGroupRow { }                                                                    /* Grouping settings row */
+.GOSearchRow { }                                                                   /* Search settings row */
+.GOPagerRow { }                                                                    /* Simple pager row with Pages type cell */
+.GOToolbarRow { background:white; border:0px none; margin:0px; padding-top:3px; }  /* Bottom standalone toolbar */
+.GOToolbar1Row { margin:3px 0px 1px 0px; }                                         /* First bottom toolbar */
+.GOToolbar2Row { background:white; border:0px none; margin:0px; padding-top:3px; } /* Last bottom toolbar */
+.GOToolbar3Row { margin:3px 0px 1px 0px; }                                         /* Middle bottom toolbars */
+.GOTopbarRow { background:white; border:0px none; margin:0px; padding-bottom:3px; }   /* Standalone top toolbar */
+.GOTopbar1Row { background:white; border:0px none; margin:0px; padding-bottom:3px; }  /* First top toolbar*/
+.GOTopbar2Row { }                                                                  /* Last top toolbar */
+.GOTopbar3Row { }                                                                  /* Middle top toolbars */
+.GOTabberRow { background:white; border:0px none; margin:0px; padding:0px; }       /* Tabber row with Tab type cells, usually used with ...RowAbove or ...RowBelow */
+
+/* Special Space row Kind="Fill" shown for ConstHeight='1'*/
+.GOFillRow { background:white; }
+
+/* Special Space row Kind="NoData" shown when all body rows are hidden */
+.GONoDataRow {  background:#FAFAFA; padding:5px 0px 5px 5px; overflow:hidden; }
+.GONoDataRow div { color:gray!important; font-style:italic!important; }
+
+/* Class added to Space row Kind class for its position (Space attribute value), only value 0 to 4 */
+.GORowSpace0 { }
+.GORowSpace1 { }
+.GORowSpace2 { }
+.GORowSpace3 { }
+.GORowSpace4 { }
+
+/* Special Space row above or below grid, used instead of Kind class, ...RowAbove is added for Space='-1', ...RowBelow for Space='5' */
+.GORowAbove,.GORowBelow { border-left:1px solid #e0e0ff; border-right:1px solid #e0e0ff; margin-left:1px; margin-right:1px; overflow:hidden; }
+.GORowAbove { margin-top:3px; background:url(Backgrounds.gif?v110) 0px -250px; }
+.GORowBelow {  margin-bottom:3px; background:url(Backgrounds.gif?v110) 0px bottom; }
+
+/* Class added for row with Panel='1' */
+.GOSpaceRowPanel { padding-left:0px; }
+
+/* Class added for given row VAlign attribute value */
+.GOSpaceVAlignTop { }
+.GOSpaceVAlignMiddle { }
+.GOSpaceVAlignBottom { }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                        Cells                                                            */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ------------- Table cells, <td> tag ------------- */
+
+/* Classes for table row cells (not Space rows). Always one class per one cell.
+   @ Set border here. Note, all cells in table must have the same border width/height in the same cell edge.
+   @ You can set also padding here, but note, the padding is defined also in cell type class.
+   @ You can set also background here, but note, the data cell background color is often controlled by ...Color state classes
+   ...Cell - base data cell
+   ...CellPanel - cell Type="Panel"
+   ...CellFilter - cell in row Kind="Filter"
+   ...CellFilterPanel - cell Name="Panel" in row Kind="Filter". Note, it is used only for default panel named "Panel"
+   ...CellHeader - cell in row Kind="Header"
+   ...CellHeaderPanel - cell Type="Panel" in row Kind="Header"
+   ...CellEmpty - cell in _ConstWidth column (created due <Cfg ConstWidth/> setting), also in row Kind="Filter"
+   ...CellHeaderEmpty - cell in _ConstWidth column (created due <Cfg ConstWidth/> setting) in row Kind="Header"
+   ...CellUser - user cell section defined by <I LeftHtml MidHtml RightHtml/>
+   ...CellHidden - cell in child row hidden due spanned parent row through its children
+*/
+.GOCell,.GOCellPanel,.GOCellFilter,.GOCellFilterPanel,.GOCellHeader,.GOCellHeaderPanel,.GOCellHeaderEmpty,.GOCellUser,.GOCellEmpty {
+   border:1px solid white; border-bottom:1px dotted #CBCBCB; border-right:1px solid #D4D4D4;
+   vertical-align:top; overflow:hidden; overflow:auto!IE; height:auto;
+   }
+.GOCell { }
+.GOCellHeader,.GOCellHeaderPanel,.GOCellHeaderEmpty { background:#E9E9E9 url(Backgrounds.gif?v110) 0px 0px repeat-x; }
+.GOCellPanel,.GOCellHeaderPanel,.GOCellFilterPanel { white-space:nowrap; direction:ltr; }
+.GOCellHeader { }
+.GOCellHeaderEmpty { background:white; border-color:white; }
+.GOCellHeaderPanel { }
+.GOCellPanel { background:#E9E9E9 url(Backgrounds.gif?v110) 0px 0px repeat-x; }
+.GOCellFilterPanel { background:#E9E9E9 url(Backgrounds.gif?v110) 0px 0px repeat-x; text-align:center; }
+.GOCellFilter { }
+.GOCellUser { background-color:#E9E9E9; }
+.GOCellEmpty { background:white; border-color:white; }
+.GOCellHidden { background:transparent!important; border-top:none!important; border-bottom:none!important; }
+
+/* Special class to choose if the last cells in column or row section will render its border; Not used in grid, only border width is read; @ Set border-right and border-bottom; set it to 0px to SHOW the border */
+.GOLastCell { border-right:1px solid; border-bottom:0px none; }
+
+/* Classes added to the <td> cell due special feature
+   ...CellClassInner added to the cell with defined ClassInner attribute (including Header cell)
+   ...CellClassInnerIcon added to the cell with defined ClassInner attribute and side Icon
+   ...CellHeaderInnerIcon added to the header cell with defined ClassInner attribute and side Icon
+   ...CellBorderFF3 is added to all cells in Firefox 3 - 19 due its slow bug in rendering table cells with different borders
+*/
+.GOCellClassInner { padding-top:0px; padding-bottom:0px; }
+.GOCellClassInnerIcon { }
+.GOCellHeaderInnerIcon { }
+.GOCellBorderFF3 { border-left:0px none!important; border-top:0px none!important; }
+
+/* ------------- Cell content - Type, <td> or <div> tag ------------- */
+
+/* The Type class is by default set to same <td> tag as the table cell or Space cell class.
+   Here are listed all TreeGrid Types except: "Gantt" - defined in Gantt.css file; "Chart", "Pages" and "DropCols" - defined later in this file and "Panel" - this class is not used.
+   If the cell consists from more included <div> tags, it is set to the most inner <div> tag.
+   The one or more <div> tags are included in cell if: 
+      any cell has set VAlign, Rotate or ClassInner or Align="Scroll"
+      Header cell has set Icon or Type="Bool"
+      Space cell has set Icon or is editable or has Button="Defaults"
+   There can be included also inner <table> inside cell in these cases:
+      any cell has set Span + Merge with more columns and no MergeFormat
+      Header cell has set Levels
+      MainCol cell when set <Cfg SpannedTree='1'/>
+      DropCols and Radio types use also inner <Table>, but the Type class is set to parent cell
+   Select type class is set along with Html class for Select Type
+   Note, the "Bool", "Icon" and "Select" type classes are not listed in the first line
+   @ Set padding and text attributes like font, line-height, text-align, white-space
+*/
+.GOText,.GOLines,.GOInt,.GOFloat,.GODate,.GOPass,.GOImg,.GOLink,.GORadio,.GOEnum,.GOButton,.GOHtml,.GOAbs,.GOList,.GOUser {
+   font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; white-space:nowrap; padding:2px 3px 2px 3px;
+   }
+.GOInt,.GOFloat,.GODate { text-align:right; }
+.GOLines,.GORadio,.GOHtml,.GOList { white-space:normal; }	
+.GOImg,.GOHtml { padding-top:0px; padding-bottom:0px; }
+.GOPass { font-size:14px; line-height:17px; padding:0px 0px 0px 3px; }
+.GORadio { padding:0px; }
+.GOBool { text-align:center; line-height:0px; }
+.GOIcon { background-repeat:no-repeat; }
+.GOAbs { padding:0px; }
+.GOUser { padding:0px; }
+.GOSelect { padding-top:2px; padding-bottom:2px; }
+
+/* Class set for cell width Visible='0'.
+   @ Set background for the ...Hidden
+   It is always set to <td> tag, this tag has always empty content. 
+   ...Hidden is set to table cell and does not hide the cell, it just makes it empty
+   ...HiddenSpace is set to Space cell and hides the cell completely
+*/
+.GOHidden { }
+.GOHiddenSpace { display:none; }
+
+/* Class set to the right Button cell, the table cell next to the data cell:
+   @ Set width, height, padding and text attributes like font, line-height, text-align, white-space
+   ...RightButton is set for <button> or <u> tag inside <td> tag for Button="Button" according to <Cfg UseButton>
+   ...RightHtml is set for <td> tag for Button="Html"
+*/
+button.GORightButton { font:10px/11px Verdana,Tahoma,"Trebuchet MS",sans-serif; height:17px; width:19px; margin:0px; padding:0px; }
+u.GORightButton { 
+   background:#E0E0E0; border:1px solid white; border-right:1px solid #888; border-bottom:1px solid #888; padding:0px 3px 1px 3px; margin:1px;
+   font:11px/12px Arial,Helvetica,sans-serif; text-decoration:none; display:inline-block; overflow:hidden; white-space:nowrap; 
+   }
+.GORightHtml { font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; padding-top:2px; padding-bottom:2px; }
+
+/* Class set to inner table <td> tag, when displaying Header cell Levels
+   @ Set width and text attributes like font, line-height, text-align, white-space for the ...LevelButton
+   ...LevelButton is set to every Levels button
+   ...LevelButtonSpace is set to the next <td> as the space between buttons and cell value. The last <td> cell contains the cell value
+*/
+.GOLevelButton { 
+   background:url(Button.gif?v110) 2px -1253px no-repeat; padding:2px 0px 2px 0px; width:21px; 
+   font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; text-align:center; cursor:pointer; 
+   }
+.GOLevelButtonSpace { width:5px; }
+
+/* Class set to inner table <td> tag, when displaying merged cells (Span+Merge and no MergeFormat) 
+   @ Set border, padding, background, width and height
+   ...MergedCellH is set to every merged value (<td> tag) when showing all cells in one row (MergeType&1 = 0)
+   ...MergedCellV is set to every merged value (<td> tag) when showing all cells in one column (MergeType&1 = 1)
+*/
+.GOMergedCellH { padding:0px; padding-right:5px; }
+.GOMergedCellV { padding:0px; padding-bottom:1px; }
+
+/* Classes set to cell in Header row
+   ...HeaderText is set along with the Type class for Header cell, to <td> or <div> tag. @ Set padding and text attributes like font, line-height, text-align, white-space
+   ...HeaderIconInner is set along with the ...HeaderText if the cell has set Icon, to <td> or <div> tag. @ Set padding.
+   ...HeaderButton is set to <td> tag next to the cell if the cell has set Button (by default Header cell has set Button="Sort"). @ Set padding or the first child <button> settings.
+   ...HeaderToolButton is set to <td> tag of the cell type "Button" and Button="Button". @ Set padding
+   ...HeaderFocus is added to cell <td> tag during dragging the Header cell. @ Set background and optionally border, padding and text attributes like font, line-height, text-align, white-space
+   ...HeaderDrag is added to ghost Header cell under mouse cursor during dragging the Header cell. @ Set background and border and optionally padding and text attributes like font, line-height, text-align, white-space
+*/
+.GOHeaderText { font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; padding:2px 3px 2px 3px; }
+.GOHeaderIconInner { }
+.GOHeaderButton { padding:0px; }
+.GOHeaderButtonButton { }
+.GOHeaderButtonHtml { font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; padding-top:2px; padding-bottom:2px; }
+.GOHeaderToolButton { text-align:center; padding:0px; }
+.GOHeaderFocus { background-color:#DEDFD8; }
+.GOHeaderDrag { background-color:#C0C0B0; cursor:default; overflow:hidden; }
+
+/* Classes added to DropCols type inner table cells, <td> tag. 
+   @ Set here border, padding, background and text attributes.
+   ...DropCols is DropCols type class set to <td> tag
+   ...HeaderGroup is set to every DropCols inner table cells, except the last one
+   ...HeaderGroupFocus is added to the DropCols inner table cell during dragging inside the DropCols line (to be moved)
+   ...HeaderGroupDelete is added to the DropCols inner table cell during dragging outside the DropCols line (to be removed)
+   ...HeaderGroupCustom is set to the last cell in DropCols inner table, as the default text "To group by, drag column caption here"
+*/
+.GODropCols { border-left:0px none; }
+.GOHeaderGroup { font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; padding:0px 3px 0px 3px; border-left:1px solid white; border-right:1px solid #D4D4D4; }
+.GOHeaderGroupFocus { background-color:#DEDFD8; }
+.GOHeaderGroupDelete { background-color:#E9E9E9; color:#E9E9E9; }
+.GOHeaderGroupCustom { font:italic 11.5px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; color:#BBB; padding-left:5px; white-space:nowrap; }
+
+/* Class added to the cell <td> tag when resizing row by dragging this cell edge and direct resizing is off */
+.GOResizingRow { border-bottom:1px solid black; }
+.GOResizingSpace { }
+
+/* Classes added to cell with Wrap attribute. Added along with Type class to <td> or <div> tag. 
+   @ Do not change. 
+   ...Wrap0 for Wrap='0', ...Wrap1 for Wrap='1'
+*/
+.GOWrap0 { white-space:nowrap; }
+.GOWrap1 { white-space:normal; }
+
+/* Classes added to cell with Align attribute. Added along with Type class to <td> or <div> tag. 
+   @ Do not change.
+...AlignLeft for Align='Left', ...AlignCenter for Align='Center',  ...AlignRight for Align='Right', ...AlignJustify for Align="Justify"
+*/
+.GOAlignLeft { text-align:left; }
+.GOAlignCenter { text-align:center; }
+.GOAlignJustify { text-align:justify; }
+.GOAlignRight { text-align:right; }
+
+/* Classes added to cell with VAlign attribute. Added always to <td> tag. 
+   @ Do not change.
+   ...VAlignTop for VAlign='Top', ...VAlignMiddle for VAlign='Middle',  ...AlignBottom for Align='Bottom'
+   The ...VAlignTop must be defined as the last one. In Space row it is added also to all rows without VAlign set.
+*/
+.GOVAlignMiddle { vertical-align:middle; display:table-cell; }
+.GOVAlignBottom { vertical-align:bottom; display:table-cell; }
+.GOVAlignTop { vertical-align:top; display:table-cell; }
+
+/* Classes added to cell with Rotate attribute. 
+   @ Change them carefully, the rotation can differ per browser.
+   ...CellRotate... class is added to cell <td> tag for vertical alignment according to the Rotate and Align values
+   ...Rotate1 and ...Rotate2 is set to inner <div> to do the rotation, according to Rotate attribute value
+   ...Rotate1IE is used instead for IE9 and below for Rotate='1', the ...Rotate1IEHeader is used instead for Header cell
+   ...IconRotate is added to cell <td> for cell with Icon attribute to display icon on top
+   ...IconRotateLeft is added to extra inner <div> with icon for cell with Icon, IconAlign="Left" and Rotate="1" to display icon on bottom
+   ...IconRotateHeaderLeft is added to extra inner <div> with icon for Header cell with Icon, IconAlign="Left" and Rotate="1" to display icon on bottom
+   ...IconRotateHeaderRight is added to extra inner <div> with icon for Header cell with Icon attribute to display icon on top
+*/
+.GOCellRotate1 { vertical-align:bottom; padding-top:1px; padding-bottom:1px; text-align:left; }
+.GOCellRotate2 { vertical-align:top; padding-top:1px; padding-bottom:1px; }
+.GOCellRotate3 { vertical-align:middle; padding-top:1px; padding-bottom:1px; }
+.GORotate1IEHeader { background-color:#E9E9E9; filter:progid:DXImageTransform.Microsoft.Chroma(color='#E9E9E9') progid:DXImageTransform.Microsoft.BasicImage(rotation=3); overflow:hidden; }
+.GORotate1IE { background-color:#FFFFFF; filter:progid:DXImageTransform.Microsoft.Chroma(color='#FFFFFF') progid:DXImageTransform.Microsoft.BasicImage(rotation=3); overflow:hidden; }
+.GORotate1 { -ms-transform:rotate(-90deg); -moz-transform:rotate(-90deg); -webkit-transform:rotate(-90deg); -o-transform:rotate(-90deg); }
+.GORotate2 { text-align:left; writing-mode:tb-rl; -moz-transform:rotate(-270deg); -webkit-transform:rotate(-270deg); -o-transform:rotate(-270deg); }
+.GOIconRotate { padding-left:2px!important; padding-top:20px!important; }
+.GOIconRotateLeft { margin-left:0px; padding-top:20px!important; }
+.GOIconRotateHeaderLeft { margin-left:5px; padding-top:20px!important; }
+.GOIconRotateHeaderRight { margin-left:2px; padding-top:20px!important; }
+
+/*--------------- Space cells ----------------- */
+
+/* Classes control the background and border of the Space cells
+   @ Set here border, padding and background
+*/
+.GOCellSpace,.GOCellSpaceIcon,.GOCellSpaceButton,.GOCellSpaceButtonIcon,.GOCellSpaceButtonButton,.GOCellSpacePanel,.GOCellSpaceBool,.GOCellSpaceRadio,.GOCellSpaceSelect,.GOCellSpaceEdit {
+   border-left:1px solid white; border-right:1px solid #D4D4D4;
+   }
+
+/* Not editable Space cell. Set also for Label.
+   ...CellSpace is set to the <td> tag
+   ...CellSpaceIcon is set to <td> tag instead for cell with Icon attribute
+   ...SpaceIconInner is set to inner <div> tag for cell with Icon attribute
+*/
+.GOCellSpace { padding-top:3px; padding-bottom:3px; }
+.GOCellSpaceIcon { padding-top:1px; padding-bottom:0px; }
+.GOSpaceIconInner { padding-top:2px; padding-bottom:3px; }
+
+/* Button Type in Space cell
+   ...CellSpaceButton is set to the <td> tag for cell with Button="Html"
+   ...CellSpaceButtonIcon is set to the <td> tag instead for cell with Button="Html" and Icon attribute
+   ...SpaceButtonIconInner is set to inner <div> tag for cell with Button="Html" and Icon attribute
+   ...CellSpaceButtonButton is set to the <td> tag for cell with Button="Button"
+   ...CellSpaceTool is added to the <td> tag (along with CellSpaceButton) for cell with Button="Html" and without ButtonText and with VAlign - the special toolbar button
+*/
+.GOCellSpaceButton { padding:3px; white-space:nowrap; }
+.GOCellSpaceButtonIcon { padding-top:1px; padding-bottom:0px; white-space:nowrap; }
+.GOSpaceButtonIconInner { padding-top:2px; padding-bottom:3px; }
+.GOCellSpaceButtonButton { }
+.GOCellSpaceTool { padding:0px; }
+
+/* Classes for Type Panel, Bool and Radio in Space cell */
+.GOCellSpacePanel { line-height:0px; }
+.GOCellSpaceBool { line-height:0px; }
+.GOCellSpaceRadio { padding-top:1px; }
+
+/* Classes for Type="Select" or cell with Button="Defaults" in Space cell
+   ...CellSpaceSelect is set to the <td> tag
+   ...SpaceSelectInner is set to inner <div> tag
+   ...SpaceSelectInnerIcon is set to inner <div> tag in cell with Icon
+   ...SpaceSelectIconInner is set to inner inner <div> tag (along with Type class) in cell with Icon
+   ...SpaceSelectInnerIE is added to inner <div> tag in cell with Icon in IE5 quirks mode
+*/
+.GOCellSpaceSelect { }
+.GOSpaceSelectInner,.GOSpaceSelectInnerIcon { 
+   padding:2px 20px 2px 3px; background:white url(Button.gif?v110) right 0px no-repeat; border:1px solid #D4D4D4; border-right:0px none; 
+   }
+.GOSpaceSelectInnerIcon { padding:0px 20px 0px 1px; }
+.GOSpaceSelectIconInner { padding-top:2px; padding-bottom:2px; }
+.GOSpaceSelectInnerIE { overflow:hidden; }
+
+/* Classes for editable Space cell
+   ...CellSpaceEdit is set to the <td> tag
+   ...SpaceEditInner is set to inner <div> tag
+   ...SpaceEditInnerIcon is set to inner <div> tag in cell with Icon
+   ...SpaceEditIconInner is set to inner inner <div> tag (along with Type class) in cell with Icon
+   ...SpaceEditButtonIconInner is set to inner inner <div> tag in cell with Icon and Button
+*/
+.GOCellSpaceEdit { }
+.GOSpaceEditInner,.GOSpaceEditInnerIcon { background:white; border:1px solid #D4D4D4; border-right:0px none; }
+.GOSpaceEditInnerIcon { padding:0px 0px 0px 1px; }
+.GOSpaceEditIconInner { padding-top:2px; padding-bottom:2px; }
+.GOSpaceEditButtonIconInner { padding-top:0px; padding-bottom:0px; }
+
+/* Classes added to <td> tag in cell in Space row with Space="-1" (...Above) or Space="5" (...Below)
+*/
+.GOCellSpaceAbove { border-top:1px solid #D4D4D4; }
+.GOCellSpaceBelow { border-bottom:1px solid #D4D4D4; }
+
+/* Class added to <div> tag with ClassInner class */
+.GOSpaceClassInner { padding-top:0px; padding-bottom:0px; }
+
+/*--------------- Cell edges ----------------- */
+
+/* @ Support classes, do not change 
+   Classes added to table or Space cell if it should not have the left or right border or is empty
+*/
+.GONoLeft,.GONoSpaceLeft { border-left:0px none!important; border-bottom-left-radius:0px!important; border-top-left-radius:0px!important; }
+.GONoRight,.GONoSpaceRight { border-right:0px none!important; border-bottom-right-radius:0px!important; border-top-right-radius:0px!important; }
+.GOEmpty { text-decoration:none!important; font-size:0px!important; line-height:0px!important; }
+
+/*--------------- Pages type cell ----------------- */
+
+/* ...Pages is set to <td> as Type class. @ Set here border, padding and background
+   ...PagesLink is set to individual <a> tags as page numbers. @ Set here margin, padding, border, background and text attributes
+   ...PagesLinkActive is set to <a> tag in actual selected page number instead
+*/
+.GOPages { overflow:visible; padding:0px!important; }
+.GOPagesLink,.GOPagesLinkActive { 
+   padding:2px 1px 2px 2px; margin:1px 0px 1px 0px; display:inline-block; font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; cursor:pointer; color:black; 
+   }
+/* The :hover remarkably slows down every grid in IE strict mode
+.GOPagesLink:visited { color:blue; } 
+.GOPagesLink:hover { color:red; }*/
+.GOPagesLinkActive { color:black; font-weight:bold; border:1px dotted black; margin-top:0px; margin-bottom:0px; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                    Tree cell                                                            */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* Class set to the tree in <td> tag left to MainCol cell 
+   @ They are not expected to change, but you can set here background or border
+   ...Tree is set for <Cfg NoTreeLines='0'/>, default setting. It can be set to inner <td> tag for SpannedTree
+   ...NoTreeLines... is set for NoTreeLines value 1 - 3.
+*/
+.GOTree { padding-top:0px; white-space:nowrap; }
+.GONoTreeLines1 { text-align:right; }
+.GONoTreeLines2 { text-align:right; vertical-align:middle; padding-top:0px; }
+.GONoTreeLines3 { text-align:left; }
+
+/* ------------- Tree images with lines (NoTreeLines='0') ------------- */
+
+/* Default tree class set to <td> tag or to inner <u> tag
+   The tree is shown in inner <u> tags if it cannot be set by one background image or in SpannedTree or with TreeIcon.
+   @ Set background and padding-left. It is not easy to change them, the image files contain many icons that must be changed all at once, especially if you want to change the widths.
+   ...TreeTop / ...TreeMiddle / ...TreeBottom is set according to VAlign value, for empty is set also ...TreeTop
+   ...TreeRev... is set according to VAlign value for <Cfg ReversedTree='1'/>, for empty is set also ...TreeRevTop
+   ...TreeIcon, ...TreeIconM, ...TreeIconB is set if used custom tree icon by <I TreeIcon/>, according to VAlign value (M - Middle, B - Bottom, nothing - Top or empty)
+   ...TreeImage, ...TreeImageM, ...TreeImageB is set to inner <u> tag, according to VAlign value (M - Middle, B - Bottom, nothing - Top or empty)
+   ...TreeImageIE, ...TreeImageIEM, ...TreeImageIEB is set instead in all IE modes except IE5 quirks and also in Firefox strict mode
+   ...Width... is width of the tree icon part in <u> tag, number is count of the icon lines, ...T is ending icon / button
+   ...Width1 is also used measure one level indent, ...Width1T is also used to measure tree button width
+*/
+.GOTreeTop { background-image:url(Tree.gif?v110); }
+.GOTreeMiddle { background-image:url(TreeMiddle.gif?v110); }
+.GOTreeBottom { background-image:url(TreeBottom.gif?v110); }
+.GOTreeRevTop { background-image:url(TreeRev.gif?v110); }
+.GOTreeRevMiddle { background-image:url(TreeRevMiddle.gif?v110); }
+.GOTreeRevBottom { background-image:url(TreeRevBottom.gif?v110); }
+.GOTreeIcon { background-repeat:no-repeat; background-position:left top; }
+.GOTreeIconM { background-repeat:no-repeat; background-position:left center; }
+.GOTreeIconB { background-repeat:no-repeat; background-position:left bottom; }
+.GOTreeImage,.GOTreeImageM,.GOTreeImageB { display:inline-block; height:100%; width:0px; }
+.GOTreeImageIE { padding-bottom:1000px; }
+.GOTreeImageMIE { padding-top:500px; padding-bottom:500px; }
+.GOTreeImageBIE { padding-top:1000px; }
+.GOWidth1T { padding-left:26px; } .GOWidth1 { padding-left:21px; }
+.GOWidth2T { padding-left:47px; } .GOWidth2 { padding-left:42px; }
+.GOWidth3T { padding-left:68px; } .GOWidth3 { padding-left:63px; }
+.GOWidth4T { padding-left:89px; }
+
+/* Individual tree backgrounds according to VAlign value (M - Middle, B - Bottom, nothing - Top or empty) 
+   1 means vertical line, 0 means no vertical line
+*/
+
+/* ...xxx - three line icons, ...xxxT - three line icons plus ending icon (no last, no button) */
+.GO000,.GO000T { background-position:   0px top; } .GO000M,.GO000TM { background-position:   0px center; } .GO000B,.GO000TB { background-position:   0px bottom; }
+.GO010,.GO010T { background-position:-128px top; } .GO010M,.GO010TM { background-position:-128px center; } .GO010B,.GO010TB { background-position:-128px bottom; }
+.GO001,.GO001T { background-position:-256px top; } .GO001M,.GO001TM { background-position:-256px center; } .GO001B,.GO001TB { background-position:-256px bottom; }
+.GO011,.GO011T { background-position:-384px top; } .GO011M,.GO011TM { background-position:-384px center; } .GO011B,.GO011TB { background-position:-384px bottom; }
+.GO100,.GO100T { background-position:-512px top; } .GO100M,.GO100TM { background-position:-512px center; } .GO100B,.GO100TB { background-position:-512px bottom; }
+.GO110,.GO110T { background-position:-640px top; } .GO110M,.GO110TM { background-position:-640px center; } .GO110B,.GO110TB { background-position:-640px bottom; }
+.GO101,.GO101T { background-position:-768px top; } .GO101M,.GO101TM { background-position:-768px center; } .GO101B,.GO101TB { background-position:-768px bottom; }
+.GO111,.GO111T { background-position:-896px top; } .GO111M,.GO111TM { background-position:-896px center; } .GO111B,.GO111TB { background-position:-896px bottom; }
+
+/* ...xx - two line icons, ...xxT - two line icons plus ending icon (no last, no button) */
+.GO00,.GO00T { background-position: -21px top; } .GO00M,.GO00TM { background-position: -21px center; } .GO00B,.GO00TB { background-position: -21px bottom; }
+.GO10,.GO10T { background-position:-149px top; } .GO10M,.GO10TM { background-position:-149px center; } .GO10B,.GO10TB { background-position:-149px bottom; }
+.GO01,.GO01T { background-position:-277px top; } .GO01M,.GO01TM { background-position:-277px center; } .GO01B,.GO01TB { background-position:-277px bottom; }
+.GO11,.GO11T { background-position:-405px top; } .GO11M,.GO11TM { background-position:-405px center; } .GO11B,.GO11TB { background-position:-405px bottom; }
+
+/* ...x - one line icon, ...xT - one line icon plus ending icon (no last, no button) */
+.GO0,.GO0T { background-position: -42px top; } .GO0M,.GO0TM { background-position: -42px center; } .GO0B,.GO0TB { background-position: -42px bottom; }
+.GO1,.GO1T { background-position:-298px top; } .GO1M,.GO1TM { background-position:-298px center; } .GO1B,.GO1TB { background-position:-298px bottom; }
+
+/* ...T - ending icon (no last, no button) */
+.GOT { background-position:-63px top; } .GOTM { background-position:-63px center; } .GOTB { background-position:-63px bottom; }
+
+/* ...xxL - the end icon is the icon of the last child row
+   ...xT? - one line icon plus end icon, no button , ...xC? - one line icon plus end collapse (-) button, ...xE? - one line icon plus end expand (+) button
+*/
+.GO0TL { background-position:-1024px top; } .GO0TLM { background-position:-1024px center; } .GO0TLB { background-position:-1024px bottom; }
+.GO1TL { background-position:-1088px top; } .GO1TLM { background-position:-1088px center; } .GO1TLB { background-position:-1088px bottom; }
+.GO0C  { background-position:-1152px top; } .GO0CM  { background-position:-1152px center; } .GO0CB  { background-position:-1152px bottom; }
+.GO1C  { background-position:-1216px top; } .GO1CM  { background-position:-1216px center; } .GO1CB  { background-position:-1216px bottom; }
+.GO0CL { background-position:-1280px top; } .GO0CLM { background-position:-1280px center; } .GO0CLB { background-position:-1280px bottom; }
+.GO1CL { background-position:-1344px top; } .GO1CLM { background-position:-1344px center; } .GO1CLB { background-position:-1344px bottom; }
+.GO0E  { background-position:-1408px top; } .GO0EM  { background-position:-1408px center; } .GO0EB  { background-position:-1408px bottom; }
+.GO1E  { background-position:-1472px top; } .GO1EM  { background-position:-1472px center; } .GO1EB  { background-position:-1472px bottom; }
+.GO0EL { background-position:-1536px top; } .GO0ELM { background-position:-1536px center; } .GO0ELB { background-position:-1536px bottom; }
+.GO1EL { background-position:-1600px top; } .GO1ELM { background-position:-1600px center; } .GO1ELB { background-position:-1600px bottom; }
+
+/* ...xL - the end icon is the icon of the last child row
+   ...T? - end icon, no button, ...C? - end collapse (-) button, ...E? - end expand (+) button
+*/
+.GOTL { background-position:-1045px top; } .GOTLM { background-position:-1045px center; } .GOTLB { background-position:-1045px bottom; }
+.GOC  { background-position:-1173px top; } .GOCM  { background-position:-1173px center; } .GOCB  { background-position:-1173px bottom; }
+.GOCL { background-position:-1301px top; } .GOCLM { background-position:-1301px center; } .GOCLB { background-position:-1301px bottom; }
+.GOE  { background-position:-1429px top; } .GOEM  { background-position:-1429px center; } .GOEB  { background-position:-1429px bottom; }
+.GOEL { background-position:-1557px top; } .GOELM { background-position:-1557px center; } .GOELB { background-position:-1557px bottom; }
+
+/* Icons shown during dragging - drop permissions
+   ...xL - the end icon is the icon of the last child row
+   ...D0? - no drop, ...D1? - drop above, ...D2? - drop inside, ...D3? - drop below
+*/
+.GOD0 { background-position:-1664px top; } .GOD0M { background-position:-1664px center; } .GOD0B { background-position:-1664px bottom; }
+.GOD1 { background-position:-1696px top; } .GOD1M { background-position:-1696px center; } .GOD1B { background-position:-1696px bottom; }
+.GOD2 { background-position:-1728px top; } .GOD2M { background-position:-1728px center; } .GOD2B { background-position:-1728px bottom; }
+.GOD3 { background-position:-1760px top; } .GOD3M { background-position:-1760px center; } .GOD3B { background-position:-1760px bottom; }
+.GOD0L { background-position:-1792px top; } .GOD0LM { background-position:-1792px center; } .GOD0LB { background-position:-1792px bottom; }
+.GOD1L { background-position:-1824px top; } .GOD1LM { background-position:-1824px center; } .GOD1LB { background-position:-1824px bottom; }
+.GOD2L { background-position:-1856px top; } .GOD2LM { background-position:-1856px center; } .GOD2LB { background-position:-1856px bottom; }
+.GOD3L { background-position:-1888px top; } .GOD3LM { background-position:-1888px center; } .GOD3LB { background-position:-1888px bottom; }
+
+/* ...D4 - icons for expanding children in timeout, ...xL - the end icon is the icon of the last child row
+*/
+.GOD4 { background-position:-1920px top; } .GOD4M { background-position:-1920px center; } .GOD4B { background-position:-1920px bottom; }
+.GOD4L { background-position:-1952px top; } .GOD4LM { background-position:-1952px center; } .GOD4LB { background-position:-1952px bottom; }
+
+/* ------------- Tree images without lines (NoTreeLines='1') ------------- */
+
+/* Tree classes set to <td> tag or to inner <u> tag
+   The tree is shown in inner <u> tags in SpannedTree, with TreeIcon or with VAlign
+   @ Set here height, width and background
+   ...NC - Icon for button collapse, ...NE - Icon for button expand, ...NT - Icon for leaf none without button, ...NCR / ...NER / ...NTR - Shown instead in RTL mode
+   ...ND0 - ...ND3 - Icons shown during dragging - drop permissions: ...ND0 - no drop, ...ND1 - drop above, ...ND2 - drop inside, ...ND3 - drop below
+   ...NTreeImage is set to inner <u> tag; it is also used to read the default width of tree button
+   ...NIcon is set if used custom tree icon by <I TreeIcon/>
+   ...NWidth is never assigned, it is used to read the default width of one level indent
+*/
+.GONC,.GONE,.GONCR,.GONER,.GOND0,.GOND1,.GOND2,.GOND3,.GOND4 { background-image:url(TreeN.gif?v110); background-repeat:no-repeat; vertical-align:top; }
+.GONT,.GONTR { }
+.GONTreeImage { display:inline-block; height:17px; width:17px; }
+.GONWidth { width:21px; }
+.GOND0 { background-position:-9px 0px; }
+.GOND1 { background-position:-56px 0px; }
+.GOND2 { background-position:-106px 0px; }
+.GOND3 { background-position:-156px 0px; }
+.GOND4 { background-position:-206px 0px; }
+.GONC { background-position:right -50px;}
+.GONE { background-position:right -2000px;}
+.GONCR { background-position:-259px -50px;}
+.GONER { background-position:-259px -2000px;}
+.GONIcon { background-repeat:no-repeat; background-position:right top; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                 Panel type cell                                                         */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ------------- Standard Panel images (FastPanel='0') ------------- */
+
+/* @ Set here width, height and background.
+   @ If there is present <button> in panel, set here padding-left and font-size instead of width and height
+   ...PanelImage is set to every panel icon <u> tag if there is no <button> in the panel.
+   ...PanelImageButton is set to every panel icon <u> tag if there also some <button> in the panel
+   ...PanelEmpty is shown for panel button named "Empty"
+   ...PanelMove is shown for panel button named "Move", ...PanelMoveOff is shown for rows without moving permissions
+   ...PanelSelect is shown for panel button named "Select", ...PanelSelectOff is shown for rows without selecting permissions, ...PanelSelectOn is shown for rows with Select="1"
+   ...PanelDelete is shown for panel button named "Delete", ...PanelDeleteOff is shown for rows without deleting permissions
+   ...PanelCopy is shown for panel button named "Copy", ...PanelCopyOff is shown for rows without copying permissions
+   ...PanelButton is shown if the panel button has not defined image and is shown as <button> or <u> depending on <Cfg UseButton>. @ Set here margin, border, padding, width, height and text attributes
+   ...PanelTouch is added to <u> on tablets with PanelImage, ...PanelTouchButton is added to <u> on tablets with PanelImageButton
+   ...PanelButtonTouch is added to <button> on tablets
+*/
+.GOPanelImage { width:13px; height:17px; display:inline-block; background-image:url(Panel.gif?v110); background-repeat:no-repeat; }
+.GOPanelImageButton { font:14px Arial; padding-left:13px; background-image:url(Panel.gif?v110); background-repeat:no-repeat; zoom:1; }
+.GOPanelEmpty { background:none; }   
+.GOPanelMove { background-position:0px 0px; }
+.GOPanelMoveOff { background-position:-50px 0px; }
+.GOPanelSelect { background-position:-100px 0px; }
+.GOPanelSelectOn { background-position:-150px 0px; }
+.GOPanelSelectOff { background-position:-200px 0px; }
+.GOPanelDelete { background-position:-250px 0px; }
+.GOPanelDeleteOff { background-position:-300px 0px; }
+.GOPanelCopy { background-position:-350px 0px; }
+.GOPanelCopyOff { background-position:-400px 0px; }
+button.GOPanelButton { 
+   padding:0px; height:14px; width:19px; margin:0px; 
+   font:10px/7px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; display:inline-block; cursor:pointer; overflow:hidden; 
+   }
+u.GOPanelButton { 
+   background:#D8D8D8; border:1px solid white; border-right:1px solid #888; border-bottom:1px solid #888; padding:0px 3px 1px 3px; margin:1px;
+   font:11px/12px Arial,Helvetica,sans-serif; cursor:pointer; text-decoration:none; display:inline-block; overflow:hidden; white-space:nowrap; 
+   }
+.GOCellHeaderPanel u.GOPanelButton { }
+.GOPanelTouch { margin-left:5px; margin-right:5px; }
+.GOPanelTouchButton { margin-left:5px; margin-right:5px; }
+.GOPanelButtonTouch { margin-left:2px; margin-right:2px; width:25px; }
+
+/* ------------- Fast Panel images (FastPanel='1')------------- */
+
+/* @ Do not change, for custom images use standard panel (FastPanel='0') or modify the FastPanel1.gif?v110/FastPanel2.gif?v110 files.
+   The image is used different for every button state, the four numbers are for buttons Move, Select, Delete, Copy in this order.
+   1 - shown, 2 - (on, for select), 0 - hidden, but space reserved, x - hidden completely, with no space
+*/
+.GOP1111,.GOP1211,.GOP1011,.GOP1101,.GOP1201,.GOP1001,.GOP1110,.GOP1210,.GOP1010,.GOP1100,.GOP1200,.GOP1000,
+.GOP0111,.GOP0211,.GOP0011,.GOP0101,.GOP0201,.GOP0001,.GOP0110,.GOP0210,.GOP0010,.GOP0100,.GOP0200,.GOP0000, 
+.GOP111x,.GOP121x,.GOP101x,.GOP110x,.GOP120x,.GOP100x,.GOP011x,.GOP021x,.GOP001x,.GOP010x,.GOP020x,.GOP000x,
+.GOP11xx,.GOP12xx,.GOP10xx,.GOP01xx,.GOP02xx,.GOP00xx,
+.GOPx111,.GOPx211,.GOPx011,.GOPx101,.GOPx201,.GOPx001,.GOPx110,.GOPx210,.GOPx010,.GOPx100,.GOPx200,.GOPx000,
+.GOPx11x,.GOPx21x,.GOPx01x,.GOPx10x,.GOPx20x,.GOPx00x,
+.GOPxx11,.GOPxx10,.GOPxx01,.GOPxx00, 
+.GOPxxx1,.GOPxxx0,.GOPxx1x,.GOPxx0x,.GOPx2xx,.GOPx1xx,.GOPx0xx,.GOP1xxx,.GOP0xxx {
+   background-image:url(FastPanel1.gif?v110); background-repeat:no-repeat;
+   }
+.GOP1111,.GOP111x,.GOP11xx,.GOP1xxx { background-position:0px 0px; }
+.GOP1211,.GOP121x,.GOP12xx { background-position:-80px 0px; }
+.GOP1011,.GOP101x,.GOP10xx { background-position:-160px 0px; }
+.GOP1101,.GOP110x { background-position:-240px 0px; }
+.GOP1201,.GOP120x { background-position:-320px 0px; }
+.GOP1001,.GOP100x { background-position:-400px 0px; }
+.GOP1110 { background-position:-480px 0px; }
+.GOP1210 { background-position:-560px 0px; }
+.GOP1010 { background-position:-640px 0px; }
+.GOP1100 { background-position:-720px 0px; }
+.GOP1200 { background-position:-800px 0px; }
+.GOP1000 { background-position:-880px 0px; }
+.GOP0111,.GOP011x,.GOP01xx,.GOP0xxx { background-position:-960px 0px; }
+.GOP0211,.GOP021x,.GOP02xx { background-position:-1040px 0px; }
+.GOP0011,.GOP001x,.GOP00xx { background-position:-1120px 0px; }
+.GOP0101,.GOP010x { background-position:-1200px 0px; }
+.GOP0201,.GOP020x { background-position:-1280px 0px; }
+.GOP0001,.GOP000x { background-position:-1360px 0px; }
+.GOP0110 { background-position:-1440px 0px; }
+.GOP0210 { background-position:-1520px 0px; }
+.GOP0010 { background-position:-1600px 0px; }
+.GOP0100 { background-position:-1680px 0px; }
+.GOP0200 { background-position:-1760px 0px; }
+.GOP0000 { background-position:-1840px 0px; }
+
+.GOPx111,.GOPx11x,.GOPx1xx { background-position:-13px 0px; }
+.GOPx211,.GOPx21x,.GOPx2xx { background-position:-93px 0px; }
+.GOPx011,.GOPx01x,.GOPx0xx { background-position:-173px 0px; }
+.GOPx101,.GOPx10x { background-position:-253px 0px; }
+.GOPx201,.GOPx20x { background-position:-333px 0px; }
+.GOPx001,.GOPx00x { background-position:-413px 0px; }
+.GOPx110 { background-position:-493px 0px; }
+.GOPx210 { background-position:-573px 0px; }
+.GOPx010 { background-position:-653px 0px; }
+.GOPx100 { background-position:-733px 0px; }
+.GOPx200 { background-position:-813px 0px; }
+.GOPx000 { background-position:-893px 0px; }
+
+.GOPxx11,.GOPxx1x { background-position:-26px 0px; }
+.GOPxx01,.GOPxx0x { background-position:-266px 0px; }
+.GOPxx10{ background-position:-506px 0px; }
+.GOPxx00 { background-position:-746px 0px; }
+
+.GOPxxx1 { background-position:-39px 0px; }
+.GOPxxx0 { background-position:-519px 0px; }
+
+.GOP11x1,.GOP12x1,.GOP10x1,.GOP11x0,.GOP12x0,.GOP10x0,.GOP01x1,.GOP02x1,.GOP00x1,.GOP01x0,.GOP02x0,.GOP00x0,
+.GOPx1x1,.GOPx2x1,.GOPx0x1,.GOPx1x0,.GOPx2x0,.GOPx0x0,
+.GOP1x11,.GOP1x01,.GOP1x10,.GOP1x00,.GOP0x11,.GOP0x01,.GOP0x10,.GOP0x00,
+.GOP1x1x,.GOP1x0x,.GOP0x1x,.GOP0x0x,
+.GOP1xx1,.GOP1xx0,.GOP0xx1,.GOP0xx0 {
+   background-image:url(FastPanel2.gif?v110); background-repeat:no-repeat;
+   }
+.GOP11x1 { background-position:0px 0px; }
+.GOP12x1 { background-position:-80px 0px; }
+.GOP10x1 { background-position:-160px 0px; }
+.GOP11x0 { background-position:-240px 0px; }
+.GOP12x0 { background-position:-320px 0px; }
+.GOP10x0 { background-position:-400px 0px; }
+.GOP01x1 { background-position:-480px 0px; }
+.GOP02x1 { background-position:-560px 0px; }
+.GOP00x1 { background-position:-640px 0px; }
+.GOP01x0 { background-position:-720px 0px; }
+.GOP02x0 { background-position:-800px 0px; }
+.GOP00x0 { background-position:-880px 0px; }
+
+.GOPx1x1 { background-position:-13px 0px; }
+.GOPx2x1 { background-position:-93px 0px; }
+.GOPx0x1 { background-position:-173px 0px; }
+.GOPx1x0 { background-position:-253px 0px; }
+.GOPx2x0 { background-position:-333px 0px; }
+.GOPx0x0 { background-position:-413px 0px; }
+
+.GOP1x11,.GOP1x1x { background-position:-960px 0px; }
+.GOP1x01,.GOP1x0x { background-position:-1040px 0px; }
+.GOP1x10 { background-position:-1120px 0px; }
+.GOP1x00 { background-position:-1200px 0px; }
+.GOP0x11,.GOP0x1x { background-position:-1280px 0px; }
+.GOP0x01,.GOP0x0x { background-position:-1360px 0px; }
+.GOP0x10 { background-position:-1440px 0px; }
+.GOP0x00 { background-position:-1520px 0px; }
+
+.GOP1xx1 { background-position:-1600px 0px; }
+.GOP1xx0 { background-position:-1680px 0px; }
+.GOP0xx1 { background-position:-1760px 0px; }
+.GOP0xx0 { background-position:-1840px 0px; }
+
+/* ------------- Space/Filter Panel checkbox images ------------- */   
+
+/* Special images in Filter, Group and Search rows for default panel (column named "Panel") if shown as the first column.
+   @ Set width, height and background
+   ...Filter0 - shown in Filter row when Filtered='0', ...Filter1 - shown in Filter row when Filtered='1'
+   ...Group0 - shown in Group row when Grouped='0', ...Group1 - shown in Group row when Grouped='1'
+   ...Search0 - shown in Search row when Searched='0', ...Search1 - shown in Search row when Searched='1'  
+*/
+.GOFilter0,.GOFilter1,.GOGroup0,.GOGroup1,.GOSearch0,.GOSearch1 { background-image:url(Filter.gif?v110); background-repeat:no-repeat; display:inline-block; width:13px; height:17px; }
+.GOFilter0,.GOFilter1 { height:16px; }
+.GOFilter0 { background-position:-2px -1900px; }
+.GOFilter1 { background-position:-2px -2000px; }
+.GOGroup0 { background-position:center -1899px; }
+.GOGroup1 { background-position:center -1999px; }
+.GOSearch0 { background-position:center -1899px; }
+.GOSearch1 { background-position:center -1999px; }
+
+/* ...PSpace... is shown in Group and Search row according to actual width of the Panel column. 
+   @ Set here only width and text-align
+*/
+.GOPSpace1 { width:11px; text-align:center; }
+.GOPSpace2 { width:25px; text-align:center; }
+.GOPSpace3 { width:37px; text-align:center; }
+.GOPSpace4 { width:51px; text-align:center; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                               Button type cell                                                          */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ------------- Button = "Tab" ------------- */   
+
+/* @ Set border, padding, background and text attributes
+   ...TabHtml is set to the Tab button <td> tag
+   ...TabHtml1 is set to the Tab button <td> tag instead if the button value is 1
+   ...TabHtmlIcon... is set instead if the button has Icon
+*/
+.GOTabHtml,.GOTabHtml1,.GOTabHtmlIcon,.GOTabHtmlIcon1 { text-align:center; padding-left:5px; padding-right:5px; border-left:none; background:#E9E9E9 url(Backgrounds.gif?v110) 0px 0px repeat-x; }
+.GORowAbove .GOTabHtml,.GORowAbove .GOTabHtml1 { }
+.GORowBelow .GOTabHtml,.GORowBelow .GOTabHtml1 { }
+.GOTabHtml1,.GOTabHtmlIcon1 { background:#BBBBBB; color:white; }
+
+/* Separators between Button="Tab", set to <td> tag 
+   They are created automatically to separate the Tabs or can be created manually by Button="TabSep"
+   @ Set background, border and padding or width
+   ...TabSep is set to empty <td> tag between two Tab buttons
+   ...TabSepLeft is set to empty <td> tag before Tab button
+   ...TabSepRight is set to empty <td> tag after Tab button
+   ...TabSepFirst is set to empty <td> tag before Tab button if it is the first cell
+   ...TabSepLast is set to empty <td> tag after Tab button if it is the last cell
+   ...TabSepNoBack is added to all Tab separators on row Kind="Tabber2"
+*/
+.GOTabSep,.GOTabSepLeft,.GOTabSepRight {
+   padding-left:3px; padding-right:0px; background:white!important; border:0px none; border-right:1px solid #D4D4D4; cursor:default!important;
+   }
+.GOTabSepRight,.GOTabSepLeft { padding-left:5px; }
+.GOTabSepLast { padding-left:1px; background:white!important; border:none; cursor:default!important; }
+.GOTabSepFirst { padding-left:1px; background:white!important; border:none; border-right:1px solid #D4D4D4; cursor:default!important; }
+.GOTabSepNoBack { background:none!important; }
+
+/* ------------- Button = "Button" ------------- */   
+
+/* Parent of the <button>, it is set to cell <td> tag or inner <div> tag 
+   @ Set background, border and padding
+*/
+.GOToolButton { text-align:center; padding:0px 1px 0px 1px; }
+
+/* Class set to the <button> tag if set <Cfg UseButton='1'> or to <u> tag if set <Cfg UseButton='0'>.
+   @ Set background, border, margin, padding, height and text attributes
+   ...ToolButtonButton is set in table row
+   ...ToolButtonButton1 is set in table row instead if the button value is 1
+   ...ToolButtonButtonAuto is added if the table cell has not set Width attribute
+   ...ToolSpaceButton is set in Space row
+   ...ToolSpaceButton1 is set in Space row instead if the button value is 1
+   ...ToolSpaceButtonAuto is added if the Space cell has set Width="-1"
+   ...Icon is added if the cell has set Icon attribute
+   ...IconInner is set to the inner <i> tag with the icon and text if the cell has set Icon attribute
+   ...Empty is added to button with empty text to preserve its height; @ Set height
+*/
+button.GOToolButtonButton,button.GOToolButtonButton1 { font:10px/11px Verdana,Tahoma,"Trebuchet MS",sans-serif; height:17px; padding:0px; cursor:pointer; white-space:nowrap; }
+button.GOToolSpaceButton,button.GOToolSpaceButton1 { font:10px/11px Verdana,Tahoma,"Trebuchet MS",sans-serif; height:17px; padding:0px; cursor:pointer; white-space:nowrap; }
+button.GOToolButtonButton1,button.GOToolSpaceButton1 { color:#09C; font-weight:bold; }
+
+u.GOToolButtonButton,u.GOToolButtonButton1,u.GOToolSpaceButton,u.GOToolSpaceButton1 { 
+   border:1px solid white; border-right:1px solid #888; border-bottom:1px solid #888; 
+   cursor:pointer; text-decoration:none; display:block; overflow:hidden; white-space:nowrap; 
+   }
+u.GOToolButtonButton,u.GOToolButtonButton1 { font:11px/12px Arial,Helvetica,sans-serif; padding:1px 5px 0px 5px; background:#E0E0E0; margin:1px; }
+u.GOToolSpaceButton,u.GOToolSpaceButton1 { font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; background:#D8D8D8; padding:1px 3px 0px 3px; margin:1px 0px 2px 0px; }
+.GOCellHeader u.GOToolButtonButton,.GOCellHeader u.GOToolButtonButton1 { background:#D8D8D8; }
+u.GOToolButtonButton1,u.GOToolSpaceButton1 { border:1px solid #888; border-right:1px solid white; border-bottom:1px solid white; color:#09C; }
+u.GOToolButtonIcon { padding-top:0px; padding-bottom:0px; } .GOToolButtonIconInner { padding-top:1px; padding-bottom:0px; display:inline-block; font-style:normal; }
+u.GOToolSpaceIcon { padding-top:0px; padding-bottom:0px; }  .GOToolSpaceIconInner { padding-top:1px; padding-bottom:0px; display:inline-block; font-style:normal; }
+.GOToolButtonEmpty { height:12px; width:0px; overflow:hidden; display:inline-block; }
+.GOToolSpaceEmpty { height:13px; width:0px; overflow:hidden; display:inline-block; }
+
+.GOToolButtonButtonAuto,.GOToolSpaceButtonAuto { padding-left:3px; padding-right:3px; }
+
+/* ------------- Button = "Html" ------------- */   
+
+/* @ Set border, padding, background and text attributes
+   ...ToolHtml is set to the button <td> tag
+   ...ToolHtml1 is set to the button <td> tag instead if the button value is 1
+   ...ToolHtmlIcon... is set instead if the button has Icon or is Class button
+*/
+.GOToolHtml,.GOToolHtml1 { padding-left:3px; padding-right:3px; text-align:center; }
+.GOToolHtml1 { font-weight:bold; color:#09C; }
+.GOToolHtmlIcon,.GOToolHtmlIcon1 { text-align:center; } 
+.GOToolHtmlIcon1 { }
+
+/* Added to <td> or <div> tag when the cell has set Icon attribute, according to IconAlign value */
+.GOToolHtmlIconLeft { text-align:left; }
+.GOToolHtmlIconRight { text-align:right; }
+
+/* Added to <td> tag, to button with empty text; @ Set border and padding */
+.GOToolHtmlIconSingle { border:0px none; }
+
+/* Added to <div> tag, to button with empty text to preserve its height; ...IE is used for IE5 quirks mode; @ Set height */
+.GOToolHtmlEmpty { height:13px; width:0px; overflow:hidden; display:inline-block; }
+.GOToolHtmlEmptyIE { overflow:hidden; display:inline-block; }
+
+/* -------------  Other Button type attributes ------------- */
+
+/* Added to <td> tag when the Button type cell has set Disabled='1' */
+.GODisabledButton { opacity:0.3; filter:alpha(opacity=30); }
+
+/* Popup cell side icon, used for Button type cell with List attribute 
+   @ Set background and padding
+   ...PopupRight - right popup icon, used for PopupIcon="2" and for not empty value and PopupIcon="1"
+   ...PopupLeft - not used now
+   ...PopupNone - used for PopupIcon="1" and empty value, just to preserve the space
+*/
+.GOPopupLeft,.GOPopupRight { background-image:url(Menu.gif?v110); background-repeat:no-repeat; }
+.GOPopupLeft { background-position:-6px -248px; padding-left:14px;}
+.GOPopupRight { background-position:right -248px; padding-right:14px;}
+.GOPopupNone { padding-right:14px; }
+
+/* ------------------------------------------  Special Toolbar buttons' images ---------------------------------------------- */
+
+/* Class added to <td> tag for alignment of the icon in Button="Class" or Button="Html"
+   ...Single is added is added for button without ButtonText to specify the icon width
+   ...Left/Right/Top/Bottom is added for appropriate IconAlign value
+   @ Set padding
+*/
+.GOToolAlignSingle { padding-left:20px; padding-right:0px; border:0px none; }
+.GOToolAlignLeft { padding-left:22px; padding-right:3px; }
+.GOToolAlignRight { padding-left:3px; padding-right:22px; }
+.GOToolAlignTop { padding-left:3px; padding-right:3px; padding-top:20px; }
+.GOToolAlignBottom { padding:3px 3px 22px 3px; }
+
+/* Used for Type="Button" Button="Class" and cell value null, "", 0 or 1. Set to <td> tag
+   @ Set border, padding, background
+*/
+.GOToolSave,.GOToolReload,.GOToolRepaint,.GOToolRepaint1,.GOToolPrint,.GOToolExportPDF,.GOToolExport,.GOToolUndo,.GOToolUndo1,.GOToolRedo,.GOToolRedo1,
+.GOToolAdd,.GOToolAddChild,.GOToolJoin,.GOToolSplit,.GOToolOutdent,.GOToolIndent,.GOToolSort,.GOToolSort1,.GOToolCalc,.GOToolCalc1,
+.GOToolExpandAll,.GOToolCollapseAll,.GOToolColumns,.GOToolCfg,.GOToolHelp,.GOToolDebug,.GOResizeGrid,.GOResizeGridRtl {
+   background-image:url(Toolbar.gif?v110); background-repeat:no-repeat;
+   }
+.GOToolSave { background-position:center 0px; }            .GOToolSaveLeft { background-position:left 0px; }            .GOToolSaveRight { background-position:right 0px; }            .GOToolSaveBottom { background-position:center 20px; }
+.GOToolReload { background-position:center -100px; }       .GOToolReloadLeft { background-position:left -100px; }       .GOToolReloadRight { background-position:right -100px; }       .GOToolReloadBottom { background-position:center -80px; }
+.GOToolRepaint { background-position:center -200px; }      .GOToolRepaintLeft { background-position:left -200px; }      .GOToolRepaintRight { background-position:right -200px; }      .GOToolRepaintBottom { background-position:center -180px; }
+.GOToolRepaint1 { background-position:center -300px; }     .GOToolRepaintLeft1 { background-position:left -300px; }     .GOToolRepaintRight1 { background-position:right -300px; }     .GOToolRepaintBottom1 { background-position:center -280px; }
+.GOToolPrint { background-position:center -400px; }        .GOToolPrintLeft { background-position:left -400px; }        .GOToolPrintRight { background-position:right -400px; }        .GOToolPrintBottom { background-position:center -380px; }
+.GOToolExportPDF { background-position:center -500px; }    .GOToolExportPDFLeft { background-position:left -500px; }    .GOToolExportPDFRight { background-position:right -500px; }    .GOToolExportPDFBottom { background-position:center -480px; }
+.GOToolExport { background-position:center -600px; }       .GOToolExportLeft { background-position:left -600px; }       .GOToolExportRight { background-position:right -600px; }       .GOToolExportBottom { background-position:center -580px; }
+.GOToolUndo { background-position:center -700px; }         .GOToolUndoLeft { background-position:2px -700px; }         .GOToolUndoRight { background-position:right -700px; }         .GOToolUndoBottom { background-position:center -680px; }
+.GOToolUndo1 { background-position:center -800px; }        .GOToolUndoLeft1 { background-position:left -800px; }        .GOToolUndoRight1 { background-position:right -800px; }        .GOToolUndoBottom1 { background-position:center -780px; }
+.GOToolRedo { background-position:center -900px; }         .GOToolRedoLeft { background-position:left -900px; }         .GOToolRedoRight { background-position:right -900px; }         .GOToolRedoBottom { background-position:center -880px; } 
+.GOToolRedo1 { background-position:center -1000px; }       .GOToolRedoLeft1 { background-position:left -1000px; }       .GOToolRedoRight1 { background-position:right -1000px; }       .GOToolRedoBottom1 { background-position:center -980px; }
+.GOToolAdd { background-position:center -1100px; }         .GOToolAddLeft { background-position:left -1100px; }         .GOToolAddRight { background-position:right -1100px; }         .GOToolAddBottom { background-position:center -1080px; }
+.GOToolAddChild { background-position:center -1200px; }    .GOToolAddChildLeft { background-position:left -1200px; }    .GOToolAddChildRight { background-position:right -1200px; }    .GOToolAddChildBottom { background-position:center -1180px; }
+.GOToolJoin { background-position:center -1300px; }        .GOToolJoinLeft { background-position:left -1300px; }        .GOToolJoinRight { background-position:right -1300px; }        .GOToolJoinBottom { background-position:center -1280px; }
+.GOToolSplit { background-position:center -1400px; }       .GOToolSplitLeft { background-position:left -1400px; }       .GOToolSplitRight { background-position:right -1400px; }       .GOToolSplitBottom { background-position:center -1380px; }
+.GOToolOutdent { background-position:center -1500px; }     .GOToolOutdentLeft { background-position:left -1500px; }     .GOToolOutdentRight { background-position:right -1500px; }     .GOToolOutdentBottom { background-position:center -1480px; }
+.GOToolIndent { background-position:center -1600px; }      .GOToolIndentLeft { background-position:left -1600px; }      .GOToolIndentRight { background-position:right -1600px; }      .GOToolIndentBottom { background-position:center -1580px; }
+.GOToolSort { background-position:center -1700px; }        .GOToolSortLeft { background-position:left -1700px; }        .GOToolSortRight { background-position:right -1700px; }        .GOToolSortBottom { background-position:center -1680px; }
+.GOToolSort1 { background-position:center -1800px; }       .GOToolSortLeft1 { background-position:left -1800px; }       .GOToolSortRight1 { background-position:right -1800px; }       .GOToolSortBottom1 { background-position:center -1780px; }
+.GOToolCalc { background-position:center -1900px; }        .GOToolCalcLeft { background-position:left -1900px; }        .GOToolCalcRight { background-position:right -1900px; }        .GOToolCalcBottom { background-position:center -1880px; }
+.GOToolCalc1 { background-position:center -2000px; }       .GOToolCalcLeft1 { background-position:left -2000px; }       .GOToolCalcRight1 { background-position:right -2000px; }       .GOToolCalcBottom1 { background-position:center -1980px; }
+.GOToolExpandAll { background-position:center -2100px; }   .GOToolExpandAllLeft { background-position:left -2100px; }   .GOToolExpandAllRight { background-position:right -2100px; }   .GOToolExpandAllBottom { background-position:center -2080px; }
+.GOToolCollapseAll { background-position:center -2200px; } .GOToolCollapseAllLeft { background-position:left -2200px; } .GOToolCollapseAllRight { background-position:right -2200px; } .GOToolCollapseAllBottom { background-position:center -2180px; }
+.GOToolColumns { background-position:center -2300px; }     .GOToolColumnsLeft { background-position:left -2300px; }     .GOToolColumnsRight { background-position:right -2300px; }     .GOToolColumnsBottom { background-position:center -2280px; }
+.GOToolCfg { background-position:center -2400px; }         .GOToolCfgLeft { background-position:left -2400px; }         .GOToolCfgRight { background-position:right -2400px; }         .GOToolCfgBottom { background-position:center -2380px; }
+.GOToolHelp { background-position:center -2500px; }        .GOToolHelpLeft { background-position:left -2500px; }        .GOToolHelpRight { background-position:right -2500px; }        .GOToolHelpBottom { background-position:center -2480px; }
+.GOToolDebug { background-position:center -2600px; }       .GOToolDebugLeft { background-position:left -2600px; }       .GOToolDebugRight { background-position:right -2600px; }       .GOToolDebugBottom { background-position:center -2580px; }
+.GOResizeGrid { background-position:center -2700px; }      .GOResizeGridLeft { background-position:left -2700px; }      .GOResizeGridRight { background-position:right -2700px; }      .GOResizeGridBottom { background-position:center -2680px; } 
+.GOResizeGridRtl { background-position:center -2800px; }   .GOResizeGridRtlLeft { background-position:left -2800px; }   .GOResizeGridRtlRight { background-position:right -2800px; }   .GOResizeGridRtlBottom { background-position:center -2780px; }
+
+.GOToolPagerFirst,.GOToolPagerFirst1,.GOToolPagerPrev,.GOToolPagerPrev1,.GOToolPagerNext,.GOToolPagerNext1,.GOToolPagerLast,.GOToolPagerLast1 {
+   background-image:url(Pager.gif?v110); background-repeat:no-repeat;
+   }
+.GOToolPagerFirst { background-position:center 0px; }      .GOToolPagerFirstLeft { background-position:left 0px; }      .GOToolPagerFirstRight { background-position:right 0px; }      .GOToolPagerFirstBottom { background-position:center 20px; }
+.GOToolPagerFirst1 { background-position:center -100px; }  .GOToolPagerFirstLeft1 { background-position:left -100px; }  .GOToolPagerFirstRight1 { background-position:right -100px; }  .GOToolPagerFirstBottom1 { background-position:center -80px; }
+.GOToolPagerPrev { background-position:center -200px; }    .GOToolPagerPrevLeft { background-position:left -200px; }    .GOToolPagerPrevRight { background-position:right -200px; }    .GOToolPagerPrevBottom { background-position:center -180px; } 
+.GOToolPagerPrev1 { background-position:center -300px; }   .GOToolPagerPrevLeft1 { background-position:left -300px; }   .GOToolPagerPrevRight1 { background-position:right -300px; }   .GOToolPagerPrevBottom1 { background-position:center -280px; } 
+.GOToolPagerNext { background-position:center -400px; }    .GOToolPagerNextLeft { background-position:left -400px; }    .GOToolPagerNextRight { background-position:right -400px; }    .GOToolPagerNextBottom { background-position:center -380px; } 
+.GOToolPagerNext1 { background-position:center -500px; }   .GOToolPagerNextLeft1 { background-position:left -500px; }   .GOToolPagerNextRight1 { background-position:right -500px; }   .GOToolPagerNextBottom1 { background-position:center -480px; }
+.GOToolPagerLast { background-position:center -600px; }    .GOToolPagerLastLeft { background-position:left -600px; }    .GOToolPagerLastRight { background-position:right -600px; }    .GOToolPagerLastBottom { background-position:center -580px; } 
+.GOToolPagerLast1 { background-position:center -700px; }   .GOToolPagerLastLeft1 { background-position:left -700px; }   .GOToolPagerLastRight1 { background-position:right -700px; }   .GOToolPagerLastBottom1 { background-position:center -680px; }
+
+.GOToolCorrect,.GOToolCorrect1,.GOToolZoomIn,.GOToolZoomIn1,.GOToolZoomOut,.GOToolZoomOut1,.GOToolZoomFit { 
+   background-image:url(ToolbarGantt.gif?v110); background-repeat:no-repeat;
+   }
+.GOToolCorrect { background-position:center 0px; }        .GOToolCorrectLeft { background-position:left 0px; }          .GOToolCorrectRight { background-position:right 0px; }         .GOToolCorrectBottom { background-position:center 20px; } 
+.GOToolCorrect1 { background-position:center -100px; }    .GOToolCorrectLeft1 { background-position:left -100px; }      .GOToolCorrectRight1 { background-position:right -100px; }     .GOToolCorrectBottom1 { background-position:center -80px; }
+.GOToolZoomIn { background-position:center -200px; }      .GOToolZoomInLeft { background-position:left -200px; }        .GOToolZoomInRight { background-position:right -200px; }       .GOToolZoomInBottom { background-position:center -180px; } 
+.GOToolZoomIn1 { background-position:center -300px; }     .GOToolZoomInLeft1 { background-position:left -300px; }       .GOToolZoomInRight1 { background-position:right -300px; }      .GOToolZoomInBottom1 { background-position:center -280px; }
+.GOToolZoomOut { background-position:center -400px; }     .GOToolZoomOutLeft { background-position:left -400px; }       .GOToolZoomOutRight { background-position:right -400px; }      .GOToolZoomOutBottom { background-position:center -380px; }
+.GOToolZoomOut1 { background-position:center -500px; }    .GOToolZoomOutLeft1 { background-position:left -500px; }      .GOToolZoomOutRight1 { background-position:right -500px; }     .GOToolZoomOutBottom1 { background-position:center -480px; } 
+.GOToolZoomFit { background-position:center -600px; }     .GOToolZoomFitLeft { background-position:left -600px; }       .GOToolZoomFitRight { background-position:right -600px; }      .GOToolZoomFitBottom { background-position:center -580px; }
+
+/* Void button ResizeGrid; @ Do not change */
+.GOToolResize { visibility:hidden; }
+
+/* It is added to the td tag when used VAlign and no button text is shown */
+.GOToolImage { display:inline-block; width:20px; height:19px; padding:0px; overflow:hidden; }
+
+/* It is added to the td tag when used VAlign and the button text is shown; for IconAlign values */
+.GOToolImageLeftText,.GOToolImageRightText,.GOToolImageTopText,.GOToolImageBottomText { display:inline-block; text-decoration:none; }
+.GOToolImageLeftText { padding-top:3px; padding-bottom:3px; }
+.GOToolImageRightText { padding-top:3px; padding-bottom:3px; }
+.GOToolImageTopText { height:13px; padding-bottom:3px; }
+.GOToolImageBottomText { height:13px; padding-top:3px; padding-bottom:22px; }
+
+/* It is added to div tag when used Icon attribute with Button="Class"; for IconAlign values; Single is used without ButtonText; */
+.GOToolIconSingle { background-position:center center; }
+.GOToolIconLeft { background-position:left center; }
+.GOToolIconRight { background-position:right center; }
+.GOToolIconTop { background-position:center top; }
+.GOToolIconBottom { background-position:center bottom; }
+
+/* Special class added to <td> tag for Pager type cell edit box with pager number - it is standard editable Space cell */
+.GOPagerEdit > div { text-align:center; }
+
+/* Special icon always placed to right bottom grid corner to resize grid if set ResizingMain 
+   @ Set background and optionally margin, width and height for the icon size and position
+   ...Rtl is placed in bottom left corner and is used in RTL mode
+*/
+.GOResizeGrid  { background-position:1px -2700px; margin:-21px 0px 0px auto; height:21px; width:19px; overflow:hidden; padding:0px; cursor:nw-resize; }
+.GOResizeGridRtl { background-position:1px -2800px; margin:-21px auto 0px 0px; height:21px; width:19px; overflow:hidden; padding:0px; cursor:ne-resize; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                            Cell side Icon / Button                                                      */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* --------------------------------------------------  Filter images -------------------------------------------------------- */
+
+/* Filter operator icons shown on left or right side (set by IconAlign), shown in <td> or <div> tag.
+   The number 0 - 12 is the operator number set in cell Filter attribute
+   @ Set here background and padding-left
+*/
+.GOFilter0Left,.GOFilter1Left,.GOFilter2Left,.GOFilter3Left,.GOFilter4Left,.GOFilter5Left,.GOFilter6Left,
+.GOFilter7Left,.GOFilter8Left,.GOFilter9Left,.GOFilter10Left,.GOFilter11Left,.GOFilter12Left  {
+   background-image:url(Filter.gif?v110); background-repeat:no-repeat; padding-left:17px;
+   }
+.GOFilter0Right,.GOFilter1Right,.GOFilter2Right,.GOFilter3Right,.GOFilter4Right,.GOFilter5Right,.GOFilter6Right,
+.GOFilter7Right,.GOFilter8Right,.GOFilter9Right,.GOFilter10Right,.GOFilter11Right,.GOFilter12Right {
+   background-image:url(Filter.gif?v110); background-repeat:no-repeat; padding-right:17px;
+   }
+.GOFilter0Left,.GOFilter0Menu { background-position:left 0px; }   
+.GOFilter1Left,.GOFilter1Menu { background-position:left -150px; }
+.GOFilter2Left,.GOFilter2Menu { background-position:left -300px; }
+.GOFilter3Left,.GOFilter3Menu { background-position:left -450px; }
+.GOFilter4Left,.GOFilter4Menu { background-position:left -600px; }
+.GOFilter5Left,.GOFilter5Menu { background-position:left -750px; }   
+.GOFilter6Left,.GOFilter6Menu { background-position:left -900px; }
+.GOFilter7Left,.GOFilter7Menu { background-position:left -1050px; }
+.GOFilter8Left,.GOFilter8Menu { background-position:left -1200px; }
+.GOFilter9Left,.GOFilter9Menu { background-position:left -1350px; }
+.GOFilter10Left,.GOFilter10Menu { background-position:left -1500px; }
+.GOFilter11Left,.GOFilter11Menu { background-position:left -1650px; }
+.GOFilter12Left,.GOFilter12Menu { background-position:left -1800px; }
+.GOFilter0Right { background-position:right 0px; }   
+.GOFilter1Right { background-position:right -150px; }
+.GOFilter2Right { background-position:right -300px; }
+.GOFilter3Right { background-position:right -450px; }
+.GOFilter4Right { background-position:right -600px; }
+.GOFilter5Right { background-position:right -750px; }   
+.GOFilter6Right { background-position:right -900px; }
+.GOFilter7Right { background-position:right -1050px; }
+.GOFilter8Right { background-position:right -1200px; }
+.GOFilter9Right { background-position:right -1350px; }
+.GOFilter10Right { background-position:right -1500px; }
+.GOFilter11Right { background-position:right -1650px; }
+.GOFilter12Right { background-position:right -1800px; }
+
+/* The filter operator icons shown in the popup menu 
+   @ Set here background, width and height
+*/
+.GOFilter0Menu,.GOFilter1Menu,.GOFilter2Menu,.GOFilter3Menu,.GOFilter4Menu,.GOFilter5Menu,.GOFilter6Menu,
+.GOFilter7Menu,.GOFilter8Menu,.GOFilter9Menu,.GOFilter10Menu,.GOFilter11Menu,.GOFilter12Menu {
+   width:17px; height:17px; overflow:hidden; background-image:url(Filter.gif?v110); background-repeat:no-repeat; margin-left:-1px;
+   }
+
+/* ---------------------------------------------------  Sort images --------------------------------------------------------- */
+
+/* Sort icons shown on left or right side (set by IconAlign) in Header cell, shown in <td> or <div> tag.
+   0 - no sort, 1 - first sort asc, 2 - second sort asc, 3 - third sort asc, 4 - first sort desc, 5 - second sort desc, 6 - third sort desc
+   @ Set here background and padding-left
+*/
+.GOSort0Left,.GOSort1Left,.GOSort2Left,.GOSort3Left,.GOSort4Left,.GOSort5Left,.GOSort6Left,
+.GOSort0Right,.GOSort1Right,.GOSort2Right,.GOSort3Right,.GOSort4Right,.GOSort5Right,.GOSort6Right {
+   background-image:url(Sort.gif?v110); background-repeat:no-repeat;  
+   }
+.GOSort0Left,.GOSort1Left,.GOSort2Left,.GOSort3Left,.GOSort4Left,.GOSort5Left,.GOSort6Left { padding-left:17px; }
+.GOSort0Right,.GOSort1Right,.GOSort2Right,.GOSort3Right,.GOSort4Right,.GOSort5Right,.GOSort6Right{ padding-right:17px; }
+.GOSort0Left { background-position:left 0px; }   
+.GOSort1Left { background-position:left -250px; }
+.GOSort2Left { background-position:left -500px; }
+.GOSort3Left { background-position:left -750px; }
+.GOSort4Left { background-position:left -1000px; }
+.GOSort5Left { background-position:left -1250px; }
+.GOSort6Left { background-position:left -1500px; }
+.GOSort0Right { background-position:right 0px; }   
+.GOSort1Right { background-position:right -250px; }
+.GOSort2Right { background-position:right -500px; }
+.GOSort3Right { background-position:right -750px; }
+.GOSort4Right { background-position:right -1000px; }
+.GOSort5Right { background-position:right -1250px; }
+.GOSort6Right { background-position:right -1500px; }
+
+/* ------------------------------------------------  Side button images ----------------------------------------------------- */
+
+/* Predefined side icon and side button images.
+   The ...Left is used for Icon with IconAlign="Left" or without IconAlign
+   The ...Right is used for Icon with IconAlign="Right" and for Button
+   The ...Top and ...Bottom is used for Type="Button" with Icon and IconAlign="Top" or "Bottom"
+   The ...Check0... is not checked, ...Check1... is checked and ...Check2... is empty state (the ?)
+   @ Set here background and padding-left or padding-right
+ */
+.GODateLeft,.GODatesLeft,.GODefaultsLeft,.GOEnumLeft,.GOCollapseLeft,.GOExpandLeft  { background-image:url(Button.gif?v110); padding-left:17px; background-repeat:no-repeat; }
+.GODateRight,.GODatesRight,.GODefaultsRight,.GOEnumRight,.GOCollapseRight,.GOExpandRight { background-image:url(Button.gif?v110); padding-right:17px; background-repeat:no-repeat; }
+.GODateTop,.GODatesTop,.GODefaultsTop,.GOEnumTop,.GOCollapseTop,.GOExpandTop  { background-image:url(Button.gif?v110); padding-top:20px; background-repeat:no-repeat; }
+.GODateBottom,.GODatesBottom,.GODefaultsBottom,.GOEnumBottom,.GOCollapseBottom,.GOExpandBottom { background-image:url(Button.gif?v110); padding-bottom:20px; background-repeat:no-repeat; }
+.GODateLeft,.GODatesLeft { background-position:left -250px; padding-left:20px; }
+.GODateRight,.GODatesRight { background-position:right -250px; padding-right:20px; }
+.GODateTop,.GODatesTop { background-position:center -250px; }
+.GODateBottom,.GODatesBottom { background-position:center -230px; }
+.GODefaultsLeft { background-position:left 0px; padding-left:20px; }
+.GODefaultsRight { background-position:right 0px; padding-right:20px; }
+.GODefaultsTop { background-position:center 0px; }
+.GODefaultsBottom { background-position:center 20px; }
+.GOEnumLeft { background-position:left -500px; }
+.GOEnumRight { background-position:right -500px; }
+.GOEnumTop { background-position:center -500px; }
+.GOEnumBottom { background-position:center -480px; }
+.GOExpandLeft { background-position:left -999px; }
+.GOExpandRight { background-position:right -999px; }
+.GOExpandTop { background-position:center -1000px; }
+.GOExpandBottom { background-position:center -980px; }
+.GOCollapseLeft { background-position:left -749px;}
+.GOCollapseRight { background-position:right -749px;}
+.GOCollapseTop { background-position:center -750px; }
+.GOCollapseBottom { background-position:center -730px; }
+
+.GOCheck0Left,.GOCheck1Left,.GOCheck2Left  { background-image:url(Bool.gif?v110); padding-left:17px; background-repeat:no-repeat; }
+.GOCheck0Right,.GOCheck1Right,.GOCheck2Right { background-image:url(Bool.gif?v110); padding-right:17px; background-repeat:no-repeat; }
+.GOCheck0Top,.GOCheck1Top,.GOCheck2Top { background-image:url(Bool.gif?v110); padding-top:20px; background-repeat:no-repeat; }
+.GOCheck0Bottom,.GOCheck1Bottom,.GOCheck2Bottom { background-image:url(Bool.gif?v110); padding-bottom:20px; background-repeat:no-repeat; }
+.GOCheck0Left { background-position:left 0px; }
+.GOCheck1Left { background-position:left -250px; }
+.GOCheck2Left { background-position:left -500px; }
+.GOCheck0Right { background-position:right 0px; }
+.GOCheck1Right { background-position:right -250px; }
+.GOCheck2Right { background-position:right -500px; }
+.GOCheck0Top { background-position:center 0px; }
+.GOCheck1Top { background-position:center -250px; }
+.GOCheck2Top { background-position:center -500px; }
+.GOCheck0Bottom { background-position:center 20px; }
+.GOCheck1Bottom { background-position:center -230px; }
+.GOCheck2Bottom { background-position:center -480px; }
+
+/* Class added to right side button if shown in <u> tag - in Header cell or if the cell has set VAlign 
+   @ Set here only height
+*/
+.GOButtonImage { display:inline-block; height:17px; padding-left:0px; padding-right:0px; }
+
+/* Class added to <a> tag in Type="Icon" and Link attribute set. @ Do not change. */
+.GOIconLink { text-decoration:none; width:1000px; display:inline-block; }
+
+/* Class added to the <td> or <div> tag when set custom Icon as icon file, with the suffix as IconAlign. @ Set the padding-left or padding-right. */
+.GOIconLeft { background-position:left 0px; padding-left:20px; background-repeat:no-repeat; }
+.GOIconRight { background-position:right 0px; padding-right:20px; background-repeat:no-repeat; }
+.GOIconCenter { background-position:center 0px; background-repeat:no-repeat; }
+.GOIconTop { padding-top:19px; background-position:center 0px; background-repeat:no-repeat; }
+.GOIconBottom { padding-bottom:22px; background-position:center 18px; background-repeat:no-repeat; }
+
+/* Class added to the <td> or <div> tag when set custom Icon as icon file, with the suffix as IconAlign="Top or "Bottom and VAlign. 
+   Used to synchronize position of custom icons with standard toolbar icons
+   @ Set padding and margin 
+*/
+.GOIconTopVAlignTop { padding-top:19px; }
+.GOIconTopVAlignMiddle { padding-top:19px; }
+.GOIconTopVAlignBottom { padding-top:20px; }
+.GOIconBottomVAlignTop { padding-bottom:22px; }
+.GOIconBottomVAlignMiddle { padding-bottom:22px; }
+.GOIconBottomVAlignBottom { padding-bottom:22px; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                        Cell checkboxes - Radio and Bool types                                           */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ------------------------------------------------  Radio Type images ------------------------------------------------------ */
+
+/* Radio icons for cell RadioIcon = 0,1,2, set to <td> tag
+   The ...Right is used when cell has set RadioRight='1'
+   The ...None is used for RadioIcon='6'
+   0 - unchecked radio, 1 - checked radio, 2 - unchecked checkbox, 3 - checked checkbox
+   @ Set background, padding, border and text attributes
+*/
+.GORadio0Left,.GORadio0Right,.GORadio1Left,.GORadio1Right,.GORadio2Left,.GORadio2Right,.GORadio3Left,.GORadio3Right,.GORadioIconLeft,.GORadioIconRight,.GORadioNone { 
+   background-image:url(Bool.gif?v110); background-repeat:no-repeat; font:11.9px/17px Verdana,Tahoma,"Trebuchet MS",sans-serif;
+   }
+.GORadio0Left,.GORadio1Left,.GORadio2Left,.GORadio3Left,.GORadioIconLeft { padding-left:17px; padding-right:3px; }
+.GORadio0Right,.GORadio1Right,.GORadio2Right,.GORadio3Right,.GORadioIconRight { padding-right:17px; padding-left:3px; }
+.GORadio0Left { background-position:left -1500px; } 
+.GORadio1Left { background-position:left -1750px; } 
+.GORadio2Left { background-position:left 0px; }
+.GORadio3Left { background-position:left -250px;}
+.GORadio0Right { background-position:right -1500px; } 
+.GORadio1Right { background-position:right -1750px; } 
+.GORadio2Right { background-position:right 0px; }
+.GORadio3Right { background-position:right -250px; }
+.GORadioNone { background-image:none; }
+
+/* Custom radio icon for cell RadioIcon = "image file", set to <td> tag. 
+   The ...Right is used when cell has set RadioRight='1'
+   @ Set padding, border and text attributes
+*/
+.GORadioIconLeft { background-position:left top; }
+.GORadioIconRight { background-position:right top; }
+
+/* The Radio icons if set to nobr and span tags when set cell attribute Wrap='1'
+   @ Set padding and optionally background, border and text attributes
+*/
+nobr.GORadio0Left,nobr.GORadio1Left,nobr.GORadio2Left,nobr.GORadio3Left,nobr.GORadio0Right,nobr.GORadio1Right,nobr.GORadio2Right,nobr.GORadio3Right,nobr.GORadioIconLeft,nobr.GORadioIconRight,
+span.GORadio0Left,span.GORadio1Left,span.GORadio2Left,span.GORadio3Left,span.GORadio0Right,span.GORadio1Right,span.GORadio2Right,span.GORadio3Right,span.GORadioIconLeft,span.GORadioIconRight {
+   padding-top:2px; padding-bottom:2px; 
+   }
+
+/* Radio icons by standard <input>, for cell RadioIcon = 3,4,5  
+   ...RadioCell is set to the <td> tag around the radio. @ Set background, padding and border
+   ...RadioInput is set to <input> type "checkbox" or "radio". @ Set margin, padding and line-height
+   ...RadioText is set to <span> tag next to the <input>. @ Set text attributes and optionally background, padding and border
+*/
+.GORadioCell { white-space:nowrap; }
+.GORadioInput { margin:1px 2px 0px 2px; padding:0px; margin-top:-4px!IE; line-height:13px; }
+.GORadioText { font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; }
+nobr.GORadioCell,span.GORadioCell { display:inline-block; }
+
+/* Caption of checked radio button; @ Set here border, padding, background and text attributes */
+.GORadioChecked { color:#0099CC; }
+
+/* -------------------------------------------------  Bool Type images ------------------------------------------------------ */
+
+/* Checkbox icons for table row cell, for BoolIcon = 0,1,2,3, set to <td> or <u> tag  
+   0 - unchecked checkbox, 1 - checked checkbox, X - empty (third) state (?), 2 - unchecked radio, 3 - checked radio, RO - read only
+   ...BoolIcon is used for custom icon in BoolIcon="image file"
+   ...BoolImage is added for every the Bool icon
+   @ Set here background and width and height
+*/
+.GOBool0,.GOBool1,.GOBoolX,.GOBool0RO,.GOBool1RO,.GOBoolXRO,.GOBool2,.GOBool3,.GOBool2RO,.GOBool3RO { background-image:url(Bool.gif?v110); background-repeat:no-repeat; padding-left:17px; }
+.GOBoolIcon { background-repeat:no-repeat; }
+.GOBool0 { background-position:center 0px; }
+.GOBool1 { background-position:center -250px; }
+.GOBoolX { background-position:center -500px; }
+.GOBool0RO { background-position:center -750px; }
+.GOBool1RO { background-position:center -1000px; }
+.GOBoolXRO { background-position:center -1250px; }
+.GOBool2,.GOBool2RO { background-position:center -1500px; }
+.GOBool3,.GOBool3RO { background-position:center -1750px; }
+.GOBoolImage { display:inline-block; width:17px; height:17px; overflow:hidden; padding:0px; }
+
+/* Checkbox icons for Space row cell, for BoolIcon = 0,1,2,3, set to <td> or <u> tag  
+   0 - unchecked checkbox, 1 - checked checkbox, X - empty (third) state (?), 2 - unchecked radio, 3 - checked radio, RO - read only
+   ...BoolIconSpace is used for custom icon in BoolIcon="image file"
+   ...BoolImageSpace is added for every the Bool icon
+   @ Set here background, width and height and padding-left (width and height is used in <u> tag, padding-left in <td> tag)
+*/
+.GOBoolXSpace,.GOBool0Space,.GOBool1Space,.GOBoolXSpaceRO,.GOBool0SpaceRO,.GOBool1SpaceRO { background-image:url(Bool.gif?v110); background-repeat:no-repeat; padding-left:17px; }
+.GOBool2Space,.GOBool3Space,.GOBool2SpaceRO,.GOBool3SpaceRO { background-image:url(Bool.gif?v110); background-repeat:no-repeat; padding-left:17px; }
+.GOBoolIconSpace { background-repeat:no-repeat; }
+.GOBool0Space { background-position:center 1px; }
+.GOBool1Space { background-position:center -249px; }
+.GOBoolXSpace { background-position:center -499px; }
+.GOBool0SpaceRO { background-position:center -749px; }
+.GOBool1SpaceRO { background-position:center -999px; }
+.GOBoolXSpaceRO { background-position:center -1249px; }
+.GOBool2Space,.GOBool2SpaceRO { background-position:center -1499px; }
+.GOBool3Space,.GOBool3SpaceRO { background-position:center -1749px; }
+.GOBoolImageSpace { display:inline-block; width:17px; height:19px; overflow:hidden; padding:0px; }
+
+/* Bool icons by standard <input>, for cell BoolIcon = 4,5, different for table and Space row cells
+   @ Set margin and padding
+*/
+.GOBoolInput { margin-top:2px; margin-bottom:0px; padding:0px; margin-top:-2px!IE; margin-bottom:-6px!IE; }
+.GOBoolInputSpace { margin-top:3px; margin-bottom:0px; padding:0px; margin-top:-2px!IE; margin-bottom:-6px!IE; }
+
+/* Bool icons by text 'x' in rect, for cell BoolIcon = 6
+   0 - unchecked checkbox, 1 - checked checkbox, 2 - empty (third) state (?), RO - read only
+   ...IE is added in IE5 quirks mode
+   @ Set height, width, border, background, padding, margin and text attributes
+*/
+.GOBoolChar0,.GOBoolChar1,.GOBoolChar2,.GOBoolChar0RO,.GOBoolChar1RO,.GOBoolChar2RO {
+   height:9px; width:8px; border:2px ridge white; margin:2px auto 2px auto; font:bold 9px Arial; color:blue; text-align:center; overflow:hidden;
+   }
+.GOBoolChar2 { color:green; }
+.GOBoolChar0RO,.GOBoolChar1RO,.GOBoolChar2RO { color:gray; }
+.GOBoolCharIE { height:14px; width:12px; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                     Side pager                                                          */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ...PagerMain - main <div> tag inside <td> tag. It has set inline width. @ Set border, margin and padding
+   ...PagerBody - the pages without header, <div> tag. @ Set background, border, margin and padding. 
+   ...PagerBodyLeft, ...PagerBodyRight - added to the ...PagerBody according to the side where is the pager displayed.
+   ...PagerHeader - the pager header, <div> tag. @ Set background, border, margin and padding. 
+   ...PagerHeaderLeft, ...PagerHeaderRight - added to the ...PagerHeader according to the side where is the pager displayed.
+   ...PagerCaption - text inside header, <div> tag, set text attributes and optionally also border, padding, margin and background
+*/
+.GOPagerMain { border:1px solid #e9e9e9; border-bottom:0px none; }
+.GOPagerBody { background:white; }
+.GOPagerBodyLeft { }
+.GOPagerBodyRight { }
+.GOPagerHeader { background:#E9E9E9 url(Backgrounds.gif?v110) 0px 0px repeat-x; border:1px solid white; border-right:1px solid #D4D4D4; border-bottom:1px dotted #CBCBCB; cursor:default; }
+.GOPagerHeaderLeft { }   
+.GOPagerHeaderRight { }
+.GOPagerCaption { font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; padding:2px 3px 2px 3px; white-space:nowrap; }
+
+/* ...PagerItem - one page name. @ Set background, border, margin, padding and text attributes
+   ...PagerItemTouch is added on tablet
+*/
+.GOPagerItem {
+   font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; cursor:pointer; overflow:hidden; white-space:nowrap;
+   border-top:1px solid white; border-bottom:1px dotted #CBCBCB; border-right:1px solid #D4D4D4; padding:1px 3px 0px 3px; background:white;
+   }
+.GOPagerItemTouch { padding-top:4px; padding-bottom:4px; }
+
+/* Classes to ...PagerItem added on pager Type="Gantt" if set ShowUsedPages / ShowExcludedPages
+   @ Set background, border, margin, padding and text attributes
+*/
+.GOPagerItemUsed { color:green; }
+.GOPagerItemUnused { color:#888; }
+.GOPagerItemExcluded { background:#DDD; }
+
+/* Marked part of the page name, <span> tag
+   1 - the first sorted column, 2 - the second sorted column, 3 - the third sorted column, S - when the grid is not sorted
+*/
+.GOPagerSort1 { color: black; }
+.GOPagerSort2 { color: #737373; }
+.GOPagerSort3 { color: #9b9b9b; }
+.GOPagerSortS { color: black; }
+
+/* Focus cursor - actully shown page(s) 
+   ...PagerFocus - actually shown (scrolled) page(s) in pager Pages or actually zoomed chart in pager Gantt
+   ...PagerFocus2 - actual view (scrolled) in pager Gantt
+   ...PagerFocus3 - the whole pager is shown in actual view, in pager Gantt
+*/
+.GOPagerFocus,.GOPagerFocus2,.GOPagerFocus3 {
+   position:relative; cursor:pointer; overflow:hidden; opacity:0.3; filter:alpha(opacity=30); 
+   border:1px solid #666; background:#888;
+   }
+.GOPagerFocus2 { background:#F0F; }
+.GOPagerFocus3 { background:#AFA; }
+
+/* Hover cursor - highlighted page under mouse cursor. 
+   @ Set background, border, padding
+   */
+.GOPagerHover {
+   position:relative; cursor:pointer; overflow:hidden;
+   background:#888; opacity:0.1; filter:alpha(opacity=10); 
+   }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                               State colors and classes                                                  */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* The ...Color... classes are never assigned, they are used only to read the color. 
+   @ In ...Color... set only the background-color, it must be set by number, not by name.
+   All the colors except ...FocusedCell... and ...Default are relative colors, are added to the ...Default color; if the result color number exceeds 0x1000000, it is subtracted by the 0x1000000
+   The ...Class... is added to the cell if its condition is fulfilled. Only the listed ...Class... are used, the others can have only the ...Color... set.
+   @ In ...Class... set text attributes and color and optionally border and padding. If set here background-color with !important, it overrides the cell color and sets it as absolute
+*/
+.GOColorDefault { background-color:#FFFFFF; }   /* Base color for all cells, can be changed by <I Color /> attribute */
+
+.GOColorNoFocus { background-color:#F0F0F0; }   /* Cell with CanFocus='0' */
+.GOClassNoFocus { }
+.GOColorReadOnly { background-color:#F4F4F4;}   /* Cell with CanEdit='0' */
+.GOClassReadOnly { }
+.GOColorPreview { background-color:#FFFFFF; }   /* Cell with CanEdit='2' */
+.GOClassPreview { }
+.GOColorEdit { background-color:#FFFFFF; }      /* Cell with CanFocus='1' CanEdit='1' */
+.GOClassEdit { }
+
+.GOColorAlternate { background-color:#EBFFFF; } /* Color for <Cfg Alternate/>, can be changed by <I AlternateColor /> */
+.GOClassAlternate { }                           /* Can be changed by <I AlternateClass /> */
+
+.GOColorSelected { background-color:#DEEFFF; }  /* Selected row or cell */
+.GOClassSelected {  }                           /* It is used only if set <Cfg SelectClass='1'/> */
+.GOColorFill { background-color:#FF80FF; }      /* Used when selecting cells by dragging due auto fill */
+
+.GOColorError { background-color:#FF6969; }     /* Cell with Error attribute set */
+.GOClassError { }
+
+/* Row / Cell state colors, are ignored if row has set NoColorState='1' */
+.GOColorDeleted { background-color:#FFCDCD; }   /* Deleted row */
+.GOClassDeleted { }
+.GOColorAdded { background-color:#FFFFFF; }     /* Newly added row */
+.GOClassAdded { }
+.GOColorMoved1 { background-color:#FFFFFF; }    /* Row moved to another parent */
+.GOClassMoved1 { }
+.GOColorMoved2 { background-color:#FFFFFF; }    /* Row moved inside its parent, only if sorting is not permitted */
+.GOClassMoved2 { }
+.GOColorChanged { background-color:#FAFAFA; }   /* Row with some cell value changed */
+.GOClassChanged { }
+.GOColorChangedCell { background-color:#E1E1E1; } /* The cell with value changed */
+.GOClassChangedCell { }
+
+.GOColorMaxChildren { background-color:#FFFFF0; } /* Row created if row's children exceed <I MaxChildren/> */
+.GOClassMaxChildren { }
+
+.GOColorDetail { background-color:#FFF0FF; }    /* Row is master row, has set <I Detail /> attribute */
+.GOClassDetail { }
+.GOColorDetailSelected { background-color:#FFF0E0; } /* Master row actually shown in detail grid */
+.GOClassDetailSelected { }
+
+.GOColorDragged { background-color:#E0E0C0; }   /* The source row actually being dragged by mouse */
+
+.GOColorFound1 { background-color:#FF87FF; }    /* Found cell in SearchAction="Mark", first search */
+.GOClassFound1 { }                              /* Used only if set <Cfg SearchClass='1'/> */
+.GOColorFound2 { background-color:#FFC387; }    /* Found cell in SearchAction="Mark", second search */
+.GOClassFound2 { }                              /* Used only if set <Cfg SearchClass='1'/> */
+.GOColorFound3 { background-color:#87FF87; }    /* Found cell in SearchAction="Mark", third search */
+.GOClassFound3 { }                              /* Used only if set <Cfg SearchClass='1'/> */
+
+.GOColorHovered { background-color:#F4F4F4; }   /* Row under mouse cursor, used only if the hovered cell or row has HoverRow["Color"]*/
+
+/* Cell under mouse cursor, according to its look or permissions
+   ...Color... is used only if the cell has set HoverCell["Color"] 
+   ...Class... is used only if the cell has set HoverCell["Class"] 
+   Always only one Color and Class is used, if the cell fulfils more conditions the latter has precedence
+   If the resulted color is #FFFFFF, it is set as transparent, therefore in some cases is required to set #FFFFFE to get white color
+*/
+.GOColorHoveredCell { background-color:#EBEBEB; }     /* Standard cell */
+.GOClassHoveredCell { }
+.GOColorHoveredCellReadOnly { background-color:#EBEBEB; } /* Cell with CanEdit='0' */
+.GOClassHoveredCellReadOnly { }
+.GOColorHoveredCellNoFocus { background-color:#EBEBEB; }  /* Cell with CanFocus='0' */
+.GOClassHoveredCellNoFocus { }
+.GOColorHoveredCellHeader { background-color:#FFFFFF; }   /* Cell in Header row */
+.GOClassHoveredCellHeader { }
+.GOColorHoveredCellPanel { background-color:#FFFFFF; }    /* Cell Type = "Panel" */
+.GOClassHoveredCellPanel { }
+.GOColorHoveredCellFastPanel { background-color:#FFFFFF; }/* Cell Type = "Panel" if FastPanel is shown */
+.GOClassHoveredCellFastPanel { }
+.GOColorHoveredCellSpace { background-color:#FFFFFF; }    /* Space row cell */
+.GOClassHoveredCellSpace { }
+.GOColorHoveredCellSpaceEdit { background-color:#FFFFFF; } /* Editable Space row cell */
+.GOClassHoveredCellSpaceEdit > div { background-color:#F6F6F6; }
+.GOColorHoveredCellSpaceDefaults { background-color:#FFFFFF; } /* Space row cell with Button="Defaults" */
+.GOClassHoveredCellSpaceDefaults > div { background-color:#F6F6F6; }
+.GOColorHoveredCellSpaceBool0 { background-color:#FFFFFE; } /* Space row cell of Type="Bool" and value 0 */
+.GOClassHoveredCellSpaceBool0,.GOClassHoveredCellSpaceBool0 > u { background-position:center -749px; }
+.GOColorHoveredCellSpaceBool1 { background-color:#FFFFFE; } /* Space row cell of Type="Bool" and value 1 */
+.GOClassHoveredCellSpaceBool1,.GOClassHoveredCellSpaceBool1 > u { background-position:center -999px; }
+.GOColorHoveredCellSpaceBoolX { background-color:#FFFFFE; } /* Space row cell of Type="Bool" and value "" */
+.GOClassHoveredCellSpaceBoolX,.GOClassHoveredCellSpaceBoolX > u { background-position:center -1249px; }
+.GOColorHoveredCellSpaceBoolIcon { background-color:#FFFFFE; } /* Space row cell of Type="Bool" and BoolIcon other than 0 and 2 */
+.GOClassHoveredCellSpaceBoolIcon { }
+.GOColorHoveredCellButton { background-color:#F0F0F0; }     /* Space row cell of Type="Button" and Button="Html" */
+.GOClassHoveredCellButton { color:green; background-color:#F0F0F0!important; }
+.GOColorHoveredCellButton1 { background-color:#F0F0F0; }    /* Space row cell of Type="Button" and Button="Html" and value 1 */
+.GOClassHoveredCellButton1 { color:red; background-color:#F0F0F0!important; }
+.GOColorHoveredCellButtonButton { background-color:#FFFFFE; }  /* Space row cell of Type="Button" and Button="Button" */
+.GOClassHoveredCellButtonButton u { color:green; background-color:#F0F0F0!important; }
+.GOColorHoveredCellButtonButton1 { background-color:#FFFFFE; } /* Space row cell of Type="Button" and Button="Button" and value 1 */
+.GOClassHoveredCellButtonButton1 u { color:red; background-color:#F0F0F0!important; }
+.GOColorHoveredCellTab { background-color:#F8F8F8; }        /* Space row cell of Type="Button" and Button="Tab" */
+.GOClassHoveredCellTab { background-image:none; }
+.GOColorHoveredCellTab1 { background-color:#CCCCCC; }       /* Space row cell of Type="Button" and Button="Tab" and value 1*/
+.GOClassHoveredCellTab1 { background-image:none; }
+
+.GOColorFocused { background-color:#E6E6E6; }               /* Focused row, used only if the focused cell or row has FocusRow["Color"] */
+.GOClassFocused { }                                         /* Used only if  the focused cell or row has FocusRow["Class"] */
+
+/* Focused cell, the color is absolute color 
+   ...Color... is used only if the cell or row has set FocusCell["Color"] 
+   ...Class... is used only if the cell or row has set FocusCell["Class"] 
+*/
+.GOColorFocusedCell { background-color:#FFFF80; }           /* Standard cell */
+.GOClassFocusedCell { } 
+.GOColorEditedCell { background-color:#FFE0A0; }            /* Cell being edited */
+.GOColorViewedCell { background-color:#FFF0C0; }            /* Cell being viewed - edited cell with CanEdit='2' */
+.GOColorFocusedCellSafari { background-color:#A0A0FF; }     /* If the cell border is hidden due <Cfg BorderCursors='0' or '2'/> */
+.GOColorFocusedCellHeader { background-color:#FFFFFE; }     /* Header row cell */
+.GOClassFocusedCellHeader { }
+.GOColorFocusedCellSpace { background-color:#E0E0E0; }         /* Space row cell */
+.GOClassFocusedCellSpace { }
+.GOColorFocusedCellSpaceEdit { background-color:#FFFFFF; }  /* Editable Space row cell */
+.GOClassFocusedCellSpaceEdit > div { background-color:#E0E0E0; }
+.GOColorFocusedCellSpaceDefaults { background-color:#FFFFFF; }  /* Space row cell with Button="Defaults" */
+.GOClassFocusedCellSpaceDefaults > div { background-color:#E0E0E0; }
+.GOColorFocusedCellSpaceBool { background-color:#E0E0E0; }     /* Space row cell of Type="Bool" */
+.GOClassFocusedCellSpaceBool { }
+.GOColorFocusedCellButton { background-color:#E0E0E0; }        /* Space row cell of Type="Button" */
+.GOClassFocusedCellButton { }
+
+/* Side colors set by ColorCursor attribute 
+   ...Col is top / bottom side, ...Row is left / right side
+   ...Class... is used only if set <Cfg> ColorCursor bit 5, &16
+*/
+.GOColorSelectedCol { background-color:#E5F5F5; }          /* Side for selected cells */
+.GOClassSelectedCol { }
+.GOColorSelectedRow { background-color:#E5F5F5; } 
+.GOClassSelectedRow { }
+.GOColorFocusedCol { background-color:#DDD; }              /* Side for cells focused by range (FRect) */
+.GOClassFocusedCol { }
+.GOColorFocusedRow { background-color:#DDD; } 
+.GOClassFocusedRow { }
+.GOColorEditedCol { background-color:#EEEE80; }               /* Side for focused cell (FRow/FCol) */
+.GOClassEditedCol { }
+.GOColorEditedRow { background-color:#EEEE80; } 
+.GOClassEditedRow { }
+.GOColorHoveredCol { background-color:#F3F3F3; }           /* Side for cell under mouse cursor (ARow/ACol) */
+.GOClassHoveredCol { }
+.GOColorHoveredRow { background-color:#F3F3F3; }             
+.GOClassHoveredRow { }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                               Hover, focus, edit cursors                                                */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ------------- Cell and row highlighted under mouse cursor ------------- */
+
+/* ...HoverPanelBackground - Background shown above left side Panel cell when hovering the row; shown only if the hovered cell or row has HoverRow["Background"]; @ set background and opacity 
+   ...HoverRowBackground   - Background shown above the whole hovered row, except hovered cell and Panel; shown only if the hovered cell or row has HoverRow["Background"]; @ set background and opacity
+   ...HoverRowBorder       - Border around the whole hovered row; shown only if the hovered cell or row has HoverRow["Border"]; @ set border
+   ...HoverCellBorder      - Border around the hovered cell; shown only if the hovered cell or row has HoverCell["Border"]; @ set border
+*/
+.GOHoverPanelBackground { } 
+.GOHoverRowBackground { opacity:0.1; filter:alpha(opacity=10); background:#888; } 
+.GOHoverRowBorder { z-index:1; border-top:1px solid #AAAAAA; border-bottom:1px solid #AAAAAA; cursor:default; background:white; padding:1px; padding-left:0px; } 
+.GOHoverCellBorder { z-index:3; padding:1px; padding-right:0px; border:1px solid #A0A0A0; background:white; } 
+
+/* ---------------- Highlighted focused cell(s) and row(s) ------------- */
+
+/* ...FocusPanelBackground - Background shown above left side Panel cell when the row is focused; shown only if the focused cell or row has FocusRow["Background"]; @ set background and opacity 
+   ...FocusRowBackground   - Background shown above the whole focused row, except focused cell and Panel; shown only if the focused cell or row has FocusRow["Background"]; @ set background and opacity
+   ...FocusRowBorder       - Border around the whole hovered row; shown only if the hovered cell or row has FocusRow["Border"]; @ set border
+   ...FocusCellBorder      - Border around the focused cell in table row; shown only if the focused cell or row has FocusCell["Border"]; @ set border and cursor
+   ...FocusCellSpaceBorder - Border around the focused cell in Space row; shown only if the focused cell or row has FocusCell["Border"]; @ set border and cursor
+   ...FocusCellCorner      - Bottom right corner for autofill; shown only if the focused cell or row has FocusCell["Corner"]; @ set border, margin, padding, background, width, height and cursor
+*/
+.GOFocusPanelBackground { } 
+.GOFocusRowBackground { opacity:0.1; filter:alpha(opacity=10); background:black; } 
+.GOFocusRowBorder { z-index:2; border:1px solid #AAAAAA; background:white; padding:1px; padding-left:0px; }    
+.GOFocusCellBorder { z-index:4; padding:1px; padding-right:0px; border:1px solid black; } 
+.GOFocusCellSpaceBorder { z-index:4; border:1px solid black; }                      
+.GOFocusCellCorner { position:relative; padding:0px; border:1px solid white; background:black; margin-left:-4px; margin-top:-5px; width:5px; height:5px; z-index:4; cursor:crosshair; }
+
+/* ------------- Highlighted focused cell in edit mode ------------- */
+
+/* ...EditCellBorder      - Border around the focused cell in table row in edit mode; shown only if the focused cell or row has FocusCell["Border"]; @ set border 
+   ...EditCellSpaceBorder - Border around the focused cell in Space row in edit mode; shown only if the focused cell or row has FocusCell["Border"]; @ set border 
+   ...EditCellCorner      - Bottom right corner for autofill; shown only if the focused cell or row has FocusCell["Corner"] and is set <Cfg DragEdit='1'/>; @ set border, margin, padding, background, width, height and cursor
+   ...EditCellInput       - Parent div tag where the <input> or <textarea> is placed to; @ set border, padding and background
+ */
+.GOEditCellBorder { z-index:4; border:1px solid red; }
+.GOEditCellSpaceBorder { z-index:4; border:1px solid red; }
+.GOEditCellCorner { position:relative; padding:0px; border:1px solid white; background:red; margin-left:-4px; margin-top:-5px; width:5px; height:5px; z-index:4; cursor:crosshair; }
+.GOEditCellInput { position:relative; overflow:hidden; z-index:2; background-color:#FFE0A0; line-height:0px; font-size:0px; }
+
+/* ------------- Support classes removing border ------------- 
+
+/* added to ...Background or ...Border classes; @ Do not change */
+.GOCursorBackground { position:relative; border:none; padding:0px; overflow:hidden; }
+.GOCursorBorderLeft,.GOCursorBorderRight,.GOCursorBorderTop,.GOCursorBorderBottom { position:relative; overflow:hidden; width:0px; height:0px; }
+.GOCursorBorderLeft { border-right:none!important; border-top:none!important; border-bottom:none!important; padding-right:0px!important; padding-top:0px!important; padding-bottom:0px!important; }
+.GOCursorBorderRight { border-left:none!important; border-top:none!important; border-bottom:none!important; padding-left:0px!important; padding-top:0px!important; padding-bottom:0px!important; }
+.GOCursorBorderTop { border-bottom:none!important; border-left:none!important; border-right:none!important; padding-bottom:0px!important; padding-left:0px!important; padding-right:0px!important; }
+.GOCursorBorderBottom { border-top:none!important; border-left:none!important; border-right:none!important; padding-top:0px!important; padding-left:0px!important; padding-right:0px!important; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                        Edit control                                                    */
+/*                                                            TGLib                                                        */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* --- Edit text in <input> / <textarea> --- */
+
+/* @ Set background and text attributes
+   ...EditInput - set to <input> tag placed into inline edit cursor tag (...EditCellInput)
+   ...EditTextarea - set to <textarea> tag placed into inline edit cursor tag (...EditCellInput) for Lines type
+   ...Normal... is added to <input> / <textarea> for cell in table row, ...Header... is added for cell in Header row, ...Space is added for cell in Space row
+   ...Int..., ...Float..., ...Date..., ...Pass... is added for this cell type
+   ...Text... is added for cell type Text, Lines, Link, Img
+   ...ReadOnly is added for preview cell with CanEdit='2'
+*/
+.GOEditInput,.GOEditTextarea { font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; border:0px none; margin:0px; padding:0px; outline:none; box-sizing:content-box; resize:none; }
+.GOEditInput::-ms-clear { height:13px; }
+.GOEditNormalInput,.GOEditNormalTextarea { background-color:#FFE0A0; }
+.GOEditHeaderInput,.GOEditHeaderTextarea { background-color:#FFE0A0; }
+.GOEditSpaceInput,.GOEditSpaceTextarea { background-color:#FFE0A0; }
+.GOEditInt,.GOEditFloat,.GOEditDate { text-align:right; }
+.GOEditText,.GOEditPass { }
+.GOEditReadOnly { background-color:#FFEEFF; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                   Dragging objects                                                      */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* Set to ghost tag under mouse cursor when dragging something in grid or Gantt; 
+   Used when <Cfg ShowDrag='1'/>. For dragged rows is used only if set <Cfg DragObject='1'/>
+   The tag is <div> with absolute position and contains the dragged row(s), column header(s) or GanttRun box(es)
+   @ Set border, margin, padding, opacity and optionally background
+*/
+.GOMouseObject { opacity:0.5; filter:alpha(opacity=50); z-index:300; overflow:hidden; }
+
+/* Set to ghost tag under mouse cursor when dragging rows in grid, if set <Cfg DragObject='2'/> and <Cfg ShowDrag='1'/>
+   The tag is <div> with absolute position and contains information about the count of dragged rows
+   @ Set border, margin, padding, background, opacity, text attributes and optionally height and width
+*/
+.GODragObject {
+   z-index:300; font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; margin-left:10px; margin-top:10px;
+   background:#f4f4f4; border:1px solid #d0d0d0; padding:3px;
+   }
+
+/* The arrows showing actual drop position when dragging column header or GanttRun box
+   @ Set background, width and height
+*/
+.GODragColInsideTop,.GODragColInsideBottom,.GODragColOutsideTop,.GODragColOutsideBottom,.GODragGanttRunTop,.GODragGanttRunBottom,.GODragGanttRunTopJoin,.GODragGanttRunBottomJoin {
+   position:absolute; background-image:url(Sort.gif?v110); width:11px; height:14px; overflow:hidden; z-index:301;
+   }
+.GODragColInsideTop  { background-position:-3px -1748px; }
+.GODragColInsideBottom  { background-position:-3px -1768px; }
+.GODragColOutsideTop  { background-position:-3px -1788px; }
+.GODragColOutsideBottom  { background-position:-3px -1808px; }
+.GODragGanttRunTop  { background-position:-1px -1748px; }
+.GODragGanttRunBottom  { background-position:-1px -1767px; }
+.GODragGanttRunTopJoin  { background-position:-1px -1788px; }
+.GODragGanttRunBottomJoin  { background-position:-1px -1807px; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                    Message dialogs                                                      */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* Disabled grid, absolute <div> tag shown above grid main tag. The grid is disabled when it shows some message (e.g. "Rendering").
+   Note, for disabled page is used GridDisabled class instead. The whole page is disabled when the grid shows modal dialog (e.g. grid configuration menu).
+   @ Set background and opacity, optionally margin and padding
+*/
+.GODisabled { position:absolute; z-index:264; background:white; opacity:0.5; filter:alpha(opacity=50); } 
+
+/* Grid informational or progress message, absolute <div> tag
+   @ Set border, padding, background and text attributes
+*/
+.GOMessage {
+   font:13px Verdana,Tahoma,"Trebuchet MS",sans-serif; white-space:nowrap; text-align:center; visibility:hidden; z-index:266;
+   position:absolute; left:0px; top:0px; background:#F4F4F4; border:1px solid #CBCBCB; padding:10px;
+   }
+
+/* Shadow <div> tag displayed under grid message tag, on the same position and size 
+   @ Set margin for the shadow shift, background, opacity and border
+*/
+.GOMessageShadow {
+   position:absolute; left:0px; top:0px; margin-left:3px; margin-top:3px; z-index:265; visibility:hidden; 
+   background:#888; opacity:0.5; filter:alpha(opacity=50);
+   }	
+
+/* Page informational message, <div> tag shown inside page being loaded or rendered, instead of the page content
+   @ Set border, padding, background and text attributes
+*/
+.GOPageMessage { background:#FAFAFA; border:1px solid #CBCBCB; padding:10px; font:13px Verdana,Tahoma,"Trebuchet MS",sans-serif; }
+
+/* Progress message 
+   ...Main is set to inner <div> of the progress message. @ Set text attributes and optionally border, margin, padding and background
+   ...Caption is set to <div> tag showing the progress message caption. @ Set border, margin, padding, background and text attributes
+   ...Text is set to <div> tag showing the progress message text. @ Set border, margin, padding, background and text attributes
+   ...Outer is set to <div> tag showing the gauge container. @ Set border, margin, padding, background and width
+   ...Inner is set to <div> tag showing the gauge indicator. @ Set border, margin, padding, background and height
+*/
+.GOProgressMain { font:13px Verdana,Tahoma,"Trebuchet MS",sans-serif; }
+.GOProgressCaption { font-weight:bold; margin-bottom:15px; }
+.GOProgressText { margin-bottom:15px; }
+.GOProgressOuter { text-align:left; width:200px; border:1px solid #CBCBCB; padding:2px; margin-bottom:15px; }
+.GOProgressInner { height:10px; background:gray; }
+
+/* Button in informational or progress message, <button> tag below the message inside the ...Message 
+   ...Hover is added when the <button> tag is under mouse cursor
+   @ Set border, padding, margin, background and text attributes
+*/
+.GOProgressButton,.GOMessageButton { 
+   font:11.9px Arial,Helvetica,sans-serif; white-space:nowrap; 
+   }
+.GOProgressButton { margin:5px 2px 0px 2px; padding-left:10px; padding-right:10px; }
+.GOMessageButton { margin:10px 3px 0px 3px; width:50px; }
+.GOMessageButtonHover,.GOProgressButtonHover { }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                   Popup menus and dialogs                                               */
+/*                                                            TGLib                                                        */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* Default settings for all TreeGrid popup menus and dialogs like Enum, Defaults, Filter, cfg menu, columns menu, popup Menu, Gantt menu and custom menu shown by ShowMenu and ShowPopup
+   The styles of individual menu types can be overridden by their individual classes added to all default classes (e.g. "GMMenuMain GMEnumMenuMain")
+      Individual classes: ...EnumMenu..., ...DefaultsMenu..., ...FilterMenu..., ...CfgMenu..., ...ColumnsMenu..., ...PopupMenu, ...GanttMenu...
+      For custom JSON menu can be the individual class prefix set to Class attribute, like {..., Class:"Custom", ... } and the added classes will be ...Custom..., e.g. GxCustomMain
+   Some of the classes are used also for custom JSON dialogs shown by ShowDialog API function.
+*/
+
+/* --- Menu and dialog sections --- */
+
+/* Main menu and dialog classes
+   ...Main - Main absolute <div> tag; @ Do not change 
+   ...Static - Used instead of ...Main when dialog is written directly to page HTML by WriteDialog. Used only in TGLib, not in TreeGrid. @ Do not change
+   ...Shadow - Shadow <div> tag displayed under ...Main tag, on the same position and size. @ Set margin for the shadow shift, background, opacity and border
+   ...Outer - <div> tag inside the main tag, contains the whole menu. @ Set background, border and padding
+   ...Top is added to ...Outer when the menu is shown above the header, ...Bottom is added to ...Outer when the menu is shown below the header
+*/      
+.GOMenuMain { position:absolute; left:0px; top:0px; z-index:258; }
+.GOMenuStatic { }
+.GOMenuShadow { position:absolute; margin-left:3px; margin-top:3px; z-index:257; background:#888; opacity:0.5; filter:alpha(opacity=50); }
+.GOMenuOuter { overflow:hidden; background:white; }
+.GOMenuOuterTop { }
+.GOMenuOuterBottom { }
+
+/* Shown outside menu or dialog in place of the source tag, simulating the menu is popped up. For custom JSON menus and dialogs is used when set Header attribute.
+   ...Top is added to ...Header when the menu is shown above the header, ...Bottom is added to ...Header when the menu is shown below the header
+   @ Set margin to shift the header, border, padding and background
+*/
+.GOMenuHeader { 
+   overflow:hidden; position:absolute; z-index:258; border:1px solid #aaaaaa; background:white; cursor:pointer; 
+   user-select:none; -o-user-select:none; -moz-user-select:none; -khtml-user-select:none; -webkit-user-select:none;
+   }
+.GOMenuHeaderTop { }
+.GOMenuHeaderBottom { }
+
+/* Set to menu and dialog top, not scrollable, section. Used only for TreeGrid cfg / column menus. For custom JSON menus and dialogs is used when set Head attribute.
+   @ Set border, margin, padding, background and text attributes
+*/
+.GOMenuHead { 
+   border:1px solid #aaaaaa; border-bottom:none; background:#E9E9E9; padding:3px 0px 4px 0px; 
+   font:bold 11.5px Verdana,Tahoma,"Trebuchet MS",sans-serif; text-align:center; cursor:default; 
+   }
+
+/* Close icon set <div> tag inside the ...MenuHead. Used only for TreeGrid cfg / column menus. For custom JSON menus and dialogs is used when set Head attribute and can be hidden by setting HeadClose:0 
+   @ Set background, width and height
+*/
+.GOMenuClose { float:right; width:14px; cursor:pointer; display:none; background:url(Menu.gif?v110) no-repeat right -354px; }
+
+/* Set to menu and dialog middle, scrollable, section. For custom JSON dialogs the tag is filled by Body attribute value. 
+   @ Set border, margin, padding, background and optionally (for the custom dialogs) text attributes
+*/
+.GOMenuBody { border:1px solid #aaaaaa; cursor:default; padding: 1px 2px 1px 2px; }
+
+/* Set to menu and dialog bottom, not scrollable, section, contains usually control buttons. 
+   Used only for TreeGrid cfg / column menus and Range dialogs to display the buttons. For custom JSON menus and dialogs is used when set Foot or Buttons (JSON menu only) attribute.
+   @ Set border, margin, padding, background and text attributes
+*/
+.GOMenuFoot { 
+   border:1px solid #aaaaaa; border-top:none; background:#E9E9E9; padding:3px 0px 3px 0px; 
+   font:bold 11.5px Verdana,Tahoma,"Trebuchet MS",sans-serif; text-align:center; white-space:nowrap; 
+   }
+
+/* Control button inside the Foot section (e.g. OK, Cancel). <button> tag.
+   ...Hover is added when the <button> tag is under mouse cursor
+   @ Set border, margin, padding, background, width, height and text attributes
+*/
+.GOMenuButton {
+   width:48px; margin:2px; padding-left:0px; padding-right:0px;
+   font:11.9px Arial,Helvetica,sans-serif; text-align:center; white-space:nowrap; overflow:hidden;  
+   }
+.GOMenuButtonHover { }
+
+/* --- Menu item --- */
+
+/* <div> tags for individual menu items
+   ...Item is set to all menu items except focused and hovered
+   ...Focus is set to menu item with key cursor
+   ...Hover is set to menu item under mouse cursor (...ItemHover to not focused and ...FocusHover to focused)
+   ...Touch... is added to menu item on tablet
+   @ Set border, margin padding and background; all the eight classes should have the same edge width and height (margin+border+padding)
+*/
+.GOMenuItem { padding:2px 3px 2px 3px; }
+.GOMenuItemTouch { padding-top:5px; padding-bottom:5px; }
+.GOMenuItemHover { margin-left:1px; margin-right:1px; padding:2px; background:#F0F0F0; }
+.GOMenuItemHoverTouch { padding-top:4px; padding-bottom:4px; }
+.GOMenuFocus { margin-left:1px; margin-right:1px; padding:2px; background:#E0E0E0; }
+.GOMenuFocusTouch { padding-top:4px; padding-bottom:4px; }   
+.GOMenuFocusHover { margin-left:1px; margin-right:1px; padding:2px; background:#D0D0D0; }
+.GOMenuFocusHoverTouch { padding-top:4px; padding-bottom:4px; }   
+
+/* --- Icons inside menu items --- */
+
+/* The classes are set in <div> tag inside the menu item tag
+   ...CheckedIcon...  - Bool item, checkbox, checked state,                  ...UncheckedIcon... - Bool item, checkbox, unchecked state
+   ...CheckedRadio... - Bool item with Group, radio button, checked state,   ...UncheckedRadio... - Bool item with Group, radio button, unchecked state
+   ...Left            - the bool icon is shown on the item text left side,   ...Right - the bool icon is shown on the item text right side
+   ...CursorIcon      - Cursor icon shown on left side, when menu have set ShowCursor:1; the width of the cursor icon is set by menu Indent attribute, by default 12px
+   ...HoverIcon       - The cursor icon in menu item under mouse cursor
+   ...ExpandedIcon    - Icon in expanded section (Expanded:1),  the menu item with Level and Items set; the width of the expanded  icon is set by menu Indent attribute, by default 12px 
+   ...CollapsedIcon   - Icon in collapsed section (Expanded:0), the menu item with Level and Items set; the width of the collapsed icon is set by menu Indent attribute, by default 12px  
+   ...NextIcon        - Icon on right side of item with submenu, the menu item with Menu:1 and Items set 
+   ...Rtl             - used instead in RTL text mode, shows the icon on the other side
+   @ Set background and for some icons padding-left or padding-right
+*/
+.GOMenuCheckedIconLeft { background:url(Menu.gif?v110) no-repeat -2px -51px; padding-left:14px; }
+.GOMenuCheckedIconRight { background:url(Menu.gif?v110) no-repeat right -51px; padding-right:16px; }
+.GOMenuUncheckedIconLeft { background:url(Menu.gif?v110) no-repeat -2px -1px; padding-left:14px; }
+.GOMenuUncheckedIconRight { background:url(Menu.gif?v110) no-repeat right -1px; padding-right:16px; }
+.GOMenuCheckedRadioLeft { background:url(Menu.gif?v110) no-repeat -2px -750px; padding-left:14px; }
+.GOMenuCheckedRadioRight { background:url(Menu.gif?v110) no-repeat right -750px; padding-right:16px; }
+.GOMenuUncheckedRadioLeft { background:url(Menu.gif?v110) no-repeat -2px -700px; padding-left:14px; }
+.GOMenuUncheckedRadioRight { background:url(Menu.gif?v110) no-repeat right -700px; padding-right:16px; }
+.GOMenuCursorIcon { background:url(Menu.gif?v110) no-repeat -6px -150px; }
+.GOMenuHoverIcon { background:url(Menu.gif?v110) no-repeat -6px -100px; }   
+.GOMenuCursorIconRtl { background:url(Menu.gif?v110) no-repeat right -1000px; }
+.GOMenuHoverIconRtl { background:url(Menu.gif?v110) no-repeat right -950px; }   
+.GOMenuExpandedIcon { background:url(Menu.gif?v110) no-repeat -6px -200px; }
+.GOMenuCollapsedIcon { background:url(Menu.gif?v110) no-repeat -6px -250px; }
+.GOMenuNextIcon { background:url(Menu.gif?v110) no-repeat right -300px; padding-right:10px; }
+.GOMenuNextIconRtl { background:url(Menu.gif?v110) no-repeat left -900px; padding-left:10px; }
+
+/* --- Menu item content --- */
+
+/* The classes are set to <td> tag of inner table that is used to display the item, if it has set Edit, Enum, Icon, LeftHtml or RightHtml attribute.   
+   @ Set text attributes and optionally background, border, padding and margin
+   ...ItemText - every menu item text or caption, it set to <div> tag inside the menu item and inside the menu icon or to <td> tag with item text in inner table
+   ...ItemLeftHtml - <td> tag in inner table displaying the LeftHtml content on the left side
+   ...ItemRightHtml - <td> tag in inner table displaying the RightHtml content on the right side
+   ...ItemIcon - <td> tag in inner table displaying the Icon as background image on the left side, also left to LeftHtml; @ Do not change
+   ...Level - added to the tags with ...ItemText, ...ItemIcon, ...ItemLeft/RightHtml for item with Level set
+   ...ItemDisabled - added to all the menu item parts for item with Disabled:1; @ Set opacity and background
+*/
+.GOMenuItemText,.GOMenuItemLeftHtml,.GOMenuItemRightHtml { font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; padding:1px 0px 1px 0px; white-space:nowrap; overflow:hidden; }
+.GOMenuItemIcon { background-repeat:no-repeat; }
+.GOMenuItemDisabled { opacity:0.50; filter:alpha(opacity=30); }
+.GOMenuLevel { color:blue; text-align:center; }  
+
+/* The Enum combo in item with Enum:1
+   ...EnumParent - <td> tag in inner table displaying the Enum combo for the Enum:1 item, on left or right side according to Left value
+   ...Enum - <div> tag inside the <td> tag ...EnumParent displaying the Enum combo
+   ...EnumHeader - is set to the <div> tag in Header of the popped up Enum menu
+*/
+.GOMenuEnumParent { padding-left:5px; padding-right:2px;}
+.GOMenuEnum,.GOMenuEnumHeader { font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; padding:1px 0px 1px 0px; white-space:nowrap; overflow:hidden; }
+.GOMenuEnum { border:1px solid #DDD; border-top:1px solid #666; border-left:1px solid #666; background:white url(Menu.gif?v110) no-repeat left -800px; padding-left:15px; }
+.GOMenuEnumHeader { background:url(Menu.gif?v110) no-repeat left -799px; padding:2px 0px 2px 15px; cursor:default; }
+
+/* The edit text in item with Edit:1
+   ...EditParent - <td> tag in inner table displaying the editable text for the Edit:1 item, on left or right side according to Left value; @ Set border, padding and background
+   ...Edit - <div> tag inside the <td> tag ...EditParent displaying the editable text; @ Set border, padding, background and text attributes 
+   ...EditIE is used instead of ...Edit in IE, in IE5 quirks mode
+   ...EditMulti - added to the ...Edit tag for item with set Multi:1, multi line edit, to be edited in <textarea>; @ Set border, background and text attributes
+   ...EditEdit - added to the ...Edit when editing the item text
+   ...EditText, ...EditInt, ...EditFloat, ...EditDate - added to the ...Edit tag and also to the <input> or <textarea> tag according to the Type attribute; @ Set text attributes
+   ...EditInput - set to <input> tag placed into ...Edit tag when editing the value; @ Set text attributes
+   ...EditTextarea - set to <textarea> tag placed into ...Edit tag when editing the value in item with Multi:1 set; @ Set text attributes
+*/
+.GOMenuEditParent { padding-left:5px; padding-right:2px; }
+.GOMenuEdit,.GOMenuEditIE {
+   font:11.9px/15px Verdana,Tahoma,"Trebuchet MS",sans-serif; background:white; overflow:hidden; white-space:nowrap; 
+   border:1px solid #DDD; padding-left:3px; padding-right:3px; height:15px;
+   }
+.GOMenuEditIE { height:17px; }
+.GOMenuEditMulti { white-space:normal; }
+.GOMenuEditEdit { background:#FFE0A0; }
+.GOMenuEditInput,.GOMenuEditTextarea { 
+   font:11.9px/15px Verdana,Tahoma,"Trebuchet MS",sans-serif; border:0px none; margin:0px; padding:0px; outline:none; background:#FFE0A0; box-sizing:content-box; resize:none; 
+   }
+.GOMenuEditInput::-ms-clear { height:13px; }
+.GOMenuEditInt,.GOMenuEditFloat,.GOMenuEditDate { text-align:right; } 
+.GOMenuEditText { }
+
+/* --- Special menu items --- */
+
+/* ...Caption - Inactive item, used instead of ...Item..., along width ...ItemText, shown for menu item with Caption:1; @ Set border, margin padding, background and text attributes
+   ...Separator - Separator between items, shown for menu item with Name:"-", used instead of ...Item...; @ Set border, margin, padding, background and height
+   ...VSeparator - <td> tag shown between columns of menu items; in children of menu item width Columns attribute set; @ Set border, padding, background and width 
+   ...Section - Tag around children of item width Level attribute set; @ Set border, margin, padding and background
+*/
+.GOMenuCaption { padding:2px; background:#ddd; color:blue; text-align:center; }
+.GOMenuSeparator { margin:3px 3px 2px 3px; height:1px; border-top:1px solid #aaaaaa; overflow:hidden; }
+.GOMenuVSeparator { border-right:1px solid #DDD; }
+.GOMenuSection  { }
+
+/* -----------------------------------------------  Filter operator menu ---------------------------------------------------- */
+
+/* Redefines standard popup ...Menu... attributes as ...FilterMenu... 
+*/
+.GOFilterMenuMain { margin-left:-2px; margin-top:-2px; }
+.GOFilterMenuOuterTop { }
+.GOFilterMenuOuterBottom { }
+.GOFilterMenuHeaderBottom { margin-left:-2px; margin-top:-1px; padding:2px 1px 0px 3px; border-bottom:0px none; }
+.GOFilterMenuHeaderTop { margin-left:-2px; margin-top:-2px; padding:2px 1px 1px 3px; border-top:0px none; }
+.GOFilterMenuShadow { margin-left:2px; }
+.GOFilterMenuItem,.GOFilterMenuItemHover,.GOFilterMenuFocus,.GOFilterMenuFocusHover { }
+
+/* ----------------------------------------------------  Enum menu ---------------------------------------------------------- */
+
+/* ...EnumMenu... redefine particular popup menu ...Menu... classes for Enum type popup menu
+   ...EnumHeader... is used inside popup menu header ...EnumMenuHeader tag and shows the Enum icon on left or right side or nowhere; @ Set background, padding and text attributes and optionally border and margin
+*/
+.GOEnumMenuHeader { background:white; }
+.GOEnumMenuHeaderBottom { padding-top:1px; }
+.GOEnumMenuHeaderTop { padding-bottom:1px; }
+
+.GOEnumHeaderLeft,.GOEnumHeaderRight,.GOEnumHeaderNone { 
+   background:white; font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; padding:2px 4px 2px 2px; white-space:nowrap; cursor:pointer; 
+   }
+.GOEnumHeaderLeft { background:white url(Menu.gif?v110) no-repeat 1px -799px; padding-left:17px; }
+.GOEnumHeaderRight { background:white url(Menu.gif?v110) no-repeat right -799px; padding-right:17px;}
+
+/* --------------------------------------------------  Button List menu ------------------------------------------------------ */
+
+/* ...ToolMenu... redefine particular popup menu ...Menu... classes for Button type with List attribute popup menu
+   ...ToolHeader... is used inside popup menu header ...ToolMenuHeader tag for row Space='-1' (Above), Space='5' (Below) and others; @ Set background, padding and text attributes and optionally border and margin
+*/
+.GOToolMenuMain { margin-left:-1px; }
+.GOToolMenuHeader { margin-left:-1px; }
+.GOToolMenuItem { }
+.GOToolMenuOuter { background:#E9E9E9; }
+.GOToolMenuBody { border:1px solid #D4D4D4; }
+
+.GOToolHeader,.GOToolHeaderAbove,.GOToolHeaderBelow { border:none; padding:1px 5px 100px 4px; }
+.GOToolHeaderAbove { padding-top:2px; padding-left:5px; }
+.GOToolHeaderBelow { padding-top:1px; padding-left:5px; }
+
+/* -------------------------------------------  Grid configuration menus --------------------------------------------------- */
+
+/* Special settings for Cfg and Columns TreeGrid menus; override the standard menu settings defined above */
+.GOCfgMenuOuter,.GOColumnsMenuOuter { border:1px solid #CBCBCB; padding:6px; }
+.GOCfgMenuHead,.GOColumnsMenuHead { border-color:#CBCBCB; }
+.GOCfgMenuBody,.GOColumnsMenuBody { border-color:#CBCBCB; }
+.GOCfgMenuFoot,.GOColumnsMenuFoot { border-color:#CBCBCB; }
+.GOCfgMenuButton { width:74px; } 
+.GOColumnsMenuButton { }
+.GOCfgMenuItemText { padding-left:3px; }
+.GOColumnsMenuItemText { padding-left:3px; white-space:nowrap; }
+.GOCfgMenuItem,.GOColumnsMenuItem { }
+.GOCfgMenuItemHover,.GOColumnsMenuItemHover { }
+.GOCfgMenuFocus,.GOCfgMenuFocusHover,.GOColumnsMenuFocus,.GOColumnsMenuFocusHover { }
+.GOCfgMenuItemTouch,.GOColumnsMenuItemTouch { }
+.GOCfgMenuItemHoverTouch,.GOColumnsMenuItemHoverTouch { }
+.GOCfgMenuFocusTouch,.GOCfgMenuFocusHoverTouch,.GOColumnsMenuFocusTouch,.GOColumnsMenuFocusHoverTouch { }
+
+/* ----------------------------------------------  Popup grid dialog ------------------------------------------------------- */
+
+/* Special settings for Popup grid shown by Dates button or ShowPopupGrid API method; overrides the standard dialog settings defined above */
+.GOPopupGridOuter { overflow:visible; }
+.GOPopupGridHead { padding:0px; }
+.GOPopupGridBody { padding:0px; border:0px none; }
+.GOPopupGridFoot { padding:0px; }
+.GOPopupGridButton { width:50px; margin-top:-2px; margin-bottom:3px; } 
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                       Calendar dialog                                                   */
+/*                                                            TGLib                                                        */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* --- Main calendar classes --- */
+
+/* Added to main menu / dialog classes ...Menu... as ...Pick...
+   ...Main - Main absolute <div> tag; @ Do not change 
+   ...Shadow - Shadow <div> tag displayed under ...Main tag, on the same position and size. @ Set margin for the shadow shift, background, opacity and border
+   ...Outer - <div> tag inside the main tag, contains the whole calendar. @ Set background, border and padding
+   ...Body - <div> inside ...Outer, contains the whole calendar, including buttons; @ Set background, border, padding and margin  
+*/      
+.GOPickMain { position:absolute; left:0px; top:0px; z-index:258; }
+.GOPickShadow { position:absolute; background:#888; z-index:257; margin-left:3px; margin-top:3px; opacity:0.5; filter:alpha(opacity=50); }   
+.GOPickOuter { border:1px solid #ccc; overflow:hidden; }
+.GOPickBody { cursor:default; border:none; }
+
+/* --- Other standard dialog parts' classes, NOT shown by default  --- */
+
+/* Added to main menu / dialog classes ...Menu... as ...Pick...
+   ...Header is shown outside the calendar dialog in place of the source tag. Used only if set Header attribute. @ Set margin to shift the header, border, padding and background
+   ...HeaderTop is added to ...Header when the calendar is shown above the header, ...HeaderBottom is added to ...Header when the calendar is shown below the header
+   ...Head is set to calendar top section. Used only if set Head attribute. @ Set border, margin, padding, background and text attributes
+   ...Close is close icon set <div> tag inside the ...PickHead. Used only if set Head attribute. Can be hidden by setting HeadClose:0; @ Set background, width and height
+   ...Foot is set to calendar bottom section. Used only if set Foot attribute. It does NOT show calendar buttons. @ Set border, margin, padding, background and text attributes
+*/
+.GOPickHeader { 
+   position:absolute; z-index:258; border:1px solid #ccc; background:white; 
+   font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; overflow:hidden; cursor:pointer; 
+   }
+.GOPickHeaderBottom { border-bottom:0px none; padding-bottom:1px; }
+.GOPickHeaderTop { border-top:0px none; padding-top:1px; }
+.GOPickHead,.GOPickFoot { background:#F4F4F4; border:0px none; font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; cursor:default; }
+.GOPickHead { padding:3px 0px 4px 5px; }
+.GOPickFoot { padding:4px 0px 3px 5px; }  
+.GOPickClose { float:right; width:14px; cursor:pointer; display:none; background:url(Menu.gif?v110) no-repeat right -353px; }
+
+/* --- The calendar header showing month and year --- */
+
+/* ...PickMY - the whole header tag showing the month and year; @ Set border, padding, margin, background and text attributes
+   ...PickMYDown - shown inside PickMY to display icon down in the first calendar table; @ Set background and padding-right
+   ...PickMYUp - shown inside PickMY to display icon up in the second calendar table; @ Set background and padding-right
+   ...PickMYRtl - added to ...PickMYUp and ...PickMYDown in RTL mode; @ Set padding-left
+   ...PickBL - previous month icon, ...PickBR - next month icon; @ Set background, width and height
+*/
+.GOPickMY { 
+   background:white; padding:4px 0px 4px 0px; 
+   font:bold 11.5px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; cursor:default; text-align:center; 
+   }   
+.GOPickMYDown { padding-right:13px; background:url(Menu.gif?v110) no-repeat right -400px; cursor:pointer; }
+.GOPickMYUp { padding-right:13px; background:url(Menu.gif?v110) no-repeat right -450px; cursor:pointer; }
+.GOPickMYRtl { padding-right:0px; padding-left:13px; }
+.GOPickBL,.GOPickBR { width:24px; height:14px; margin-top:2px; padding-top:3px; overflow:hidden; cursor:pointer; display:none; }
+.GOPickBL { float:left; background:url(Menu.gif?v110) no-repeat left -500px; }
+.GOPickBR { float:right; background:url(Menu.gif?v110) no-repeat right -550px; }
+
+/* --- The first calendar table with days --- */
+
+/* ...PickTableParent - <div> tag containing the whole table; @ Set border, padding, margin and background 
+   ...PickTable - <table> tag inside ...PickTableParent; @ Do not change
+   ...PickRow - <tr> tags with individual day numbers; @ Set background and optionally height
+   ...PickRowW - top <tr> tag with week day names; @ Set background and optionally height
+   ...PickCell - <td> tags with day numbers or week names; @ Set width and optionally background, padding and height
+   ...PickCellTouch - added to ...PickCell on tablet
+*/
+.GOPickTableParent { padding:5px 13px 5px 13px; }
+.GOPickTable { table-layout:fixed; width:0px; }
+.GOPickRow { background:#F4F4F4; }
+.GOPickRowW { background:#F4F4F4; }
+.GOPickRowW > td { }
+.GOPickCell { width:26px; }
+.GOPickCellTouch { width:32px; }
+
+/* Individual day cells in the first calendar table; only one class per tag is set (except added ...PickTouch). <div> tags inside <td> tag.
+   @ Set background, border, margin, padding, height and text attributes
+   @ All the classes should have the same height and should not be wider than ...PickCell to avoid blinking the calendar cells on mouse actions
+   ...PickWDN - week day name in top row
+   ...PickWN  - week number in left column 
+   ...PickWNE - not selectable week number in left column
+   ...PickWD  - work day number
+   ...PickSa  - Saturday number
+   ...PickSu  - Sunday number
+   ...PickOM  - Day number from another month
+   ...PickNow - Today number
+   ...PickSel - Selected day number
+   ...NE      - any not selectable day number
+   ...PickHover - Any not selected day number under mouse cursor
+   ...PickSelHover - Selected day number under mouse cursor
+   ...PickEmpty - top left button in <div> tag to select empty date; @ Set background and height
+   ...PickTouch - class added to every tag on tablet; @ Set line-height
+*/
+.GOPickWDN { margin:1px 2px 1px 2px; padding-top:2px; font:11px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; text-align:center; cursor:default; }
+.GOPickHover,.GOPickSelHover,.GOPickWD,.GOPickSa,.GOPickSu,.GOPickSel,.GOPickNow,.GOPickWDNE,.GOPickSaNE,.GOPickSuNE,.GOPickSelNE,.GOPickNowNE,.GOPickOM,.GOPickOMNE,.GOPickWN,.GOPickWNE {
+   margin:2px 3px 2px 3px; padding:1px; border:1px solid white; border-right:1px solid #D4D4D4; border-bottom:1px dotted #CBCBCB; 
+   font:11px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; text-align:center; cursor:pointer;
+   }
+.GOPickWN,.GOPickWNE { 
+   border:0px none; margin:0px; padding:3px 4px 3px 4px; background:none; 
+   color:#AAA;
+   }
+.GOPickWNE { cursor:default; }
+.GOPickWDNE,.GOPickSaNE,.GOPickSuNE,.GOPickSelNE,.GOPickNowNE { cursor:default; text-decoration:line-through; }
+.GOPickWD { background-color:white; }
+.GOPickSa { border:1px solid #9cf; background-color:#9cf; color:white; }
+.GOPickSu { border:1px solid #09C; background-color:#09C; color:white; }
+.GOPickSel { border:2px solid #09C; padding:0px; background-color:white; font-weight:bold; }
+.GOPickSelNE { background-color:#ffd; }
+.GOPickNow { border:2px solid #9cf; padding:0px; background-color:white; font-weight:bold; }
+.GOPickNowNE { background-color:#ffe0ff; }
+.GOPickOM { background-color:none; color:black; }
+.GOPickOMNE { color:#aaaaaa; cursor:default; text-decoration:line-through; }
+.GOPickEmpty { background:url(Menu.gif?v110) no-repeat center -1050px; cursor:pointer; _cursor:hand; height:20px; }
+.GOPickHover { background-color:#ddd; border:1px solid #09C; }
+.GOPickSelHover { background-color:#ddd;  border:2px solid #09C; padding:0px; font-weight:bold; }
+.GOPickTouch { line-height:18px; }
+
+/* --- The second calendar table with months and years --- */
+
+/* ...Pick2TableParent - <div> tag containing the whole table; @ Set border, padding, margin and background 
+   ...Pick2Table - <table> tag inside ...Pick2TableParent; @ Do not change
+   ...Pick2Row - <tr> tags with the cells: 2 months, separator and 2 years; @ Set background and optionally height
+   ...Pick2CellM - <td> tags with month names; @ Set height, width and optionally background and padding
+   ...Pick2CellY - <td> tags with year numbers; @ Set height, width and optionally background and padding
+   ...Pick2CellSep - <td> tag, separator between months and years section; @ Set height, width and optionally background and padding
+   ...Pick2SepH - separator between the calendar header ...PickMY and calendar body ...Pick2TableParent; @ Set height to synchronize heights of both calendar dialogs
+   ...Touch - added to ...Pick2Cell... on tablet
+*/
+.GOPick2TableParent { padding:2px 3px 2px 3px; }
+.GOPick2Table { table-layout:fixed; width:0px; }
+.GOPick2Row { }
+.GOPick2CellM { height:25px; width:70px; }
+.GOPick2CellMTouch { height:30px; width:80px; }
+.GOPick2CellY { height:25px; width:38px; }
+.GOPick2CellYTouch { height:30px; width:50px; }
+.GOPick2CellSep { height:25px; width:8px; }
+.GOPick2CellSepTouch { height:30px; width:5px; }
+.GOPick2SepH { width:1px; height:2px; overflow:hidden; }
+.GOPick2SepHTouch { height:4px; }
+
+/* Individual cells, <div> tag inside <td> tag
+   @ Set background, border, margin, padding, height and text attributes
+   @ All the classes should have the same height and should not be wider than ...Pick2Cell... to avoid blinking the calendar cells on mouse actions
+   ...Pick2M - month name; ...Pick2Y - year number; ...Sel - selected cell; ...Hover - cell under mouse cursor; ...SelHover - selected cell under mouse cursor
+   ...Pick2Touch - class added to every tag on tablet; @ Set line-height
+*/
+.GOPick2M,.GOPick2Y,.GOPick2MSel,.GOPick2YSel,.GOPick2MHover,.GOPick2YHover,.GOPick2MSelHover,.GOPick2YSelHover {
+   margin:0px 1px 0px 1px; padding:3px 1px 3px 1px; border:1px solid white; border-right:1px solid #D4D4D4; border-bottom:1px dotted #CBCBCB; background:white;
+   font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; cursor:pointer; text-align:center; overflow:hidden;
+   }
+.GOPick2MSel,.GOPick2YSel { border:2px solid #09C; padding:1px 0px 1px 0px; background-color:white; }
+.GOPick2MHover,.GOPick2YHover { background:#DDD; padding:1px 0px 1px 0px; border:1px solid #09C; }
+.GOPick2MSelHover,.GOPick2YSelHover { background:#ddd; }
+.GOPick2Touch { line-height:18px; }
+
+/* Special cells, <div> tag inside <td> tag
+   ...Pick2Sep - separator between months and years; @ Set height, width, background, border, margin, padding
+   ...Pick2SepTouch - class added to ...Pick2Sep on tablet; @ Set height
+   ...Pick2BL - button (<div> tag) showing previous 5 years; @ Set background, width and height
+   ...Pick2BR - button (<div> tag) showing next 5 years; @ Set background, width and height
+*/
+.GOPick2Sep { }
+.GOPick2SepTouch { }
+.GOPick2BL,.GOPick2BR { width:34px; cursor:pointer; height:23px; }
+.GOPick2CellYTouch .GOPick2BL,.GOPick2CellYTouch .GOPick2BR { margin-left:5px; }
+.GOPick2BL { background:url(Menu.gif?v110) no-repeat center -597px; }
+.GOPick2BR { background:url(Menu.gif?v110) no-repeat center -647px; }
+
+/* --- The calendar footer with time --- */
+
+/* Shown when EditFormat contains time definition (H or h or m or s); it is not shown for Range cells
+   For custom calendar it is shown if set TimeFormat attribute; it is not shown if set Multi:1
+   ...PickTimeCell - the whole calendar footer (<div> tag) on the same level as ...PickTableParent; @ Set border, padding, margin, background and text-align
+   ...PickTime - set to <input> tag inside ...PickTimeCell; @ Set text attributes
+*/
+.GOPickTimeCell { padding:8px 5px 8px 0px; background:white; text-align:right; line-height:0px; }
+.GOPickTime {
+   font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; background:white; 
+   margin:0px; padding:0px; border:0px none; white-space:nowrap; text-align:right; outline:none; 
+   }
+
+/* --- The calendar footer with buttons --- */
+
+/* Contains buttons like OK, Today, Clear; shown for Range cells or when set CalendarButtons; For custom calendar is shown for Multi and for Buttons set.
+   ...PickFooter is the whole first calendar footer (<div> tag) on the same level as ...PickTableParent; @ Set border, padding, margin, background and text-align
+   ...Pick2Footer is the whole second calendar footer (<div> tag) on the same level as ...Pick2TableParent; @ Set border, padding, margin, background and text-align
+   ...PickButton is set to <button> tags; @ Set border, margin, padding, background, width, height and text attributes
+   ...PickButtonHover is added when the <button> tag is under mouse cursor; @ Set border, margin, padding, background, width, height and text attributes 
+*/
+.GOPickFooter,.GOPick2Footer { 
+   background:white; padding-top:2px; padding-bottom:2px; cursor:default; text-align:center; 
+   }
+.GOPickButton {
+   width:64px; margin:4px; padding:1px 0px 1px 0px;
+   font:11.9px Arial,Helvetica,sans-serif; text-align:center; white-space:nowrap; overflow:hidden;  
+   }
+.GOPickButtonHover { }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                       TGLib special classes not used in TreeGrid                                        */
+/*                                                            TGLib                                                        */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* --- Edit control (TGLib only) --- */
+
+/* ...EditParent is set to temporary parent div tag if the edit is shown on given position, not inside tag; @ Do not change
+   ...Edit is set to the TGLib Edit control tag (cc="Edit"); @ Set border, margin, padding, background and text attributes
+   ...EditInline is set instead if the TGLib Edit control tag has display:inline; @ Set side border, margin, padding, background and text attributes
+   ...EditMulti is added for control with Multi:1 as multiline edit in <textarea>; @ Set border, margin, padding, background and text attributes
+*/
+.GOEditParent { position:absolute; z-index:258; overflow:hidden; }
+.GOEdit,.GOEditInline {
+   padding:2px 4px 2px 4px; font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif;
+   border:1px solid #CCC; background:#EEE; white-space:nowrap; overflow:hidden;
+   }
+.GOEditInline { display:inline-block; vertical-align:bottom; }
+.GOEditMulti { white-space:normal; }
+
+/* --- Enum control (TGLib only) --- */
+
+/* ...EnumControl is set to the TGLib Enum control tag (cc="Enum"); @ Set border, margin, padding, background and text attributes
+   ...EnumInline is set instead if the TGLib Enum control tag has display:inline; @ Set side border, margin, padding, background and text attributes
+   ...EnumHeader is used inside popup menu header ...MenuHeader tag and shows the Enum icon on left side; @ Set background, padding and text attributes and optionally border and margin
+*/
+.GOEnumControl,.GOEnumInline {
+   background:#EEE url(Menu.gif?v110) no-repeat left -800px; overflow:hidden; font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; cursor:pointer;
+   padding:2px 4px 2px 15px; border:1px solid #CCC;
+   }
+.GOEnumInline { display:inline-block; vertical-align:bottom; }
+.GOEnumHeader { background:white url(Menu.gif?v110) no-repeat left -798px; font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; cursor:pointer; padding:2px 4px 2px 15px; }
+
+/* --- Mouse dragging (TGLib only) --- */
+
+/* ...MouseOrig is set to original tag being dragged by mouse, when copying the tag
+   ...DragObject is set to ghost tag being dragged by mouse, when copying the tag
+*/
+.GOMouseOrig { background:yellow!important; opacity:0.5; filter:alpha(opacity=50); }
+.GOMouseDragObject { position:absolute; z-index:260; background:#888; opacity:0.5; filter:alpha(opacity=50); }
+
+/* --- Focused control (TGLib only) --- */
+
+.GOFocus { border:1px solid blue; background-color:white; } 
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                Cell tooltips -  Hint and Tip                                            */
+/*                                                TreeGrid (Hint) / TGLib (Tip)                                            */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ------------------- Hint ------------------- */
+
+/* Hint is shown in place of the cell content if the cell content is not shown the whole 
+   ...Main is the <div> tag absolutely positioned containing the whole hint; @ Set margin to shift the hint and background, border and padding
+   ...Outer is added to inner <div> inside ...Main along with all the cell css classes; @ Carefully set the attributes to override the cell settings
+   ...Shadow is set to <div> tag displayed under hint ...Main tag, on the same position and size; @ Set margin for the shadow shift, background, opacity and border
+   ...Header... is added to ...Main, ...Outer and ...Shadow for Header row (for every row is added ...xxx..., where xxx is the row Kind and for Header is Header)
+   ...SpaceEdit is added to ...Main, ...Outer and ...Shadow for editable Space cell (for Space cell is added also the ...xxx... as for row Kind along with the ...SpaceEdit...)
+   ...Space... is added to ...Main, ...Outer and ...Shadow for not editable Space cell (for Space cell is added also the ...xxx... as for row Kind along with the ...Space...)
+*/
+.GOHintMain {
+   position:absolute; margin-left:-2px; margin-top:-2px; padding-left:1px; padding-top:1px; left:0px; top:0px; z-index:260; 
+   background:white; cursor:default; border:1px dotted #CBCBCB; 
+   }
+.GOHintHeaderMain { }
+.GOHintSpaceMain { margin-left:-1px; margin-top:-1px; padding:0px; overflow:hidden; }
+.GOHintSpaceEditMain { border:0px none; background:none; margin-left:0px; margin-top:0px; padding:0px; overflow:hidden; }
+.GOHintOuter { overflow:hidden; background:white; color:black; text-align:left; border-color:white; }
+.GOHintSpaceOuter { margin-left:-1px; margin-top:-1px; }
+.GOHintSpaceEditOuter { }
+.GOHintHeaderOuter { background:#E9E9E9; }
+.GOHintShadow { position:absolute; margin-left:2px; margin-top:2px; z-index:259; background:#888; opacity:0.3; filter:alpha(opacity=30); }
+.GOHintSpaceShadow { margin-left:4px; margin-top:4px; }
+.GOHintSpaceEditShadow { margin-left:4px; margin-top:4px; }
+
+/* ------------------- Tip ------------------- */
+
+/* Tip is shown below mouse cursor on mouse hover the cell; Used only if set <Cfg StandardTip='0'/>
+   ...Main - main tip <div> tag absolutely positioned; @ Do not change
+   ...Outer - outer tip <div> tag inside ...Main, has set maximal width to overflow long text; @ Set border, margin, padding, background
+   ...Body - inner tip <div> tag inside ...Outer; @ Set text attributes and optionally border, margin, padding and background
+   ...Shadow - <div> tag displayed under tip ...Main tag, on the same position and size; @ Set margin for the shadow shift, background, opacity and border
+*/
+.GOTipMain { position:absolute; left:0px; top:0px; z-index:262; visibility:hidden; }
+.GOTipOuter { background:#f4f4f4; border:1px solid #d0d0d0; padding:3px; overflow:hidden; cursor:default; }
+.GOTipBody { font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; white-space:nowrap; }
+.GOTipShadow { position:absolute; margin-left:3px; margin-top:3px; z-index:261; background:#888; opacity:0.3; filter:alpha(opacity=30); visibility:hidden; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                 Line chart (cell type Chart)                                            */
+/*                                                            TGLib                                                        */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ...Chart - cell type, <td> tag; @ Set border, padding and background
+   ...ChartInner - inner <div> tag containing the whole chart; @ Set background
+   ...ChartLayer - individual chart layers, <div> tags, one per TChartLine, one for Axis and one for Caption; @ Do not change
+   ...ChartAxisY - horizontal axis, <div> tag; @ Set height and background
+   ...ChartAxisX - vertical axis, <div> tag; @ Set width and background
+   ...ChartAxisYLabel, ...ChartAxisXLabel - <div> tag with labels for X and Y axes; @ Set background
+   ...ChartAxisYText, ...ChartAxisXText - <div> tag inside ...Label; @ Set text attributes and optionally background, border, margin and padding
+   ...ChartCaption - chart top caption, <div> tag; @ Set background, border, padding and text attributes
+*/
+.GOChart { padding:5px; }
+.GOChartInner { background:white; width:100%; }
+.GOChartLayer { overflow:hidden; height:1000px; }
+.GOChartAxisY { background:black; height:1px; overflow:hidden; }
+.GOChartAxisYLabel { overflow:hidden; }
+.GOChartAxisYText { margin-right:5px; margin-top:12px; text-align:right; font:12px/14px Arial,Helvetica,sans-serif; }
+.GOChartAxisX { width:1px; overflow:hidden; background:black; }
+.GOChartAxisXLabel { overflow:hidden; }
+.GOChartAxisXText { text-align:center; font:12px/14px Arial,Helvetica,sans-serif; }
+.GOChartCaption { text-align:center; font:12px/14px Arial,Helvetica,sans-serif; margin-top:3px; }
+
+/* Individual chart points for PointType value; @ Set only background 
+   ...Hover is added to point under mouse cursor
+*/
+.GOChartPoint1,.GOChartPoint2,.GOChartPoint3,.GOChartPoint4,.GOChartPoint5,.GOChartPoint6,.GOChartPoint7,.GOChartPoint8 {
+   background:url(Gantt.gif?v110) no-repeat; width:32px; height:32px; overflow:hidden; 
+   }
+.GOChartPoint1 { background-position:-892px 7px; }
+.GOChartPoint1Hover { background-position:-942px 7px; }
+.GOChartPoint2 { background-position:-992px 7px; }
+.GOChartPoint2Hover { background-position:-1042px 7px; }
+.GOChartPoint3 { background-position:-1092px 7px; }
+.GOChartPoint3Hover { background-position:-1142px 7px; }
+.GOChartPoint4 { background-position:-1192px 7px; }
+.GOChartPoint4Hover { background-position:-1242px 7px; }
+.GOChartPoint5 { background-position:-1292px 7px; }
+.GOChartPoint5Hover { background-position:-1342px 7px; }
+.GOChartPoint6 { background-position:-1392px 7px; }
+.GOChartPoint6Hover { background-position:-1442px 7px; }
+.GOChartPoint7 { background-position:-1492px 7px; }
+.GOChartPoint7Hover { background-position:-1542px 7px; }
+.GOChartPoint8 { background-position:-1592px 7px; }
+.GOChartPoint8Hover { background-position:-1642px 7px; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                      Custom scrollbars                                                  */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* Custom scrollbars shown if set CustomScroll (always) or CustomHScroll (for horizontal scrollbar only) or TouchScroll (on tablet only)
+   There are four scrollbar types for CustomScroll values 1 - 4 for different sizes, 1 - standard size, 2 - wide scrollbar, 3 - thin scrollbar, 4 - hidden scrollbar
+*/
+
+/* --- Horizontal scrollbars --- */
+
+/* ...RightHidden - shown instead of ...Right if the column section does not need to show scrollbar (but the other sections do) 
+      It is used also to calculate scrollbar height; @ Set height and background and optionally border and margin
+   ...Right - <div> tag placed inside ...HScroll... tag to show the right side arrow button; @ Set padding-right and background and optionally border, padding and margin
+   ...RightHover - used instead of ...Right under mouse cursor, to highlight the right side button
+   ...Left - <div> tag placed inside ...Right to show the left side arrow button; @ Set padding-left and background
+   ...LeftHover - used instead of ...Left under mouse cursor, to highlight the left side button
+   ...SliderRight - <div> tag placed inside ...Left... tag to show the right edge of the slider; @ Set padding-right and background and optionally border, padding and margin
+   ...SliderRightHover - used instead of ...SliderRight under mouse cursor, to highlight the right edge of the slider
+   ...SliderLeft - <div> tag placed inside ...SliderRight to show the left edge of the slider; @ Set padding-left and background
+   ...SliderLeftHover - used instead of ...SliderLeft under mouse cursor, to highlight the left edge of the slider
+   ...SliderHIn - <div> tag placed inside ...SliderLeft to show the body of the slider; Controls height of the whole scrollbar; 
+      @ Set height and background; The height must be height of ...RightHidden minus all vertical padding,border and margin of the ...Right, ...Left, ...SliderRight, ...SliderLeft and ...SliderHIn
+   ...SliderHInHover - used instead of ...SliderHIn under mouse cursor, to highlight the body of the slider
+   ...X - shown in the horizontal scrollbars row in place of vertical scrollbar; @ Set background
+*/
+.GOCustScroll1RightHidden { background:url(VScroll.gif?v110) left -108px; height:17px; }
+.GOCustScroll1Right { padding-right:17px; background:url(VScroll.gif?v110) right 0px; }
+.GOCustScroll1RightHover { padding-right:17px; background:url(VScroll.gif?v110) right -18px; }
+.GOCustScroll1Left { padding-left:17px; background:url(VScroll.gif?v110) left 0px; }
+.GOCustScroll1LeftHover { padding-left:17px; background:url(VScroll.gif?v110) left -18px; }
+.GOCustScroll1SliderRight { background:url(VScroll.gif?v110) right -36px; padding-right:1px; }
+.GOCustScroll1SliderRightHover { background:url(VScroll.gif?v110) right -72px; padding-right:1px; }
+.GOCustScroll1SliderLeft { background:url(VScroll.gif?v110) left -36px; padding-left:1px; }
+.GOCustScroll1SliderLeftHover { background:url(VScroll.gif?v110) left -72px; padding-left:1px; }
+.GOCustScroll1SliderHIn { height:17px; overflow:hidden; background:url(VScroll.gif?v110) center -54px; }
+.GOCustScroll1SliderHInHover { height:17px; overflow:hidden; background:url(VScroll.gif?v110) center -90px; }
+.GOCustScroll1X { background:#F4F4F4; cursor:default; }
+
+.GOCustScroll2RightHidden { background:url(VScroll.gif?v110) left -364px; height:34px; }
+.GOCustScroll2Right { padding-right:36px; background:url(VScroll.gif?v110) right -148px; }
+.GOCustScroll2RightHover { padding-right:36px; background:url(VScroll.gif?v110) right -184px; }
+.GOCustScroll2Left { padding-left:36px;  background:url(VScroll.gif?v110) left -148px; }
+.GOCustScroll2LeftHover { padding-left:36px;  background:url(VScroll.gif?v110) left -184px; }
+.GOCustScroll2SliderRight { background:url(VScroll.gif?v110) right -220px; padding-right:2px; }
+.GOCustScroll2SliderRightHover { background:url(VScroll.gif?v110) right -292px; padding-right:2px; }
+.GOCustScroll2SliderLeft { background:url(VScroll.gif?v110) left -220px; padding-left:2px; }
+.GOCustScroll2SliderLeftHover { background:url(VScroll.gif?v110) left -292px; padding-left:2px; }
+.GOCustScroll2SliderHIn { height:34px; overflow:hidden; background:url(VScroll.gif?v110) center -256px; }
+.GOCustScroll2SliderHInHover { height:34px; overflow:hidden; background:url(VScroll.gif?v110) center -328px; }
+.GOCustScroll2X { background:#F4F4F4; cursor:default; }
+
+.GOCustScroll3Right,.GOCustScroll3RightHidden { background:white; height:8px; }
+.GOCustScroll3SliderRight,.GOCustScroll3SliderRightHover { padding-right:3px; height:9px; background:url(VScroll.gif?v110) right -126px; }
+.GOCustScroll3SliderRightHover { background-position:right -135px; }
+.GOCustScroll3SliderLeft,.GOCustScroll3SliderLeftHover { height:8px; background:url(VScroll.gif?v110) left -126px; }
+.GOCustScroll3SliderLeftHover { background-position:left -135px; }
+.GOCustScroll3X { background:white; cursor:default; }
+
+.GOCustScroll4Right,.GOCustScroll4RightHidden,.GOCustScroll4SliderRight,.GOCustScroll4SliderRightHover { height:1px; }
+.GOCustScroll4X { }
+
+/* --- Vertical scrollbars --- */
+
+/* ...DownHidden - shown instead of ...Down if the grid does not need to show scrollbar and ShowVScroll='1' is set 
+      It is used also to calculate scrollbar width; @ Set width and background and optionally border and margin
+   ...Down - <div> tag placed inside ...VScroll tag to show the bottom side arrow button; @ Set padding-bottom and background and optionally border, padding and margin
+   ...DownHover - used instead of ...Down under mouse cursor, to highlight the bottom side button
+   ...Up - <div> tag placed inside ...Down to show the top side arrow button; @ Set padding-top and background
+   ...UpHover - used instead of ...Up under mouse cursor, to highlight the top side button
+   ...SliderDown - <div> tag placed inside ...Up... tag to show the bottom edge of the slider; @ Set padding-bottom and background and optionally border, padding and margin
+   ...SliderDownHover - used instead of ...SliderDown under mouse cursor, to highlight the bottom edge of the slider
+   ...SliderUp - <div> tag placed inside ...SliderDown to show the top edge of the slider; @ Set padding-top and background
+   ...SliderUpHover - used instead of ...SliderUp under mouse cursor, to highlight the top edge of the slider
+   ...SliderVIn - <div> tag placed inside ...SliderUp to show the body of the slider; @ Set background
+   ...SliderVInHover - used instead of ...SliderVIn under mouse cursor, to highlight the body of the slider
+*/
+.GOCustScroll1DownHidden { background:url(HScroll.png?v110) -108px top; width:17px; }
+.GOCustScroll1Down { padding-bottom:17px; background:url(HScroll.png?v110) 0px bottom; }
+.GOCustScroll1DownHover { padding-bottom:17px; background:url(HScroll.png?v110) -18px bottom; }
+.GOCustScroll1Up { padding-top:17px; background:url(HScroll.png?v110) 0px top; }
+.GOCustScroll1UpHover { padding-top:17px;  background:url(HScroll.png?v110) -18px top; }
+.GOCustScroll1SliderDown { background:url(HScroll.png?v110) -36px bottom; padding-bottom:1px; }
+.GOCustScroll1SliderDownHover { background:url(HScroll.png?v110) -72px bottom; padding-bottom:1px; }
+.GOCustScroll1SliderUp { background:url(HScroll.png?v110) -36px top; padding-top:1px; }
+.GOCustScroll1SliderUpHover { background:url(HScroll.png?v110) -72px top; padding-top:1px; }
+.GOCustScroll1SliderVIn { background:url(HScroll.png?v110) -54px center; }
+.GOCustScroll1SliderVInHover { background:url(HScroll.png?v110) -90px center; }
+
+.GOCustScroll2DownHidden { background:url(HScroll.png?v110) -364px top; width:34px; }
+.GOCustScroll2Down { padding-bottom:36px; background:url(HScroll.png?v110) -148px bottom; }
+.GOCustScroll2DownHover { padding-bottom:36px; background:url(HScroll.png?v110) -184px bottom; }
+.GOCustScroll2Up { padding-top:36px; background:url(HScroll.png?v110) -148px top; }
+.GOCustScroll2UpHover { padding-top:36px;  background:url(HScroll.png?v110) -184px top; }
+.GOCustScroll2SliderDown { background:url(HScroll.png?v110) -220px bottom; padding-bottom:2px; }
+.GOCustScroll2SliderDownHover { background:url(HScroll.png?v110) -292px bottom; padding-bottom:2px; }
+.GOCustScroll2SliderUp { background:url(HScroll.png?v110) -220px top; padding-top:2px; }
+.GOCustScroll2SliderUpHover { background:url(HScroll.png?v110) -292px top; padding-top:2px; }
+.GOCustScroll2SliderVIn { background:url(HScroll.png?v110) -256px center; }
+.GOCustScroll2SliderVInHover { background:url(HScroll.png?v110) -328px center; }
+
+.GOCustScroll3Down,.GOCustScroll3DownHidden { background:white; width:9px; }
+.GOCustScroll3SliderDown,.GOCustScroll3SliderDownHover { padding-bottom:3px; background:url(HScroll.png?v110) -126px bottom; }
+.GOCustScroll3SliderDownHover { background-position:-135px bottom; }
+.GOCustScroll3SliderUp,.GOCustScroll3SliderUpHover { background:url(HScroll.png?v110) -126px top; }
+.GOCustScroll3SliderUpHover { background-position:-135px top; }
+
+.GOCustScroll4Down,.GOCustScroll4DownHidden,.GOCustScroll4SliderDown,.GOCustScroll4SliderDownHover { width:0px; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                       System settings                                                   */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* --------------- Debug print ----------------- */
+/* ! Note, here is no .GO style prefix
+   Controls the default debug window shown bottom the page, controlled by <bdo Debug> attribute
+   ...Tag - <div> tag containing the debug print; @ Set position attributes, background, border and padding
+   ...TagMax - used instead of ...Tag when maximized by clicking to Max button
+   ...Buttons - <div> tag placed next to ...Tag to show the debug control buttons; @ Set position attributes, background, border and padding
+   ...ButtonsMax - used instead of ...Buttons when maximized by clicking to Max button
+*/
+.GridDebugTag,.GridDebugTagMax { overflow:auto; overflow-y:scroll; border:1px solid black; background:#DDD; }
+.GridDebugTag,.GridDebugTagMax,.GridDebugButtons,.GridDebugButtonsMax {
+   position:fixed; z-index:256; left:5px; right:5px; bottom:5px; height:200px; padding:4px;
+   position:absolute!IE;
+   left:expression((5+(document.compatMode=="CSS1Compat"?document.documentElement.scrollLeft:document.body.scrollLeft))+"px")!IE;
+   width:expression((-10+(document.compatMode=="CSS1Compat"?document.documentElement.clientWidth-8:document.body.clientWidth))+"px")!IE;
+   top:expression((-205+(document.compatMode=="CSS1Compat"?document.documentElement.scrollTop+document.documentElement.clientHeight-8:document.body.scrollTop+document.body.clientHeight))+"px")!IE;
+   }
+.GridDebugTagMax,.GridDebugButtonsMax {
+   top:5px; height:auto; 
+   top:expression((5+(document.compatMode=="CSS1Compat"?document.documentElement.scrollTop:document.body.scrollTop))+"px")!IE;
+   height:expression((-10+(document.compatMode=="CSS1Compat"?document.documentElement.clientHeight-8:document.body.clientHeight))+"px")!IE;
+   }
+.GridDebugButtons,.GridDebugButtonsMax {
+   text-align:right; margin-right:25px; width:130px; left:auto;
+   left:expression((-155+(document.compatMode=="CSS1Compat"?document.documentElement.clientWidth-8:document.body.clientWidth))+"px")!IE;
+   }
+
+/* Individual parts of the debug print
+   ...Button - one debug button, <button> tag placed inside ...Buttons; @ Set width, height, background, border, padding, margin and text attributes
+   ...Title - <span> tag with grid or print identification; @ Set text attributes and background
+   ...Mark - <span> tag that highlights some information, e.g. actual values; @ Set text attributes and background
+   ...Stop (0), ...Error (1), ...Warning (2), ...List (3), ...Info (>3) - <div> or <span> tag containing the information according to the debug level number; @ Set text attributes and background
+*/
+.GridDebugButton { font-size:10px; width:40px; padding:0px; }
+.GridDebugTitle { font-size:10px; color:blue; font-style:normal;font-weight:normal; }
+.GridDebugMark { font-weight:bold; }
+.GridDebugStop { font-size:18px; font-weight:bold; color:red; }
+.GridDebugError { font-size:12px; color:red; }
+.GridDebugWarning { font-size:12px; color:#A60;}
+.GridDebugList { font-size:10px; color:#888;}
+.GridDebugInfo { font-size:12px; }
+
+/* ------------------- Other settings ------------------- */
+
+/* Class added to <body> tag when printing grid to actual page or to new window (for PrintLocation != 2); @ Set any <body> attribute
+*/
+.GOBodyPrint { margin:0px!important; padding:0px!important; border:0px none!important; background:none!important; }
+
+/* Temporary tag used for some calculations; @ Do not change; ! Note, here is no .GO style prefix */
+.GridTmpTag { position:absolute; left:5px; top:5px; visibility:hidden; } 
+
+/* Tag added to disable whole page, e.g. when showing modal dialog. ! Note, here is no .GO style prefix
+   Note, to disable only the grid is used .GODisabled class instead (e.g. when showing message in grid).
+   @ Set background and opacity, optionally margin and padding
+*/
+.GridDisabled { position:absolute; z-index:256; background:white; opacity:0.5; filter:alpha(opacity=50); } 
+
+/* Tag where the grid is rendered and also where all the support absolute tags are rendered (e.g. cursors, dialogs or messages). ! Note, here is no .GO style prefix
+   @ Increase z-index if the grid or its menus or cursors are not shown as expected. But it is usually better to set <Cfg ZIndex/> instead.
+*/
+.GridMain { z-index:255; }
+
+/* Marks the style loaded; must be the last class in the file; @ Do not change */
+.GOLoaded { border:1px solid black!important; }

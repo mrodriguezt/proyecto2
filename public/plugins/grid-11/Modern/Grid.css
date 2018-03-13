@@ -1,0 +1,2525 @@
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                      TreeGrid CSS style                                                 */
+
+/*                                                         Modern style                                                    */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* To remove all the comments replace such RegEx: \/\*([^\*]|\n|\r)*\*\/|\s*\r\n?\s*(?=\r\n?)|\s+(?=[\{\}])|\s+(?=\r)
+
+   In the description, the sentence starting by "@" lists what only should be changed in the CSS class
+*/
+
+
+/* ------------- Group definition for all TreeGrid tags ------------- */
+
+/* ! Note, here is no style prefix, it is shared among all TreeGrid styles 
+   @ Set here default values for CSS attributes of tags <td>, <th>, <tr>, <table>, <tbody>, <div>, <span>, <u>,
+   if your global style sheet redefined them, especially attributes controlling size and measurement, otherwise TreeGrid will be switched to Safe CSS mode 
+*/
+.GridMain * { }
+
+/* ------------- Base tags ------------- */
+
+/* @ Do not change.
+   FF3 version is used for Firefox 3 - 19 due its slow bug in rendering table cells with different borders 
+*/
+.GMNone { display:none; }
+.GMSection,.GMSectionFF3 { table-layout:fixed; width:0px; font-size:0px; line-height:0px; }
+.GMSectionFF3 { border-collapse:collapse; }
+
+/* -------------- Main TreeGrid <table> tag, contains the table sections ------------------ */
+
+/* It controls border around the grid. 
+   @ Set margin, border and padding. 
+   Padding is ignored in IE7 strict, IE6 strict and IE5 quirks modes. 
+*/
+.GMMainTable { border:1px solid black; border-collapse:separate; text-align:left; background:white; padding:1px; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                        Grid sections                                                    */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* -------------- Table sections with cells, <div> tag inside <td> tag ------------------ */
+
+/* They control border and spaces between grid sections. 
+   @ Set border, padding and margin. Set them with relation to Splitters, Scrollbars and Space rows settings.
+   ...Head... (<Head> top fixed rows), ...Body... (<Body> variable rows), ...Foot... (<Foot> bottom fixed rows)
+   ...Left (<LefCols> left fixed columns), ...Mid (<Cols> variable columns), ...Right (<RightCols> right fixed columns)
+!! Sections on horizontal direction (...Left, ...Mid, ...Right) must have the same height (border+padding+margin)
+!! Sections on vertical direction (...Head..., ...Body..., ...Foot...) must have the same width (border+padding+margin)
+*/
+.GMBodyLeft,.GMBodyMid,.GMBodyRight,.GMHeadLeft,.GMHeadMid,.GMHeadRight,.GMFootLeft,.GMFootMid,.GMFootRight { }
+.GMHeadLeft,.GMHeadMid,.GMHeadRight { }
+.GMBodyLeft,.GMBodyMid,.GMBodyRight { border-top:1px solid black; }
+.GMFootLeft,.GMFootMid,.GMFootRight { border-top:1px solid black; }
+.GMHeadLeft,.GMBodyLeft,.GMFootLeft { border-right:1px solid #c0c0ff; }	
+.GMHeadMid,.GMBodyMid,.GMFootMid { }
+.GMHeadRight,.GMBodyRight,.GMFootRight { border-left:1px solid #c0c0ff; }	
+
+/* -------------- Splitters between resizable table sections, <td> tag ------------------ */
+
+/* The <td> tags are shown between the sections <td> tags when set <Cfg LeftWidth, MidWidth, RightWidth/> attributes and <Cfg SectionResizing='1'/>
+   They control horizontal space between the resizable sections. 
+   @ Set left/right border and padding and also width and background.
+   LeftSplitter is between ...Left and ...Mid column sections and RightSplitter is between ...Mid and ...Right column sections.
+   The splitter tag is shown in every row section (Head,Body,Foot) and in the horizontal scrollbars section.
+   ...Touch versions are shown instead on touch screens like iPad
+   ...HeadSplitter, ...BodySplitter, ...FootSplitter is added for appropriate row section, ...ScrollSplitter is added to splitter between horizontal scrollbars
+   ...SplitterDisabled is added if the sections cannot be resized now, due their actual width or permissions
+*/
+.GMLeftSplitter,.GMRightSplitter,.GMLeftSplitterTouch,.GMRightSplitterTouch { width:5px; background:#E1F1FF; overflow:hidden; cursor:e-resize; font-size:0px; }
+.GMLeftSplitterTouch,.GMRightSplitterTouch { width:15px; }
+.GMLeftSplitter,.GMLeftSplitterTouch { border-right:1px solid #c0c0ff; }
+.GMRightSplitter,.GMRightSplitterTouch { border-left:1px solid #c0c0ff; }
+.GMHeadSplitter { }
+.GMBodySplitter { }
+.GMFootSplitter { }
+.GMScrollSplitter { }
+.GMSplitterDisabled { background:white; cursor:default; }
+
+/* -------------- Vertical scrollbar, <div> tag inside <td> tag ------------------ */
+
+/* The vertical scrollbar is placed on right side to <td> tag in Head section and is spanned through Body section and inner Space rows to Foot section 
+   It controls the border and space around the scrollbar. 
+   @ Set border, padding and margin, optionally background.
+   @ You can control the scrollbar shape and look in IE or WebKit on its immediate child <div> as .GMVScroll > div
+*/
+.GMVScroll { padding-top:1px; padding-bottom:1px; border-left:1px solid #c0c0ff; overflow:hidden; } 
+
+/* -------------- Horizontal scrollbars, <div> tag inside <td> tag ------------------ */
+
+/* ...Left (for <LefCols> left fixed columns), ...Mid (for <Cols> variable columns), ...Right (for <RightCols> right fixed columns)
+   They control the border and space around the scrollbar. 
+   @ Set border, padding and margin, optionally background.
+   @ You can control the scrollbar shape and look in IE or WebKit on their immediate child <div> as .GMHScroll... > div
+   ...Resize versions are shown instead for resizable sections, when set <Cfg LeftWidth, MidWidth, RightWidth/> attributes and <Cfg SectionResizing='2'/>
+   ...ResizeTouch versions are shown instead on touch screens like iPad 
+   ...HScrollWide is shown instead of all the section scrollbars when set <Cfg WideHScroll='1'/>
+   ...ScrollHidden is shown instead if the column section does not need to show scrollbar (but the other sections do)
+   ...XScroll is shown in the horizontal scrollbars row in place of vertical scrollbar
+*/
+.GMHScrollLeft,.GMHScrollMid,.GMHScrollRight { padding-left:1px; padding-right:1px; overflow:hidden; }
+.GMHScrollLeft { border-right:1px solid #c0c0ff; }
+.GMHScrollMid { }
+.GMHScrollRight { border-left:1px solid #c0c0ff; }
+.GMHScrollLeftResize,.GMHScrollRightResize,.GMHScrollMidLeftResize,.GMHScrollMidRightResize { background:#F4F4F4; overflow:hidden; }
+.GMHScrollLeftResize { border-right:2px solid black; padding-left:1px; padding-right:5px; }
+.GMHScrollRightResize { border-left:2px solid black; padding-left:5px; padding-right:1px; }
+.GMHScrollMidLeftResize { border-left:1px solid black; padding-left:5px; }
+.GMHScrollMidRightResize { border-right:1px solid black; padding-right:5px; }
+.GMHScrollLeftResizeTouch,.GMHScrollRightResizeTouch,.GMHScrollMidLeftResizeTouch,.GMHScrollMidRightResizeTouch { background:#F4F4F4; overflow:hidden; }
+.GMHScrollLeftResizeTouch { border-right:2px solid black; padding-left:1px; padding-right:18px; }
+.GMHScrollRightResizeTouch { border-left:2px solid black; padding-left:18px; padding-right:1px; }
+.GMHScrollMidLeftResizeTouch { border-left:1px solid black; padding-left:19px; }
+.GMHScrollMidRightResizeTouch { border-right:1px solid black; padding-right:19px; }
+.GMHScrollWide { padding-left:1px; padding-right:1px; overflow:hidden; }
+.GMHScrollHidden { overflow:visible!important; background:#F4F4F4; }
+.GMXScroll { background:#F4F4F4; cursor:default; }
+
+/* -------------- Special scrollbar setting for Safari and Chrome, <div> tag inside <td> tag ------------------ */
+
+/* Added to vertical and horizontal scrollbar to force showing scrollbars in Safari and Chrome if they are automatically hidden
+   @ Change here the scrollbars look; The scrollbars must be defined as permanently visible
+   ! Note, here is no style prefix
+*/
+.GridHiddenScroll > div::-webkit-scrollbar { -webkit-appearance:none; width:11px; height:11px; } 
+.GridHiddenScroll > div::-webkit-scrollbar-thumb { border-radius:8px; border:2px solid white; background-color:rgba(0,0,0,0.5); }
+
+/* ------------------ Round corners ------------------ */
+
+/* Used to render something above and below the grid, to simulate e.g. rounded corners with special effects compatible in all browsers */
+
+/* ...Top is set to <div> tag rendered directly above ...MainTable with the same width as the table 
+   ...Top0 to ...Top9 is set to up 10 <div> tags inside ...Top. The tag is not rendered if the class has not set height.
+   ...TopSpace0 to ...TopSpace9 is added to ...Top0 to ...Top9 in case there is some visible Space row width Space = 0
+*/
+.GMTop { }
+.GMTop1 { }
+.GMTop2 { }
+.GMTop3 { }
+.GMTop4 { }
+.GMTop5 { }
+
+/* ...Bottom is set to <div> tag rendered directly below ...MainTable with the same width as the table 
+   ...Bottom0 to ...Top9 is set to up 10 <div> tags inside ...Top. The tag is not rendered if the class has not set height.
+   ...BottomSpace0 to ...BottomSpace9 is added to ...Bottom0 to ...Bottom9 in case there is some visible Space row width Space = 4
+*/
+.GMBottom { }
+.GMBottom5 { }
+.GMBottom4 { }
+.GMBottom3 { }
+.GMBottom2 { }
+.GMBottom1 { }
+
+/* -------------- Row pages, <div> tag ------------------ */
+
+/* They control the border and space around the row page */
+/* @ Set here vertical border, padding and margin.
+   ...PageOne is shown if no root paging is set (<Cfg Paging='0'/>. 
+   ...PageFirst is the first root page, the ...Page are all the next root pages
+   ...ChildPart is shown around the row children, regardless on the <Cfg ChildParts/> is set or not
+*/
+.GMPageFirst { }
+.GMPage { border-top:1px solid #E0E0E0; }
+.GMPageOne { }
+.GMChildPart { }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                        Rows                                                             */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+ 
+/* ------------- Table row height ------------------ */
+
+/* Classes are not assigned, only the height attribute is read. 
+   @ Set the height in pixels only. 
+   ...RowHeight is default minimal height in pixels of all rows in table (not Space rows). It is outer height including all cell border and padding.
+   ...RowHeightTouch is used instead on touch screens like iPad 
+*/
+.GMRowHeight { height:18px; }
+.GMRowHeightTouch { height:22px; }
+
+/* ------------- Table rows, <tr> tag ------------------ */
+
+/* Sets the class to the whole column section of the row. Useful to set for special backgrounds.
+   ...DataRow is set for all standard table rows without Kind attribute set
+   @ Set here only background
+*/
+.GMHeaderRow { }
+.GMFilterRow { }
+.GMDataRow { }
+
+/* ------------- Space row height ------------------ */
+
+/* Classes are not assigned, only the height or margin attribute is read. 
+   @ Set the height or margin in pixels only. 
+   ...SpaceRowHeight is default minimal height in pixels of all Space rows. It is outer height including all cell border and padding, but not the margin.
+   ...SpaceMargin is horizontal and vertical margin in pixels around all Space row cells. 
+   ...SpaceMarginTouch is used instead on touch screens like iPad 
+*/
+.GMSpaceRowHeight { height:21px; }
+.GMSpaceMargin { margin:0px; }
+.GMSpaceMarginTouch { margin:0px; }
+
+/* ------------- Space rows, <div> tag inside <td> tag ------------------ */
+
+/* Space row class according to the row Kind as prefix+Kind+"Row". In XML the Kind can be set as tag name like <Group ... />. Default Kind is "Space".
+   Every Space row is placed in its own <tr><td> tag, on the same level as table sections like Head/Body/Foot (...Left/Mid/Right).
+   @ Set here border, padding, margin and background
+   The horizontal border and spacing of Space rows should be synchronized with the table sections
+*/
+.GMSpaceRow,.GMGroupRow,.GMSearchRow,.GMPagerRow,.GMToolbarRow,.GMToolbar1Row,.GMToolbar2Row,.GMToolbar3Row,.GMTopbarRow,.GMTopbar1Row,.GMTopbar2Row,.GMTopbar3Row,.GMTabberRow {
+   background:url(Backgrounds.gif?v110) repeat-x; 
+   padding:5px 3px 5px 3px; font-size:0px; overflow:hidden; white-space:nowrap;
+   }
+.GMSpaceRow { background:#E8F4FF; padding:2px 0px 2px 0px; }                     /* Standard Space row with no special meaning */
+.GMGroupRow { background-position:0px -1801px; }                                 /* Grouping settings row */
+.GMSearchRow { background-position:0px -500px; }                                 /* Search settings row */
+.GMPagerRow { background-position:0px -1801px; }                                 /* Simple pager row with Pages type cell */
+.GMToolbarRow { background-position:0px -500px; border-top:1px solid black; }    /* Bottom standalone toolbar */
+.GMToolbar1Row { background-position:0px -1801px; border-top:1px solid black; }  /* First bottom toolbar */
+.GMToolbar2Row { background-position:0px -500px; }                               /* Last bottom toolbar */
+.GMToolbar3Row { background:#D5E9FE; }                                           /* Middle bottom toolbars */
+.GMTopbarRow { background-position:0px -1801px; border-bottom:1px solid black; } /* Standalone top toolbar */
+.GMTopbar1Row { background-position:0px -1801px; }                               /* First top toolbar*/
+.GMTopbar2Row { background-position:0px -500px; border-bottom:1px solid black; } /* Last top toolbar */
+.GMTopbar3Row { background:#D5E9FE; }                                            /* Middle top toolbars */
+.GMTabberRow { background:#E8F4FF; padding:0px; }                                /* Tabber row with Tab type cells, usually used with ...RowAbove or ...RowBelow */
+
+/* Special Space row Kind="Fill" shown for ConstHeight='1'*/
+.GMFillRow { background:#E8F4FF; }
+
+/* Special Space row Kind="NoData" shown when all body rows are hidden */
+.GMNoDataRow { border-top:1px solid black; padding:5px 0px 5px 5px; overflow:hidden; }
+.GMNoDataRow div { color:gray!important; font-style:italic!important; }
+
+/* Class added to Space row Kind class for its position (Space attribute value), only value 0 to 4 */
+.GMRowSpace0 { }
+.GMRowSpace1 { }
+.GMRowSpace2 { }
+.GMRowSpace3 { }
+.GMRowSpace4 { }
+
+/* Special Space row above or below grid, used instead of Kind class, ...RowAbove is added for Space='-1', ...RowBelow for Space='5' */
+.GMRowAbove,.GMRowBelow { border-left:1px solid #9cb6c8; border-right:1px solid #9cb6c8; }
+.GMRowAbove { background:url(Backgrounds.gif?v110) repeat-x 0px -1800px; margin-top:3px; }
+.GMRowBelow { background:url(Backgrounds.gif?v110) repeat-x 0px bottom; margin-bottom:3px; }
+
+/* Class added for row with Panel='1' */
+.GMSpaceRowPanel { padding-left:0px; }
+
+/* Class added for given row VAlign attribute value */
+.GMSpaceVAlignTop { }
+.GMSpaceVAlignMiddle { }
+.GMSpaceVAlignBottom { }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                        Cells                                                            */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ------------- Table cells, <td> tag ------------- */
+
+/* Classes for table row cells (not Space rows). Always one class per one cell.
+   @ Set border here. Note, all cells in table must have the same border width/height in the same cell edge.
+   @ You can set also padding here, but note, the padding is defined also in cell type class.
+   @ You can set also background here, but note, the data cell background color is often controlled by ...Color state classes
+   ...Cell - base data cell
+   ...CellPanel - cell Type="Panel"
+   ...CellFilter - cell in row Kind="Filter"
+   ...CellFilterPanel - cell Name="Panel" in row Kind="Filter". Note, it is used only for default panel named "Panel"
+   ...CellHeader - cell in row Kind="Header"
+   ...CellHeaderPanel - cell Type="Panel" in row Kind="Header"
+   ...CellEmpty - cell in _ConstWidth column (created due <Cfg ConstWidth/> setting), also in row Kind="Filter"
+   ...CellHeaderEmpty - cell in _ConstWidth column (created due <Cfg ConstWidth/> setting) in row Kind="Header"
+   ...CellUser - user cell section defined by <I LeftHtml MidHtml RightHtml/>
+   ...CellHidden - cell in child row hidden due spanned parent row through its children
+*/
+.GMCell,.GMCellPanel,.GMCellFilter,.GMCellFilterPanel,.GMCellHeader,.GMCellHeaderPanel,.GMCellHeaderEmpty,.GMCellUser,.GMCellEmpty { 
+   border-bottom:1px solid #e0e0ff; border-right:1px solid #e0e0ff; border-left:0px none; border-top:0px none;
+   vertical-align:top; overflow:hidden; overflow:auto!IE; height:auto;
+   }
+.GMCell { }
+.GMCellHeader,.GMCellHeaderPanel,.GMCellHeaderEmpty { background:url(Backgrounds.gif?v110) repeat-x 0px 0px; }
+.GMCellPanel,.GMCellHeaderPanel,.GMCellFilterPanel { white-space:nowrap; direction:ltr; }
+.GMCellHeader { }
+.GMCellHeaderEmpty { }
+.GMCellHeaderPanel { padding-top:3px; padding-bottom:2px; }
+.GMCellPanel { background:#D5EAFE url(Panel.gif?v110) repeat-y -500px top; }
+.GMCellFilterPanel { background:url(Backgrounds.gif?v110) repeat-x 0px -505px; border-bottom:0px none; border-right:0px none; text-align:center; }
+.GMCellFilter { }
+.GMCellUser { background-color:#E8F4FF; }
+.GMCellEmpty { background:white; border-bottom-color:white; }
+.GMCellHidden { background:transparent!important; border-top:none!important; border-bottom:none!important; }
+
+/* Special class to choose if the last cells in column or row section will render its border; Not used in grid, only border width is read; @ Set border-right and border-bottom; set it to 0px to SHOW the border */
+.GMLastCell { border-right:1px solid; border-bottom:0px solid; }
+
+/* Classes added to the <td> cell due special feature
+   ...CellClassInner added to the cell with defined ClassInner attribute (including Header cell)
+   ...CellClassInnerIcon added to the cell with defined ClassInner attribute and side Icon
+   ...CellHeaderInnerIcon added to the header cell with defined ClassInner attribute and side Icon
+   ...CellBorderFF3 is added to all cells in Firefox 3 - 19 due its slow bug in rendering table cells with different borders
+*/
+.GMCellClassInner { padding-top:0px; padding-bottom:0px; }
+.GMCellClassInnerIcon { }
+.GMCellHeaderInnerIcon { padding-top:3px; padding-bottom:2px; }
+.GMCellBorderFF3 { border-left:0px none!important; border-top:0px none!important; }
+
+/* ------------- Cell content - Type, <td> or <div> tag ------------- */
+
+/* The Type class is by default set to same <td> tag as the table cell or Space cell class.
+   Here are listed all TreeGrid Types except: "Gantt" - defined in Gantt.css file; "Chart", "Pages" and "DropCols" - defined later in this file and "Panel" - this class is not used.
+   If the cell consists from more included <div> tags, it is set to the most inner <div> tag.
+   The one or more <div> tags are included in cell if: 
+      any cell has set VAlign, Rotate or ClassInner or Align="Scroll"
+      Header cell has set Icon or Type="Bool"
+      Space cell has set Icon or is editable or has Button="Defaults"
+   There can be included also inner <table> inside cell in these cases:
+      any cell has set Span + Merge with more columns and no MergeFormat
+      Header cell has set Levels
+      MainCol cell when set <Cfg SpannedTree='1'/>
+      DropCols and Radio types use also inner <Table>, but the Type class is set to parent cell
+   Select type class is set along with Html class for Select Type
+   Note, the "Bool", "Icon" and "Select" type classes are not listed in the first line
+   @ Set padding and text attributes like font, line-height, text-align, white-space
+*/
+.GMText,.GMLines,.GMInt,.GMFloat,.GMDate,.GMPass,.GMImg,.GMLink,.GMRadio,.GMEnum,.GMButton,.GMHtml,.GMAbs,.GMList,.GMUser {
+   font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; white-space:nowrap; padding:2px 3px 2px 3px;
+   }  
+.GMInt,.GMFloat,.GMDate { text-align:right; }
+.GMLines,.GMRadio,.GMHtml,.GMList { white-space:normal; }	
+.GMImg,.GMHtml { padding-top:0px; padding-bottom:0px; }
+.GMPass { font-size:15px; line-height:17px; padding:0px 0px 0px 3px; }
+.GMRadio { padding:0px; }
+.GMBool { text-align:center; line-height:0px; }
+.GMIcon { background-repeat:no-repeat; }
+.GMAbs { padding:0px; }
+.GMUser { padding:0px; }
+.GMSelect { padding-top:2px; padding-bottom:2px; }
+
+/* Class set for cell width Visible='0'.
+   @ Set background for the ...Hidden
+   It is always set to <td> tag, this tag has always empty content. 
+   ...Hidden is set to table cell and does not hide the cell, it just makes it empty
+   ...HiddenSpace is set to Space cell and hides the cell completely
+*/
+.GMHidden { }
+.GMHiddenSpace { display:none; }
+
+/* Class set to the right Button cell, the table cell next to the data cell:
+   @ Set width, height, padding and text attributes like font, line-height, text-align, white-space
+   ...RightButton is set for <button> or <u> tag inside <td> tag for Button="Button" according to <Cfg UseButton>
+   ...RightHtml is set for <td> tag for Button="Html"
+*/
+button.GMRightButton { font:10px/11px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; height:17px; width:19px; margin:0px; padding:0px; }
+u.GMRightButton { 
+   background:url(Backgrounds.gif?v110) 0px -1px; border-bottom:1px solid #048; border-top:1px solid #D5E9FE; border-radius:10px; padding:1px 5px 0px 5px; margin:1px;
+   font:11px/12px Arial,Helvetica,sans-serif; color:white; text-decoration:none; display:inline-block; overflow:hidden; white-space:nowrap; 
+   }
+.GMRightHtml { font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; padding-top:2px; padding-bottom:2px; }
+
+/* Class set to inner table <td> tag, when displaying Header cell Levels
+   @ Set width and text attributes like font, line-height, text-align, white-space for the ...LevelButton
+   ...LevelButton is set to every Levels button
+   ...LevelButtonSpace is set to the next <td> as the space between buttons and cell value. The last <td> cell contains the cell value
+*/
+.GMLevelButton { 
+   background:url(Button.gif?v110) 2px -1750px no-repeat; padding:5px 0px 4px 0px; width:21px;
+   font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; color:black; text-align:center; cursor:pointer; 
+   }
+.GMLevelButtonSpace { width:5px; }
+
+/* Class set to inner table <td> tag, when displaying merged cells (Span+Merge and no MergeFormat) 
+   @ Set border, padding, background, width and height
+   ...MergedCellH is set to every merged value (<td> tag) when showing all cells in one row (MergeType&1 = 0)
+   ...MergedCellV is set to every merged value (<td> tag) when showing all cells in one column (MergeType&1 = 1)
+*/
+.GMMergedCellH { padding:0px; padding-right:5px; }
+.GMMergedCellV { padding:0px; padding-bottom:1px; }
+
+/* Classes set to cell in Header row
+   ...HeaderText is set along with the Type class for Header cell, to <td> or <div> tag. @ Set padding and text attributes like font, line-height, text-align, white-space
+   ...HeaderIconInner is set along with the ...HeaderText if the cell has set Icon, to <td> or <div> tag. @ Set padding.
+   ...HeaderButton is set to <td> tag next to the cell if the cell has set Button (by default Header cell has set Button="Sort"). @ Set padding or the first child <button> settings.
+   ...HeaderToolButton is set to <td> tag of the cell type "Button" and Button="Button". @ Set padding
+   ...HeaderFocus is added to cell <td> tag during dragging the Header cell. @ Set background and optionally border, padding and text attributes like font, line-height, text-align, white-space
+   ...HeaderDrag is added to ghost Header cell under mouse cursor during dragging the Header cell. @ Set background and border and optionally padding and text attributes like font, line-height, text-align, white-space
+*/
+.GMHeaderText { font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; color:white; padding:5px 3px 4px 3px; }
+.GMHeaderIconInner { padding-top:2px; padding-bottom:2px; }
+.GMHeaderButton { padding:3px 0px 2px 0px; }
+.GMHeaderButtonButton { padding:3px 0px 2px 0px; }
+.GMHeaderButtonHtml { padding:5px 1px 4px 1px; color:white; }
+.GMHeaderToolButton { text-align:center; padding:3px 0px 2px 0px; }
+.GMHeaderFocus { background:#9FB9E9; }
+.GMHeaderDrag { background:#9FB9E9; cursor:default; overflow:hidden; border-right:1px solid white; }
+
+/* Classes added to DropCols type inner table cells, <td> tag. 
+   @ Set here border, padding, background and text attributes.
+   ...DropCols is DropCols type class set to <td> tag
+   ...HeaderGroup is set to every DropCols inner table cells, except the last one
+   ...HeaderGroupFocus is added to the DropCols inner table cell during dragging inside the DropCols line (to be moved)
+   ...HeaderGroupDelete is added to the DropCols inner table cell during dragging outside the DropCols line (to be removed)
+   ...HeaderGroupCustom is set to the last cell in DropCols inner table, as the default text "To group by, drag column caption here"
+*/
+.GMDropCols { padding:4px 4px 3px 4px!important; }
+.GMHeaderGroup { font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; background:#7FA9E6; color:white; padding-left:3px; border-right:1px solid white; }
+.GMHeaderGroupFocus { background-color:#C0C0A0; }
+.GMHeaderGroupDelete { background-color:#F0F0E0; color:white; }
+.GMHeaderGroupCustom { font:italic 11.5px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; color:#BBB; padding:1px 0px 0px 5px; white-space:nowrap; }
+
+/* Class added to the cell <td> tag when resizing row by dragging this cell edge and direct resizing is off */
+.GMResizingRow { border-bottom:1px solid black; }
+.GMResizingSpace { }
+
+/* Classes added to cell with Wrap attribute. Added along with Type class to <td> or <div> tag. 
+   @ Do not change. 
+   ...Wrap0 for Wrap='0', ...Wrap1 for Wrap='1'
+*/
+.GMWrap0 { white-space:nowrap; }
+.GMWrap1 { white-space:normal; }
+
+/* Classes added to cell with Align attribute. Added along with Type class to <td> or <div> tag. 
+   @ Do not change.
+...AlignLeft for Align='Left', ...AlignCenter for Align='Center',  ...AlignRight for Align='Right', ...AlignJustify for Align="Justify"
+*/
+.GMAlignLeft { text-align:left; }
+.GMAlignCenter { text-align:center; }
+.GMAlignJustify { text-align:justify; }
+.GMAlignRight { text-align:right; }
+
+/* Classes added to cell with VAlign attribute. Added always to <td> tag. 
+   @ Do not change.
+   ...VAlignTop for VAlign='Top', ...VAlignMiddle for VAlign='Middle',  ...AlignBottom for Align='Bottom'
+   The ...VAlignTop must be defined as the last one. In Space row it is added also to all rows without VAlign set.
+*/
+.GMVAlignMiddle { vertical-align:middle; display:table-cell; }
+.GMVAlignBottom { vertical-align:bottom; display:table-cell; }
+.GMVAlignTop { vertical-align:top; display:table-cell; }
+
+/* Classes added to cell with Rotate attribute. 
+   @ Change them carefully, the rotation can differ per browser.
+   ...CellRotate... class is added to cell <td> tag for vertical alignment according to the Rotate and Align values
+   ...Rotate1 and ...Rotate2 is set to inner <div> to do the rotation, according to Rotate attribute value
+   ...Rotate1IE is used instead for IE9 and below for Rotate='1', the ...Rotate1IEHeader is used instead for Header cell
+   ...IconRotate is added to cell <td> for cell with Icon attribute to display icon on top
+   ...IconRotateLeft is added to extra inner <div> with icon for cell with Icon, IconAlign="Left" and Rotate="1" to display icon on bottom
+   ...IconRotateHeaderLeft is added to extra inner <div> with icon for Header cell with Icon, IconAlign="Left" and Rotate="1" to display icon on bottom
+   ...IconRotateHeaderRight is added to extra inner <div> with icon for Header cell with Icon attribute to display icon on top
+*/
+.GMCellRotate1 { vertical-align:bottom; padding-top:1px; padding-bottom:1px; text-align:left; }
+.GMCellRotate2 { vertical-align:top; padding-top:1px; padding-bottom:1px; }
+.GMCellRotate3 { vertical-align:middle; padding-top:1px; padding-bottom:1px; }
+.GMRotate1IEHeader { background-color:#3780C5; filter:progid:DXImageTransform.Microsoft.Chroma(color='#3780C5') progid:DXImageTransform.Microsoft.BasicImage(rotation=3); overflow:hidden; }
+.GMRotate1IE { background-color:#FFFFFF; filter:progid:DXImageTransform.Microsoft.Chroma(color='#FFFFFF') progid:DXImageTransform.Microsoft.BasicImage(rotation=3); overflow:hidden; }
+.GMRotate1 { -ms-transform:rotate(-90deg); -moz-transform:rotate(-90deg); -webkit-transform:rotate(-90deg); -o-transform:rotate(-90deg); }
+.GMRotate2 { text-align:left; writing-mode:tb-rl; -moz-transform:rotate(-270deg); -webkit-transform:rotate(-270deg); -o-transform:rotate(-270deg); }
+.GMIconRotate { padding-left:2px!important; padding-top:20px!important; }
+.GMIconRotateLeft { margin-left:0px; padding-top:20px!important; }
+.GMIconRotateHeaderLeft { margin-left:5px; padding-top:20px!important; }
+.GMIconRotateHeaderRight { margin-left:2px; padding-top:20px!important; }
+
+/*--------------- Space cells ----------------- */
+
+/* Classes control the background and border of the Space cells
+   @ Set here border, padding and background
+*/
+.GMCellSpace,.GMCellSpaceIcon,.GMCellSpaceButton,.GMCellSpaceButtonIcon,.GMCellSpaceButtonButton,.GMCellSpacePanel,.GMCellSpaceBool,.GMCellSpaceRadio,.GMCellSpaceSelect,.GMCellSpaceEdit {
+   
+   }
+
+/* Not editable Space cell. Set also for Label.
+   ...CellSpace is set to the <td> tag
+   ...CellSpaceIcon is set to <td> tag instead for cell with Icon attribute
+   ...SpaceIconInner is set to inner <div> tag for cell with Icon attribute
+*/
+.GMCellSpace { padding-top:5px; padding-bottom:3px; }
+.GMCellSpaceIcon { padding-top:2px; padding-bottom:3px; }
+.GMSpaceIconInner { padding-top:3px; padding-bottom:0px; }
+
+/* Button Type in Space cell
+   ...CellSpaceButton is set to the <td> tag for cell with Button="Html"
+   ...CellSpaceButtonIcon is set to the <td> tag instead for cell with Button="Html" and Icon attribute
+   ...SpaceButtonIconInner is set to inner <div> tag for cell with Button="Html" and Icon attribute
+   ...CellSpaceButtonButton is set to the <td> tag for cell with Button="Button"
+   ...CellSpaceTool is added to the <td> tag (along with CellSpaceButton) for cell with Button="Html" and without ButtonText and with VAlign - the special toolbar button
+*/
+.GMCellSpaceButton { padding-top:5px; padding-bottom:3px; white-space:nowrap; }
+.GMCellSpaceButtonIcon { padding-top:2px; padding-bottom:3px; white-space:nowrap; }
+.GMSpaceButtonIconInner { padding-top:3px; padding-bottom:0px; }
+.GMCellSpaceButtonButton { }
+.GMCellSpaceTool { padding:0px; }
+
+/* Classes for Type Panel, Bool and Radio in Space cell */
+.GMCellSpacePanel { line-height:0px; }
+.GMCellSpaceBool { line-height:0px; }
+.GMCellSpaceRadio { padding-top:3px; padding-bottom:1px; }
+
+/* Classes for Type="Select" or cell with Button="Defaults" in Space cell
+   ...CellSpaceSelect is set to the <td> tag
+   ...SpaceSelectInner is set to inner <div> tag
+   ...SpaceSelectInnerIcon is set to inner <div> tag in cell with Icon
+   ...SpaceSelectIconInner is set to inner inner <div> tag (along with Type class) in cell with Icon
+   ...SpaceSelectInnerIE is added to inner <div> tag in cell with Icon in IE5 quirks mode
+*/
+.GMCellSpaceSelect { padding:0px; }
+.GMSpaceSelectInner,.GMSpaceSelectInnerIcon { 
+   border-left:1px solid #696969; padding:5px 20px 3px 3px; background:url(BackgroundsRight.gif?v110) right -250px!important; white-space:nowrap; height:13px; 
+   }
+.GMSpaceSelectInnerIcon { padding:2px 20px 3px 1px; height:16px; }
+.GMSpaceSelectIconInner { padding-top:3px; padding-bottom:0px; }
+.GMSpaceSelectInnerIE { overflow:hidden; height:21px; }
+
+/* Classes for editable Space cell
+   ...CellSpaceEdit is set to the <td> tag
+   ...SpaceEditInner is set to inner <div> tag
+   ...SpaceEditInnerIcon is set to inner <div> tag in cell with Icon
+   ...SpaceEditIconInner is set to inner inner <div> tag (along with Type class) in cell with Icon
+   ...SpaceEditButtonIconInner is set to inner inner <div> tag in cell with Icon and Button
+*/
+.GMCellSpaceEdit { padding:0px; }
+.GMSpaceEditInner,.GMSpaceEditInnerIcon { border:1px solid #696969; padding:4px 2px 2px 3px; background:white url(BackgroundsRight.gif?v110) right 0px; }
+.GMSpaceEditInnerIcon { padding:1px 2px 0px 1px; }
+.GMSpaceEditIconInner { padding-top:3px; padding-bottom:2px; }
+.GMSpaceEditButtonIconInner { padding-top:0px; padding-bottom:0px; }
+
+/* Classes added to <td> tag in cell in Space row with Space="-1" (...Above) or Space="5" (...Below)
+*/
+.GMCellSpaceAbove { border-top:1px solid #9cb6c8; }
+.GMCellSpaceBelow { border-bottom:1px solid #9cb6c8; }
+
+/* Class added to <div> tag with ClassInner class */
+.GMSpaceClassInner { padding-top:0px; padding-bottom:0px; }
+
+/*--------------- Cell edges ----------------- */
+
+/* @ Support classes, do not change 
+   Classes added to table or Space cell if it should not have the left or right border or is empty
+*/
+.GMNoLeft,.GMNoSpaceLeft { border-left:0px none!important; border-bottom-left-radius:0px!important; border-top-left-radius:0px!important; }
+.GMNoRight,.GMNoSpaceRight { border-right:0px none!important; border-bottom-right-radius:0px!important; border-top-right-radius:0px!important; }
+.GMEmpty { text-decoration:none!important; font-size:0px!important; line-height:0px!important; }
+
+/*--------------- Pages type cell ----------------- */
+
+/* ...Pages is set to <td> as Type class. @ Set here border, padding and background
+   ...PagesLink is set to individual <a> tags as page numbers. @ Set here margin, padding, border, background and text attributes
+   ...PagesLinkActive is set to <a> tag in actual selected page number instead
+*/
+.GMPages { overflow:visible; padding:0px!important; }
+.GMPagesLink,.GMPagesLinkActive { 
+   padding:2px 1px 2px 2px; margin:2px 0px 2px 0px; display:inline-block; font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; cursor:pointer; color:blue; 
+   }
+/* The :hover remarkably slows down every grid in IE strict mode
+.GMPagesLink:visited { color:blue; } 
+.GMPagesLink:hover { color:red; }*/
+.GMPagesLinkActive { color:black; font-weight:bold; border:1px dotted black; margin-top:1px; margin-bottom:1px; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                    Tree cell                                                            */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* Class set to the tree in <td> tag left to MainCol cell 
+   @ They are not expected to change, but you can set here background or border
+   ...Tree is set for <Cfg NoTreeLines='0'/>, default setting. It can be set to inner <td> tag for SpannedTree
+   ...NoTreeLines... is set for NoTreeLines value 1 - 3.
+*/
+.GMTree { padding-top:0px; white-space:nowrap; }
+.GMNoTreeLines1 { text-align:right; }
+.GMNoTreeLines2 { text-align:right; vertical-align:middle; padding-top:0px; }
+.GMNoTreeLines3 { text-align:left; }
+
+/* ------------- Tree images with lines (NoTreeLines='0') ------------- */
+
+/* Default tree class set to <td> tag or to inner <u> tag
+   The tree is shown in inner <u> tags if it cannot be set by one background image or in SpannedTree or with TreeIcon.
+   @ Set background and padding-left. It is not easy to change them, the image files contain many icons that must be changed all at once, especially if you want to change the widths.
+   ...TreeTop / ...TreeMiddle / ...TreeBottom is set according to VAlign value, for empty is set also ...TreeTop
+   ...TreeRev... is set according to VAlign value for <Cfg ReversedTree='1'/>, for empty is set also ...TreeRevTop
+   ...TreeIcon, ...TreeIconM, ...TreeIconB is set if used custom tree icon by <I TreeIcon/>, according to VAlign value (M - Middle, B - Bottom, nothing - Top or empty)
+   ...TreeImage, ...TreeImageM, ...TreeImageB is set to inner <u> tag, according to VAlign value (M - Middle, B - Bottom, nothing - Top or empty)
+   ...TreeImageIE, ...TreeImageIEM, ...TreeImageIEB is set instead in all IE modes except IE5 quirks and also in Firefox strict mode
+   ...Width... is width of the tree icon part in <u> tag, number is count of the icon lines, ...T is ending icon / button
+   ...Width1 is also used measure one level indent, ...Width1T is also used to measure tree button width
+*/
+.GMTreeTop { background-image:url(Tree.gif?v110); }
+.GMTreeMiddle { background-image:url(TreeMiddle.gif?v110); }
+.GMTreeBottom { background-image:url(TreeBottom.gif?v110); }
+.GMTreeRevTop { background-image:url(TreeRev.gif?v110); }
+.GMTreeRevMiddle { background-image:url(TreeRevMiddle.gif?v110); }
+.GMTreeRevBottom { background-image:url(TreeRevBottom.gif?v110); }
+.GMTreeIcon { background-repeat:no-repeat; background-position:left top; }
+.GMTreeIconM { background-repeat:no-repeat; background-position:left center; }
+.GMTreeIconB { background-repeat:no-repeat; background-position:left bottom; }
+.GMTreeImage,.GMTreeImageM,.GMTreeImageB { display:inline-block; height:100%; width:0px; }
+.GMTreeImageIE { padding-bottom:1000px; }
+.GMTreeImageMIE { padding-top:500px; padding-bottom:500px; }
+.GMTreeImageBIE { padding-top:1000px; }
+.GMWidth1T { padding-left:26px; } .GMWidth1 { padding-left:21px; }
+.GMWidth2T { padding-left:47px; } .GMWidth2 { padding-left:42px; }
+.GMWidth3T { padding-left:68px; } .GMWidth3 { padding-left:63px; }
+.GMWidth4T { padding-left:89px; }
+
+/* Individual tree backgrounds according to VAlign value (M - Middle, B - Bottom, nothing - Top or empty) 
+   1 means vertical line, 0 means no vertical line
+*/
+
+/* ...xxx - three line icons, ...xxxT - three line icons plus ending icon (no last, no button) */
+.GM000,.GM000T { background-position:   0px top; } .GM000M,.GM000TM { background-position:   0px center; } .GM000B,.GM000TB { background-position:   0px bottom; }
+.GM010,.GM010T { background-position:-128px top; } .GM010M,.GM010TM { background-position:-128px center; } .GM010B,.GM010TB { background-position:-128px bottom; }
+.GM001,.GM001T { background-position:-256px top; } .GM001M,.GM001TM { background-position:-256px center; } .GM001B,.GM001TB { background-position:-256px bottom; }
+.GM011,.GM011T { background-position:-384px top; } .GM011M,.GM011TM { background-position:-384px center; } .GM011B,.GM011TB { background-position:-384px bottom; }
+.GM100,.GM100T { background-position:-512px top; } .GM100M,.GM100TM { background-position:-512px center; } .GM100B,.GM100TB { background-position:-512px bottom; }
+.GM110,.GM110T { background-position:-640px top; } .GM110M,.GM110TM { background-position:-640px center; } .GM110B,.GM110TB { background-position:-640px bottom; }
+.GM101,.GM101T { background-position:-768px top; } .GM101M,.GM101TM { background-position:-768px center; } .GM101B,.GM101TB { background-position:-768px bottom; }
+.GM111,.GM111T { background-position:-896px top; } .GM111M,.GM111TM { background-position:-896px center; } .GM111B,.GM111TB { background-position:-896px bottom; }
+
+/* ...xx - two line icons, ...xxT - two line icons plus ending icon (no last, no button) */
+.GM00,.GM00T { background-position: -21px top; } .GM00M,.GM00TM { background-position: -21px center; } .GM00B,.GM00TB { background-position: -21px bottom; }
+.GM10,.GM10T { background-position:-149px top; } .GM10M,.GM10TM { background-position:-149px center; } .GM10B,.GM10TB { background-position:-149px bottom; }
+.GM01,.GM01T { background-position:-277px top; } .GM01M,.GM01TM { background-position:-277px center; } .GM01B,.GM01TB { background-position:-277px bottom; }
+.GM11,.GM11T { background-position:-405px top; } .GM11M,.GM11TM { background-position:-405px center; } .GM11B,.GM11TB { background-position:-405px bottom; }
+
+/* ...x - one line icon, ...xT - one line icon plus ending icon (no last, no button) */
+.GM0,.GM0T { background-position: -42px top; } .GM0M,.GM0TM { background-position: -42px center; } .GM0B,.GM0TB { background-position: -42px bottom; }
+.GM1,.GM1T { background-position:-298px top; } .GM1M,.GM1TM { background-position:-298px center; } .GM1B,.GM1TB { background-position:-298px bottom; }
+
+/* ...T - ending icon (no last, no button) */
+.GMT { background-position:-63px top; } .GMTM { background-position:-63px center; } .GMTB { background-position:-63px bottom; }
+
+/* ...xxL - the end icon is the icon of the last child row
+   ...xT? - one line icon plus end icon, no button , ...xC? - one line icon plus end collapse (-) button, ...xE? - one line icon plus end expand (+) button
+*/
+.GM0TL { background-position:-1024px top; } .GM0TLM { background-position:-1024px center; } .GM0TLB { background-position:-1024px bottom; }
+.GM1TL { background-position:-1088px top; } .GM1TLM { background-position:-1088px center; } .GM1TLB { background-position:-1088px bottom; }
+.GM0C  { background-position:-1152px top; } .GM0CM  { background-position:-1152px center; } .GM0CB  { background-position:-1152px bottom; }
+.GM1C  { background-position:-1216px top; } .GM1CM  { background-position:-1216px center; } .GM1CB  { background-position:-1216px bottom; }
+.GM0CL { background-position:-1280px top; } .GM0CLM { background-position:-1280px center; } .GM0CLB { background-position:-1280px bottom; }
+.GM1CL { background-position:-1344px top; } .GM1CLM { background-position:-1344px center; } .GM1CLB { background-position:-1344px bottom; }
+.GM0E  { background-position:-1408px top; } .GM0EM  { background-position:-1408px center; } .GM0EB  { background-position:-1408px bottom; }
+.GM1E  { background-position:-1472px top; } .GM1EM  { background-position:-1472px center; } .GM1EB  { background-position:-1472px bottom; }
+.GM0EL { background-position:-1536px top; } .GM0ELM { background-position:-1536px center; } .GM0ELB { background-position:-1536px bottom; }
+.GM1EL { background-position:-1600px top; } .GM1ELM { background-position:-1600px center; } .GM1ELB { background-position:-1600px bottom; }
+
+/* ...xL - the end icon is the icon of the last child row
+   ...T? - end icon, no button, ...C? - end collapse (-) button, ...E? - end expand (+) button
+*/
+.GMTL { background-position:-1045px top; } .GMTLM { background-position:-1045px center; } .GMTLB { background-position:-1045px bottom; }
+.GMC  { background-position:-1173px top; } .GMCM  { background-position:-1173px center; } .GMCB  { background-position:-1173px bottom; }
+.GMCL { background-position:-1301px top; } .GMCLM { background-position:-1301px center; } .GMCLB { background-position:-1301px bottom; }
+.GME  { background-position:-1429px top; } .GMEM  { background-position:-1429px center; } .GMEB  { background-position:-1429px bottom; }
+.GMEL { background-position:-1557px top; } .GMELM { background-position:-1557px center; } .GMELB { background-position:-1557px bottom; }
+
+/* Icons shown during dragging - drop permissions
+   ...xL - the end icon is the icon of the last child row
+   ...D0? - no drop, ...D1? - drop above, ...D2? - drop inside, ...D3? - drop below
+*/
+.GMD0 { background-position:-1664px top; } .GMD0M { background-position:-1664px center; } .GMD0B { background-position:-1664px bottom; }
+.GMD1 { background-position:-1696px top; } .GMD1M { background-position:-1696px center; } .GMD1B { background-position:-1696px bottom; }
+.GMD2 { background-position:-1728px top; } .GMD2M { background-position:-1728px center; } .GMD2B { background-position:-1728px bottom; }
+.GMD3 { background-position:-1760px top; } .GMD3M { background-position:-1760px center; } .GMD3B { background-position:-1760px bottom; }
+.GMD0L { background-position:-1792px top; } .GMD0LM { background-position:-1792px center; } .GMD0LB { background-position:-1792px bottom; }
+.GMD1L { background-position:-1824px top; } .GMD1LM { background-position:-1824px center; } .GMD1LB { background-position:-1824px bottom; }
+.GMD2L { background-position:-1856px top; } .GMD2LM { background-position:-1856px center; } .GMD2LB { background-position:-1856px bottom; }
+.GMD3L { background-position:-1888px top; } .GMD3LM { background-position:-1888px center; } .GMD3LB { background-position:-1888px bottom; }
+
+/* ...D4 - icons for expanding children in timeout, ...xL - the end icon is the icon of the last child row
+*/
+.GMD4 { background-position:-1920px top; } .GMD4M { background-position:-1920px center; } .GMD4B { background-position:-1920px bottom; }
+.GMD4L { background-position:-1952px top; } .GMD4LM { background-position:-1952px center; } .GMD4LB { background-position:-1952px bottom; }
+
+/* ------------- Tree images without lines (NoTreeLines='1') ------------- */
+
+/* Tree classes set to <td> tag or to inner <u> tag
+   The tree is shown in inner <u> tags in SpannedTree, with TreeIcon or with VAlign
+   @ Set here height, width and background
+   ...NC - Icon for button collapse, ...NE - Icon for button expand, ...NT - Icon for leaf none without button, ...NCR / ...NER / ...NTR - Shown instead in RTL mode
+   ...ND0 - ...ND3 - Icons shown during dragging - drop permissions: ...ND0 - no drop, ...ND1 - drop above, ...ND2 - drop inside, ...ND3 - drop below
+   ...NTreeImage is set to inner <u> tag; it is also used to read the default width of tree button
+   ...NIcon is set if used custom tree icon by <I TreeIcon/>
+   ...NWidth is never assigned, it is used to read the default width of one level indent
+*/
+.GMNC,.GMNE,.GMNCR,.GMNER,.GMND0,.GMND1,.GMND2,.GMND3,.GMND4 { background-image:url(TreeN.gif?v110); background-repeat:no-repeat; vertical-align:top; }
+.GMNT,.GMNTR { }
+.GMNTreeImage { display:inline-block; height:17px; width:17px; }
+.GMNWidth { width:21px; }
+.GMND0 { background-position:-9px 0px; }
+.GMND1 { background-position:-56px 0px; }
+.GMND2 { background-position:-106px 0px; }
+.GMND3 { background-position:-156px 0px; }
+.GMND4 { background-position:-206px 0px; }
+.GMNC { background-position:right -50px;}
+.GMNE { background-position:right -2000px;}
+.GMNCR { background-position:-257px -50px;}
+.GMNER { background-position:-257px -2000px;}
+.GMNIcon { background-repeat:no-repeat; background-position:right top; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                 Panel type cell                                                         */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ------------- Standard Panel images (FastPanel='0') ------------- */
+
+/* @ Set here width, height and background.
+   @ If there is present <button> in panel, set here padding-left and font-size instead of width and height
+   ...PanelImage is set to every panel icon <u> tag if there is no <button> in the panel.
+   ...PanelImageButton is set to every panel icon <u> tag if there also some <button> in the panel
+   ...PanelEmpty is shown for panel button named "Empty"
+   ...PanelMove is shown for panel button named "Move", ...PanelMoveOff is shown for rows without moving permissions
+   ...PanelSelect is shown for panel button named "Select", ...PanelSelectOff is shown for rows without selecting permissions, ...PanelSelectOn is shown for rows with Select="1"
+   ...PanelDelete is shown for panel button named "Delete", ...PanelDeleteOff is shown for rows without deleting permissions
+   ...PanelCopy is shown for panel button named "Copy", ...PanelCopyOff is shown for rows without copying permissions
+   ...PanelButton is shown if the panel button has not defined image and is shown as <button> or <u> depending on <Cfg UseButton>. @ Set here margin, border, padding, width, height and text attributes
+   ...PanelTouch is added to <u> on tablets with PanelImage, ...PanelTouchButton is added to <u> on tablets with PanelImageButton
+   ...PanelButtonTouch is added to <button> on tablets
+*/
+.GMPanelImage { width:16px; height:17px; display:inline-block; background-image:url(Panel.gif?v110); background-repeat:no-repeat; }
+.GMPanelImageButton { font:14px Arial; padding-left:16px; background-image:url(Panel.gif?v110); background-repeat:no-repeat; zoom:1; }
+.GMPanelEmpty { background:none; }   
+.GMPanelMove { background-position:0px 0px; }
+.GMPanelMoveOff { background-position:-50px 0px; }
+.GMPanelSelect { background-position:-100px 0px; }
+.GMPanelSelectOn { background-position:-150px 0px; }
+.GMPanelSelectOff { background-position:-200px 0px; }
+.GMPanelDelete { background-position:-250px 0px; }
+.GMPanelDeleteOff { background-position:-300px 0px; }
+.GMPanelCopy { background-position:-350px 0px; }
+.GMPanelCopyOff { background-position:-400px 0px; }
+button.GMPanelButton { 
+   padding:0px; height:14px; width:19px; margin:0px;
+   font:10px/7px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; display:inline-block; cursor:pointer; overflow:hidden; 
+   }
+u.GMPanelButton { 
+   background:url(Backgrounds.gif?v110) 0px -1px; border-bottom:1px solid #048; border-top:1px solid #D5E9FE; border-radius:10px; padding:1px 5px 0px 5px; margin:1px;
+   font:11px/12px Arial,Helvetica,sans-serif; color:white; cursor:pointer; text-decoration:none; display:inline-block; overflow:hidden; white-space:nowrap; 
+   }
+.GMCellHeaderPanel u.GMPanelButton { }
+.GMPanelTouch { margin-left:5px; margin-right:5px; }
+.GMPanelTouchButton { margin-left:5px; margin-right:5px; }
+.GMPanelButtonTouch { margin-left:2px; margin-right:2px; width:25px; }
+
+/* ------------- Fast Panel images (FastPanel='1')------------- */
+
+/* @ Do not change, for custom images use standard panel (FastPanel='0') or modify the FastPanel1.gif?v110/FastPanel2.gif?v110 files.
+   The image is used different for every button state, the four numbers are for buttons Move, Select, Delete, Copy in this order.
+   1 - shown, 2 - (on, for select), 0 - hidden, but space reserved, x - hidden completely, with no space
+*/
+.GMP1111,.GMP1211,.GMP1011,.GMP1101,.GMP1201,.GMP1001,.GMP1110,.GMP1210,.GMP1010,.GMP1100,.GMP1200,.GMP1000,
+.GMP0111,.GMP0211,.GMP0011,.GMP0101,.GMP0201,.GMP0001,.GMP0110,.GMP0210,.GMP0010,.GMP0100,.GMP0200,.GMP0000, 
+.GMP111x,.GMP121x,.GMP101x,.GMP110x,.GMP120x,.GMP100x,.GMP011x,.GMP021x,.GMP001x,.GMP010x,.GMP020x,.GMP000x,
+.GMP11xx,.GMP12xx,.GMP10xx,.GMP01xx,.GMP02xx,.GMP00xx,
+.GMPx111,.GMPx211,.GMPx011,.GMPx101,.GMPx201,.GMPx001,.GMPx110,.GMPx210,.GMPx010,.GMPx100,.GMPx200,.GMPx000,
+.GMPx11x,.GMPx21x,.GMPx01x,.GMPx10x,.GMPx20x,.GMPx00x,
+.GMPxx11,.GMPxx10,.GMPxx01,.GMPxx00, 
+.GMPxxx1,.GMPxxx0,.GMPxx1x,.GMPxx0x,.GMPx2xx,.GMPx1xx,.GMPx0xx,.GMP1xxx,.GMP0xxx {
+   background-image:url(FastPanel1.gif?v110); background-repeat:no-repeat;
+   }
+.GMP1111,.GMP111x,.GMP11xx,.GMP1xxx { background-position:0px 0px; }
+.GMP1211,.GMP121x,.GMP12xx { background-position:-80px 0px; }
+.GMP1011,.GMP101x,.GMP10xx { background-position:-160px 0px; }
+.GMP1101,.GMP110x { background-position:-240px 0px; }
+.GMP1201,.GMP120x { background-position:-320px 0px; }
+.GMP1001,.GMP100x { background-position:-400px 0px; }
+.GMP1110 { background-position:-480px 0px; }
+.GMP1210 { background-position:-560px 0px; }
+.GMP1010 { background-position:-640px 0px; }
+.GMP1100 { background-position:-720px 0px; }
+.GMP1200 { background-position:-800px 0px; }
+.GMP1000 { background-position:-880px 0px; }
+.GMP0111,.GMP011x,.GMP01xx,.GMP0xxx { background-position:-960px 0px; }
+.GMP0211,.GMP021x,.GMP02xx { background-position:-1040px 0px; }
+.GMP0011,.GMP001x,.GMP00xx { background-position:-1120px 0px; }
+.GMP0101,.GMP010x { background-position:-1200px 0px; }
+.GMP0201,.GMP020x { background-position:-1280px 0px; }
+.GMP0001,.GMP000x { background-position:-1360px 0px; }
+.GMP0110 { background-position:-1440px 0px; }
+.GMP0210 { background-position:-1520px 0px; }
+.GMP0010 { background-position:-1600px 0px; }
+.GMP0100 { background-position:-1680px 0px; }
+.GMP0200 { background-position:-1760px 0px; }
+.GMP0000 { background-position:-1840px 0px; }
+
+.GMPx111,.GMPx11x,.GMPx1xx { background-position:-16px 0px; }
+.GMPx211,.GMPx21x,.GMPx2xx { background-position:-96px 0px; }
+.GMPx011,.GMPx01x,.GMPx0xx { background-position:-176px 0px; }
+.GMPx101,.GMPx10x { background-position:-256px 0px; }
+.GMPx201,.GMPx20x { background-position:-336px 0px; }
+.GMPx001,.GMPx00x { background-position:-416px 0px; }
+.GMPx110 { background-position:-496px 0px; }
+.GMPx210 { background-position:-576px 0px; }
+.GMPx010 { background-position:-656px 0px; }
+.GMPx100 { background-position:-736px 0px; }
+.GMPx200 { background-position:-816px 0px; }
+.GMPx000 { background-position:-896px 0px; }
+
+.GMPxx11,.GMPxx1x { background-position:-32px 0px; }
+.GMPxx01,.GMPxx0x { background-position:-272px 0px; }
+.GMPxx10{ background-position:-512px 0px; }
+.GMPxx00 { background-position:-752px 0px; }
+
+.GMPxxx1 { background-position:-48px 0px; }
+.GMPxxx0 { background-position:-528px 0px; }
+
+.GMP11x1,.GMP12x1,.GMP10x1,.GMP11x0,.GMP12x0,.GMP10x0,.GMP01x1,.GMP02x1,.GMP00x1,.GMP01x0,.GMP02x0,.GMP00x0,
+.GMPx1x1,.GMPx2x1,.GMPx0x1,.GMPx1x0,.GMPx2x0,.GMPx0x0,
+.GMP1x11,.GMP1x01,.GMP1x10,.GMP1x00,.GMP0x11,.GMP0x01,.GMP0x10,.GMP0x00,
+.GMP1x1x,.GMP1x0x,.GMP0x1x,.GMP0x0x,
+.GMP1xx1,.GMP1xx0,.GMP0xx1,.GMP0xx0 {
+   background-image:url(FastPanel2.gif?v110); background-repeat:no-repeat;
+   }
+.GMP11x1 { background-position:0px 0px; }
+.GMP12x1 { background-position:-80px 0px; }
+.GMP10x1 { background-position:-160px 0px; }
+.GMP11x0 { background-position:-240px 0px; }
+.GMP12x0 { background-position:-320px 0px; }
+.GMP10x0 { background-position:-400px 0px; }
+.GMP01x1 { background-position:-480px 0px; }
+.GMP02x1 { background-position:-560px 0px; }
+.GMP00x1 { background-position:-640px 0px; }
+.GMP01x0 { background-position:-720px 0px; }
+.GMP02x0 { background-position:-800px 0px; }
+.GMP00x0 { background-position:-880px 0px; }
+
+.GMPx1x1 { background-position:-16px 0px; }
+.GMPx2x1 { background-position:-96px 0px; }
+.GMPx0x1 { background-position:-176px 0px; }
+.GMPx1x0 { background-position:-256px 0px; }
+.GMPx2x0 { background-position:-336px 0px; }
+.GMPx0x0 { background-position:-416px 0px; }
+
+.GMP1x11,.GMP1x1x { background-position:-960px 0px; }
+.GMP1x01,.GMP1x0x { background-position:-1040px 0px; }
+.GMP1x10 { background-position:-1120px 0px; }
+.GMP1x00 { background-position:-1200px 0px; }
+.GMP0x11,.GMP0x1x { background-position:-1280px 0px; }
+.GMP0x01,.GMP0x0x { background-position:-1360px 0px; }
+.GMP0x10 { background-position:-1440px 0px; }
+.GMP0x00 { background-position:-1520px 0px; }
+
+.GMP1xx1 { background-position:-1600px 0px; }
+.GMP1xx0 { background-position:-1680px 0px; }
+.GMP0xx1 { background-position:-1760px 0px; }
+.GMP0xx0 { background-position:-1840px 0px; }
+
+/* ------------- Space/Filter Panel checkbox images ------------- */   
+
+/* Special images in Filter, Group and Search rows for default panel (column named "Panel") if shown as the first column.
+   @ Set width, height and background
+   ...Filter0 - shown in Filter row when Filtered='0', ...Filter1 - shown in Filter row when Filtered='1'
+   ...Group0 - shown in Group row when Grouped='0', ...Group1 - shown in Group row when Grouped='1'
+   ...Search0 - shown in Search row when Searched='0', ...Search1 - shown in Search row when Searched='1'  
+*/
+.GMFilter0,.GMFilter1,.GMGroup0,.GMGroup1,.GMSearch0,.GMSearch1 { background-image:url(BoolSpace.gif?v110); background-repeat:no-repeat; display:inline-block; width:17px; height:21px; }
+.GMFilter0,.GMFilter1 { height:18px; }
+.GMFilter0 { background-position:right -2px; }
+.GMFilter1 { background-position:right -252px; }
+.GMGroup0 { background-position:center 0px; }
+.GMGroup1 { background-position:center -250px; }
+.GMSearch0 { background-position:center 0px; }
+.GMSearch1 { background-position:center -250px; }
+
+/* ...PSpace... is shown in Group and Search row according to actual width of the Panel column. 
+   @ Set here only width and text-align
+*/
+.GMPSpace1 { width:17px; text-align:center; }
+.GMPSpace2 { width:33px; text-align:center; }
+.GMPSpace3 { width:49px; text-align:center; }
+.GMPSpace4 { width:65px; text-align:center; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                               Button type cell                                                          */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ------------- Button = "Tab" ------------- */   
+
+/* @ Set border, padding, background and text attributes
+   ...TabHtml is set to the Tab button <td> tag
+   ...TabHtml1 is set to the Tab button <td> tag instead if the button value is 1
+   ...TabHtmlIcon... is set instead if the button has Icon
+*/
+.GMTabHtml,.GMTabHtml1,.GMTabHtmlIcon,.GMTabHtmlIcon1 { font-weight:bold; text-align:center; padding-left:5px; padding-right:5px; background:url(Backgrounds.gif?v110) repeat-x left -1450px; }
+.GMRowAbove .GMTabHtml,.GMRowAbove .GMTabHtml1 { }
+.GMRowBelow .GMTabHtml,.GMRowBelow .GMTabHtml1 { }
+.GMTabHtml1,.GMTabHtmlIcon1 { background-position:left -1500px; color:white; }
+
+/* Separators between Button="Tab", set to <td> tag 
+   They are created automatically to separate the Tabs or can be created manually by Button="TabSep"
+   @ Set background, border and padding or width
+   ...TabSep is set to empty <td> tag between two Tab buttons
+   ...TabSepLeft is set to empty <td> tag before Tab button
+   ...TabSepRight is set to empty <td> tag after Tab button
+   ...TabSepFirst is set to empty <td> tag before Tab button if it is the first cell
+   ...TabSepLast is set to empty <td> tag after Tab button if it is the last cell
+   ...TabSepNoBack is added to all Tab separators on row Kind="Tabber2"
+*/
+.GMTabSep,.GMTabSepLeft,.GMTabSepRight {
+   padding-left:3px; padding-right:0px; background:white!important; border:0px none; border-left:1px solid #9cb6c8; border-right:1px solid #9cb6c8; cursor:default!important;
+   }
+.GMTabSepRight,.GMTabSepLeft { padding-left:5px; }
+.GMTabSepLast { padding-left:1px; background:white!important; border:none; border-left:1px solid #9cb6c8; cursor:default!important; }
+.GMTabSepFirst { padding-left:1px; background:white!important; border:none; border-right:1px solid #9cb6c8; cursor:default!important; }
+.GMTabSepNoBack { background:none!important; }
+
+/* ------------- Button = "Button" ------------- */   
+
+/* Parent of the <button> or <u>, it is set to cell <td> tag or inner <div> tag 
+   @ Set background, border and padding
+*/
+.GMToolButton { text-align:center; padding:0px 1px 0px 1px; }
+
+/* Class set to the <button> tag if set <Cfg UseButton='1'> or to <u> tag if set <Cfg UseButton='0'>.
+   @ Set background, border, margin, padding, height and text attributes
+   ...ToolButtonButton is set in table row
+   ...ToolButtonButton1 is set in table row instead if the button value is 1
+   ...ToolButtonButtonAuto is added if the table cell has not set Width attribute
+   ...ToolSpaceButton is set in Space row
+   ...ToolSpaceButton1 is set in Space row instead if the button value is 1
+   ...ToolSpaceButtonAuto is added if the Space cell has set Width="-1"
+   ...Icon is added if the cell has set Icon attribute
+   ...IconInner is set to the inner <i> tag with the icon and text if the cell has set Icon attribute
+   ...Empty is added to button with empty text to preserve its height; @ Set height
+*/
+button.GMToolButtonButton,button.GMToolButtonButton1 { font:10px/11px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; height:17px; padding:0px; cursor:pointer; white-space:nowrap; }
+button.GMToolSpaceButton,button.GMToolSpaceButton1 { font:11px/12px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; height:21px; padding:0px; cursor:pointer; white-space:nowrap; }
+button.GMToolButtonButton1,button.GMToolSpaceButton1 { color:blue; font-weight:bold; }
+
+u.GMToolButtonButton,u.GMToolButtonButton1,u.GMToolSpaceButton,u.GMToolSpaceButton1 { 
+   background:url(Backgrounds.gif?v110) 0px -1px; border-bottom:1px solid #048; border-top:1px solid #D5E9FE; border-radius:10px; 
+   color:white; cursor:pointer; text-decoration:none; display:block; overflow:hidden; white-space:nowrap; 
+   }
+u.GMToolButtonButton,u.GMToolButtonButton1 { font:11px/12px Arial,Helvetica,sans-serif; padding:1px 5px 0px 5px; margin:1px;}
+u.GMToolSpaceButton,u.GMToolSpaceButton1 { font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; padding:1px 5px 1px 5px; margin:2px 0px 2px 0px; }
+.GMCellHeader u.GMToolButtonButton,.GMCellHeader u.GMToolButtonButton1 { }
+u.GMToolButtonButton1,u.GMToolSpaceButton1 { color:#FF0; background:url(Backgrounds.gif?v110) 0px -15px; }
+u.GMToolButtonIcon { padding-top:0px; padding-bottom:0px; } .GMToolButtonIconInner { padding-top:1px; padding-bottom:0px; display:inline-block; font-style:normal; }
+u.GMToolSpaceIcon { padding-top:0px; padding-bottom:0px; }  .GMToolSpaceIconInner { padding-top:1px; padding-bottom:1px; display:inline-block; font-style:normal; }
+.GMToolButtonEmpty { height:12px; width:0px; overflow:hidden; display:inline-block; }
+.GMToolSpaceEmpty { height:13px; width:0px; overflow:hidden; display:inline-block; }
+
+.GMToolButtonButtonAuto,.GMToolSpaceButtonAuto { padding-left:3px; padding-right:3px; }
+
+/* ------------- Button = "Html" ------------- */   
+
+/* @ Set border, padding, background and text attributes
+   ...ToolHtml is set to the button <td> tag
+   ...ToolHtml1 is set to the button <td> tag instead if the button value is 1
+   ...ToolHtmlIcon... is set instead if the button has Icon or is Class button
+*/
+.GMToolHtml,.GMToolHtml1 { padding-left:3px; padding-right:3px; text-align:center; }
+.GMToolHtml1 { font-weight:bold; color:blue; }
+.GMToolHtmlIcon,.GMToolHtmlIcon1 { text-align:center; }
+.GMToolHtmlIcon1 { }
+
+/* Added to <td> or <div> tag when the cell has set Icon attribute, according to IconAlign value */
+.GMToolHtmlIconLeft { text-align:left; }
+.GMToolHtmlIconRight { text-align:right; }
+
+/* Added to <td> tag, to button with empty text; @ Set border and padding */
+.GMToolHtmlIconSingle { }
+
+/* Added to <div> tag, to button with empty text to preserve its height; ...IE is used for IE5 quirks mode; @ Set height */
+.GMToolHtmlEmpty { height:13px; width:0px; overflow:hidden; display:inline-block; }
+.GMToolHtmlEmptyIE { overflow:hidden; display:inline-block; }
+
+/* -------------  Other Button type attributes ------------- */
+
+/* Added to <td> tag when the Button type cell has set Disabled='1' */
+.GMDisabledButton { opacity:0.3; filter:alpha(opacity=30); }
+
+/* Popup cell side icon, used for Button type cell with List attribute 
+   @ Set background and padding
+   ...PopupRight - right popup icon, used for PopupIcon="2" and for not empty value and PopupIcon="1"
+   ...PopupLeft - not used now
+   ...PopupNone - used for PopupIcon="1" and empty value, just to preserve the space
+*/
+.GMPopupLeft,.GMPopupRight { background-image:url(Menu.gif?v110); background-repeat:no-repeat; }
+.GMPopupLeft { background-position:-6px -248px; padding-left:14px;}
+.GMPopupRight { background-position:right -248px; padding-right:14px;}
+.GMPopupNone { padding-right:14px; }
+
+/* ------------------------------------------  Special Toolbar buttons' images ---------------------------------------------- */
+
+/* Class added to <td> tag for alignment of the icon in Button="Class" or Button="Html"
+   ...Single is added is added for button without ButtonText to specify the icon width
+   ...Left/Right/Top/Bottom is added for appropriate IconAlign value
+   @ Set padding
+*/
+.GMToolAlignSingle { padding-left:24px; padding-right:0px; }
+.GMToolAlignLeft { padding-left:22px; padding-right:8px; }
+.GMToolAlignRight { padding-left:8px; padding-right:22px; }
+.GMToolAlignTop { padding:22px 5px 3px 5px; }
+.GMToolAlignBottom { padding:5px 5px 24px 5px; }
+
+/* Used for Type="Button" Button="Class" and cell value null, "", 0 or 1. Set to <td> tag
+   @ Set border, padding, background
+*/
+.GMToolSave,.GMToolReload,.GMToolRepaint,.GMToolRepaint1,.GMToolPrint,.GMToolExportPDF,.GMToolExport,.GMToolUndo,.GMToolUndo1,.GMToolRedo,.GMToolRedo1,
+.GMToolAdd,.GMToolAddChild,.GMToolJoin,.GMToolSplit,.GMToolOutdent,.GMToolIndent,.GMToolSort,.GMToolSort1,.GMToolCalc,.GMToolCalc1,
+.GMToolExpandAll,.GMToolCollapseAll,.GMToolColumns,.GMToolCfg,.GMToolHelp,.GMToolDebug,.GMResizeGrid,.GMResizeGridRtl {
+   background-image:url(Toolbar.png?v110); -background-image:url(Toolbar.gif?v110); background-repeat:no-repeat;
+   }
+.GMToolSave { background-position:center 0px; }            .GMToolSaveLeft { background-position:left 0px; }            .GMToolSaveRight { background-position:right 0px; }            .GMToolSaveBottom { background-position:center 20px; }
+.GMToolReload { background-position:center -100px; }       .GMToolReloadLeft { background-position:left -100px; }       .GMToolReloadRight { background-position:right -100px; }       .GMToolReloadBottom { background-position:center -80px; }
+.GMToolRepaint { background-position:center -200px; }      .GMToolRepaintLeft { background-position:left -200px; }      .GMToolRepaintRight { background-position:right -200px; }      .GMToolRepaintBottom { background-position:center -180px; }
+.GMToolRepaint1 { background-position:center -300px; }     .GMToolRepaintLeft1 { background-position:left -300px; }     .GMToolRepaintRight1 { background-position:right -300px; }     .GMToolRepaintBottom1 { background-position:center -280px; }
+.GMToolPrint { background-position:center -400px; }        .GMToolPrintLeft { background-position:left -400px; }        .GMToolPrintRight { background-position:right -400px; }        .GMToolPrintBottom { background-position:center -380px; }
+.GMToolExportPDF { background-position:center -500px; }    .GMToolExportPDFLeft { background-position:left -500px; }    .GMToolExportPDFRight { background-position:right -500px; }    .GMToolExportPDFBottom { background-position:center -480px; }
+.GMToolExport { background-position:center -600px; }       .GMToolExportLeft { background-position:left -600px; }       .GMToolExportRight { background-position:right -600px; }       .GMToolExportBottom { background-position:center -580px; }
+.GMToolUndo { background-position:center -700px; }         .GMToolUndoLeft { background-position:left -700px; }         .GMToolUndoRight { background-position:right -700px; }         .GMToolUndoBottom { background-position:center -680px; }
+.GMToolUndo1 { background-position:center -800px; }        .GMToolUndoLeft1 { background-position:left -800px; }        .GMToolUndoRight1 { background-position:right -800px; }        .GMToolUndoBottom1 { background-position:center -780px; }
+.GMToolRedo { background-position:center -900px; }         .GMToolRedoLeft { background-position:left -900px; }         .GMToolRedoRight { background-position:right -900px; }         .GMToolRedoBottom { background-position:center -880px; } 
+.GMToolRedo1 { background-position:center -1000px; }       .GMToolRedoLeft1 { background-position:left -1000px; }       .GMToolRedoRight1 { background-position:right -1000px; }       .GMToolRedoBottom1 { background-position:center -980px; }
+.GMToolAdd { background-position:center -1100px; }         .GMToolAddLeft { background-position:left -1100px; }         .GMToolAddRight { background-position:right -1100px; }         .GMToolAddBottom { background-position:center -1080px; }
+.GMToolAddChild { background-position:center -1200px; }    .GMToolAddChildLeft { background-position:left -1200px; }    .GMToolAddChildRight { background-position:right -1200px; }    .GMToolAddChildBottom { background-position:center -1180px; }
+.GMToolJoin { background-position:center -1300px; }        .GMToolJoinLeft { background-position:left -1300px; }        .GMToolJoinRight { background-position:right -1300px; }        .GMToolJoinBottom { background-position:center -1280px; }
+.GMToolSplit { background-position:center -1400px; }       .GMToolSplitLeft { background-position:left -1400px; }       .GMToolSplitRight { background-position:right -1400px; }       .GMToolSplitBottom { background-position:center -1380px; }
+.GMToolOutdent { background-position:center -1500px; }     .GMToolOutdentLeft { background-position:left -1500px; }     .GMToolOutdentRight { background-position:right -1500px; }     .GMToolOutdentBottom { background-position:center -1480px; }
+.GMToolIndent { background-position:center -1600px; }      .GMToolIndentLeft { background-position:left -1600px; }      .GMToolIndentRight { background-position:right -1600px; }      .GMToolIndentBottom { background-position:center -1580px; }
+.GMToolSort { background-position:center -1700px; }        .GMToolSortLeft { background-position:left -1700px; }        .GMToolSortRight { background-position:right -1700px; }        .GMToolSortBottom { background-position:center -1680px; }
+.GMToolSort1 { background-position:center -1800px; }       .GMToolSortLeft1 { background-position:left -1800px; }       .GMToolSortRight1 { background-position:right -1800px; }       .GMToolSortBottom1 { background-position:center -1780px; }
+.GMToolCalc { background-position:center -1900px; }        .GMToolCalcLeft { background-position:left -1900px; }        .GMToolCalcRight { background-position:right -1900px; }        .GMToolCalcBottom { background-position:center -1880px; }
+.GMToolCalc1 { background-position:center -2000px; }       .GMToolCalcLeft1 { background-position:left -2000px; }       .GMToolCalcRight1 { background-position:right -2000px; }       .GMToolCalcBottom1 { background-position:center -1980px; }
+.GMToolExpandAll { background-position:center -2100px; }   .GMToolExpandAllLeft { background-position:left -2100px; }   .GMToolExpandAllRight { background-position:right -2100px; }   .GMToolExpandAllBottom { background-position:center -2080px; }
+.GMToolCollapseAll { background-position:center -2200px; } .GMToolCollapseAllLeft { background-position:left -2200px; } .GMToolCollapseAllRight { background-position:right -2200px; } .GMToolCollapseAllBottom { background-position:center -2180px; }
+.GMToolColumns { background-position:center -2300px; }     .GMToolColumnsLeft { background-position:left -2300px; }     .GMToolColumnsRight { background-position:right -2300px; }     .GMToolColumnsBottom { background-position:center -2280px; }
+.GMToolCfg { background-position:center -2400px; }         .GMToolCfgLeft { background-position:left -2400px; }         .GMToolCfgRight { background-position:right -2400px; }         .GMToolCfgBottom { background-position:center -2380px; }
+.GMToolHelp { background-position:center -2500px; }        .GMToolHelpLeft { background-position:left -2500px; }        .GMToolHelpRight { background-position:right -2500px; }        .GMToolHelpBottom { background-position:center -2480px; }
+.GMToolDebug { background-position:center -2600px; }       .GMToolDebugLeft { background-position:left -2600px; }       .GMToolDebugRight { background-position:right -2600px; }       .GMToolDebugBottom { background-position:center -2580px; }
+.GMResizeGrid { background-position:center -2700px; }      .GMResizeGridLeft { background-position:left -2700px; }      .GMResizeGridRight { background-position:right -2700px; }      .GMResizeGridBottom { background-position:center -2680px; } 
+.GMResizeGridRtl { background-position:center -2800px; }   .GMResizeGridRtlLeft { background-position:left -2800px; }   .GMResizeGridRtlRight { background-position:right -2800px; }   .GMResizeGridRtlBottom { background-position:center -2780px; }
+
+.GMToolPagerFirst,.GMToolPagerFirst1,.GMToolPagerPrev,.GMToolPagerPrev1,.GMToolPagerNext,.GMToolPagerNext1,.GMToolPagerLast,.GMToolPagerLast1 {
+   background-image:url(Pager.png?v110); -background-image:url(Pager.gif?v110); background-repeat:no-repeat;
+   }
+.GMToolPagerFirst { background-position:center 0px; }      .GMToolPagerFirstLeft { background-position:left 0px; }      .GMToolPagerFirstRight { background-position:right 0px; }      .GMToolPagerFirstBottom { background-position:center 20px; }
+.GMToolPagerFirst1 { background-position:center -100px; }  .GMToolPagerFirstLeft1 { background-position:left -100px; }  .GMToolPagerFirstRight1 { background-position:right -100px; }  .GMToolPagerFirstBottom1 { background-position:center -80px; }
+.GMToolPagerPrev { background-position:center -200px; }    .GMToolPagerPrevLeft { background-position:left -200px; }    .GMToolPagerPrevRight { background-position:right -200px; }    .GMToolPagerPrevBottom { background-position:center -180px; } 
+.GMToolPagerPrev1 { background-position:center -300px; }   .GMToolPagerPrevLeft1 { background-position:left -300px; }   .GMToolPagerPrevRight1 { background-position:right -300px; }   .GMToolPagerPrevBottom1 { background-position:center -280px; } 
+.GMToolPagerNext { background-position:center -400px; }    .GMToolPagerNextLeft { background-position:left -400px; }    .GMToolPagerNextRight { background-position:right -400px; }    .GMToolPagerNextBottom { background-position:center -380px; } 
+.GMToolPagerNext1 { background-position:center -500px; }   .GMToolPagerNextLeft1 { background-position:left -500px; }   .GMToolPagerNextRight1 { background-position:right -500px; }   .GMToolPagerNextBottom1 { background-position:center -480px; }
+.GMToolPagerLast { background-position:center -600px; }    .GMToolPagerLastLeft { background-position:left -600px; }    .GMToolPagerLastRight { background-position:right -600px; }    .GMToolPagerLastBottom { background-position:center -580px; } 
+.GMToolPagerLast1 { background-position:center -700px; }   .GMToolPagerLastLeft1 { background-position:left -700px; }   .GMToolPagerLastRight1 { background-position:right -700px; }   .GMToolPagerLastBottom1 { background-position:center -680px; }
+
+.GMToolCorrect,.GMToolCorrect1,.GMToolZoomIn,.GMToolZoomIn1,.GMToolZoomOut,.GMToolZoomOut1,.GMToolZoomFit { 
+   background-image:url(ToolbarGantt.png?v110); -background-image:url(ToolbarGantt.gif?v110); background-repeat:no-repeat;
+   }
+.GMToolCorrect { background-position:center 0px; }        .GMToolCorrectLeft { background-position:left 0px; }          .GMToolCorrectRight { background-position:right 0px; }         .GMToolCorrectBottom { background-position:center 20px; } 
+.GMToolCorrect1 { background-position:center -100px; }    .GMToolCorrectLeft1 { background-position:left -100px; }      .GMToolCorrectRight1 { background-position:right -100px; }     .GMToolCorrectBottom1 { background-position:center -80px; }
+.GMToolZoomIn { background-position:center -200px; }      .GMToolZoomInLeft { background-position:left -200px; }        .GMToolZoomInRight { background-position:right -200px; }       .GMToolZoomInBottom { background-position:center -180px; } 
+.GMToolZoomIn1 { background-position:center -300px; }     .GMToolZoomInLeft1 { background-position:left -300px; }       .GMToolZoomInRight1 { background-position:right -300px; }      .GMToolZoomInBottom1 { background-position:center -280px; }
+.GMToolZoomOut { background-position:center -400px; }     .GMToolZoomOutLeft { background-position:left -400px; }       .GMToolZoomOutRight { background-position:right -400px; }      .GMToolZoomOutBottom { background-position:center -380px; }
+.GMToolZoomOut1 { background-position:center -500px; }    .GMToolZoomOutLeft1 { background-position:left -500px; }      .GMToolZoomOutRight1 { background-position:right -500px; }     .GMToolZoomOutBottom1 { background-position:center -480px; } 
+.GMToolZoomFit { background-position:center -600px; }     .GMToolZoomFitLeft { background-position:left -600px; }       .GMToolZoomFitRight { background-position:right -600px; }      .GMToolZoomFitBottom { background-position:center -580px; }
+
+/* Void button ResizeGrid; @ Do not change */
+.GMToolResize { visibility:hidden; }
+
+/* It is added to the td tag when used VAlign and no button text is shown */
+.GMToolImage { display:inline-block; width:24px; height:21px; padding:0px; overflow:hidden; }
+
+/* It is added to the td tag when used VAlign and the button text is shown; for IconAlign values */
+.GMToolImageLeftText,.GMToolImageRightText,.GMToolImageTopText,.GMToolImageBottomText { display:inline-block; text-decoration:none; }
+.GMToolImageLeftText { padding-top:5px; padding-bottom:3px; }
+.GMToolImageRightText { padding-top:5px; padding-bottom:3px; }
+.GMToolImageTopText { height:13px; }
+.GMToolImageBottomText { height:13px; padding-top:5px; padding-bottom:24px; }
+
+/* It is added to div tag when used Icon attribute with Button="Class"; for IconAlign values; Single is used without ButtonText; */
+.GMToolIconSingle { background-position:center center; }
+.GMToolIconLeft { background-position:left center; }
+.GMToolIconRight { background-position:right center; }
+.GMToolIconTop { background-position:center top; }
+.GMToolIconBottom { background-position:center bottom; }
+
+/* Special class added to <td> tag for Pager type cell edit box with pager number - it is standard editable Space cell */
+.GMPagerEdit > div { text-align:center; }
+
+/* Special icon always placed to right bottom grid corner to resize grid if set ResizingMain 
+   @ Set background and optionally margin, width and height for the icon size and position
+   ...Rtl is placed in bottom left corner and is used in RTL mode
+*/
+.GMResizeGrid  { background-position:-2px -2703px; margin:-19px 0px 0px auto; height:19px; width:19px; overflow:hidden; padding:0px; cursor:nw-resize; }
+.GMResizeGridRtl { background-position:-2px -2803px; margin:-19px auto 0px 0px; height:19px; width:19px; overflow:hidden; padding:0px; cursor:ne-resize; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                            Cell side Icon / Button                                                      */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* --------------------------------------------------  Filter images -------------------------------------------------------- */
+
+/* Filter operator icons shown on left or right side (set by IconAlign), shown in <td> or <div> tag.
+   The number 0 - 12 is the operator number set in cell Filter attribute
+   @ Set here background and padding-left
+*/
+.GMFilter0Left,.GMFilter1Left,.GMFilter2Left,.GMFilter3Left,.GMFilter4Left,.GMFilter5Left,.GMFilter6Left,
+.GMFilter7Left,.GMFilter8Left,.GMFilter9Left,.GMFilter10Left,.GMFilter11Left,.GMFilter12Left  {
+   background-image:url(Filter.gif?v110); background-repeat:no-repeat; padding-left:17px;
+   }
+.GMFilter0Right,.GMFilter1Right,.GMFilter2Right,.GMFilter3Right,.GMFilter4Right,.GMFilter5Right,.GMFilter6Right,
+.GMFilter7Right,.GMFilter8Right,.GMFilter9Right,.GMFilter10Right,.GMFilter11Right,.GMFilter12Right {
+   background-image:url(Filter.gif?v110); background-repeat:no-repeat; padding-right:17px;
+   }
+.GMFilter0Left,.GMFilter0Menu { background-position:left 0px; }   
+.GMFilter1Left,.GMFilter1Menu { background-position:left -150px; }
+.GMFilter2Left,.GMFilter2Menu { background-position:left -300px; }
+.GMFilter3Left,.GMFilter3Menu { background-position:left -450px; }
+.GMFilter4Left,.GMFilter4Menu { background-position:left -600px; }
+.GMFilter5Left,.GMFilter5Menu { background-position:left -750px; }   
+.GMFilter6Left,.GMFilter6Menu { background-position:left -900px; }
+.GMFilter7Left,.GMFilter7Menu { background-position:left -1050px; }
+.GMFilter8Left,.GMFilter8Menu { background-position:left -1200px; }
+.GMFilter9Left,.GMFilter9Menu { background-position:left -1350px; }
+.GMFilter10Left,.GMFilter10Menu { background-position:left -1500px; }
+.GMFilter11Left,.GMFilter11Menu { background-position:left -1650px; }
+.GMFilter12Left,.GMFilter12Menu { background-position:left -1800px; }
+.GMFilter0Right { background-position:right 0px; }   
+.GMFilter1Right { background-position:right -150px; }
+.GMFilter2Right { background-position:right -300px; }
+.GMFilter3Right { background-position:right -450px; }
+.GMFilter4Right { background-position:right -600px; }
+.GMFilter5Right { background-position:right -750px; }   
+.GMFilter6Right { background-position:right -900px; }
+.GMFilter7Right { background-position:right -1050px; }
+.GMFilter8Right { background-position:right -1200px; }
+.GMFilter9Right { background-position:right -1350px; }
+.GMFilter10Right { background-position:right -1500px; }
+.GMFilter11Right { background-position:right -1650px; }
+.GMFilter12Right { background-position:right -1800px; }
+
+/* The filter operator icons shown in the popup menu 
+   @ Set here background, width and height
+*/
+.GMFilter0Menu,.GMFilter1Menu,.GMFilter2Menu,.GMFilter3Menu,.GMFilter4Menu,.GMFilter5Menu,.GMFilter6Menu,
+.GMFilter7Menu,.GMFilter8Menu,.GMFilter9Menu,.GMFilter10Menu,.GMFilter11Menu,.GMFilter12Menu {
+   width:17px; height:17px; overflow:hidden; background-image:url(Filter.gif?v110); background-repeat:no-repeat; margin-left:-1px;
+   }
+
+/* ---------------------------------------------------  Sort images --------------------------------------------------------- */
+
+/* Sort icons shown on left or right side (set by IconAlign) in Header cell, shown in <td> or <div> tag.
+   0 - no sort, 1 - first sort asc, 2 - second sort asc, 3 - third sort asc, 4 - first sort desc, 5 - second sort desc, 6 - third sort desc
+   @ Set here background and padding-left
+*/
+.GMSort0Left,.GMSort1Left,.GMSort2Left,.GMSort3Left,.GMSort4Left,.GMSort5Left,.GMSort6Left,
+.GMSort0Right,.GMSort1Right,.GMSort2Right,.GMSort3Right,.GMSort4Right,.GMSort5Right,.GMSort6Right {
+   background-image:url(Sort.gif?v110); background-repeat:no-repeat;  
+   }
+.GMSort0Left,.GMSort1Left,.GMSort2Left,.GMSort3Left,.GMSort4Left,.GMSort5Left,.GMSort6Left { padding-left:17px; }
+.GMSort0Right,.GMSort1Right,.GMSort2Right,.GMSort3Right,.GMSort4Right,.GMSort5Right,.GMSort6Right{ padding-right:17px; }
+.GMSort0Left { background-position:left 0px; }   
+.GMSort1Left { background-position:left -250px; }
+.GMSort2Left { background-position:left -500px; }
+.GMSort3Left { background-position:left -750px; }
+.GMSort4Left { background-position:left -1000px; }
+.GMSort5Left { background-position:left -1250px; }
+.GMSort6Left { background-position:left -1500px; }
+.GMSort0Right { background-position:right 0px; }   
+.GMSort1Right { background-position:right -250px; }
+.GMSort2Right { background-position:right -500px; }
+.GMSort3Right { background-position:right -750px; }
+.GMSort4Right { background-position:right -1000px; }
+.GMSort5Right { background-position:right -1250px; }
+.GMSort6Right { background-position:right -1500px; }
+
+/* ------------------------------------------------  Side button images ----------------------------------------------------- */
+
+/* Predefined side icon and side button images.
+   The ...Left is used for Icon with IconAlign="Left" or without IconAlign
+   The ...Right is used for Icon with IconAlign="Right" and for Button
+   The ...Top and ...Bottom is used for Type="Button" with Icon and IconAlign="Top" or "Bottom"
+   The ...Check0... is not checked, ...Check1... is checked and ...Check2... is empty state (the ?)
+   @ Set here background and padding
+ */
+.GMDateLeft,.GMDatesLeft,.GMDefaultsLeft,.GMEnumLeft,.GMCollapseLeft,.GMExpandLeft  { background-image:url(Button.gif?v110); padding-left:17px; background-repeat:no-repeat; }
+.GMDateRight,.GMDatesRight,.GMDefaultsRight,.GMEnumRight,.GMCollapseRight,.GMExpandRight { background-image:url(Button.gif?v110); padding-right:17px; background-repeat:no-repeat; }
+.GMDateTop,.GMDatesTop,.GMDefaultsTop,.GMEnumTop,.GMCollapseTop,.GMExpandTop  { background-image:url(Button.gif?v110); padding-top:20px; background-repeat:no-repeat; }
+.GMDateBottom,.GMDatesBottom,.GMDefaultsBottom,.GMEnumBottom,.GMCollapseBottom,.GMExpandBottom { background-image:url(Button.gif?v110); padding-bottom:20px; background-repeat:no-repeat; }
+.GMDateLeft,.GMDatesLeft { background-position:left -250px; padding-left:20px; }
+.GMDateRight,.GMDatesRight { background-position:right -250px; padding-right:20px; }
+.GMDateTop,.GMDatesTop { background-position:center -250px; }
+.GMDateBottom,.GMDatesBottom { background-position:center -230px; }
+.GMDefaultsLeft { background-position:left 0px; padding-left:20px; }
+.GMDefaultsRight { background-position:right 0px; padding-right:20px; }
+.GMDefaultsTop { background-position:center 0px; }
+.GMDefaultsBottom { background-position:center 20px; }
+.GMEnumLeft { background-position:left -500px; }
+.GMEnumRight { background-position:right -500px; }
+.GMEnumTop { background-position:center -500px; }
+.GMEnumBottom { background-position:center -480px; }
+.GMExpandLeft { background-position:left -1000px; }
+.GMExpandRight { background-position:right -1000px; }
+.GMExpandTop { background-position:center -1000px; }
+.GMExpandBottom { background-position:center -980px; }
+.GMCollapseLeft { background-position:left -750px; }
+.GMCollapseRight { background-position:right -750px; }
+.GMCollapseTop { background-position:center -750px; }
+.GMCollapseBottom { background-position:center -730px; }
+
+.GMCheck0Left,.GMCheck1Left,.GMCheck2Left { background-image:url(Bool.gif?v110); padding-left:17px; background-repeat:no-repeat; }
+.GMCheck0Right,.GMCheck1Right,.GMCheck2Right { background-image:url(Bool.gif?v110); padding-right:17px; background-repeat:no-repeat; }
+.GMCheck0Top,.GMCheck1Top,.GMCheck2Top { background-image:url(Bool.gif?v110); padding-top:20px; background-repeat:no-repeat; }
+.GMCheck0Bottom,.GMCheck1Bottom,.GMCheck2Bottom { background-image:url(Bool.gif?v110); padding-bottom:20px; background-repeat:no-repeat; }
+.GMCheck0Left { background-position:left 0px; }
+.GMCheck1Left { background-position:left -250px; }
+.GMCheck2Left { background-position:left -500px; }
+.GMCheck0Right { background-position:right 0px; }
+.GMCheck1Right { background-position:right -250px; }
+.GMCheck2Right { background-position:right -500px; }
+.GMCheck0Top { background-position:center 0px; }
+.GMCheck1Top { background-position:center -250px; }
+.GMCheck2Top { background-position:center -500px; }
+.GMCheck0Bottom { background-position:center 20px; }
+.GMCheck1Bottom { background-position:center -230px; }
+.GMCheck2Bottom { background-position:center -480px; }
+
+/* Class added to right side button if shown in <u> tag - in Header cell or if the cell has set VAlign 
+   @ Set here only height
+*/
+.GMButtonImage { display:inline-block; height:17px; padding-left:0px; padding-right:0px; }
+
+/* Class added to <a> tag in Type="Icon" and Link attribute set. @ Do not change. */
+.GMIconLink { text-decoration:none; width:1000px; display:inline-block; }
+
+/* Class added to the <td> or <div> tag when set custom Icon as icon file, with the suffix as IconAlign. @ Set padding */
+.GMIconLeft { background-position:left 0px; padding-left:20px; background-repeat:no-repeat; }
+.GMIconRight { background-position:right 0px; padding-right:20px; background-repeat:no-repeat; }
+.GMIconCenter { background-position:center 0px; background-repeat:no-repeat; }
+.GMIconTop { padding-top:20px; background-position:center 0px; background-repeat:no-repeat; }
+.GMIconBottom { padding-bottom:21px; background-position:center 20px; background-repeat:no-repeat; }
+
+/* Class added to the <td> or <div> tag when set custom Icon as icon file, with the suffix as IconAlign="Top or "Bottom and VAlign. 
+   Used to synchronize position of custom icons with standard toolbar icons
+   @ Set padding and margin 
+*/
+.GMIconTopVAlignTop { padding-top:20px; }
+.GMIconTopVAlignMiddle { padding-top:21px; }
+.GMIconTopVAlignBottom { padding-top:22px; }
+.GMIconBottomVAlignTop { padding-bottom:22px; }
+.GMIconBottomVAlignMiddle { padding-bottom:21px; }
+.GMIconBottomVAlignBottom { padding-bottom:21px; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                        Cell checkboxes - Radio and Bool types                                           */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ------------------------------------------------  Radio Type images ------------------------------------------------------ */
+
+/* Radio icons for cell RadioIcon = 0,1,2, set to <td> tag
+   The ...Right is used when cell has set RadioRight='1'
+   The ...None is used for RadioIcon='6'
+   0 - unchecked radio, 1 - checked radio, 2 - unchecked checkbox, 3 - checked checkbox
+   @ Set background, padding, border and text attributes
+*/
+.GMRadio0Left,.GMRadio0Right,.GMRadio1Left,.GMRadio1Right,.GMRadio2Left,.GMRadio2Right,.GMRadio3Left,.GMRadio3Right,.GMRadioIconLeft,.GMRadioIconRight,.GMRadioNone { 
+   background-image:url(Bool.gif?v110); background-repeat:no-repeat; font:11.9px/17px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif;
+   }
+.GMRadio0Left,.GMRadio1Left,.GMRadio2Left,.GMRadio3Left,.GMRadioIconLeft { padding-left:17px; padding-right:3px; }
+.GMRadio0Right,.GMRadio1Right,.GMRadio2Right,.GMRadio3Right,.GMRadioIconRight { padding-right:17px; padding-left:3px; }
+.GMRadio0Left { background-position:left -1500px; } 
+.GMRadio1Left { background-position:left -1750px; } 
+.GMRadio2Left { background-position:left 0px; }
+.GMRadio3Left { background-position:left -250px;}
+.GMRadio0Right { background-position:right -1500px; } 
+.GMRadio1Right { background-position:right -1750px; } 
+.GMRadio2Right { background-position:right 0px; }
+.GMRadio3Right { background-position:right -250px; }
+.GMRadioNone { background-image:none; }
+
+/* Custom radio icon for cell RadioIcon = "image file", set to <td> tag. 
+   The ...Right is used when cell has set RadioRight='1'
+   @ Set padding, border and text attributes
+*/
+.GMRadioIconLeft { background-position:left top; }
+.GMRadioIconRight { background-position:right top; }
+
+/* The Radio icons if set to nobr and span tags when set cell attribute Wrap='1'
+   @ Set padding and optionally background, border and text attributes
+*/
+nobr.GMRadio0Left,nobr.GMRadio1Left,nobr.GMRadio2Left,nobr.GMRadio3Left,nobr.GMRadio0Right,nobr.GMRadio1Right,nobr.GMRadio2Right,nobr.GMRadio3Right,nobr.GMRadioIconLeft,nobr.GMRadioIconRight,
+span.GMRadio0Left,span.GMRadio1Left,span.GMRadio2Left,span.GMRadio3Left,span.GMRadio0Right,span.GMRadio1Right,span.GMRadio2Right,span.GMRadio3Right,span.GMRadioIconLeft,span.GMRadioIconRight {
+   padding-top:2px; padding-bottom:2px; 
+   }
+
+/* Radio icons by standard <input>, for cell RadioIcon = 3,4,5  
+   ...RadioCell is set to the <td> tag around the radio. @ Set background, padding and border
+   ...RadioInput is set to <input> type "checkbox" or "radio". @ Set margin, padding and line-height
+   ...RadioText is set to <span> tag next to the <input>. @ Set text attributes and optionally background, padding and border
+*/
+.GMRadioCell { white-space:nowrap; }
+.GMRadioInput { margin:1px 2px 0px 2px; padding:0px; margin-top:-4px!IE; line-height:13px; }
+.GMRadioText { font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; }
+nobr.GMRadioCell,span.GMRadioCell { display:inline-block; }
+
+/* Caption of checked radio button; @ Set here border, padding, background and text attributes */
+.GMRadioChecked { color:blue; }
+
+/* -------------------------------------------------  Bool Type images ------------------------------------------------------ */
+
+/* Checkbox icons for table row cell, for BoolIcon = 0,1,2,3, set to <td> or <u> tag  
+   0 - unchecked checkbox, 1 - checked checkbox, X - empty (third) state (?), 2 - unchecked radio, 3 - checked radio, RO - read only
+   ...BoolIcon is used for custom icon in BoolIcon="image file"
+   ...BoolImage is added for every the Bool icon
+   @ Set here background and width and height
+*/
+.GMBool0,.GMBool1,.GMBoolX,.GMBool0RO,.GMBool1RO,.GMBoolXRO,.GMBool2,.GMBool3,.GMBool2RO,.GMBool3RO { background-image:url(Bool.gif?v110); background-repeat:no-repeat; padding-left:17px; }
+.GMBoolIcon { background-repeat:no-repeat; }
+.GMBool0 { background-position:center 0px; }
+.GMBool1 { background-position:center -250px; }
+.GMBoolX { background-position:center -500px; }
+.GMBool0RO { background-position:center -750px; }
+.GMBool1RO { background-position:center -1000px; }
+.GMBoolXRO { background-position:center -1250px; }
+.GMBool2,.GMBool2RO { background-position:center -1500px; }
+.GMBool3,.GMBool3RO { background-position:center -1750px; }
+.GMBoolImage { display:inline-block; width:17px; height:17px; overflow:hidden; padding:0px; }
+
+/* Checkbox icons for Space row cell, for BoolIcon = 0,1,2,3, set to <td> or <u> tag  
+   0 - unchecked checkbox, 1 - checked checkbox, X - empty (third) state (?), 2 - unchecked radio, 3 - checked radio, RO - read only
+   ...BoolIconSpace is used for custom icon in BoolIcon="image file"
+   ...BoolImageSpace is added for every the Bool icon
+   @ Set here background, width and height and padding-left (width and height is used in <u> tag, padding-left in <td> tag)
+*/
+.GMBoolXSpace,.GMBool0Space,.GMBool1Space,.GMBoolXSpaceRO,.GMBool0SpaceRO,.GMBool1SpaceRO { background-image:url(BoolSpace.gif?v110); background-repeat:no-repeat; padding-left:18px; }
+.GMBool2Space,.GMBool3Space,.GMBool2SpaceRO,.GMBool3SpaceRO { background-image:url(Bool.gif?v110); background-repeat:no-repeat; padding-left:18px; }
+.GMBoolIconSpace { background-repeat:no-repeat; }
+.GMBool0Space { background-position:center 1px; }
+.GMBool1Space { background-position:center -249px; }
+.GMBoolXSpace { background-position:center -499px; }
+.GMBool0SpaceRO { background-position:center -749px; }
+.GMBool1SpaceRO { background-position:center -999px; }
+.GMBoolXSpaceRO { background-position:center -1249px; }
+.GMBool2Space,.GMBool2SpaceRO { background-position:center -1497px; }
+.GMBool3Space,.GMBool3SpaceRO { background-position:center -1747px; }
+.GMBoolImageSpace { display:inline-block; width:18px; height:21px; overflow:hidden; padding:0px; }
+
+/* Bool icons by standard <input>, for cell BoolIcon = 4,5, different for table and Space row cells
+   @ Set margin and padding
+*/
+.GMBoolInput { margin-top:2px; margin-bottom:0px; padding:0px; margin-top:-2px!IE; margin-bottom:-6px!IE; }
+.GMBoolInputSpace { margin-top:5px; margin-bottom:3px; padding:0px; margin-top:1px!IE; margin-bottom:1px!IE; }
+
+/* Bool icons by text 'x' in rect, for cell BoolIcon = 6
+   0 - unchecked checkbox, 1 - checked checkbox, 2 - empty (third) state (?), RO - read only
+   ...IE is added in IE5 quirks mode
+   @ Set height, width, border, background, padding, margin and text attributes
+*/
+.GMBoolChar0,.GMBoolChar1,.GMBoolChar2,.GMBoolChar0RO,.GMBoolChar1RO,.GMBoolChar2RO {
+   height:9px; width:8px; border:2px ridge white; margin:2px auto 2px auto; font:bold 9px Arial; color:blue; text-align:center; overflow:hidden;
+   }
+.GMBoolChar2 { color:green; }
+.GMBoolChar0RO,.GMBoolChar1RO,.GMBoolChar2RO { color:gray; }
+.GMBoolCharIE { height:14px; width:12px; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                     Side pager                                                          */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ...PagerMain - main <div> tag inside <td> tag. It has set inline width. @ Set border, margin and padding
+   ...PagerBody - the pages without header, <div> tag. @ Set background, border, margin and padding. 
+   ...PagerBodyLeft, ...PagerBodyRight - added to the ...PagerBody according to the side where is the pager displayed.
+   ...PagerHeader - the pager header, <div> tag. @ Set background, border, margin and padding. 
+   ...PagerHeaderLeft, ...PagerHeaderRight - added to the ...PagerHeader according to the side where is the pager displayed.
+   ...PagerCaption - text inside header, <div> tag, set text attributes and optionally also border, padding, margin and background
+*/
+.GMPagerMain { }
+.GMPagerBody { background:#E8F4FF; }
+.GMPagerBodyLeft { border-right:1px solid #c0c0ff; }
+.GMPagerBodyRight { border-left:1px solid #c0c0ff; }
+.GMPagerHeader { background:url(Backgrounds.gif?v110) repeat-x; border-bottom:1px solid #E8F4FF; cursor:default; }
+.GMPagerHeaderLeft { border-right:1px solid #d0d0c0; }   
+.GMPagerHeaderRight { border-left:1px solid #d0d0c0; }
+.GMPagerCaption { font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; color:white; padding:5px 3px 4px 3px; white-space:nowrap; }
+
+/* ...PagerItem - one page name. @ Set background, border, margin, padding and text attributes
+   ...PagerItemTouch is added on tablet
+*/
+.GMPagerItem {
+   font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; cursor:pointer; overflow:hidden; white-space:nowrap;
+   border-top:1px solid white; border-bottom:1px solid #e0e0ff; padding:0px 3px 0px 3px;
+   }
+.GMPagerItemTouch { padding-top:4px; padding-bottom:4px; }
+
+/* Classes to ...PagerItem added on pager Type="Gantt" if set ShowUsedPages / ShowExcludedPages
+   @ Set background, border, margin, padding and text attributes
+*/
+.GMPagerItemUsed { color:green; }
+.GMPagerItemUnused { color:#888; }
+.GMPagerItemExcluded { background:#DDD; }
+
+/* Marked part of the page name, <span> tag
+   1 - the first sorted column, 2 - the second sorted column, 3 - the third sorted column, S - when the grid is not sorted
+*/
+.GMPagerSort1 { color:#006600; }
+.GMPagerSort2 { color:#00AE00; }
+.GMPagerSort3 { color:#00FF00; }
+.GMPagerSortS { color:black; }
+
+/* Focus cursor - actully shown page(s) 
+   ...PagerFocus - actually shown (scrolled) page(s) in pager Pages or actually zoomed chart in pager Gantt
+   ...PagerFocus2 - actual view (scrolled) in pager Gantt
+   ...PagerFocus3 - the whole pager is shown in actual view, in pager Gantt
+*/
+.GMPagerFocus,.GMPagerFocus2,.GMPagerFocus3 {
+   position:relative; cursor:pointer; overflow:hidden; opacity:0.3; filter:alpha(opacity=30);
+   border:1px solid black; background:#0FF; 
+   }
+.GMPagerFocus2 { background:#F0F; }
+.GMPagerFocus3 { background:#AFA; }
+
+/* Hover cursor - highlighted page under mouse cursor. 
+   @ Set background, border, padding
+   */
+.GMPagerHover {
+   position:relative; cursor:pointer; overflow:hidden;
+   background:#66F; opacity:0.2; filter:alpha(opacity=20); 
+   }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                               State colors and classes                                                  */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* The ...Color... classes are never assigned, they are used only to read the color. 
+   @ In ...Color... set only the background-color, it must be set by number, not by name.
+   All the colors except ...FocusedCell... and ...Default are relative colors, are added to the ...Default color; if the result color number exceeds 0x1000000, it is subtracted by the 0x1000000
+   The ...Class... is added to the cell if its condition is fulfilled. Only the listed ...Class... are used, the others can have only the ...Color... set.
+   @ In ...Class... set text attributes and color and optionally border and padding. If set here background-color with !important, it overrides the cell color and sets it as absolute
+*/
+.GMColorDefault { background-color:#FFFFFF; }   /* Base color for all cells, can be changed by <I Color /> attribute */
+
+.GMColorNoFocus { background-color:#E8F4FF; }   /* Cell with CanFocus='0' */
+.GMClassNoFocus { }
+.GMColorReadOnly { background-color:#F4F4F4;}   /* Cell with CanEdit='0' */
+.GMClassReadOnly { }
+.GMColorPreview { background-color:#FFFFFF; }   /* Cell with CanEdit='2' */
+.GMClassPreview { }
+.GMColorEdit { background-color:#FFFFFF; }      /* Cell with CanFocus='1' CanEdit='1' */
+.GMClassEdit { }
+
+.GMColorAlternate { background-color:#EBFFFF; } /* Color for <Cfg Alternate/>, can be changed by <I AlternateColor /> */
+.GMClassAlternate { }                           /* Can be changed by <I AlternateClass /> */
+
+.GMColorSelected { background-color:#FFFF80; }  /* Selected row or cell */
+.GMClassSelected { color:red; }                 /* It is used only if set <Cfg SelectClass='1'/> */
+.GMColorFill { background-color:#FF80FF; }      /* Used when selecting cells by dragging due auto fill */
+
+.GMColorError { background-color:#FF6969; }     /* Cell with Error attribute set */
+.GMClassError { }
+
+/* Row / Cell state colors, are ignored if row has set NoColorState='1' */
+.GMColorDeleted { background-color:#FFCDCD; }   /* Deleted row */
+.GMClassDeleted { font-style:italic; }
+.GMColorAdded { background-color:#CDFFCD; }     /* Newly added row */
+.GMClassAdded { font-weight:bold; }
+.GMColorMoved1 { background-color:#FFFFFF; }    /* Row moved to another parent */
+.GMClassMoved1 { }
+.GMColorMoved2 { background-color:#D7EBEB; }    /* Row moved inside its parent, only if sorting is not permitted */
+.GMClassMoved2 { }
+.GMColorChanged { background-color:#EBEBFF; }   /* Row with some cell value changed */
+.GMClassChanged { }
+.GMColorChangedCell { background-color:#E1E1FF; } /* The cell with value changed */
+.GMClassChangedCell { font-weight:bold; }
+
+.GMColorMaxChildren { background-color:#FFFFF0; } /* Row created if row's children exceed <I MaxChildren/> */
+.GMClassMaxChildren { }
+
+.GMColorDetail { background-color:#FFF0FF; }    /* Row is master row, has set <I Detail /> attribute */
+.GMClassDetail { }
+.GMColorDetailSelected { background-color:#FFF0E0; } /* Master row actually shown in detail grid */
+.GMClassDetailSelected { }
+
+.GMColorDragged { background-color:#E0E0C0; }   /* The source row actually being dragged by mouse */
+
+.GMColorFound1 { background-color:#FF87FF; }    /* Found cell in SearchAction="Mark", first search */
+.GMClassFound1 { }                              /* Used only if set <Cfg SearchClass='1'/> */
+.GMColorFound2 { background-color:#FFC387; }    /* Found cell in SearchAction="Mark", second search */
+.GMClassFound2 { }                              /* Used only if set <Cfg SearchClass='1'/> */
+.GMColorFound3 { background-color:#87FF87; }    /* Found cell in SearchAction="Mark", third search */
+.GMClassFound3 { }                              /* Used only if set <Cfg SearchClass='1'/> */
+
+.GMColorHovered { background-color:#F0F0FF; }   /* Row under mouse cursor, used only if the hovered cell or row has HoverRow["Color"]*/
+
+/* Cell under mouse cursor, according to its look or permissions
+   ...Color... is used only if the cell has set HoverCell["Color"] 
+   ...Class... is used only if the cell has set HoverCell["Class"] 
+   Always only one Color and Class is used, if the cell fulfils more conditions the latter has precedence
+   If the resulted color is #FFFFFF, it is set as transparent, therefore in some cases is required to set #FFFFFE to get white color
+*/
+.GMColorHoveredCell { background-color:#C0C0FF; }     /* Standard cell */
+.GMClassHoveredCell { }
+.GMColorHoveredCellReadOnly { background-color:#F0F0F0; } /* Cell with CanEdit='0' */
+.GMClassHoveredCellReadOnly { }
+.GMColorHoveredCellNoFocus { background-color:#F8F8F8; }  /* Cell with CanFocus='0' */
+.GMClassHoveredCellNoFocus { }
+.GMColorHoveredCellHeader { }                             /* Cell in Header row */
+.GMClassHoveredCellHeader { background-position:0px -250px; }
+.GMColorHoveredCellPanel { background-color:#FFFFFF; }    /* Cell Type = "Panel" */
+.GMClassHoveredCellPanel { background-position:0px -1801px; background-repeat:repeat-x; }
+.GMColorHoveredCellFastPanel { }                          /* Cell Type = "Panel" if FastPanel is shown */
+.GMClassHoveredCellFastPanel { }
+.GMColorHoveredCellSpace { background-color:#FFFFFF; }    /* Space row cell */
+.GMClassHoveredCellSpace { }
+.GMColorHoveredCellSpaceEdit { background-color:#FFFFFF; } /* Editable Space row cell */
+.GMClassHoveredCellSpaceEdit > div { border:1px solid #E80!important; }
+.GMColorHoveredCellSpaceDefaults { background-color:#FFFFFF; } /* Space row cell with Button="Defaults" */
+.GMClassHoveredCellSpaceDefaults > div { background-position:right -500px!important; }
+.GMColorHoveredCellSpaceBool0 { background-color:#FFFFFE; } /* Space row cell of Type="Bool" and value 0 */
+.GMClassHoveredCellSpaceBool0,.GMClassHoveredCellSpaceBool0 > u { background-position:center -749px; }
+.GMColorHoveredCellSpaceBool1 { background-color:#FFFFFE; } /* Space row cell of Type="Bool" and value 1 */
+.GMClassHoveredCellSpaceBool1,.GMClassHoveredCellSpaceBool1 > u { background-position:center -999px; }
+.GMColorHoveredCellSpaceBoolX { background-color:#FFFFFE; } /* Space row cell of Type="Bool" and value "" */
+.GMClassHoveredCellSpaceBoolX,.GMClassHoveredCellSpaceBoolX > u { background-position:center -1249px; }
+.GMColorHoveredCellSpaceBoolIcon { background-color:#FFFFFE; } /* Space row cell of Type="Bool" and BoolIcon other than 0 and 2 */
+.GMClassHoveredCellSpaceBoolIcon { }
+.GMColorHoveredCellButton { background-color:#FFFFFE; }     /* Space row cell of Type="Button" and Button="Html" */
+.GMClassHoveredCellButton { color:green; background-color:#FA0!important; }
+.GMColorHoveredCellButton1 { background-color:#FFFFFE; }    /* Space row cell of Type="Button" and Button="Html" and value 1 */
+.GMClassHoveredCellButton1 { color:red; background-color:#FA0!important; }
+.GMColorHoveredCellButtonButton { background-color:#FFFFFE; }  /* Space row cell of Type="Button" and Button="Button" */
+.GMClassHoveredCellButtonButton u { background-position:0px -253px; }
+.GMColorHoveredCellButtonButton1 { background-color:#FFFFFE; } /* Space row cell of Type="Button" and Button="Button" and value 1 */
+.GMClassHoveredCellButtonButton1 u { background-position:0px -265px; }
+.GMColorHoveredCellTab { background-color:#FFFFFE; }        /* Space row cell of Type="Button" and Button="Tab" */
+.GMClassHoveredCellTab { background:#FA0!important; color:green; }
+.GMColorHoveredCellTab1 { background-color:#99bbcc; }       /* Space row cell of Type="Button" and Button="Tab" and value 1*/
+.GMClassHoveredCellTab1 { background-image:none; }
+
+.GMColorFocused { background-color:#E6E6E6; }               /* Focused row, used only if the focused cell or row has FocusRow["Color"] */
+.GMClassFocused { }                                         /* Used only if  the focused cell or row has FocusRow["Class"] */
+
+/* Focused cell, the color is absolute color 
+   ...Color... is used only if the cell or row has set FocusCell["Color"] 
+   ...Class... is used only if the cell or row has set FocusCell["Class"] 
+*/
+.GMColorFocusedCell { background-color:#FFFFFE; }           /* Standard cell */
+.GMClassFocusedCell { } 
+.GMColorEditedCell { background-color:#FFFFFF; }            /* Cell being edited */
+.GMColorViewedCell { background-color:#FFFFFF; }            /* Cell being viewed - edited cell with CanEdit='2' */
+.GMColorFocusedCellSafari { background-color:#A0A0FF; }     /* If the cell border is hidden due <Cfg BorderCursors='0' or '2'/> */
+.GMColorFocusedCellHeader { background-color:#FFFFFE; }     /* Header row cell */
+.GMClassFocusedCellHeader { background-position:0px -250px; }
+.GMColorFocusedCellSpace { background-color:#BCD; }         /* Space row cell */
+.GMClassFocusedCellSpace { }
+.GMColorFocusedCellSpaceEdit { background-color:#FFFFFF; }  /* Editable Space row cell */
+.GMClassFocusedCellSpaceEdit > div { border:1px solid #E80!important; }
+.GMColorFocusedCellSpaceDefaults { background-color:#FFFFFF; }  /* Space row cell with Button="Defaults" */
+.GMClassFocusedCellSpaceDefaults > div { background-position:right -500px!important; }
+.GMColorFocusedCellSpaceBool { background-color:#BCD; }    /* Space row cell of Type="Bool" */
+.GMClassFocusedCellSpaceBool { }
+.GMColorFocusedCellButton { background-color:#BCD; }       /* Space row cell of Type="Button" */
+.GMClassFocusedCellButton { }
+
+/* Side colors set by ColorCursor attribute 
+   ...Col is top / bottom side, ...Row is left / right side
+   ...Class... is used only if set <Cfg> ColorCursor bit 5, &16
+*/
+.GMColorSelectedCol { background-color:#F0F0B0; }          /* Side for selected cells */
+.GMClassSelectedCol { }
+.GMColorSelectedRow { background-color:#F0F0B0; } 
+.GMClassSelectedRow { }
+.GMColorFocusedCol { background-color:#DDD; }              /* Side for cells focused by range (FRect) */
+.GMClassFocusedCol { }
+.GMColorFocusedRow { background-color:#DDD; } 
+.GMClassFocusedRow { }
+.GMColorEditedCol { background-color:#DDD; }               /* Side for focused cell (FRow/FCol) */
+.GMClassEditedCol { }
+.GMColorEditedRow { background-color:#DDD; } 
+.GMClassEditedRow { }
+.GMColorHoveredCol { background-color:#E5E5FF; }           /* Side for cell under mouse cursor (ARow/ACol) */
+.GMClassHoveredCol { }
+.GMColorHoveredRow { background-color:#E5E5FF; }             
+.GMClassHoveredRow { }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                               Hover, focus, edit cursors                                                */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ------------- Cell and row highlighted under mouse cursor ------------- */
+
+/* ...HoverPanelBackground - Background shown above left side Panel cell when hovering the row; shown only if the hovered cell or row has HoverRow["Background"]; @ set background and opacity 
+   ...HoverRowBackground   - Background shown above the whole hovered row, except hovered cell and Panel; shown only if the hovered cell or row has HoverRow["Background"]; @ set background and opacity
+   ...HoverRowBorder       - Border around the whole hovered row; shown only if the hovered cell or row has HoverRow["Border"]; @ set border
+   ...HoverCellBorder      - Border around the hovered cell; shown only if the hovered cell or row has HoverCell["Border"]; @ set border
+*/
+.GMHoverPanelBackground { } 
+.GMHoverRowBackground { opacity:0.1; filter:alpha(opacity=10); background:#00F; } 
+.GMHoverRowBorder { z-index:1; border-top:1px solid #BBF; border-bottom:1px solid #BBF; cursor:default; } 
+.GMHoverCellBorder { z-index:3; padding:1px; border:1px solid #A0A0F0; background:white; } 
+
+/* ---------------- Highlighted focused cell(s) and row(s) ------------- */
+
+/* ...FocusPanelBackground - Background shown above left side Panel cell when the row is focused; shown only if the focused cell or row has FocusRow["Background"]; @ set background and opacity 
+   ...FocusRowBackground   - Background shown above the whole focused row, except focused cell and Panel; shown only if the focused cell or row has FocusRow["Background"]; @ set background and opacity
+   ...FocusRowBorder       - Border around the whole hovered row; shown only if the hovered cell or row has FocusRow["Border"]; @ set border
+   ...FocusCellBorder      - Border around the focused cell in table row; shown only if the focused cell or row has FocusCell["Border"]; @ set border and cursor
+   ...FocusCellSpaceBorder - Border around the focused cell in Space row; shown only if the focused cell or row has FocusCell["Border"]; @ set border and cursor
+   ...FocusCellCorner      - Bottom right corner for autofill; shown only if the focused cell or row has FocusCell["Corner"]; @ set border, margin, padding, background, width, height and cursor
+*/
+.GMFocusPanelBackground { } 
+.GMFocusRowBackground { opacity:0.1; filter:alpha(opacity=10); background:black; } 
+.GMFocusRowBorder { z-index:2; border:1px solid black; }    
+.GMFocusCellBorder { z-index:4; border:2px solid #6666FF; } 
+.GMFocusCellSpaceBorder { z-index:4; }                      
+.GMFocusCellCorner { position:relative; padding:0px; border:1px solid white; background:#6666FF; margin-left:-3px; margin-top:-5px; width:5px; height:5px; z-index:4; cursor:crosshair; }
+
+/* ------------- Highlighted focused cell in edit mode ------------- */
+
+/* ...EditCellBorder      - Border around the focused cell in table row in edit mode; shown only if the focused cell or row has FocusCell["Border"]; @ set border 
+   ...EditCellSpaceBorder - Border around the focused cell in Space row in edit mode; shown only if the focused cell or row has FocusCell["Border"]; @ set border 
+   ...EditCellCorner      - Bottom right corner for autofill; shown only if the focused cell or row has FocusCell["Corner"] and is set <Cfg DragEdit='1'/>; @ set border, margin, padding, background, width, height and cursor
+   ...EditCellInput       - Parent div tag where the <input> or <textarea> is placed to; @ set border, padding and background
+ */
+.GMEditCellBorder { z-index:4; border:2px solid #FF6666; }  
+.GMEditCellSpaceBorder { z-index:4; }                       
+.GMEditCellCorner { position:relative; padding:0px; border:1px solid white; background:#FF6666; margin-left:-3px; margin-top:-5px; width:5px; height:5px; z-index:4; cursor:crosshair; }
+.GMEditCellInput { position:relative; border:1px solid #BBB; overflow:hidden; z-index:2; background-color:#FFDCFF; line-height:0px; font-size:0px; }
+
+/* ------------- Support classes removing border ------------- 
+
+/* added to ...Background or ...Border classes; @ Do not change */
+.GMCursorBackground { position:relative; border:none; padding:0px; overflow:hidden; }
+.GMCursorBorderLeft,.GMCursorBorderRight,.GMCursorBorderTop,.GMCursorBorderBottom { position:relative; overflow:hidden; width:0px; height:0px; }
+.GMCursorBorderLeft { border-right:none!important; border-top:none!important; border-bottom:none!important; padding-right:0px!important; padding-top:0px!important; padding-bottom:0px!important; }
+.GMCursorBorderRight { border-left:none!important; border-top:none!important; border-bottom:none!important; padding-left:0px!important; padding-top:0px!important; padding-bottom:0px!important; }
+.GMCursorBorderTop { border-bottom:none!important; border-left:none!important; border-right:none!important; padding-bottom:0px!important; padding-left:0px!important; padding-right:0px!important; }
+.GMCursorBorderBottom { border-top:none!important; border-left:none!important; border-right:none!important; padding-top:0px!important; padding-left:0px!important; padding-right:0px!important; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                        Edit control                                                    */
+/*                                                            TGLib                                                        */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* --- Edit text in <input> / <textarea> --- */
+
+/* @ Set background and text attributes
+   ...EditInput - set to <input> tag placed into inline edit cursor tag (...EditCellInput)
+   ...EditTextarea - set to <textarea> tag placed into inline edit cursor tag (...EditCellInput) for Lines type
+   ...Normal... is added to <input> / <textarea> for cell in table row, ...Header... is added for cell in Header row, ...Space is added for cell in Space row
+   ...Int..., ...Float..., ...Date..., ...Pass... is added for this cell type
+   ...Text... is added for cell type Text, Lines, Link, Img
+   ...ReadOnly is added for preview cell with CanEdit='2'
+*/
+.GMEditInput,.GMEditTextarea { font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; border:0px none; margin:0px; padding:0px; outline:none; box-sizing:content-box; resize:none; }
+.GMEditInput::-ms-clear { height:13px; }
+.GMEditNormalInput,.GMEditNormalTextarea { background-color:#FFDCFF; }
+.GMEditHeaderInput,.GMEditHeaderTextarea { background-color:#D5E9FE; padding-top:2px; font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; }
+.GMEditSpaceInput,.GMEditSpaceTextarea { background-color:#FFDCFF; }
+.GMEditInt,.GMEditFloat,.GMEditDate { text-align:right; }
+.GMEditText,.GMEditPass { }
+.GMEditReadOnly { background-color:#FFEEFF; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                   Dragging objects                                                      */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* Set to ghost tag under mouse cursor when dragging something in grid or Gantt; 
+   Used when <Cfg ShowDrag='1'/>. For dragged rows is used only if set <Cfg DragObject='1'/>
+   The tag is <div> with absolute position and contains the dragged row(s), column header(s) or GanttRun box(es)
+   @ Set border, margin, padding, opacity and optionally background
+*/
+.GMMouseObject { opacity:0.5; filter:alpha(opacity=50); z-index:300; overflow:hidden; }
+
+/* Set to ghost tag under mouse cursor when dragging rows in grid, if set <Cfg DragObject='2'/> and <Cfg ShowDrag='1'/>
+   The tag is <div> with absolute position and contains information about the count of dragged rows
+   @ Set border, margin, padding, background, opacity, text attributes and optionally height and width
+*/
+.GMDragObject {
+   z-index:300; font:11.9px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; margin-left:15px; margin-top:10px;
+   background:#E4E5F0 url(Backgrounds.gif?v110) repeat-x 0px -750px; border:1px solid #777; padding-left:3px; padding-right:3px;
+   }
+
+/* The arrows showing actual drop position when dragging column header or GanttRun box
+   @ Set background, width and height
+*/
+.GMDragColInsideTop,.GMDragColInsideBottom,.GMDragColOutsideTop,.GMDragColOutsideBottom,.GMDragGanttRunTop,.GMDragGanttRunBottom,.GMDragGanttRunTopJoin,.GMDragGanttRunBottomJoin {
+   position:absolute; background-image:url(Sort.gif?v110); width:11px; height:11px; overflow:hidden; z-index:301;
+   }
+.GMDragColInsideTop  { background-position:-1px -1752px; }
+.GMDragColInsideBottom  { background-position:-1px -1770px; }
+.GMDragColOutsideTop  { background-position:-1px -1792px; }
+.GMDragColOutsideBottom  { background-position:-1px -1810px; }
+.GMDragGanttRunTop  { background-position:0px -1752px; }
+.GMDragGanttRunBottom  { background-position:0px -1772px; }
+.GMDragGanttRunTopJoin  { background-position:0px -1792px; }
+.GMDragGanttRunBottomJoin  { background-position:0px -1812px; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                    Message dialogs                                                      */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* Disabled grid, absolute <div> tag shown above grid main tag. The grid is disabled when it shows some message (e.g. "Rendering").
+   Note, for disabled page is used GridDisabled class instead. The whole page is disabled when the grid shows modal dialog (e.g. grid configuration menu).
+   @ Set background and opacity, optionally margin and padding
+*/
+.GMDisabled { position:absolute; z-index:264; background:white; opacity:0.5; filter:alpha(opacity=50); } 
+
+/* Grid informational or progress message, absolute <div> tag
+   @ Set border, padding, background and text attributes
+*/
+.GMMessage {
+   font:13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; white-space:nowrap; text-align:center; visibility:hidden; z-index:266;
+   position:absolute; left:0px; top:0px; background:#E2F0FF; border:1px solid black; padding:10px;
+   }
+
+/* Shadow <div> tag displayed under grid message tag, on the same position and size 
+   @ Set margin for the shadow shift, background, opacity and border
+*/
+.GMMessageShadow {
+   position:absolute; left:0px; top:0px; margin-left:3px; margin-top:3px; z-index:265; visibility:hidden; 
+   background:#888; opacity:0.5; filter:alpha(opacity=50);
+   }	
+
+/* Page informational message, <div> tag shown inside page being loaded or rendered, instead of the page content
+   @ Set border, padding, background and text attributes
+*/
+.GMPageMessage { background:#FAFAFA; border:1px solid black; padding:10px; font:13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; }
+
+/* Progress message 
+   ...Main is set to inner <div> of the progress message. @ Set text attributes and optionally border, margin, padding and background
+   ...Caption is set to <div> tag showing the progress message caption. @ Set border, margin, padding, background and text attributes
+   ...Text is set to <div> tag showing the progress message text. @ Set border, margin, padding, background and text attributes
+   ...Outer is set to <div> tag showing the gauge container. @ Set border, margin, padding, background and width
+   ...Inner is set to <div> tag showing the gauge indicator. @ Set border, margin, padding, background and height
+*/
+.GMProgressMain { font:13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; }
+.GMProgressCaption { font-weight:bold; margin-bottom:15px; }
+.GMProgressText { margin-bottom:15px; }
+.GMProgressOuter { text-align:left; width:200px; border:1px solid black; padding:2px; margin-bottom:15px; }
+.GMProgressInner { height:10px; background:green; }
+
+/* Button in informational or progress message, <button> tag below the message inside the ...Message 
+   ...Hover is added when the <button> tag is under mouse cursor
+   @ Set border, padding, margin, background and text attributes
+*/
+.GMProgressButton,.GMMessageButton { 
+   border:1px solid #8a8fb5; background:#EEE; font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; text-align:center; white-space:nowrap;
+   }
+.GMProgressButton { margin:5px 2px 0px 2px; padding-left:10px; padding-right:10px; }
+.GMMessageButton { margin:10px 3px 0px 3px; width:50px; }
+.GMMessageButtonHover,.GMProgressButtonHover { background:#ffeeaa; border:1px solid #aaaadd; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                   Popup menus and dialogs                                               */
+/*                                                            TGLib                                                        */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* Default settings for all TreeGrid popup menus and dialogs like Enum, Defaults, Filter, cfg menu, columns menu, popup Menu, Gantt menu and custom menu shown by ShowMenu and ShowPopup
+   The styles of individual menu types can be overridden by their individual classes added to all default classes (e.g. "GMMenuMain GMEnumMenuMain")
+      Individual classes: ...EnumMenu..., ...DefaultsMenu..., ...FilterMenu..., ...CfgMenu..., ...ColumnsMenu..., ...PopupMenu, ...GanttMenu...
+      For custom JSON menu can be the individual class prefix set to Class attribute, like {..., Class:"Custom", ... } and the added classes will be ...Custom..., e.g. GxCustomMain
+   Some of the classes are used also for custom JSON dialogs shown by ShowDialog API function.
+*/
+
+/* --- Menu and dialog sections --- */
+
+/* Main menu and dialog classes
+   ...Main - Main absolute <div> tag; @ Do not change 
+   ...Static - Used instead of ...Main when dialog is written directly to page HTML by WriteDialog. Used only in TGLib, not in TreeGrid. @ Do not change
+   ...Shadow - Shadow <div> tag displayed under ...Main tag, on the same position and size. @ Set margin for the shadow shift, background, opacity and border
+   ...Outer - <div> tag inside the main tag, contains the whole menu. @ Set background, border and padding
+   ...Top is added to ...Outer when the menu is shown above the header, ...Bottom is added to ...Outer when the menu is shown below the header
+*/      
+.GMMenuMain { position:absolute; left:0px; top:0px; z-index:258; }
+.GMMenuStatic { }
+.GMMenuShadow { position:absolute; margin-left:3px; margin-top:3px; z-index:257; background:#888; opacity:0.5; filter:alpha(opacity=50); }
+.GMMenuOuter { overflow:hidden; background:white; border:1px solid black; padding:1px; }
+.GMMenuOuterTop { }
+.GMMenuOuterBottom { }
+
+/* Shown outside menu or dialog in place of the source tag, simulating the menu is popped up. For custom JSON menus and dialogs is used when set Header attribute.
+   ...Top is added to ...Header when the menu is shown above the header, ...Bottom is added to ...Header when the menu is shown below the header
+   @ Set margin to shift the header, border, padding and background
+*/
+.GMMenuHeader { 
+   overflow:hidden; position:absolute; z-index:258; border:1px solid #b0b0c0; background:white; cursor:pointer; 
+   user-select:none; -o-user-select:none; -moz-user-select:none; -khtml-user-select:none; -webkit-user-select:none; 
+   }
+.GMMenuHeaderTop { }
+.GMMenuHeaderBottom { }
+
+/* Set to menu and dialog top, not scrollable, section. Used only for TreeGrid cfg / column menus. For custom JSON menus and dialogs is used when set Head attribute.
+   @ Set border, margin, padding, background and text attributes
+*/
+.GMMenuHead { 
+   background:#183873 url(Backgrounds.gif?v110) repeat-x 0px -2px; padding:3px 0px 4px 0px; 
+   font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; text-align:center; color:white; cursor:default; 
+   }
+
+/* Close icon set <div> tag inside the ...MenuHead. Used only for TreeGrid cfg / column menus. For custom JSON menus and dialogs is used when set Head attribute and can be hidden by setting HeadClose:0 
+   @ Set background, width and height
+*/
+.GMMenuClose { float:right; width:14px; cursor:pointer; display:none; background:url(Menu.gif?v110) no-repeat right -354px; }
+
+/* Set to menu and dialog middle, scrollable, section. For custom JSON dialogs the tag is filled by Body attribute value. 
+   @ Set border, margin, padding, background and optionally (for the custom dialogs) text attributes
+*/
+.GMMenuBody { cursor:default; padding-top:1px; padding-bottom:1px; }
+
+/* Set to menu and dialog bottom, not scrollable, section, contains usually control buttons. 
+   Used only for TreeGrid cfg / column menus and Range dialogs to display the buttons. For custom JSON menus and dialogs is used when set Foot or Buttons (JSON menu only) attribute.
+   @ Set border, margin, padding, background and text attributes
+*/
+.GMMenuFoot { 
+   border-top:1px solid #8CA9E1; background:#C6DBE9 url(Backgrounds.gif?v110) repeat-x 0px -1400px; 
+   font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; text-align:center; white-space:nowrap; 
+   }  
+
+/* Control button inside the Foot section (e.g. OK, Cancel). <button> tag.
+   ...Hover is added when the <button> tag is under mouse cursor
+   @ Set border, margin, padding, background, width, height and text attributes
+*/
+.GMMenuButton {
+   border:1px solid #8a8fb5; background:#dcecf8; width:48px; margin:5px 2px 4px 2px; padding-left:0px; padding-right:0px;
+   font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; text-align:center; white-space:nowrap; overflow:hidden;  
+   }
+.GMMenuButtonHover { background:#ffeeaa; border:1px solid #aaaadd; }
+
+/* --- Menu item --- */
+
+/* <div> tags for individual menu items
+   ...Item is set to all menu items except focused and hovered
+   ...Focus is set to menu item with key cursor
+   ...Hover is set to menu item under mouse cursor (...ItemHover to not focused and ...FocusHover to focused)
+   ...Touch... is added to menu item on tablet
+   @ Set border, margin padding and background; all the eight classes should have the same edge width and height (margin+border+padding)
+*/
+.GMMenuItem { padding:2px 3px 2px 3px; }   
+.GMMenuItemTouch { padding-top:5px; padding-bottom:5px; }
+.GMMenuItemHover { margin-left:1px; margin-right:1px; padding:1px; background:#ffeeaa; border:1px solid #aaaadd; }
+.GMMenuItemHoverTouch { padding-top:4px; padding-bottom:4px; }
+.GMMenuFocus { margin-left:1px; margin-right:1px; padding:1px; background:#CAE1F3 url(Backgrounds.gif?v110) repeat-x 0px -1250px; border:1px solid #aaaadd; }
+.GMMenuFocusTouch { padding-top:4px; padding-bottom:4px; }   
+.GMMenuFocusHover { margin-left:1px; margin-right:1px; padding:1px; background:#CAE1F3; border:1px solid black; }
+.GMMenuFocusHoverTouch { padding-top:4px; padding-bottom:4px; }   
+
+/* --- Icons inside menu items --- */
+
+/* The classes are set in <div> tag inside the menu item tag
+   ...CheckedIcon...  - Bool item, checkbox, checked state,                  ...UncheckedIcon... - Bool item, checkbox, unchecked state
+   ...CheckedRadio... - Bool item with Group, radio button, checked state,   ...UncheckedRadio... - Bool item with Group, radio button, unchecked state
+   ...Left            - the bool icon is shown on the item text left side,   ...Right - the bool icon is shown on the item text right side
+   ...CursorIcon      - Cursor icon shown on left side, when menu have set ShowCursor:1; the width of the cursor icon is set by menu Indent attribute, by default 12px
+   ...HoverIcon       - The cursor icon in menu item under mouse cursor
+   ...ExpandedIcon    - Icon in expanded section (Expanded:1),  the menu item with Level and Items set; the width of the expanded  icon is set by menu Indent attribute, by default 12px 
+   ...CollapsedIcon   - Icon in collapsed section (Expanded:0), the menu item with Level and Items set; the width of the collapsed icon is set by menu Indent attribute, by default 12px  
+   ...NextIcon        - Icon on right side of item with submenu, the menu item with Menu:1 and Items set 
+   ...Rtl             - used instead in RTL text mode, shows the icon on the other side
+   @ Set background and for some icons padding-left or padding-right
+*/
+.GMMenuCheckedIconLeft { background:url(Menu.gif?v110) no-repeat -3px -51px; padding-left:15px; }
+.GMMenuCheckedIconRight { background:url(Menu.gif?v110) no-repeat right -51px; padding-right:15px; }
+.GMMenuUncheckedIconLeft { background:url(Menu.gif?v110) no-repeat -3px -1px; padding-left:15px; }
+.GMMenuUncheckedIconRight { background:url(Menu.gif?v110) no-repeat right -1px; padding-right:15px; }
+.GMMenuCheckedRadioLeft { background:url(Menu.gif?v110) no-repeat -3px -751px; padding-left:15px; }
+.GMMenuCheckedRadioRight { background:url(Menu.gif?v110) no-repeat right -751px; padding-right:15px; }
+.GMMenuUncheckedRadioLeft { background:url(Menu.gif?v110) no-repeat -3px -701px; padding-left:15px; }
+.GMMenuUncheckedRadioRight { background:url(Menu.gif?v110) no-repeat right -701px; padding-right:15px; }
+.GMMenuCursorIcon { background:url(Menu.gif?v110) no-repeat -6px -150px; }
+.GMMenuHoverIcon { background:url(Menu.gif?v110) no-repeat -6px -100px; }   
+.GMMenuCursorIconRtl { background:url(Menu.gif?v110) no-repeat right -1000px; }
+.GMMenuHoverIconRtl { background:url(Menu.gif?v110) no-repeat right -950px; }   
+.GMMenuExpandedIcon { background:url(Menu.gif?v110) no-repeat -6px -200px; }
+.GMMenuCollapsedIcon { background:url(Menu.gif?v110) no-repeat -6px -250px; }
+.GMMenuNextIcon { background:url(Menu.gif?v110) no-repeat right -300px; padding-right:10px; }
+.GMMenuNextIconRtl { background:url(Menu.gif?v110) no-repeat left -900px; padding-left:10px; }
+
+/* --- Menu item content --- */
+
+/* The classes are set to <td> tag of inner table that is used to display the item, if it has set Edit, Enum, Icon, LeftHtml or RightHtml attribute.   
+   @ Set text attributes and optionally background, border, padding and margin
+   ...ItemText - every menu item text or caption, it set to <div> tag inside the menu item and inside the menu icon or to <td> tag with item text in inner table
+   ...ItemLeftHtml - <td> tag in inner table displaying the LeftHtml content on the left side
+   ...ItemRightHtml - <td> tag in inner table displaying the RightHtml content on the right side
+   ...ItemIcon - <td> tag in inner table displaying the Icon as background image on the left side, also left to LeftHtml; @ Do not change
+   ...Level - added to the tags with ...ItemText, ...ItemIcon, ...ItemLeft/RightHtml for item with Level set
+   ...ItemDisabled - added to all the menu item parts for item with Disabled:1; @ Set opacity and background
+*/
+.GMMenuItemText,.GMMenuItemLeftHtml,.GMMenuItemRightHtml { font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; white-space:nowrap; overflow:hidden; }
+.GMMenuItemIcon { background-repeat:no-repeat; }
+.GMMenuItemDisabled { opacity:0.50; filter:alpha(opacity=30); }
+.GMMenuLevel { color:blue; text-align:center; }  
+
+/* The Enum combo in item with Enum:1
+   ...EnumParent - <td> tag in inner table displaying the Enum combo for the Enum:1 item, on left or right side according to Left value
+   ...Enum - <div> tag inside the <td> tag ...EnumParent displaying the Enum combo
+   ...EnumHeader - is set to the <div> tag in Header of the popped up Enum menu
+*/
+.GMMenuEnumParent { padding-left:5px; padding-right:2px;}
+.GMMenuEnum,.GMMenuEnumHeader { font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; white-space:nowrap; overflow:hidden; }
+.GMMenuEnum { border:1px solid #DDD; border-top:1px solid #666; border-left:1px solid #666; background:white url(Menu.gif?v110) no-repeat left -800px; padding-left:15px; }
+.GMMenuEnumHeader { background:url(Menu.gif?v110) no-repeat left -799px; padding:1px 0px 2px 15px; cursor:default; }
+
+/* The edit text in item with Edit:1
+   ...EditParent - <td> tag in inner table displaying the editable text for the Edit:1 item, on left or right side according to Left value; @ Set border, padding and background
+   ...Edit - <div> tag inside the <td> tag ...EditParent displaying the editable text; @ Set border, padding, background and text attributes 
+   ...EditIE is used instead of ...Edit in IE, in IE5 quirks mode
+   ...EditMulti - added to the ...Edit tag for item with set Multi:1, multi line edit, to be edited in <textarea>; @ Set border, background and text attributes
+   ...EditEdit - added to the ...Edit when editing the item text
+   ...EditText, ...EditInt, ...EditFloat, ...EditDate - added to the ...Edit tag and also to the <input> or <textarea> tag according to the Type attribute; @ Set text attributes
+   ...EditInput - set to <input> tag placed into ...Edit tag when editing the value; @ Set text attributes
+   ...EditTextarea - set to <textarea> tag placed into ...Edit tag when editing the value in item with Multi:1 set; @ Set text attributes
+*/
+.GMMenuEditParent { padding-left:5px; padding-right:2px; }
+.GMMenuEdit,.GMMenuEditIE {
+   font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; background:white; overflow:hidden; white-space:nowrap; 
+   border:1px solid #DDD; border-top:1px solid #666; border-left:1px solid #666; padding-left:3px; padding-right:3px; height:13px;
+   }
+.GMMenuEditIE { height:15px; }
+.GMMenuEditMulti { white-space:normal; }
+.GMMenuEditEdit { background:#FDD; }
+.GMMenuEditInput,.GMMenuEditTextarea { 
+   font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; border:0px none; margin:0px; padding:0px; outline:none; background:#FDD; box-sizing:content-box; resize:none; 
+   }
+.GMMenuEditInput::-ms-clear { height:13px; }
+.GMMenuEditInt,.GMMenuEditFloat,.GMMenuEditDate { text-align:right; } 
+.GMMenuEditText { }
+
+/* --- Special menu items --- */
+
+/* ...Caption - Inactive item, used instead of ...Item..., along width ...ItemText, shown for menu item with Caption:1; @ Set border, margin padding, background and text attributes
+   ...Separator - Separator between items, shown for menu item with Name:"-", used instead of ...Item...; @ Set border, margin, padding, background and height
+   ...VSeparator - <td> tag shown between columns of menu items; in children of menu item width Columns attribute set; @ Set border, padding, background and width 
+   ...Section - Tag around children of item width Level attribute set; @ Set border, margin, padding and background
+*/
+.GMMenuCaption { padding:2px; color:blue; text-align:center; }
+.GMMenuSeparator { margin:3px 3px 2px 3px; height:1px; border-top:1px solid #aaaadd; overflow:hidden; }
+.GMMenuVSeparator { border-right:1px solid #DDD; }
+.GMMenuSection  { }
+
+/* -----------------------------------------------  Filter operator menu ---------------------------------------------------- */
+
+/* Redefines standard popup ...Menu... attributes as ...FilterMenu... 
+*/
+.GMFilterMenuMain { margin-left:-4px; margin-top:-2px; }
+.GMFilterMenuOuterTop { }
+.GMFilterMenuOuterBottom { }
+.GMFilterMenuHeaderBottom { margin-left:-4px; margin-top:-2px; padding:2px 2px 0px 4px; border-bottom:0px none; }
+.GMFilterMenuHeaderTop { margin-left:-4px; margin-top:-2px; padding:1px 2px 1px 4px; border-top:0px none; }
+.GMFilterMenuShadow { margin-left:-1px; }
+.GMFilterMenuItem,.GMFilterMenuItemHover,.GMFilterMenuFocus,.GMFilterMenuFocusHover { }
+
+/* ----------------------------------------------------  Enum menu ---------------------------------------------------------- */
+
+/* ...EnumMenu... redefine particular popup menu ...Menu... classes for Enum type popup menu
+   ...EnumHeader... is used inside popup menu header ...EnumMenuHeader tag and shows the Enum icon on left or right side or nowhere; @ Set background, padding and text attributes and optionally border and margin
+*/
+.GMEnumMenuHeader { background:white; }
+.GMEnumMenuHeaderBottom { padding-top:1px; }
+.GMEnumMenuHeaderTop { padding-bottom:1px; }
+
+.GMEnumHeaderLeft,.GMEnumHeaderRight,.GMEnumHeaderNone { 
+   background:white; font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; padding:2px 4px 2px 2px; white-space:nowrap; cursor:pointer; 
+   }
+.GMEnumHeaderLeft { background:white url(Menu.gif?v110) no-repeat 1px -798px; padding-left:17px; }
+.GMEnumHeaderRight { background:white url(Menu.gif?v110) no-repeat right -798px; padding-right:17px;}
+
+/* --------------------------------------------------  Button List menu ------------------------------------------------------ */
+
+/* ...ToolMenu... redefine particular popup menu ...Menu... classes for Button type with List attribute popup menu
+   ...ToolHeader... is used inside popup menu header ...ToolMenuHeader tag for row Space='-1' (Above), Space='5' (Below) and others; @ Set background, padding and text attributes and optionally border and margin
+*/
+.GMToolMenuMain { }
+.GMToolMenuHeader { border:1px solid #e0e0ff; margin-top:1px; }
+.GMToolMenuItem { }
+.GMToolMenuOuter { border:1px solid #e0e0ff; background:#E8F4FF; }
+.GMToolMenuBody { }
+
+.GMToolHeader,.GMToolHeaderAbove,.GMToolHeaderBelow { border:none; padding:1px 5px 100px 2px; }
+.GMToolHeaderAbove { padding-top:2px; padding-left:4px; }
+.GMToolHeaderBelow { padding-top:1px; padding-left:4px; }
+
+/* -------------------------------------------  Grid configuration menus --------------------------------------------------- */
+
+/* Special settings for Cfg and Columns TreeGrid menus; override the standard menu settings defined above */
+.GMCfgMenuOuter,.GMColumnsMenuOuter { border:1px solid black; }
+.GMCfgMenuHead,.GMColumnsMenuHead { padding-left:3px; }
+.GMCfgMenuBody,.GMColumnsMenuBody { padding-left:4px; padding-right:4px; }
+.GMCfgMenuFoot,.GMColumnsMenuFoot { padding-right:3px; padding-left:3px; }
+.GMCfgMenuButton { width:72px; } 
+.GMColumnsMenuButton { }
+.GMCfgMenuItemText { padding-left:3px; }
+.GMColumnsMenuItemText { padding-left:3px; white-space:nowrap; }
+.GMCfgMenuItem,.GMColumnsMenuItem { padding-top:3px; padding-bottom:3px; }
+.GMCfgMenuItemHover,.GMColumnsMenuItemHover { padding-top:2px; padding-bottom:2px; }
+.GMCfgMenuFocus,.GMCfgMenuFocusHover,.GMColumnsMenuFocus,.GMColumnsMenuFocusHover { padding-top:2px; padding-bottom:2px; }
+.GMCfgMenuItemTouch,.GMColumnsMenuItemTouch { padding-top:6px; padding-bottom:6px; }
+.GMCfgMenuItemHoverTouch,.GMColumnsMenuItemHoverTouch { padding-top:5px; padding-bottom:5px; }
+.GMCfgMenuFocusTouch,.GMCfgMenuFocusHoverTouch,.GMColumnsMenuFocusTouch,.GMColumnsMenuFocusHoverTouch { padding-top:5px; padding-bottom:5px; }
+
+/* ----------------------------------------------  Popup grid dialog ------------------------------------------------------- */
+
+/* Special settings for Popup grid shown by Dates button or ShowPopupGrid API method; overrides the standard dialog settings defined above */
+.GMPopupGridOuter { border:0px none; overflow:visible; }
+.GMPopupGridHead { padding:0px; }
+.GMPopupGridBody { padding:0px; }
+.GMPopupGridFoot { padding:0px; }
+.GMPopupGridButton { width:50px; margin-top:-2px; margin-bottom:3px; } 
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                       Calendar dialog                                                   */
+/*                                                            TGLib                                                        */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* --- Main calendar classes --- */
+
+/* Added to main menu / dialog classes ...Menu... as ...Pick...
+   ...Main - Main absolute <div> tag; @ Do not change 
+   ...Shadow - Shadow <div> tag displayed under ...Main tag, on the same position and size. @ Set margin for the shadow shift, background, opacity and border
+   ...Outer - <div> tag inside the main tag, contains the whole calendar. @ Set background, border and padding
+   ...Body - <div> inside ...Outer, contains the whole calendar, including buttons; @ Set background, border, padding and margin  
+*/      
+.GMPickMain { position:absolute; left:0px; top:0px; z-index:258; }
+.GMPickShadow { position:absolute; background:#888; z-index:257; margin-left:3px; margin-top:3px; opacity:0.5; filter:alpha(opacity=50); }   
+.GMPickOuter { border:1px solid #426b8c; background:white; padding:1px; overflow:hidden; }
+.GMPickBody { cursor:default; padding:0px; }
+
+/* --- Other standard dialog parts' classes, NOT shown by default  --- */
+
+/* Added to main menu / dialog classes ...Menu... as ...Pick...
+   ...Header is shown outside the calendar dialog in place of the source tag. Used only if set Header attribute. @ Set margin to shift the header, border, padding and background
+   ...HeaderTop is added to ...Header when the calendar is shown above the header, ...HeaderBottom is added to ...Header when the calendar is shown below the header
+   ...Head is set to calendar top section. Used only if set Head attribute. @ Set border, margin, padding, background and text attributes
+   ...Close is close icon set <div> tag inside the ...PickHead. Used only if set Head attribute. Can be hidden by setting HeadClose:0; @ Set background, width and height
+   ...Foot is set to calendar bottom section. Used only if set Foot attribute. It does NOT show calendar buttons. @ Set border, margin, padding, background and text attributes
+*/
+.GMPickHeader { 
+   position:absolute; z-index:258; border:1px solid black; background:white; 
+   font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; overflow:hidden; cursor:pointer; 
+   }
+.GMPickHeaderBottom { border-bottom:0px none; }
+.GMPickHeaderTop { border-top:0px none; }
+.GMPickHead,.GMPickFoot { background:#5c8397; padding:1px 0px 1px 5px; font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; color:white; cursor:default; }
+.GMPickHead { border-bottom:1px solid white; }
+.GMPickFoot { border-top:1px solid white; }  
+.GMPickClose { float:right; width:14px; cursor:pointer; display:none; background:url(Menu.gif?v110) no-repeat right -354px; }
+
+/* --- The calendar header showing month and year --- */
+
+/* ...PickMY - the whole header tag showing the month and year; @ Set border, padding, margin, background and text attributes
+   ...PickMYDown - shown inside PickMY to display icon down in the first calendar table; @ Set background and padding-right
+   ...PickMYUp - shown inside PickMY to display icon up in the second calendar table; @ Set background and padding-right
+   ...PickMYRtl - added to ...PickMYUp and ...PickMYDown in RTL mode; @ Set padding-left
+   ...PickBL - previous month icon, ...PickBR - next month icon; @ Set background, width and height
+*/
+.GMPickMY { 
+   background:#183873 url(Backgrounds.gif?v110) repeat-x 0px -2px; padding:2px 0px 4px 0px; 
+   font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; color:white; cursor:default; text-align:center; 
+   }   
+.GMPickMYDown { padding-right:13px; background:url(Menu.gif?v110) no-repeat right -400px; cursor:pointer; }
+.GMPickMYUp { padding-right:13px; background:url(Menu.gif?v110) no-repeat right -450px; cursor:pointer; }
+.GMPickMYRtl { padding-right:0px; padding-left:13px; }
+.GMPickBL,.GMPickBR { width:16px; height:14px; overflow:hidden; cursor:pointer; display:none; }
+.GMPickBL { float:left; background:url(Menu.gif?v110) no-repeat left -500px; }
+.GMPickBR { float:right; background:url(Menu.gif?v110) no-repeat right -550px; }
+
+/* --- The first calendar table with days --- */
+
+/* ...PickTableParent - <div> tag containing the whole table; @ Set border, padding, margin and background 
+   ...PickTable - <table> tag inside ...PickTableParent; @ Do not change
+   ...PickRow - <tr> tags with individual day numbers; @ Set background and optionally height
+   ...PickRowW - top <tr> tag with week day names; @ Set background and optionally height
+   ...PickCell - <td> tags with day numbers or week names; @ Set width and optionally background, padding and height
+   ...PickCellTouch - added to ...PickCell on tablet
+*/
+.GMPickTableParent { }
+.GMPickTable { table-layout:fixed; width:0px; }
+.GMPickRow { background:white; }
+.GMPickRowW { background:#C6DBE9 url(Backgrounds.gif?v110) repeat-x 0px -1350px; }
+.GMPickRowW > td { border-bottom:1px solid #8CA9E1; }
+.GMPickCell { width:25px; }
+.GMPickCellTouch { width:32px; }
+
+/* Individual day cells in the first calendar table; only one class per tag is set (except added ...PickTouch). <div> tags inside <td> tag.
+   @ Set background, border, margin, padding, height and text attributes
+   @ All the classes should have the same height and should not be wider than ...PickCell to avoid blinking the calendar cells on mouse actions
+   ...PickWDN - week day name in top row
+   ...PickWN  - week number in left column 
+   ...PickWNE - not selectable week number in left column
+   ...PickWD  - work day number
+   ...PickSa  - Saturday number
+   ...PickSu  - Sunday number
+   ...PickOM  - Day number from another month
+   ...PickNow - Today number
+   ...PickSel - Selected day number
+   ...NE      - any not selectable day number
+   ...PickHover - Any not selected day number under mouse cursor
+   ...PickSelHover - Selected day number under mouse cursor
+   ...PickEmpty - top left button in <div> tag to select empty date; @ Set background and height
+   ...PickTouch - class added to every tag on tablet; @ Set line-height
+*/
+.GMPickWDN { margin:2px 3px 2px 3px; padding:1px; font:11px/13px Arial,Helvetica,sans-serif; color:#333333; text-align:center; cursor:default; }
+.GMPickHover,.GMPickSelHover,.GMPickWD,.GMPickSa,.GMPickSu,.GMPickSel,.GMPickNow,.GMPickWDNE,.GMPickSaNE,.GMPickSuNE,.GMPickSelNE,.GMPickNowNE,.GMPickOM,.GMPickOMNE {
+   margin:2px; padding:0px 1px 0px 1px; border:1px solid white; 
+   font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; text-align:center; cursor:pointer;
+   }
+.GMPickWN,.GMPickWNE { 
+   background:url(Backgrounds.gif?v110) no-repeat -25px -1000px; padding:3px 4px 3px 4px; border-right:1px solid #8CA9E1; 
+   font:11px/13px Arial,Helvetica,sans-serif; text-align:center; cursor:pointer;
+   }
+.GMPickWNE { cursor:default; }
+.GMPickWDNE,.GMPickSaNE,.GMPickSuNE,.GMPickSelNE,.GMPickNowNE { cursor:default; text-decoration:line-through; }
+.GMPickWD { background-color:white; }
+.GMPickSa { background-color:white; }
+.GMPickSu { background-color:white; }
+.GMPickSel { background-color:#fbea54; border:1px solid #dad1d1; }
+.GMPickSelNE { background-color:#fbea54; border:1px solid #dad1d1; }
+.GMPickNow { background-color:#c0f3ff; border:1px solid #dad1d1; }
+.GMPickNowNE { background-color:#c0f3ff; border:1px solid #dad1d1; }
+.GMPickOM { background-color:white; color:#aaaaaa; }
+.GMPickOMNE { color:#aaaaaa; cursor:default; text-decoration:line-through; }
+.GMPickEmpty { background:url(Menu.gif?v110) no-repeat center -1050px; cursor:pointer; height:17px; }
+.GMPickHover { background-color:#ddd; border:1px solid #ddd; }
+.GMPickSelHover { background-color:#eeeeaa; border:1px solid #ddd; }
+.GMPickTouch { line-height:18px; }
+
+/* --- The second calendar table with months and years --- */
+
+/* ...Pick2TableParent - <div> tag containing the whole table; @ Set border, padding, margin and background 
+   ...Pick2Table - <table> tag inside ...Pick2TableParent; @ Do not change
+   ...Pick2Row - <tr> tags with the cells: 2 months, separator and 2 years; @ Set background and optionally height
+   ...Pick2CellM - <td> tags with month names; @ Set height, width and optionally background and padding
+   ...Pick2CellY - <td> tags with year numbers; @ Set height, width and optionally background and padding
+   ...Pick2CellSep - <td> tag, separator between months and years section; @ Set height, width and optionally background and padding
+   ...Pick2SepH - separator between the calendar header ...PickMY and calendar body ...Pick2TableParent; @ Set height to synchronize heights of both calendar dialogs
+   ...Touch - added to ...Pick2Cell... on tablet
+*/
+.GMPick2TableParent { }
+.GMPick2Table { table-layout:fixed; width:0px; margin-left:3px; margin-right:3px; }
+.GMPick2Row { }
+.GMPick2CellM { height:22px; width:60px; }
+.GMPick2CellMTouch { height:26px; width:75px; }
+.GMPick2CellY { height:22px; width:35px; }
+.GMPick2CellYTouch { height:26px; width:45px; }
+.GMPick2CellSep { height:22px; width:5px; }
+.GMPick2CellSepTouch { height:26px; width:5px; }
+.GMPick2SepH { width:1px; height:2px; overflow:hidden; }
+.GMPick2SepHTouch { height:7px; }
+
+/* Individual cells, <div> tag inside <td> tag
+   @ Set background, border, margin, padding, height and text attributes
+   @ All the classes should have the same height and should not be wider than ...Pick2Cell... to avoid blinking the calendar cells on mouse actions
+   ...Pick2M - month name; ...Pick2Y - year number; ...Sel - selected cell; ...Hover - cell under mouse cursor; ...SelHover - selected cell under mouse cursor
+   ...Pick2Touch - class added to every tag on tablet; @ Set line-height
+*/
+.GMPick2M,.GMPick2Y,.GMPick2MSel,.GMPick2YSel,.GMPick2MHover,.GMPick2YHover,.GMPick2MSelHover,.GMPick2YSelHover {
+   margin-left:1px; margin-right:1px; padding:3px 1px 2px 1px;
+   font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; cursor:pointer; text-align:center; overflow:hidden;
+   }
+.GMPick2MSel,.GMPick2YSel { background:#c0f3ff; border:1px solid #dad1d1; margin-left:0px; margin-right:0px; }
+.GMPick2MHover,.GMPick2YHover { background:#DDD; border:1px solid white; margin-left:0px; margin-right:0px; }
+.GMPick2MSelHover,.GMPick2YSelHover { background:#80e0f0; border:1px solid white; margin-left:0px; margin-right:0px; }   
+.GMPick2Touch { line-height:18px; }
+
+/* Special cells, <div> tag inside <td> tag
+   ...Pick2Sep - separator between months and years; @ Set height, width, background, border, margin, padding
+   ...Pick2SepTouch - class added to ...Pick2Sep on tablet; @ Set height
+   ...Pick2BL - button (<div> tag) showing previous 5 years; @ Set background, width and height
+   ...Pick2BR - button (<div> tag) showing next 5 years; @ Set background, width and height
+*/
+.GMPick2Sep { width:1px; background:#777; overflow:hidden; margin-left:2px; margin-right:2px; height:22px; }
+.GMPick2SepTouch { height:26px; }
+.GMPick2BL,.GMPick2BR { width:35px; cursor:pointer; height:22px; }
+.GMPick2CellYTouch .GMPick2BL,.GMPick2CellYTouch .GMPick2BR { margin-left:5px; }
+.GMPick2BL { background:url(Menu.gif?v110) no-repeat center -595px; }
+.GMPick2BR { background:url(Menu.gif?v110) no-repeat center -645px; }
+
+/* --- The calendar footer with time --- */
+
+/* Shown when EditFormat contains time definition (H or h or m or s); it is not shown for Range cells
+   For custom calendar it is shown if set TimeFormat attribute; it is not shown if set Multi:1
+   ...PickTimeCell - the whole calendar footer (<div> tag) on the same level as ...PickTableParent; @ Set border, padding, margin, background and text-align
+   ...PickTime - set to <input> tag inside ...PickTimeCell; @ Set text attributes
+*/
+.GMPickTimeCell { padding:7px 5px 7px 0px; border-top:1px solid #adf; background:#f0f6ff; text-align:right; line-height:0px; }
+.GMPickTime { 
+   background:#f0f6ff; font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; background:#f0f6ff; 
+   margin:0px; padding:0px; border:0px none; white-space:nowrap; text-align:right; outline:none; 
+   }
+
+/* --- The calendar footer with buttons --- */
+
+/* Contains buttons like OK, Today, Clear; shown for Range cells or when set CalendarButtons; For custom calendar is shown for Multi and for Buttons set.
+   ...PickFooter is the whole first calendar footer (<div> tag) on the same level as ...PickTableParent; @ Set border, padding, margin, background and text-align
+   ...Pick2Footer is the whole second calendar footer (<div> tag) on the same level as ...Pick2TableParent; @ Set border, padding, margin, background and text-align
+   ...PickButton is set to <button> tags; @ Set border, margin, padding, background, width, height and text attributes
+   ...PickButtonHover is added when the <button> tag is under mouse cursor; @ Set border, margin, padding, background, width, height and text attributes 
+*/
+.GMPickFooter,.GMPick2Footer { 
+   border-top:1px solid #8CA9E1; background:#C6DBE9 url(Backgrounds.gif?v110) repeat-x 0px -1400px; padding-top:1px; cursor:default; text-align:center; 
+   }
+.GMPickButton {
+   background:#dcecf8; border:1px solid #8a8fb5; width:61px; margin:5px 2px 4px 2px; padding-left:0px; padding-right:0px;
+   font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; text-align:center; white-space:nowrap; overflow:hidden;  
+   }
+.GMPickButtonHover { background:#ffeeaa; border:1px solid #aaaadd; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                       TGLib special classes not used in TreeGrid                                        */
+/*                                                            TGLib                                                        */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* --- Edit control (TGLib only) --- */
+
+/* ...EditParent is set to temporary parent div tag if the edit is shown on given position, not inside tag; @ Do not change
+   ...Edit is set to the TGLib Edit control tag (cc="Edit"); @ Set border, margin, padding, background and text attributes
+   ...EditInline is set instead if the TGLib Edit control tag has display:inline; @ Set side border, margin, padding, background and text attributes
+   ...EditMulti is added for control with Multi:1 as multiline edit in <textarea>; @ Set border, margin, padding, background and text attributes
+*/
+.GMEditParent { position:absolute; z-index:258; overflow:hidden; }
+.GMEdit,.GMEditInline {
+   padding:2px 4px 2px 4px; font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif;
+   border:1px solid #DDD; border-top:1px solid #666; border-left:1px solid #666; background:white; white-space:nowrap; overflow:hidden;
+   }
+.GMEditInline { display:inline-block; vertical-align:bottom; }
+.GMEditMulti { white-space:normal; }
+
+/* --- Enum control (TGLib only) --- */
+
+/* ...EnumControl is set to the TGLib Enum control tag (cc="Enum"); @ Set border, margin, padding, background and text attributes
+   ...EnumInline is set instead if the TGLib Enum control tag has display:inline; @ Set side border, margin, padding, background and text attributes
+   ...EnumHeader is used inside popup menu header ...MenuHeader tag and shows the Enum icon on left side; @ Set background, padding and text attributes and optionally border and margin
+*/
+.GMEnumControl,.GMEnumInline {
+   background:white url(Menu.gif?v110) no-repeat left -797px; overflow:hidden; font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; cursor:pointer;
+   padding:2px 4px 2px 15px; border:1px solid #DDD; border-top:1px solid #666; border-left:1px solid #666;
+   }
+.GMEnumInline { display:inline-block; vertical-align:bottom; }
+.GMEnumHeader { background:white url(Menu.gif?v110) no-repeat left -798px; font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; cursor:pointer; padding:2px 4px 2px 15px; }
+
+/* --- Mouse dragging (TGLib only) --- */
+
+/* ...MouseOrig is set to original tag being dragged by mouse, when copying the tag
+   ...DragObject is set to ghost tag being dragged by mouse, when copying the tag
+*/
+.GMMouseOrig { background:yellow!important; opacity:0.5; filter:alpha(opacity=50); }
+.GMMouseDragObject { position:absolute; z-index:260; background:#888; opacity:0.5; filter:alpha(opacity=50); }
+
+/* --- Focused control (TGLib only) --- */
+
+.GMFocus { border:1px solid #AAF; border-top:1px solid #00F; border-left:1px solid #00F; background-color:#EEE; } 
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                Cell tooltips -  Hint and Tip                                            */
+/*                                                TreeGrid (Hint) / TGLib (Tip)                                            */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ------------------- Hint ------------------- */
+
+/* Hint is shown in place of the cell content if the cell content is not shown the whole 
+   ...Main is the <div> tag absolutely positioned containing the whole hint; @ Set margin to shift the hint and background, border and padding
+   ...Outer is added to inner <div> inside ...Main along with all the cell css classes; @ Carefully set the attributes to override the cell settings
+   ...Shadow is set to <div> tag displayed under hint ...Main tag, on the same position and size; @ Set margin for the shadow shift, background, opacity and border
+   ...Header... is added to ...Main, ...Outer and ...Shadow for Header row (for every row is added ...xxx..., where xxx is the row Kind and for Header is Header)
+   ...SpaceEdit is added to ...Main, ...Outer and ...Shadow for editable Space cell (for Space cell is added also the ...xxx... as for row Kind along with the ...SpaceEdit...)
+   ...Space... is added to ...Main, ...Outer and ...Shadow for not editable Space cell (for Space cell is added also the ...xxx... as for row Kind along with the ...Space...)
+*/
+.GMHintMain {
+   position:absolute; margin-left:-2px; margin-top:-2px; padding-left:1px; padding-top:1px; left:0px; top:0px; z-index:260; 
+   background:white; cursor:default; border:1px solid black; 
+   }
+.GMHintHeaderMain { padding:0px; margin-top:-1px; }
+.GMHintSpaceMain { margin-left:-1px; margin-top:-1px; padding:0px; overflow:hidden; }
+.GMHintSpaceEditMain { border:0px none; background:none; margin-left:0px; margin-top:0px; padding:0px; overflow:hidden; }
+.GMHintOuter { overflow:hidden; background:white; color:black; text-align:left; border-color:white; }
+.GMHintSpaceOuter { background:#D5E9FE!important; margin-left:-1px; margin-top:-1px; }
+.GMHintSpaceEditOuter { background:#D5E9FE; }
+.GMHintHeaderOuter { background:url(Backgrounds.gif?v110) repeat-x 0px 0px!important; color:white; border-left:1px solid white!important; border-bottom:1px solid white; }
+.GMHintShadow { position:absolute; margin-left:2px; margin-top:2px; z-index:259; background:#888; opacity:0.3; filter:alpha(opacity=30); }
+.GMHintSpaceShadow { margin-left:4px; margin-top:4px; }
+.GMHintSpaceEditShadow { margin-left:4px; margin-top:4px; }
+
+/* ------------------- Tip ------------------- */
+
+/* Tip is shown below mouse cursor on mouse hover the cell; Used only if set <Cfg StandardTip='0'/>
+   ...Main - main tip <div> tag absolutely positioned; @ Do not change
+   ...Outer - outer tip <div> tag inside ...Main, has set maximal width to overflow long text; @ Set border, margin, padding, background
+   ...Body - inner tip <div> tag inside ...Outer; @ Set text attributes and optionally border, margin, padding and background
+   ...Shadow - <div> tag displayed under tip ...Main tag, on the same position and size; @ Set margin for the shadow shift, background, opacity and border
+*/
+.GMTipMain { position:absolute; left:0px; top:0px; z-index:262; visibility:hidden; }
+.GMTipOuter { background:#E4E5F0 url(Backgrounds.gif?v110) repeat-x 0px -750px; border:1px solid #777; padding:1px 3px 1px 3px; overflow:hidden; cursor:default; }
+.GMTipBody { font:12px/14px Arial,Helvetica,sans-serif; white-space:nowrap; }
+.GMTipShadow { position:absolute; margin-left:3px; margin-top:3px; z-index:261; background:#888; opacity:0.3; filter:alpha(opacity=30); visibility:hidden; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                 Line chart (cell type Chart)                                            */
+/*                                                            TGLib                                                        */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ...Chart - cell type, <td> tag; @ Set border, padding and background
+   ...ChartInner - inner <div> tag containing the whole chart; @ Set background
+   ...ChartLayer - individual chart layers, <div> tags, one per TChartLine, one for Axis and one for Caption; @ Do not change
+   ...ChartAxisY - horizontal axis, <div> tag; @ Set height and background
+   ...ChartAxisX - vertical axis, <div> tag; @ Set width and background
+   ...ChartAxisYLabel, ...ChartAxisXLabel - <div> tag with labels for X and Y axes; @ Set background
+   ...ChartAxisYText, ...ChartAxisXText - <div> tag inside ...Label; @ Set text attributes and optionally background, border, margin and padding
+   ...ChartCaption - chart top caption, <div> tag; @ Set background, border, padding and text attributes
+*/
+.GMChart { padding:5px; }
+.GMChartInner { background:white; width:100%; }
+.GMChartLayer { overflow:hidden; height:1000px; }
+.GMChartAxisY { background:black; height:1px; overflow:hidden; }
+.GMChartAxisYLabel { overflow:hidden; }
+.GMChartAxisYText { margin-right:5px; margin-top:12px; text-align:right; font:12px/14px Arial,Helvetica,sans-serif; }
+.GMChartAxisX { width:1px; overflow:hidden; background:black; }
+.GMChartAxisXLabel { overflow:hidden; }
+.GMChartAxisXText { text-align:center; font:12px/14px Arial,Helvetica,sans-serif; }
+.GMChartCaption { text-align:center; font:12px/14px Arial,Helvetica,sans-serif; margin-top:3px; }
+
+/* Individual chart points for PointType value; @ Set only background 
+   ...Hover is added to point under mouse cursor
+*/
+.GMChartPoint1,.GMChartPoint2,.GMChartPoint3,.GMChartPoint4,.GMChartPoint5,.GMChartPoint6,.GMChartPoint7,.GMChartPoint8 {
+   background:url(Gantt.gif?v110) no-repeat; width:32px; height:32px; overflow:hidden; 
+   }
+.GMChartPoint1 { background-position:-892px 7px; }
+.GMChartPoint1Hover { background-position:-942px 7px; }
+.GMChartPoint2 { background-position:-992px 7px; }
+.GMChartPoint2Hover { background-position:-1042px 7px; }
+.GMChartPoint3 { background-position:-1092px 7px; }
+.GMChartPoint3Hover { background-position:-1142px 7px; }
+.GMChartPoint4 { background-position:-1192px 7px; }
+.GMChartPoint4Hover { background-position:-1242px 7px; }
+.GMChartPoint5 { background-position:-1292px 7px; }
+.GMChartPoint5Hover { background-position:-1342px 7px; }
+.GMChartPoint6 { background-position:-1392px 7px; }
+.GMChartPoint6Hover { background-position:-1442px 7px; }
+.GMChartPoint7 { background-position:-1492px 7px; }
+.GMChartPoint7Hover { background-position:-1542px 7px; }
+.GMChartPoint8 { background-position:-1592px 7px; }
+.GMChartPoint8Hover { background-position:-1642px 7px; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                      Custom scrollbars                                                  */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* Custom scrollbars shown if set CustomScroll (always) or CustomHScroll (for horizontal scrollbar only) or TouchScroll (on tablet only)
+   There are four scrollbar types for CustomScroll values 1 - 4 for different sizes, 1 - standard size, 2 - wide scrollbar, 3 - thin scrollbar, 4 - hidden scrollbar
+*/
+
+/* --- Horizontal scrollbars --- */
+
+/* ...RightHidden - shown instead of ...Right if the column section does not need to show scrollbar (but the other sections do) 
+      It is used also to calculate scrollbar height; @ Set height and background and optionally border and margin
+   ...Right - <div> tag placed inside ...HScroll... tag to show the right side arrow button; @ Set padding-right and background and optionally border, padding and margin
+   ...RightHover - used instead of ...Right under mouse cursor, to highlight the right side button
+   ...Left - <div> tag placed inside ...Right to show the left side arrow button; @ Set padding-left and background
+   ...LeftHover - used instead of ...Left under mouse cursor, to highlight the left side button
+   ...SliderRight - <div> tag placed inside ...Left... tag to show the right edge of the slider; @ Set padding-right and background and optionally border, padding and margin
+   ...SliderRightHover - used instead of ...SliderRight under mouse cursor, to highlight the right edge of the slider
+   ...SliderLeft - <div> tag placed inside ...SliderRight to show the left edge of the slider; @ Set padding-left and background
+   ...SliderLeftHover - used instead of ...SliderLeft under mouse cursor, to highlight the left edge of the slider
+   ...SliderHIn - <div> tag placed inside ...SliderLeft to show the body of the slider; Controls height of the whole scrollbar; 
+      @ Set height and background; The height must be height of ...RightHidden minus all vertical padding,border and margin of the ...Right, ...Left, ...SliderRight, ...SliderLeft and ...SliderHIn
+   ...SliderHInHover - used instead of ...SliderHIn under mouse cursor, to highlight the body of the slider
+   ...X - shown in the horizontal scrollbars row in place of vertical scrollbar; @ Set background
+*/
+.GMCustScroll1RightHidden { background:url(VScroll.gif?v110) left -108px; height:17px; }
+.GMCustScroll1Right { padding-right:17px; background:url(VScroll.gif?v110) right 0px; }
+.GMCustScroll1RightHover { padding-right:17px; background:url(VScroll.gif?v110) right -18px; }
+.GMCustScroll1Left { padding-left:17px; background:url(VScroll.gif?v110) left 0px; }
+.GMCustScroll1LeftHover { padding-left:17px; background:url(VScroll.gif?v110) left -18px; }
+.GMCustScroll1SliderRight { background:url(VScroll.gif?v110) right -36px; padding-right:1px; }
+.GMCustScroll1SliderRightHover { background:url(VScroll.gif?v110) right -72px; padding-right:1px; }
+.GMCustScroll1SliderLeft { background:url(VScroll.gif?v110) left -36px; padding-left:1px; }
+.GMCustScroll1SliderLeftHover { background:url(VScroll.gif?v110) left -72px; padding-left:1px; }
+.GMCustScroll1SliderHIn { height:17px; overflow:hidden; background:url(VScroll.gif?v110) center -54px; }
+.GMCustScroll1SliderHInHover { height:17px; overflow:hidden; background:url(VScroll.gif?v110) center -90px; }
+.GMCustScroll1X { background:#F4F4F4; cursor:default; }
+
+.GMCustScroll2RightHidden { background:url(VScroll.gif?v110) left -364px; height:34px; }
+.GMCustScroll2Right { padding-right:36px; background:url(VScroll.gif?v110) right -148px; }
+.GMCustScroll2RightHover { padding-right:36px; background:url(VScroll.gif?v110) right -184px; }
+.GMCustScroll2Left { padding-left:36px;  background:url(VScroll.gif?v110) left -148px; }
+.GMCustScroll2LeftHover { padding-left:36px;  background:url(VScroll.gif?v110) left -184px; }
+.GMCustScroll2SliderRight { background:url(VScroll.gif?v110) right -220px; padding-right:1px; }
+.GMCustScroll2SliderRightHover { background:url(VScroll.gif?v110) right -292px; padding-right:1px; }
+.GMCustScroll2SliderLeft { background:url(VScroll.gif?v110) left -220px; padding-left:1px; }
+.GMCustScroll2SliderLeftHover { background:url(VScroll.gif?v110) left -292px; padding-left:1px; }
+.GMCustScroll2SliderHIn { height:34px; overflow:hidden; background:url(VScroll.gif?v110) center -256px; }
+.GMCustScroll2SliderHInHover { height:34px; overflow:hidden; background:url(VScroll.gif?v110) center -328px; }
+.GMCustScroll2X { background:#F4F4F4; cursor:default; }
+
+.GMCustScroll3Right,.GMCustScroll3RightHidden { background:white; height:9px; }
+.GMCustScroll3SliderRight,.GMCustScroll3SliderRightHover { padding-right:3px; height:9px; background:url(VScroll.gif?v110) right -126px; }
+.GMCustScroll3SliderRightHover { background-position:right -135px; }
+.GMCustScroll3SliderLeft,.GMCustScroll3SliderLeftHover { height:9px; background:url(VScroll.gif?v110) left -126px; }
+.GMCustScroll3SliderLeftHover { background-position:left -135px; }
+.GMCustScroll3X { background:white; cursor:default; }
+
+.GMCustScroll4Right,.GMCustScroll4RightHidden,.GMCustScroll4SliderRight,.GMCustScroll4SliderRightHover { height:1px; }
+.GMCustScroll4X { }
+
+/* --- Vertical scrollbars --- */
+
+/* ...DownHidden - shown instead of ...Down if the grid does not need to show scrollbar and ShowVScroll='1' is set 
+      It is used also to calculate scrollbar width; @ Set width and background and optionally border and margin
+   ...Down - <div> tag placed inside ...VScroll tag to show the bottom side arrow button; @ Set padding-bottom and background and optionally border, padding and margin
+   ...DownHover - used instead of ...Down under mouse cursor, to highlight the bottom side button
+   ...Up - <div> tag placed inside ...Down to show the top side arrow button; @ Set padding-top and background
+   ...UpHover - used instead of ...Up under mouse cursor, to highlight the top side button
+   ...SliderDown - <div> tag placed inside ...Up... tag to show the bottom edge of the slider; @ Set padding-bottom and background and optionally border, padding and margin
+   ...SliderDownHover - used instead of ...SliderDown under mouse cursor, to highlight the bottom edge of the slider
+   ...SliderUp - <div> tag placed inside ...SliderDown to show the top edge of the slider; @ Set padding-top and background
+   ...SliderUpHover - used instead of ...SliderUp under mouse cursor, to highlight the top edge of the slider
+   ...SliderVIn - <div> tag placed inside ...SliderUp to show the body of the slider; @ Set background
+   ...SliderVInHover - used instead of ...SliderVIn under mouse cursor, to highlight the body of the slider
+*/
+.GMCustScroll1DownHidden { background:url(HScroll.png?v110) -108px top; width:16px; }
+.GMCustScroll1Down { padding-bottom:17px; background:url(HScroll.png?v110) 0px bottom; }
+.GMCustScroll1DownHover { padding-bottom:17px; background:url(HScroll.png?v110) -18px bottom; }
+.GMCustScroll1Up { padding-top:17px; background:url(HScroll.png?v110) 0px top; }
+.GMCustScroll1UpHover { padding-top:17px;  background:url(HScroll.png?v110) -18px top; }
+.GMCustScroll1SliderDown { background:url(HScroll.png?v110) -36px bottom; padding-bottom:1px; }
+.GMCustScroll1SliderDownHover { background:url(HScroll.png?v110) -72px bottom; padding-bottom:1px; }
+.GMCustScroll1SliderUp { background:url(HScroll.png?v110) -36px top; padding-top:1px; }
+.GMCustScroll1SliderUpHover { background:url(HScroll.png?v110) -72px top; padding-top:1px; }
+.GMCustScroll1SliderVIn { background:url(HScroll.png?v110) -54px center; }
+.GMCustScroll1SliderVInHover { background:url(HScroll.png?v110) -90px center; }
+
+.GMCustScroll2DownHidden { background:url(HScroll.png?v110) -364px top; width:33px; }
+.GMCustScroll2Down { padding-bottom:36px; background:url(HScroll.png?v110) -148px bottom; }
+.GMCustScroll2DownHover { padding-bottom:36px; background:url(HScroll.png?v110) -184px bottom; }
+.GMCustScroll2Up { padding-top:36px; background:url(HScroll.png?v110) -148px top; }
+.GMCustScroll2UpHover { padding-top:36px;  background:url(HScroll.png?v110) -184px top; }
+.GMCustScroll2SliderDown { background:url(HScroll.png?v110) -220px bottom; padding-bottom:1px; }
+.GMCustScroll2SliderDownHover { background:url(HScroll.png?v110) -292px bottom; padding-bottom:1px; }
+.GMCustScroll2SliderUp { background:url(HScroll.png?v110) -220px top; padding-top:1px; }
+.GMCustScroll2SliderUpHover { background:url(HScroll.png?v110) -292px top; padding-top:1px; }
+.GMCustScroll2SliderVIn { background:url(HScroll.png?v110) -256px center; }
+.GMCustScroll2SliderVInHover { background:url(HScroll.png?v110) -328px center; }
+
+.GMCustScroll3Down,.GMCustScroll3DownHidden { background:white; width:8px; }
+.GMCustScroll3SliderDown,.GMCustScroll3SliderDownHover { padding-bottom:3px; background:url(HScroll.png?v110) -126px bottom; }
+.GMCustScroll3SliderDownHover { background-position:-135px bottom; }
+.GMCustScroll3SliderUp,.GMCustScroll3SliderUpHover { background:url(HScroll.png?v110) -126px top; }
+.GMCustScroll3SliderUpHover { background-position:-135px top; }
+
+.GMCustScroll4Down,.GMCustScroll4DownHidden,.GMCustScroll4SliderDown,.GMCustScroll4SliderDownHover { width:0px; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                       System settings                                                   */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* --------------- Debug print ----------------- */
+/* ! Note, here is no .GM style prefix
+   Controls the default debug window shown bottom the page, controlled by <bdo Debug> attribute
+   ...Tag - <div> tag containing the debug print; @ Set position attributes, background, border and padding
+   ...TagMax - used instead of ...Tag when maximized by clicking to Max button
+   ...Buttons - <div> tag placed next to ...Tag to show the debug control buttons; @ Set position attributes, background, border and padding
+   ...ButtonsMax - used instead of ...Buttons when maximized by clicking to Max button
+*/
+.GridDebugTag,.GridDebugTagMax { overflow:auto; overflow-y:scroll; border:1px solid black; background:#DDD; }
+.GridDebugTag,.GridDebugTagMax,.GridDebugButtons,.GridDebugButtonsMax {
+   position:fixed; z-index:256; left:5px; right:5px; bottom:5px; height:200px; padding:4px;
+   position:absolute!IE;
+   left:expression((5+(document.compatMode=="CSS1Compat"?document.documentElement.scrollLeft:document.body.scrollLeft))+"px")!IE;
+   width:expression((-10+(document.compatMode=="CSS1Compat"?document.documentElement.clientWidth-8:document.body.clientWidth))+"px")!IE;
+   top:expression((-205+(document.compatMode=="CSS1Compat"?document.documentElement.scrollTop+document.documentElement.clientHeight-8:document.body.scrollTop+document.body.clientHeight))+"px")!IE;
+   }
+.GridDebugTagMax,.GridDebugButtonsMax {
+   top:5px; height:auto; 
+   top:expression((5+(document.compatMode=="CSS1Compat"?document.documentElement.scrollTop:document.body.scrollTop))+"px")!IE;
+   height:expression((-10+(document.compatMode=="CSS1Compat"?document.documentElement.clientHeight-8:document.body.clientHeight))+"px")!IE;
+   }
+.GridDebugButtons,.GridDebugButtonsMax {
+   text-align:right; margin-right:25px; width:130px; left:auto;
+   left:expression((-155+(document.compatMode=="CSS1Compat"?document.documentElement.clientWidth-8:document.body.clientWidth))+"px")!IE;
+   }
+
+/* Individual parts of the debug print
+   ...Button - one debug button, <button> tag placed inside ...Buttons; @ Set width, height, background, border, padding, margin and text attributes
+   ...Title - <span> tag with grid or print identification; @ Set text attributes and background
+   ...Mark - <span> tag that highlights some information, e.g. actual values; @ Set text attributes and background
+   ...Stop (0), ...Error (1), ...Warning (2), ...List (3), ...Info (>3) - <div> or <span> tag containing the information according to the debug level number; @ Set text attributes and background
+*/
+.GridDebugButton { font-size:10px; width:40px; padding:0px; }
+.GridDebugTitle { font-size:10px; color:blue; font-style:normal;font-weight:normal; }
+.GridDebugMark { font-weight:bold; }
+.GridDebugStop { font-size:18px; font-weight:bold; color:red; }
+.GridDebugError { font-size:12px; color:red; }
+.GridDebugWarning { font-size:12px; color:#A60;}
+.GridDebugList { font-size:10px; color:#888;}
+.GridDebugInfo { font-size:12px; }
+
+/* ------------------- Other settings ------------------- */
+
+/* Class added to <body> tag when printing grid to actual page or to new window (for PrintLocation != 2); @ Set any <body> attribute
+*/
+.GMBodyPrint { margin:0px!important; padding:0px!important; border:0px none!important; background:none!important; }
+
+/* Temporary tag used for some calculations; @ Do not change; ! Note, here is no .GM style prefix */
+.GridTmpTag { position:absolute; left:5px; top:5px; visibility:hidden; } 
+
+/* Tag added to disable whole page, e.g. when showing modal dialog. ! Note, here is no .GM style prefix
+   Note, to disable only the grid is used .GMDisabled class instead (e.g. when showing message in grid).
+   @ Set background and opacity, optionally margin and padding
+*/
+.GridDisabled { position:absolute; z-index:256; background:white; opacity:0.5; filter:alpha(opacity=50); } 
+
+/* Tag where the grid is rendered and also where all the support absolute tags are rendered (e.g. cursors, dialogs or messages). ! Note, here is no .GM style prefix
+   @ Increase z-index if the grid or its menus or cursors are not shown as expected. But it is usually better to set <Cfg ZIndex/> instead.
+*/
+.GridMain { z-index:255; }
+
+/* Marks the style loaded; must be the last class in the file; @ Do not change */
+.GMLoaded { border:1px solid black!important; }

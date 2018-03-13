@@ -1,0 +1,2525 @@
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                      TreeGrid CSS style                                                 */
+
+/*                                                          Query style                                                    */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* To remove all the comments replace such RegEx: \/\*([^\*]|\n|\r)*\*\/|\s*\r\n?\s*(?=\r\n?)|\s+(?=[\{\}])|\s+(?=\r)
+
+   In the description, the sentence starting by "@" lists what only should be changed in the CSS class
+*/
+
+
+/* ------------- Group definition for all TreeGrid tags ------------- */
+
+/* ! Note, here is no style prefix, it is shared among all TreeGrid styles 
+   @ Set here default values for CSS attributes of tags <td>, <th>, <tr>, <table>, <tbody>, <div>, <span>, <u>,
+   if your global style sheet redefined them, especially attributes controlling size and measurement, otherwise TreeGrid will be switched to Safe CSS mode 
+*/
+.GridMain * { }
+
+/* ------------- Base tags ------------- */
+
+/* @ Do not change.
+   FF3 version is used for Firefox 3 - 19 due its slow bug in rendering table cells with different borders 
+*/
+.GQNone { display:none; }
+.GQSection,.GQSectionFF3 { table-layout:fixed; width:0px; font-size:0px; line-height:0px; }
+.GQSectionFF3 { border-collapse:collapse; }
+
+/* -------------- Main TreeGrid <table> tag, contains the table sections ------------------ */
+
+/* It controls border around the grid. 
+   @ Set margin, border and padding. 
+   Padding is ignored in IE7 strict, IE6 strict and IE5 quirks modes. 
+*/
+.GQMainTable { border-left:1px solid #C5DBEC; border-right:1px solid #C5DBEC; border-collapse:separate; text-align:left; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                        Grid sections                                                    */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* -------------- Table sections with cells, <div> tag inside <td> tag ------------------ */
+
+/* They control border and spaces between grid sections. 
+   @ Set border, padding and margin. Set them with relation to Splitters, Scrollbars and Space rows settings.
+   ...Head... (<Head> top fixed rows), ...Body... (<Body> variable rows), ...Foot... (<Foot> bottom fixed rows)
+   ...Left (<LefCols> left fixed columns), ...Mid (<Cols> variable columns), ...Right (<RightCols> right fixed columns)
+!! Sections on horizontal direction (...Left, ...Mid, ...Right) must have the same height (border+padding+margin)
+!! Sections on vertical direction (...Head..., ...Body..., ...Foot...) must have the same width (border+padding+margin)
+*/
+.GQBodyLeft,.GQBodyMid,.GQBodyRight,.GQHeadLeft,.GQHeadMid,.GQHeadRight,.GQFootLeft,.GQFootMid,.GQFootRight { }
+.GQHeadLeft,.GQHeadMid,.GQHeadRight { }
+.GQBodyLeft,.GQBodyMid,.GQBodyRight { border-top:1px solid #C5DBEC; }
+.GQFootLeft,.GQFootMid,.GQFootRight { border-top:1px solid #C5DBEC; }
+.GQHeadLeft,.GQBodyLeft,.GQFootLeft { border-right:1px solid #c0c0ff; }
+.GQHeadMid,.GQBodyMid,.GQFootMid { }
+.GQHeadRight,.GQBodyRight,.GQFootRight { border-left:1px solid #c0c0ff; }
+
+/* -------------- Splitters between resizable table sections, <td> tag ------------------ */
+
+/* The <td> tags are shown between the sections <td> tags when set <Cfg LeftWidth, MidWidth, RightWidth/> attributes and <Cfg SectionResizing='1'/>
+   They control horizontal space between the resizable sections. 
+   @ Set left/right border and padding and also width and background.
+   LeftSplitter is between ...Left and ...Mid column sections and RightSplitter is between ...Mid and ...Right column sections.
+   The splitter tag is shown in every row section (Head,Body,Foot) and in the horizontal scrollbars section.
+   ...Touch versions are shown instead on touch screens like iPad
+   ...HeadSplitter, ...BodySplitter, ...FootSplitter is added for appropriate row section, ...ScrollSplitter is added to splitter between horizontal scrollbars
+   ...SplitterDisabled is added if the sections cannot be resized now, due their actual width or permissions
+*/
+.GQLeftSplitter,.GQRightSplitter,.GQLeftSplitterTouch,.GQRightSplitterTouch { width:5px; background:#C8E5FF; overflow:hidden; cursor:e-resize; font-size:1px; }
+.GQLeftSplitterTouch,.GQRightSplitterTouch { width:15px; }
+.GQLeftSplitter,.GQLeftSplitterTouch { border-right:1px solid #C0C0FF; }
+.GQRightSplitter,.GQRightSplitterTouch { border-left:1px solid #C0C0FF; }
+.GQHeadSplitter { }
+.GQBodySplitter { }
+.GQFootSplitter { }
+.GQScrollSplitter { }
+.GQSplitterDisabled { background:white; cursor:default; }
+
+/* -------------- Vertical scrollbar, <div> tag inside <td> tag ------------------ */
+
+/* The vertical scrollbar is placed on right side to <td> tag in Head section and is spanned through Body section and inner Space rows to Foot section 
+   It controls the border and space around the scrollbar. 
+   @ Set border, padding and margin, optionally background.
+   @ You can control the scrollbar shape and look in IE or WebKit on its immediate child <div> as .GQVScroll > div
+*/
+.GQVScroll { padding-top:1px; padding-bottom:1px; overflow:hidden; }
+
+/* -------------- Horizontal scrollbars, <div> tag inside <td> tag ------------------ */
+
+/* ...Left (for <LefCols> left fixed columns), ...Mid (for <Cols> variable columns), ...Right (for <RightCols> right fixed columns)
+   They control the border and space around the scrollbar. 
+   @ Set border, padding and margin, optionally background.
+   @ You can control the scrollbar shape and look in IE or WebKit on their immediate child <div> as .GQHScroll... > div
+   ...Resize versions are shown instead for resizable sections, when set <Cfg LeftWidth, MidWidth, RightWidth/> attributes and <Cfg SectionResizing='2'/>
+   ...ResizeTouch versions are shown instead on touch screens like iPad 
+   ...HScrollWide is shown instead of all the section scrollbars when set <Cfg WideHScroll='1'/>
+   ...ScrollHidden is shown instead if the column section does not need to show scrollbar (but the other sections do)
+   ...XScroll is shown in the horizontal scrollbars row in place of vertical scrollbar
+*/
+.GQHScrollLeft,.GQHScrollMid,.GQHScrollRight { padding-left:1px; padding-right:1px; cursor:default; overflow:hidden; }
+.GQHScrollLeft { border-right:1px solid #C0C0FF; }
+.GQHScrollMid { }
+.GQHScrollRight { border-left:1px solid #C0C0FF; }
+.GQHScrollLeftResize,.GQHScrollRightResize,.GQHScrollMidLeftResize,.GQHScrollMidRightResize { background:#F4F4F4; overflow:hidden; }
+.GQHScrollLeftResize { border-right:2px solid #88c; padding-left:1px; padding-right:5px; }
+.GQHScrollRightResize { border-left:2px solid #88c; padding-left:5px; padding-right:1px; }
+.GQHScrollMidLeftResize { border-left:1px solid #88c; padding-left:5px; }
+.GQHScrollMidRightResize { border-right:1px solid #88c; padding-right:5px; }
+.GQHScrollLeftResizeTouch,.GQHScrollRightResizeTouch,.GQHScrollMidLeftResizeTouch,.GQHScrollMidRightResizeTouch { background:#F4F4F4; overflow:hidden; }
+.GQHScrollLeftResizeTouch { border-right:2px solid #88c; padding-left:1px; padding-right:18px; }
+.GQHScrollRightResizeTouch { border-left:2px solid #88c; padding-left:18px; padding-right:1px; }
+.GQHScrollMidLeftResizeTouch { border-left:1px solid #88c; padding-left:19px; }
+.GQHScrollMidRightResizeTouch { border-right:1px solid #88c; padding-right:19px; }
+.GQHScrollWide { overflow:hidden; }
+.GQHScrollHidden { }
+.GQXScroll { background:#FFF; cursor:default; }
+
+/* -------------- Special scrollbar setting for Safari and Chrome, <div> tag inside <td> tag ------------------ */
+
+/* Added to vertical and horizontal scrollbar to force showing scrollbars in Safari and Chrome if they are automatically hidden
+   @ Change here the scrollbars look; The scrollbars must be defined as permanently visible
+   ! Note, here is no style prefix
+*/
+.GridHiddenScroll > div::-webkit-scrollbar { -webkit-appearance:none; width:11px; height:11px; } 
+.GridHiddenScroll > div::-webkit-scrollbar-thumb { border-radius:8px; border:2px solid white; background-color:rgba(0,0,0,0.5); }
+
+/* ------------------ Round corners ------------------ */
+
+/* Used to render something above and below the grid, to simulate e.g. rounded corners with special effects compatible in all browsers */
+
+/* ...Top is set to <div> tag rendered directly above ...MainTable with the same width as the table 
+   ...Top0 to ...Top9 is set to up 10 <div> tags inside ...Top. The tag is not rendered if the class has not set height.
+   ...TopSpace0 to ...TopSpace9 is added to ...Top0 to ...Top9 in case there is some visible Space row width Space = 0
+*/
+.GQTop { }
+.GQTop1 { margin:0px 5px 0px 5px; height:1px; background:#6ca6d1; overflow:hidden; } .GQTopSpace1 { border-color:#C5DBEC; background:#C5DBEC; }
+.GQTop2 { margin:0px 3px 0px 3px; border-left:2px solid #6ca6d1; border-right:2px solid #6ca6d1; background:#6ca6d1; height:1px; overflow:hidden; } .GQTopSpace2 { border-color:#C5DBEC; background:#c9e4ff; }
+.GQTop3 { margin:0px 2px 0px 2px; border-left:1px solid #6ca6d1; border-right:1px solid #6ca6d1; background:#6ca6d1; height:1px; overflow:hidden; } .GQTopSpace3 { border-color:#C5DBEC; background:#c9e4ff; }
+.GQTop4 { margin:0px 1px 0px 1px; border-left:1px solid #6ca6d1; border-right:1px solid #6ca6d1; background:#6ca6d1; height:2px; overflow:hidden; } .GQTopSpace4 { border-color:#C5DBEC; background:#c9e4ff; }
+.GQTop5 { margin:0px 0px 0px 0px; border-left:1px solid #6ca6d1; border-right:1px solid #6ca6d1; background:#6ca6d1; height:3px; overflow:hidden; } .GQTopSpace5 { border-color:#C5DBEC; background:#c9e4ff; }
+
+/* ...Bottom is set to <div> tag rendered directly below ...MainTable with the same width as the table 
+   ...Bottom0 to ...Top9 is set to up 10 <div> tags inside ...Top. The tag is not rendered if the class has not set height.
+   ...BottomSpace0 to ...BottomSpace9 is added to ...Bottom0 to ...Bottom9 in case there is some visible Space row width Space = 4
+*/
+.GQBottom { }
+.GQBottom5 { margin-left:5px; margin-right:5px; height:1px; background:#C5DBEC; overflow:hidden; }
+.GQBottom4 { margin-left:3px; margin-right:3px; border-left:2px solid #C5DBEC; border-right:2px solid #C5DBEC; background:#c9e4ff; height:1px; overflow:hidden; }
+.GQBottom3 { margin-left:2px; margin-right:2px; border-left:1px solid #C5DBEC; border-right:1px solid #C5DBEC; background:#c9e4ff; height:1px; overflow:hidden; }
+.GQBottom2 { margin-left:1px; margin-right:1px; border-left:1px solid #C5DBEC; border-right:1px solid #C5DBEC; background:#c9e4ff; height:2px; overflow:hidden; }
+.GQBottom1 { }
+
+/* -------------- Row pages, <div> tag ------------------ */
+
+/* They control the border and space around the row page */
+/* @ Set here vertical border, padding and margin.
+   ...PageOne is shown if no root paging is set (<Cfg Paging='0'/>. 
+   ...PageFirst is the first root page, the ...Page are all the next root pages
+   ...ChildPart is shown around the row children, regardless on the <Cfg ChildParts/> is set or not
+*/
+.GQPageFirst { }
+.GQPage {  border-top:1px solid #E0E0E0; }
+.GQPageOne { }
+.GQChildPart { }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                        Rows                                                             */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+ 
+/* ------------- Table row height ------------------ */
+
+/* Classes are not assigned, only the height attribute is read. 
+   @ Set the height in pixels only. 
+   ...RowHeight is default minimal height in pixels of all rows in table (not Space rows). It is outer height including all cell border and padding.
+   ...RowHeightTouch is used instead on touch screens like iPad 
+*/
+.GQRowHeight { height:18px; }
+.GQRowHeightTouch { height:22px; }
+
+/* ------------- Table rows, <tr> tag ------------------ */
+
+/* Sets the class to the whole column section of the row. Useful to set for special backgrounds.
+   ...DataRow is set for all standard table rows without Kind attribute set
+   @ Set here only background
+*/
+.GQHeaderRow { }
+.GQFilterRow { }
+.GQDataRow { }
+
+/* ------------- Space row height ------------------ */
+
+/* Classes are not assigned, only the height or margin attribute is read. 
+   @ Set the height or margin in pixels only. 
+   ...SpaceRowHeight is default minimal height in pixels of all Space rows. It is outer height including all cell border and padding, but not the margin.
+   ...SpaceMargin is horizontal and vertical margin in pixels around all Space row cells. 
+   ...SpaceMarginTouch is used instead on touch screens like iPad 
+*/
+.GQSpaceRowHeight { height:19px; }
+.GQSpaceMargin { margin:4px; }
+.GQSpaceMarginTouch { margin:4px; }
+
+/* ------------- Space rows, <div> tag inside <td> tag ------------------ */
+
+/* Space row class according to the row Kind as prefix+Kind+"Row". In XML the Kind can be set as tag name like <Group ... />. Default Kind is "Space".
+   Every Space row is placed in its own <tr><td> tag, on the same level as table sections like Head/Body/Foot (...Left/Mid/Right).
+   @ Set here border, padding, margin and background
+   The horizontal border and spacing of Space rows should be synchronized with the table sections
+*/
+.GQSpaceRow,.GQGroupRow,.GQSearchRow,.GQPagerRow,.GQToolbarRow,.GQToolbar1Row,.GQToolbar2Row,.GQToolbar3Row,.GQTopbarRow,.GQTopbar1Row,.GQTopbar2Row,.GQTopbar3Row,.GQTabberRow {
+   background:#C8E5FF;
+   padding:3px 4px 3px 0px; font-size:0px; overflow:hidden; white-space:nowrap;
+   }
+.GQSpaceRow { background:#d5e9fe; padding:0px 4px 0px 0px; } /* Standard Space row with no special meaning */
+.GQGroupRow { }                                              /* Grouping settings row */
+.GQSearchRow { }                                             /* Search settings row */
+.GQPagerRow { }                                              /* Simple pager row with Pages type cell */
+.GQToolbarRow { }                                            /* Bottom standalone toolbar */
+.GQToolbar1Row { }                                           /* First bottom toolbar */
+.GQToolbar2Row { }                                           /* Last bottom toolbar */
+.GQToolbar3Row { }                                           /* Middle bottom toolbars */
+.GQTopbarRow { }                                             /* Standalone top toolbar */
+.GQTopbar1Row { }                                            /* First top toolbar*/
+.GQTopbar2Row { }                                            /* Last top toolbar */
+.GQTopbar3Row { }                                            /* Middle top toolbars */
+.GQTabberRow { background:#d5e9fe; }                         /* Tabber row with Tab type cells, usually used with ...RowAbove or ...RowBelow */
+
+/* Special Space row Kind="Fill" shown for ConstHeight='1'*/
+.GQFillRow { background:#d5e9fe; }
+
+/* Special Space row Kind="NoData" shown when all body rows are hidden */
+.GQNoDataRow { background:white; padding:5px 0px 5px 5px; overflow:hidden; }
+.GQNoDataRow div { color:gray!important; font-style:italic!important; }
+
+/* Class added to Space row Kind class for its position (Space attribute value), only value 0 to 4 */
+.GQRowSpace0 { }
+.GQRowSpace1 { }
+.GQRowSpace2 { }
+.GQRowSpace3 { }
+.GQRowSpace4 { padding-top:5px; padding-bottom:1px; }
+
+/* Special Space row above or below grid, used instead of Kind class, ...RowAbove is added for Space='-1', ...RowBelow for Space='5' */
+.GQRowAbove,.GQRowBelow { margin:0px 20px 0px 33px; overflow:hidden; }
+.GQRowAbove { margin-top:3px; }
+.GQRowBelow {  margin-bottom:3px; }
+
+/* Class added for row with Panel='1' */
+.GQSpaceRowPanel { padding-left:0px; }
+
+/* Class added for given row VAlign attribute value */
+.GQSpaceVAlignTop { }
+.GQSpaceVAlignMiddle { }
+.GQSpaceVAlignBottom { }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                        Cells                                                            */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ------------- Table cells, <td> tag ------------- */
+
+/* Classes for table row cells (not Space rows). Always one class per one cell.
+   @ Set border here. Note, all cells in table must have the same border width/height in the same cell edge.
+   @ You can set also padding here, but note, the padding is defined also in cell type class.
+   @ You can set also background here, but note, the data cell background color is often controlled by ...Color state classes
+   ...Cell - base data cell
+   ...CellPanel - cell Type="Panel"
+   ...CellFilter - cell in row Kind="Filter"
+   ...CellFilterPanel - cell Name="Panel" in row Kind="Filter". Note, it is used only for default panel named "Panel"
+   ...CellHeader - cell in row Kind="Header"
+   ...CellHeaderPanel - cell Type="Panel" in row Kind="Header"
+   ...CellEmpty - cell in _ConstWidth column (created due <Cfg ConstWidth/> setting), also in row Kind="Filter"
+   ...CellHeaderEmpty - cell in _ConstWidth column (created due <Cfg ConstWidth/> setting) in row Kind="Header"
+   ...CellUser - user cell section defined by <I LeftHtml MidHtml RightHtml/>
+   ...CellHidden - cell in child row hidden due spanned parent row through its children
+*/
+.GQCell,.GQCellPanel,.GQCellFilter,.GQCellFilterPanel,.GQCellHeader,.GQCellHeaderPanel,.GQCellHeaderEmpty,.GQCellUser,.GQCellEmpty {
+   border:1px solid #e0e0ff; border-left:0px none; border-top:0px none;
+   vertical-align:top; overflow:hidden; overflow:auto!IE; height:auto;
+   }
+.GQCell { }
+.GQCellHeader,.GQCellHeaderPanel,.GQCellHeaderEmpty { background:#6CA6D1; border-right:1px solid #7cb6e1; }
+.GQCellPanel,.GQCellHeaderPanel,.GQCellFilterPanel { white-space:nowrap; direction:ltr; }
+.GQCellHeader { }
+.GQCellHeaderEmpty { }
+.GQCellHeaderPanel { padding:3px 0px 1px 0px; }
+.GQCellPanel { background:#D5EAFE url(Backgrounds.gif?v110) no-repeat 0px 0px; border-bottom:0px none; }
+.GQCellFilterPanel { background:#C8E5FF; text-align:center; border-bottom:0px none; }
+.GQCellFilter { }
+.GQCellUser { background-color:white; }
+.GQCellEmpty { background:white; border-color:white; }
+.GQCellHidden { background:transparent!important; border-top:none!important; border-bottom:none!important; }
+
+/* Special class to choose if the last cells in column or row section will render its border; Not used in grid, only border width is read; @ Set border-right and border-bottom; set it to 0px to SHOW the border */
+.GQLastCell { border-right:1px solid; border-bottom:1px solid; }
+
+/* Classes added to the <td> cell due special feature
+   ...CellClassInner added to the cell with defined ClassInner attribute (including Header cell)
+   ...CellClassInnerIcon added to the cell with defined ClassInner attribute and side Icon
+   ...CellHeaderInnerIcon added to the header cell with defined ClassInner attribute and side Icon
+   ...CellBorderFF3 is added to all cells in Firefox 3 - 19 due its slow bug in rendering table cells with different borders
+*/
+.GQCellClassInner { padding-top:0px; padding-bottom:0px; }
+.GQCellClassInnerIcon { }
+.GQCellHeaderInnerIcon { padding-top:3px; padding-bottom:2px;}
+.GQCellBorderFF3 { border-left:0px none!important; border-top:0px none!important; }
+
+/* ------------- Cell content - Type, <td> or <div> tag ------------- */
+
+/* The Type class is by default set to same <td> tag as the table cell or Space cell class.
+   Here are listed all TreeGrid Types except: "Gantt" - defined in Gantt.css file; "Chart", "Pages" and "DropCols" - defined later in this file and "Panel" - this class is not used.
+   If the cell consists from more included <div> tags, it is set to the most inner <div> tag.
+   The one or more <div> tags are included in cell if: 
+      any cell has set VAlign, Rotate or ClassInner or Align="Scroll"
+      Header cell has set Icon or Type="Bool"
+      Space cell has set Icon or is editable or has Button="Defaults"
+   There can be included also inner <table> inside cell in these cases:
+      any cell has set Span + Merge with more columns and no MergeFormat
+      Header cell has set Levels
+      MainCol cell when set <Cfg SpannedTree='1'/>
+      DropCols and Radio types use also inner <Table>, but the Type class is set to parent cell
+   Select type class is set along with Html class for Select Type
+   Note, the "Bool", "Icon" and "Select" type classes are not listed in the first line
+   @ Set padding and text attributes like font, line-height, text-align, white-space
+*/
+.GQText,.GQLines,.GQInt,.GQFloat,.GQDate,.GQPass,.GQImg,.GQLink,.GQRadio,.GQEnum,.GQButton,.GQHtml,.GQAbs,.GQList,.GQUser {
+   font:8px/10px Verdana,Tahoma,"Trebuchet MS",sans-serif; white-space:nowrap; padding:1px 3px 2px 3px;
+   }
+.GQInt,.GQFloat,.GQDate { text-align:right; }
+.GQLines,.GQRadio,.GQHtml,.GQList { white-space:normal; }	
+.GQImg,.GQHtml { padding-top:0px; padding-bottom:0px; }
+.GQPass { font-size:14px; line-height:17px; padding:0px 0px 0px 3px; }
+.GQRadio { padding:0px; }
+.GQBool { text-align:center; line-height:0px; }
+.GQIcon { background-repeat:no-repeat; }
+.GQAbs { padding:0px; }
+.GQUser { padding:0px; }
+.GQSelect { padding-top:1px; padding-bottom:2px; }
+
+/* Class set for cell width Visible='0'.
+   @ Set background for the ...Hidden
+   It is always set to <td> tag, this tag has always empty content. 
+   ...Hidden is set to table cell and does not hide the cell, it just makes it empty
+   ...HiddenSpace is set to Space cell and hides the cell completely
+*/
+.GQHidden { }
+.GQHiddenSpace { display:none; }
+
+/* Class set to the right Button cell, the table cell next to the data cell:
+   @ Set width, height, padding and text attributes like font, line-height, text-align, white-space
+   ...RightButton is set for <button> or <u> tag inside <td> tag for Button="Button" according to <Cfg UseButton>
+   ...RightHtml is set for <td> tag for Button="Html"
+*/
+button.GQRightButton { font:10px/11px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; height:17px; width:19px; margin:0px; padding:0px; }
+u.GQRightButton { 
+   background:#C8E5FF; border:1px solid #71A8D2; border-radius:5px; padding:1px 1px 0px 1px; margin:1px; 
+   font:11px/12px Arial,Helvetica,sans-serif; text-decoration:none; display:inline-block; overflow:hidden; white-space:nowrap; 
+   }
+.GQRightHtml { font:8px/10px Verdana,Tahoma,"Trebuchet MS",sans-serif; padding-top:1px; padding-bottom:2px; }
+
+/* Class set to inner table <td> tag, when displaying Header cell Levels
+   @ Set width and text attributes like font, line-height, text-align, white-space for the ...LevelButton
+   ...LevelButton is set to every Levels button
+   ...LevelButtonSpace is set to the next <td> as the space between buttons and cell value. The last <td> cell contains the cell value
+*/
+.GQLevelButton { 
+   background:url(Button.gif?v110) 2px -1747px no-repeat; padding:4px 0px 4px 0px; width:21px; 
+   font:8px/10px Verdana,Tahoma,"Trebuchet MS",sans-serif; text-align:center; cursor:pointer;
+   }
+.GQLevelButtonSpace { width:5px; }
+
+/* Class set to inner table <td> tag, when displaying merged cells (Span+Merge and no MergeFormat) 
+   @ Set border, padding, background, width and height
+   ...MergedCellH is set to every merged value (<td> tag) when showing all cells in one row (MergeType&1 = 0)
+   ...MergedCellV is set to every merged value (<td> tag) when showing all cells in one column (MergeType&1 = 1)
+*/
+.GQMergedCellH { padding:0px; padding-right:5px; }
+.GQMergedCellV { padding:0px; padding-bottom:1px; }
+
+/* Classes set to cell in Header row
+   ...HeaderText is set along with the Type class for Header cell, to <td> or <div> tag. @ Set padding and text attributes like font, line-height, text-align, white-space
+   ...HeaderIconInner is set along with the ...HeaderText if the cell has set Icon, to <td> or <div> tag. @ Set padding.
+   ...HeaderButton is set to <td> tag next to the cell if the cell has set Button (by default Header cell has set Button="Sort"). @ Set padding or the first child <button> settings.
+   ...HeaderToolButton is set to <td> tag of the cell type "Button" and Button="Button". @ Set padding
+   ...HeaderFocus is added to cell <td> tag during dragging the Header cell. @ Set background and optionally border, padding and text attributes like font, line-height, text-align, white-space
+   ...HeaderDrag is added to ghost Header cell under mouse cursor during dragging the Header cell. @ Set background and border and optionally padding and text attributes like font, line-height, text-align, white-space
+*/
+.GQHeaderText { font:8px/10px Verdana,Tahoma,"Trebuchet MS",sans-serif; padding:4px 3px 4px 3px; color:white; }
+.GQHeaderIconInner { padding-top:1px; padding-bottom:2px; }
+.GQHeaderButton { padding-top:3px; padding-bottom:2px; }
+.GQHeaderButtonButton { padding-top:3px; padding-bottom:2px; } .GQHeaderButtonButton u { border-color:white; }
+.GQHeaderButtonHtml { font:8px/10px Verdana,Tahoma,"Trebuchet MS",sans-serif; padding:4px 3px 4px 3px; color:white; }
+.GQHeaderToolButton { text-align:center; padding:3px 0px 2px 0px; }
+.GQHeaderFocus { background-color:#DEDFD8; }
+.GQHeaderDrag { background-color:#C0C0B0; cursor:default; overflow:hidden; }
+
+/* Classes added to DropCols type inner table cells, <td> tag. 
+   @ Set here border, padding, background and text attributes.
+   ...DropCols is DropCols type class set to <td> tag
+   ...HeaderGroup is set to every DropCols inner table cells, except the last one
+   ...HeaderGroupFocus is added to the DropCols inner table cell during dragging inside the DropCols line (to be moved)
+   ...HeaderGroupDelete is added to the DropCols inner table cell during dragging outside the DropCols line (to be removed)
+   ...HeaderGroupCustom is set to the last cell in DropCols inner table, as the default text "To group by, drag column caption here"
+*/
+.GQDropCols { border-left:0px none; }
+.GQHeaderGroup { font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; padding:0px 3px 0px 3px; border-left:1px solid white; border-right:1px solid #D4D4D4; }
+.GQHeaderGroupFocus { background-color:#DEDFD8; }
+.GQHeaderGroupDelete { background-color:#E9E9E9; color:#E9E9E9; }
+.GQHeaderGroupCustom { font:italic 11.5px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; color:#BBB; padding-left:5px; white-space:nowrap; }
+
+/* Class added to the cell <td> tag when resizing row by dragging this cell edge and direct resizing is off */
+.GQResizingRow { border-bottom:1px solid black; }
+.GQResizingSpace { }
+
+/* Classes added to cell with Wrap attribute. Added along with Type class to <td> or <div> tag. 
+   @ Do not change. 
+   ...Wrap0 for Wrap='0', ...Wrap1 for Wrap='1'
+*/
+.GQWrap0 { white-space:nowrap; }
+.GQWrap1 { white-space:normal; }
+
+/* Classes added to cell with Align attribute. Added along with Type class to <td> or <div> tag. 
+   @ Do not change.
+...AlignLeft for Align='Left', ...AlignCenter for Align='Center',  ...AlignRight for Align='Right', ...AlignJustify for Align="Justify"
+*/
+.GQAlignLeft { text-align:left; }
+.GQAlignCenter { text-align:center; }
+.GQAlignJustify { text-align:justify; }
+.GQAlignRight { text-align:right; }
+
+/* Classes added to cell with VAlign attribute. Added always to <td> tag. 
+   @ Do not change.
+   ...VAlignTop for VAlign='Top', ...VAlignMiddle for VAlign='Middle',  ...AlignBottom for Align='Bottom'
+   The ...VAlignTop must be defined as the last one. In Space row it is added also to all rows without VAlign set.
+*/
+.GQVAlignMiddle { vertical-align:middle; display:table-cell; }
+.GQVAlignBottom { vertical-align:bottom; display:table-cell; }
+.GQVAlignTop { vertical-align:top; display:table-cell; }
+
+/* Classes added to cell with Rotate attribute. 
+   @ Change them carefully, the rotation can differ per browser.
+   ...CellRotate... class is added to cell <td> tag for vertical alignment according to the Rotate and Align values
+   ...Rotate1 and ...Rotate2 is set to inner <div> to do the rotation, according to Rotate attribute value
+   ...Rotate1IE is used instead for IE9 and below for Rotate='1', the ...Rotate1IEHeader is used instead for Header cell
+   ...IconRotate is added to cell <td> for cell with Icon attribute to display icon on top
+   ...IconRotateLeft is added to extra inner <div> with icon for cell with Icon, IconAlign="Left" and Rotate="1" to display icon on bottom
+   ...IconRotateHeaderLeft is added to extra inner <div> with icon for Header cell with Icon, IconAlign="Left" and Rotate="1" to display icon on bottom
+   ...IconRotateHeaderRight is added to extra inner <div> with icon for Header cell with Icon attribute to display icon on top
+*/
+.GQCellRotate1 { vertical-align:bottom; padding-top:1px; padding-bottom:1px; text-align:left; }
+.GQCellRotate2 { vertical-align:top; padding-top:1px; padding-bottom:1px; }
+.GQCellRotate3 { vertical-align:middle; padding-top:1px; padding-bottom:1px; }
+.GQRotate1IEHeader { background-color:#6CA6D1; filter:progid:DXImageTransform.Microsoft.Chroma(color='#6CA6D1') progid:DXImageTransform.Microsoft.BasicImage(rotation=3); overflow:hidden; }
+.GQRotate1IE { background-color:#FFFFFF; filter:progid:DXImageTransform.Microsoft.Chroma(color='#FFFFFF') progid:DXImageTransform.Microsoft.BasicImage(rotation=3); overflow:hidden; }
+.GQRotate1 { -ms-transform:rotate(-90deg); -moz-transform:rotate(-90deg); -webkit-transform:rotate(-90deg); -o-transform:rotate(-90deg); }
+.GQRotate2 { text-align:left; writing-mode:tb-rl; -moz-transform:rotate(-270deg); -webkit-transform:rotate(-270deg); -o-transform:rotate(-270deg); }
+.GQIconRotate { padding-left:2px!important; padding-top:20px!important; }
+.GQIconRotateLeft { margin-left:0px; padding-top:20px!important; }
+.GQIconRotateHeaderLeft { margin-left:5px; padding-top:20px!important; }
+.GQIconRotateHeaderRight { margin-left:2px; padding-top:20px!important; }
+
+/*--------------- Space cells ----------------- */
+
+/* Classes control the background and border of the Space cells
+   @ Set here border, padding and background
+*/
+.GQCellSpace,.GQCellSpaceIcon,.GQCellSpaceButton,.GQCellSpaceButtonIcon,.GQCellSpaceButtonButton,.GQCellSpacePanel,.GQCellSpaceBool,.GQCellSpaceRadio,.GQCellSpaceSelect,.GQCellSpaceEdit {
+   
+   }
+
+/* Not editable Space cell. Set also for Label.
+   ...CellSpace is set to the <td> tag
+   ...CellSpaceIcon is set to <td> tag instead for cell with Icon attribute
+   ...SpaceIconInner is set to inner <div> tag for cell with Icon attribute
+*/
+.GQCellSpace { padding:2px 0px 3px 0px; }
+.GQCellSpaceIcon { padding-top:1px; padding-bottom:1px; }
+.GQSpaceIconInner { padding-top:1px; padding-bottom:2px; }
+
+/* Button Type in Space cell
+   ...CellSpaceButton is set to the <td> tag for cell with Button="Html"
+   ...CellSpaceButtonIcon is set to the <td> tag instead for cell with Button="Html" and Icon attribute
+   ...SpaceButtonIconInner is set to inner <div> tag for cell with Button="Html" and Icon attribute
+   ...CellSpaceButtonButton is set to the <td> tag for cell with Button="Button"
+   ...CellSpaceTool is added to the <td> tag (along with CellSpaceButton) for cell with Button="Html" and without ButtonText and with VAlign - the special toolbar button
+*/
+.GQCellSpaceButton { padding:1px 3px 2px 3px; white-space:nowrap; background:#E0F5FF; border:1px solid #71A8D2; border-radius:5px; color:#227CC9; }
+.GQCellSpaceButtonIcon { padding-top:0px; padding-bottom:0px; background:#E0F5FF; white-space:nowrap; border:1px solid #71A8D2; border-radius:5px; color:#227CC9; }
+.GQSpaceButtonIconInner { padding-top:1px; padding-bottom:2px; }
+.GQCellSpaceButtonButton { }
+.GQCellSpaceTool { padding:0px; }
+
+/* Classes for Type Panel, Bool and Radio in Space cell */
+.GQCellSpacePanel { line-height:0px; }
+.GQCellSpaceBool { line-height:0px; }
+.GQCellSpaceRadio { padding-top:1px; }
+
+/* Classes for Type="Select" or cell with Button="Defaults" in Space cell
+   ...CellSpaceSelect is set to the <td> tag
+   ...SpaceSelectInner is set to inner <div> tag
+   ...SpaceSelectInnerIcon is set to inner <div> tag in cell with Icon
+   ...SpaceSelectIconInner is set to inner inner <div> tag (along with Type class) in cell with Icon
+   ...SpaceSelectInnerIE is added to inner <div> tag in cell with Icon in IE5 quirks mode
+*/
+.GQCellSpaceSelect { }
+.GQSpaceSelectInner,.GQSpaceSelectInnerIcon { 
+   padding:1px 15px 2px 3px; background:white url(Button.gif?v110) right -1250px no-repeat; border:1px solid #71A8D2; border-radius:5px; 
+   }
+.GQSpaceSelectInnerIcon { padding:0px 15px 0px 1px; }
+.GQSpaceSelectIconInner { padding-top:1px; padding-bottom:2px; }
+.GQSpaceSelectInnerIE { overflow:hidden; }
+
+/* Classes for editable Space cell
+   ...CellSpaceEdit is set to the <td> tag
+   ...SpaceEditInner is set to inner <div> tag
+   ...SpaceEditInnerIcon is set to inner <div> tag in cell with Icon
+   ...SpaceEditIconInner is set to inner inner <div> tag (along with Type class) in cell with Icon
+   ...SpaceEditButtonIconInner is set to inner inner <div> tag in cell with Icon and Button
+*/
+.GQCellSpaceEdit { }
+.GQSpaceEditInner,.GQSpaceEditInnerIcon { background:white; border:1px solid #71A8D2; border-radius:5px; }
+.GQSpaceEditInnerIcon { padding:0px 0px 0px 1px; }
+.GQSpaceEditIconInner { padding-top:1px; padding-bottom:2px; }
+.GQSpaceEditButtonIconInner { padding-top:0px; padding-bottom:0px; }
+
+/* Classes added to <td> tag in cell in Space row with Space="-1" (...Above) or Space="5" (...Below)
+*/
+.GQCellSpaceAbove { padding-left:3px; padding-right:3px; }
+.GQCellSpaceBelow { padding-left:3px; padding-right:3px; }
+
+/* Class added to <div> tag with ClassInner class */
+.GQSpaceClassInner { padding-top:0px; padding-bottom:0px; }
+
+/*--------------- Cell edges ----------------- */
+
+/* @ Support classes, do not change 
+   Classes added to table or Space cell if it should not have the left or right border or is empty
+*/
+.GQNoLeft,.GQNoSpaceLeft { border-left:0px none!important; border-bottom-left-radius:0px!important; border-top-left-radius:0px!important; }
+.GQNoRight,.GQNoSpaceRight { border-right:0px none!important; border-bottom-right-radius:0px!important; border-top-right-radius:0px!important; }
+.GQEmpty { text-decoration:none!important; font-size:0px!important; line-height:0px!important; }
+
+/*--------------- Pages type cell ----------------- */
+
+/* ...Pages is set to <td> as Type class. @ Set here border, padding and background
+   ...PagesLink is set to individual <a> tags as page numbers. @ Set here margin, padding, border, background and text attributes
+   ...PagesLinkActive is set to <a> tag in actual selected page number instead
+*/
+.GQPages { overflow:visible; padding:0px!important; }
+.GQPagesLink,.GQPagesLinkActive { 
+   padding:2px 1px 2px 2px; margin:1px 0px 1px 0px; display:inline-block; font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; cursor:pointer; color:blue; 
+   }
+/* The :hover remarkably slows down every grid in IE strict mode
+.GQPagesLink:visited { color:blue; } 
+.GQPagesLink:hover { color:red; }*/
+.GQPagesLinkActive { color:black; font-weight:bold; border:1px dotted black; margin-top:0px; margin-bottom:0px; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                    Tree cell                                                            */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* Class set to the tree in <td> tag left to MainCol cell 
+   @ They are not expected to change, but you can set here background or border
+   ...Tree is set for <Cfg NoTreeLines='0'/>, default setting. It can be set to inner <td> tag for SpannedTree
+   ...NoTreeLines... is set for NoTreeLines value 1 - 3.
+*/
+.GQTree { padding-top:0px; white-space:nowrap; }
+.GQNoTreeLines1 { text-align:right; }
+.GQNoTreeLines2 { text-align:right; vertical-align:middle; padding-top:0px; }
+.GQNoTreeLines3 { text-align:left; }
+
+/* ------------- Tree images with lines (NoTreeLines='0') ------------- */
+
+/* Default tree class set to <td> tag or to inner <u> tag
+   The tree is shown in inner <u> tags if it cannot be set by one background image or in SpannedTree or with TreeIcon.
+   @ Set background and padding-left. It is not easy to change them, the image files contain many icons that must be changed all at once, especially if you want to change the widths.
+   ...TreeTop / ...TreeMiddle / ...TreeBottom is set according to VAlign value, for empty is set also ...TreeTop
+   ...TreeRev... is set according to VAlign value for <Cfg ReversedTree='1'/>, for empty is set also ...TreeRevTop
+   ...TreeIcon, ...TreeIconM, ...TreeIconB is set if used custom tree icon by <I TreeIcon/>, according to VAlign value (M - Middle, B - Bottom, nothing - Top or empty)
+   ...TreeImage, ...TreeImageM, ...TreeImageB is set to inner <u> tag, according to VAlign value (M - Middle, B - Bottom, nothing - Top or empty)
+   ...TreeImageIE, ...TreeImageIEM, ...TreeImageIEB is set instead in all IE modes except IE5 quirks and also in Firefox strict mode
+   ...Width... is width of the tree icon part in <u> tag, number is count of the icon lines, ...T is ending icon / button
+   ...Width1 is also used measure one level indent, ...Width1T is also used to measure tree button width
+*/
+.GQTreeTop { background-image:url(Tree.gif?v110); }
+.GQTreeMiddle { background-image:url(TreeMiddle.gif?v110); }
+.GQTreeBottom { background-image:url(TreeBottom.gif?v110); }
+.GQTreeRevTop { background-image:url(TreeRev.gif?v110); }
+.GQTreeRevMiddle { background-image:url(TreeRevMiddle.gif?v110); }
+.GQTreeRevBottom { background-image:url(TreeRevBottom.gif?v110); }
+.GQTreeIcon { background-repeat:no-repeat; background-position:left top; }
+.GQTreeIconM { background-repeat:no-repeat; background-position:left center; }
+.GQTreeIconB { background-repeat:no-repeat; background-position:left bottom; }
+.GQTreeImage,.GQTreeImageM,.GQTreeImageB { display:inline-block; height:100%; width:0px; }
+.GQTreeImageIE { padding-bottom:1000px; }
+.GQTreeImageMIE { padding-top:500px; padding-bottom:500px; }
+.GQTreeImageBIE { padding-top:1000px; }
+.GQWidth1T { padding-left:26px; } .GQWidth1 { padding-left:21px; }
+.GQWidth2T { padding-left:47px; } .GQWidth2 { padding-left:42px; }
+.GQWidth3T { padding-left:68px; } .GQWidth3 { padding-left:63px; }
+.GQWidth4T { padding-left:89px; }
+
+/* Individual tree backgrounds according to VAlign value (M - Middle, B - Bottom, nothing - Top or empty) 
+   1 means vertical line, 0 means no vertical line
+*/
+
+/* ...xxx - three line icons, ...xxxT - three line icons plus ending icon (no last, no button) */
+.GQ000,.GQ000T { background-position:   0px top; } .GQ000M,.GQ000TM { background-position:   0px center; } .GQ000B,.GQ000TB { background-position:   0px bottom; }
+.GQ010,.GQ010T { background-position:-128px top; } .GQ010M,.GQ010TM { background-position:-128px center; } .GQ010B,.GQ010TB { background-position:-128px bottom; }
+.GQ001,.GQ001T { background-position:-256px top; } .GQ001M,.GQ001TM { background-position:-256px center; } .GQ001B,.GQ001TB { background-position:-256px bottom; }
+.GQ011,.GQ011T { background-position:-384px top; } .GQ011M,.GQ011TM { background-position:-384px center; } .GQ011B,.GQ011TB { background-position:-384px bottom; }
+.GQ100,.GQ100T { background-position:-512px top; } .GQ100M,.GQ100TM { background-position:-512px center; } .GQ100B,.GQ100TB { background-position:-512px bottom; }
+.GQ110,.GQ110T { background-position:-640px top; } .GQ110M,.GQ110TM { background-position:-640px center; } .GQ110B,.GQ110TB { background-position:-640px bottom; }
+.GQ101,.GQ101T { background-position:-768px top; } .GQ101M,.GQ101TM { background-position:-768px center; } .GQ101B,.GQ101TB { background-position:-768px bottom; }
+.GQ111,.GQ111T { background-position:-896px top; } .GQ111M,.GQ111TM { background-position:-896px center; } .GQ111B,.GQ111TB { background-position:-896px bottom; }
+
+/* ...xx - two line icons, ...xxT - two line icons plus ending icon (no last, no button) */
+.GQ00,.GQ00T { background-position: -21px top; } .GQ00M,.GQ00TM { background-position: -21px center; } .GQ00B,.GQ00TB { background-position: -21px bottom; }
+.GQ10,.GQ10T { background-position:-149px top; } .GQ10M,.GQ10TM { background-position:-149px center; } .GQ10B,.GQ10TB { background-position:-149px bottom; }
+.GQ01,.GQ01T { background-position:-277px top; } .GQ01M,.GQ01TM { background-position:-277px center; } .GQ01B,.GQ01TB { background-position:-277px bottom; }
+.GQ11,.GQ11T { background-position:-405px top; } .GQ11M,.GQ11TM { background-position:-405px center; } .GQ11B,.GQ11TB { background-position:-405px bottom; }
+
+/* ...x - one line icon, ...xT - one line icon plus ending icon (no last, no button) */
+.GQ0,.GQ0T { background-position: -42px top; } .GQ0M,.GQ0TM { background-position: -42px center; } .GQ0B,.GQ0TB { background-position: -42px bottom; }
+.GQ1,.GQ1T { background-position:-298px top; } .GQ1M,.GQ1TM { background-position:-298px center; } .GQ1B,.GQ1TB { background-position:-298px bottom; }
+
+/* ...T - ending icon (no last, no button) */
+.GQT { background-position:-63px top; } .GQTM { background-position:-63px center; } .GQTB { background-position:-63px bottom; }
+
+/* ...xxL - the end icon is the icon of the last child row
+   ...xT? - one line icon plus end icon, no button , ...xC? - one line icon plus end collapse (-) button, ...xE? - one line icon plus end expand (+) button
+*/
+.GQ0TL { background-position:-1024px top; } .GQ0TLM { background-position:-1024px center; } .GQ0TLB { background-position:-1024px bottom; }
+.GQ1TL { background-position:-1088px top; } .GQ1TLM { background-position:-1088px center; } .GQ1TLB { background-position:-1088px bottom; }
+.GQ0C  { background-position:-1152px top; } .GQ0CM  { background-position:-1152px center; } .GQ0CB  { background-position:-1152px bottom; }
+.GQ1C  { background-position:-1216px top; } .GQ1CM  { background-position:-1216px center; } .GQ1CB  { background-position:-1216px bottom; }
+.GQ0CL { background-position:-1280px top; } .GQ0CLM { background-position:-1280px center; } .GQ0CLB { background-position:-1280px bottom; }
+.GQ1CL { background-position:-1344px top; } .GQ1CLM { background-position:-1344px center; } .GQ1CLB { background-position:-1344px bottom; }
+.GQ0E  { background-position:-1408px top; } .GQ0EM  { background-position:-1408px center; } .GQ0EB  { background-position:-1408px bottom; }
+.GQ1E  { background-position:-1472px top; } .GQ1EM  { background-position:-1472px center; } .GQ1EB  { background-position:-1472px bottom; }
+.GQ0EL { background-position:-1536px top; } .GQ0ELM { background-position:-1536px center; } .GQ0ELB { background-position:-1536px bottom; }
+.GQ1EL { background-position:-1600px top; } .GQ1ELM { background-position:-1600px center; } .GQ1ELB { background-position:-1600px bottom; }
+
+/* ...xL - the end icon is the icon of the last child row
+   ...T? - end icon, no button, ...C? - end collapse (-) button, ...E? - end expand (+) button
+*/
+.GQTL { background-position:-1045px top; } .GQTLM { background-position:-1045px center; } .GQTLB { background-position:-1045px bottom; }
+.GQC  { background-position:-1173px top; } .GQCM  { background-position:-1173px center; } .GQCB  { background-position:-1173px bottom; }
+.GQCL { background-position:-1301px top; } .GQCLM { background-position:-1301px center; } .GQCLB { background-position:-1301px bottom; }
+.GQE  { background-position:-1429px top; } .GQEM  { background-position:-1429px center; } .GQEB  { background-position:-1429px bottom; }
+.GQEL { background-position:-1557px top; } .GQELM { background-position:-1557px center; } .GQELB { background-position:-1557px bottom; }
+
+/* Icons shown during dragging - drop permissions
+   ...xL - the end icon is the icon of the last child row
+   ...D0? - no drop, ...D1? - drop above, ...D2? - drop inside, ...D3? - drop below
+*/
+.GQD0 { background-position:-1664px top; } .GQD0M { background-position:-1664px center; } .GQD0B { background-position:-1664px bottom; }
+.GQD1 { background-position:-1696px top; } .GQD1M { background-position:-1696px center; } .GQD1B { background-position:-1696px bottom; }
+.GQD2 { background-position:-1728px top; } .GQD2M { background-position:-1728px center; } .GQD2B { background-position:-1728px bottom; }
+.GQD3 { background-position:-1760px top; } .GQD3M { background-position:-1760px center; } .GQD3B { background-position:-1760px bottom; }
+.GQD0L { background-position:-1792px top; } .GQD0LM { background-position:-1792px center; } .GQD0LB { background-position:-1792px bottom; }
+.GQD1L { background-position:-1824px top; } .GQD1LM { background-position:-1824px center; } .GQD1LB { background-position:-1824px bottom; }
+.GQD2L { background-position:-1856px top; } .GQD2LM { background-position:-1856px center; } .GQD2LB { background-position:-1856px bottom; }
+.GQD3L { background-position:-1888px top; } .GQD3LM { background-position:-1888px center; } .GQD3LB { background-position:-1888px bottom; }
+
+/* ...D4 - icons for expanding children in timeout, ...xL - the end icon is the icon of the last child row
+*/
+.GQD4 { background-position:-1920px top; } .GQD4M { background-position:-1920px center; } .GQD4B { background-position:-1920px bottom; }
+.GQD4L { background-position:-1952px top; } .GQD4LM { background-position:-1952px center; } .GQD4LB { background-position:-1952px bottom; }
+
+/* ------------- Tree images without lines (NoTreeLines='1') ------------- */
+
+/* Tree classes set to <td> tag or to inner <u> tag
+   The tree is shown in inner <u> tags in SpannedTree, with TreeIcon or with VAlign
+   @ Set here height, width and background
+   ...NC - Icon for button collapse, ...NE - Icon for button expand, ...NT - Icon for leaf none without button, ...NCR / ...NER / ...NTR - Shown instead in RTL mode
+   ...ND0 - ...ND3 - Icons shown during dragging - drop permissions: ...ND0 - no drop, ...ND1 - drop above, ...ND2 - drop inside, ...ND3 - drop below
+   ...NTreeImage is set to inner <u> tag; it is also used to read the default width of tree button
+   ...NIcon is set if used custom tree icon by <I TreeIcon/>
+   ...NWidth is never assigned, it is used to read the default width of one level indent
+*/
+.GQNC,.GQNE,.GQNCR,.GQNER,.GQND0,.GQND1,.GQND2,.GQND3,.GQND4 { background-image:url(TreeN.gif?v110); background-repeat:no-repeat; vertical-align:top; }
+.GQNT,.GQNTR { }
+.GQNTreeImage { display:inline-block; height:17px; width:17px; }
+.GQNWidth { width:21px; }
+.GQND0 { background-position:-9px 0px; }
+.GQND1 { background-position:-56px 0px; }
+.GQND2 { background-position:-106px 0px; }
+.GQND3 { background-position:-156px 0px; }
+.GQND4 { background-position:-206px 0px; }
+.GQNC { background-position:right -50px;}
+.GQNE { background-position:right -2000px;}
+.GQNCR { background-position:-258px -50px;}
+.GQNER { background-position:-258px -2000px;}
+.GQNIcon { background-repeat:no-repeat; background-position:right top; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                 Panel type cell                                                         */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ------------- Standard Panel images (FastPanel='0') ------------- */
+
+/* @ Set here width, height and background.
+   @ If there is present <button> in panel, set here padding-left and font-size instead of width and height
+   ...PanelImage is set to every panel icon <u> tag if there is no <button> in the panel.
+   ...PanelImageButton is set to every panel icon <u> tag if there also some <button> in the panel
+   ...PanelEmpty is shown for panel button named "Empty"
+   ...PanelMove is shown for panel button named "Move", ...PanelMoveOff is shown for rows without moving permissions
+   ...PanelSelect is shown for panel button named "Select", ...PanelSelectOff is shown for rows without selecting permissions, ...PanelSelectOn is shown for rows with Select="1"
+   ...PanelDelete is shown for panel button named "Delete", ...PanelDeleteOff is shown for rows without deleting permissions
+   ...PanelCopy is shown for panel button named "Copy", ...PanelCopyOff is shown for rows without copying permissions
+   ...PanelButton is shown if the panel button has not defined image and is shown as <button> or <u> depending on <Cfg UseButton>. @ Set here margin, border, padding, width, height and text attributes
+   ...PanelTouch is added to <u> on tablets with PanelImage, ...PanelTouchButton is added to <u> on tablets with PanelImageButton
+   ...PanelButtonTouch is added to <button> on tablets
+*/
+.GQPanelImage { width:16px; height:18px; display:inline-block; background-image:url(Panel.gif?v110); background-repeat:no-repeat; }
+.GQPanelImageButton { font:14px Arial; padding-left:16px; background-image:url(Panel.gif?v110); background-repeat:no-repeat; zoom:1; }
+.GQPanelEmpty { background:none; }   
+.GQPanelMove { background-position:0px 0px; }         .GQCellHeaderPanel .GQPanelMove { background-position:-500px 0px; }
+.GQPanelMoveOff { background-position:-50px 0px; }
+.GQPanelSelect { background-position:-100px 0px; }    .GQCellHeaderPanel .GQPanelSelect { background-position:-600px 0px; }
+.GQPanelSelectOn { background-position:-150px 0px; }  .GQCellHeaderPanel .GQPanelSelectOn { background-position:-650px 0px; }
+.GQPanelSelectOff { background-position:-200px 0px; }
+.GQPanelDelete { background-position:-250px 0px; }    .GQCellHeaderPanel .GQPanelDelete { background-position:-750px 0px; }
+.GQPanelDeleteOff { background-position:-300px 0px; }
+.GQPanelCopy { background-position:-350px 0px; }      .GQCellHeaderPanel .GQPanelCopy { background-position:-850px 0px; }
+.GQPanelCopyOff { background-position:-400px 0px; }
+button.GQPanelButton { 
+   padding:0px; height:14px; width:19px; margin:0px;
+   font:10px/7px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; cursor:pointer; display:inline-block; overflow:hidden; 
+   }
+u.GQPanelButton { 
+   background:#C8E5FF; border:1px solid #71A8D2; border-radius:5px; padding:1px 2px 1px 2px; margin:1px;
+   font:11px/12px Arial,Helvetica,sans-serif; cursor:pointer; text-decoration:none; display:inline-block; overflow:hidden; white-space:nowrap;
+   }
+.GQCellHeaderPanel u.GQPanelButton { border-color:white; margin-top:0px; margin-bottom:2px; }
+.GQPanelTouch { margin-left:5px; margin-right:5px; }
+.GQPanelTouchButton { margin-left:5px; margin-right:5px; }
+.GQPanelButtonTouch { margin-left:2px; margin-right:2px; width:25px; }
+
+/* ------------- Fast Panel images (FastPanel='1')------------- */
+
+/* @ Do not change, for custom images use standard panel (FastPanel='0') or modify the FastPanel1.gif?v110/FastPanel2.gif?v110 files.
+   The image is used different for every button state, the four numbers are for buttons Move, Select, Delete, Copy in this order.
+   1 - shown, 2 - (on, for select), 0 - hidden, but space reserved, x - hidden completely, with no space
+*/
+.GQP1111,.GQP1211,.GQP1011,.GQP1101,.GQP1201,.GQP1001,.GQP1110,.GQP1210,.GQP1010,.GQP1100,.GQP1200,.GQP1000,
+.GQP0111,.GQP0211,.GQP0011,.GQP0101,.GQP0201,.GQP0001,.GQP0110,.GQP0210,.GQP0010,.GQP0100,.GQP0200,.GQP0000, 
+.GQP111x,.GQP121x,.GQP101x,.GQP110x,.GQP120x,.GQP100x,.GQP011x,.GQP021x,.GQP001x,.GQP010x,.GQP020x,.GQP000x,
+.GQP11xx,.GQP12xx,.GQP10xx,.GQP01xx,.GQP02xx,.GQP00xx,
+.GQPx111,.GQPx211,.GQPx011,.GQPx101,.GQPx201,.GQPx001,.GQPx110,.GQPx210,.GQPx010,.GQPx100,.GQPx200,.GQPx000,
+.GQPx11x,.GQPx21x,.GQPx01x,.GQPx10x,.GQPx20x,.GQPx00x,
+.GQPxx11,.GQPxx10,.GQPxx01,.GQPxx00, 
+.GQPxxx1,.GQPxxx0,.GQPxx1x,.GQPxx0x,.GQPx2xx,.GQPx1xx,.GQPx0xx,.GQP1xxx,.GQP0xxx {
+   background-image:url(FastPanel1.gif?v110); background-repeat:no-repeat;
+   }
+.GQP1111,.GQP111x,.GQP11xx,.GQP1xxx { background-position:0px 0px; }
+.GQP1211,.GQP121x,.GQP12xx { background-position:-80px 0px; }
+.GQP1011,.GQP101x,.GQP10xx { background-position:-160px 0px; }
+.GQP1101,.GQP110x { background-position:-240px 0px; }
+.GQP1201,.GQP120x { background-position:-320px 0px; }
+.GQP1001,.GQP100x { background-position:-400px 0px; }
+.GQP1110 { background-position:-480px 0px; }
+.GQP1210 { background-position:-560px 0px; }
+.GQP1010 { background-position:-640px 0px; }
+.GQP1100 { background-position:-720px 0px; }
+.GQP1200 { background-position:-800px 0px; }
+.GQP1000 { background-position:-880px 0px; }
+.GQP0111,.GQP011x,.GQP01xx,.GQP0xxx { background-position:-960px 0px; }
+.GQP0211,.GQP021x,.GQP02xx { background-position:-1040px 0px; }
+.GQP0011,.GQP001x,.GQP00xx { background-position:-1120px 0px; }
+.GQP0101,.GQP010x { background-position:-1200px 0px; }
+.GQP0201,.GQP020x { background-position:-1280px 0px; }
+.GQP0001,.GQP000x { background-position:-1360px 0px; }
+.GQP0110 { background-position:-1440px 0px; }
+.GQP0210 { background-position:-1520px 0px; }
+.GQP0010 { background-position:-1600px 0px; }
+.GQP0100 { background-position:-1680px 0px; }
+.GQP0200 { background-position:-1760px 0px; }
+.GQP0000 { background-position:-1840px 0px; }
+
+.GQPx111,.GQPx11x,.GQPx1xx { background-position:-16px 0px; }
+.GQPx211,.GQPx21x,.GQPx2xx { background-position:-96px 0px; }
+.GQPx011,.GQPx01x,.GQPx0xx { background-position:-176px 0px; }
+.GQPx101,.GQPx10x { background-position:-256px 0px; }
+.GQPx201,.GQPx20x { background-position:-336px 0px; }
+.GQPx001,.GQPx00x { background-position:-416px 0px; }
+.GQPx110 { background-position:-496px 0px; }
+.GQPx210 { background-position:-576px 0px; }
+.GQPx010 { background-position:-656px 0px; }
+.GQPx100 { background-position:-736px 0px; }
+.GQPx200 { background-position:-816px 0px; }
+.GQPx000 { background-position:-896px 0px; }
+
+.GQPxx11,.GQPxx1x { background-position:-32px 0px; }
+.GQPxx01,.GQPxx0x { background-position:-272px 0px; }
+.GQPxx10{ background-position:-512px 0px; }
+.GQPxx00 { background-position:-752px 0px; }
+
+.GQPxxx1 { background-position:-48px 0px; }
+.GQPxxx0 { background-position:-528px 0px; }
+
+.GQP11x1,.GQP12x1,.GQP10x1,.GQP11x0,.GQP12x0,.GQP10x0,.GQP01x1,.GQP02x1,.GQP00x1,.GQP01x0,.GQP02x0,.GQP00x0,
+.GQPx1x1,.GQPx2x1,.GQPx0x1,.GQPx1x0,.GQPx2x0,.GQPx0x0,
+.GQP1x11,.GQP1x01,.GQP1x10,.GQP1x00,.GQP0x11,.GQP0x01,.GQP0x10,.GQP0x00,
+.GQP1x1x,.GQP1x0x,.GQP0x1x,.GQP0x0x,
+.GQP1xx1,.GQP1xx0,.GQP0xx1,.GQP0xx0 {
+   background-image:url(FastPanel2.gif?v110); background-repeat:no-repeat;
+   }
+.GQP11x1 { background-position:0px 0px; }
+.GQP12x1 { background-position:-80px 0px; }
+.GQP10x1 { background-position:-160px 0px; }
+.GQP11x0 { background-position:-240px 0px; }
+.GQP12x0 { background-position:-320px 0px; }
+.GQP10x0 { background-position:-400px 0px; }
+.GQP01x1 { background-position:-480px 0px; }
+.GQP02x1 { background-position:-560px 0px; }
+.GQP00x1 { background-position:-640px 0px; }
+.GQP01x0 { background-position:-720px 0px; }
+.GQP02x0 { background-position:-800px 0px; }
+.GQP00x0 { background-position:-880px 0px; }
+
+.GQPx1x1 { background-position:-16px 0px; }
+.GQPx2x1 { background-position:-96px 0px; }
+.GQPx0x1 { background-position:-176px 0px; }
+.GQPx1x0 { background-position:-256px 0px; }
+.GQPx2x0 { background-position:-336px 0px; }
+.GQPx0x0 { background-position:-416px 0px; }
+
+.GQP1x11,.GQP1x1x { background-position:-960px 0px; }
+.GQP1x01,.GQP1x0x { background-position:-1040px 0px; }
+.GQP1x10 { background-position:-1120px 0px; }
+.GQP1x00 { background-position:-1200px 0px; }
+.GQP0x11,.GQP0x1x { background-position:-1280px 0px; }
+.GQP0x01,.GQP0x0x { background-position:-1360px 0px; }
+.GQP0x10 { background-position:-1440px 0px; }
+.GQP0x00 { background-position:-1520px 0px; }
+
+.GQP1xx1 { background-position:-1600px 0px; }
+.GQP1xx0 { background-position:-1680px 0px; }
+.GQP0xx1 { background-position:-1760px 0px; }
+.GQP0xx0 { background-position:-1840px 0px; }
+
+/* ------------- Space/Filter Panel checkbox images ------------- */   
+
+/* Special images in Filter, Group and Search rows for default panel (column named "Panel") if shown as the first column.
+   @ Set width, height and background
+   ...Filter0 - shown in Filter row when Filtered='0', ...Filter1 - shown in Filter row when Filtered='1'
+   ...Group0 - shown in Group row when Grouped='0', ...Group1 - shown in Group row when Grouped='1'
+   ...Search0 - shown in Search row when Searched='0', ...Search1 - shown in Search row when Searched='1'  
+*/
+.GQFilter0,.GQFilter1,.GQGroup0,.GQGroup1,.GQSearch0,.GQSearch1 { background-image:url(Bool.gif?v110); background-repeat:no-repeat; display:inline-block; width:13px; height:19px; }
+.GQFilter0,.GQFilter1 { height:18px; }
+.GQFilter0 { background-position:center 0px; }
+.GQFilter1 { background-position:center -250px; }
+.GQGroup0 { background-position:center 1px; }
+.GQGroup1 { background-position:center -249px; }
+.GQSearch0 { background-position:center 1px; }
+.GQSearch1 { background-position:center -249px; }
+
+/* ...PSpace... is shown in Group and Search row according to actual width of the Panel column. 
+   @ Set here only width and text-align
+*/
+.GQPSpace1 { width:13px; text-align:center; }
+.GQPSpace2 { width:26px; text-align:center; }
+.GQPSpace3 { width:42px; text-align:center; }
+.GQPSpace4 { width:58px; text-align:center; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                               Button type cell                                                          */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ------------- Button = "Tab" ------------- */   
+
+/* @ Set border, padding, background and text attributes
+   ...TabHtml is set to the Tab button <td> tag
+   ...TabHtml1 is set to the Tab button <td> tag instead if the button value is 1
+   ...TabHtmlIcon... is set instead if the button has Icon
+*/
+.GQTabHtml,.GQTabHtml1,.GQTabHtmlIcon,.GQTabHtmlIcon1 { text-align:center; padding-left:5px; padding-right:5px; border:1px solid #C5DBEC; background:#D5E9FE; } 
+.GQRowAbove .GQTabHtml,.GQRowAbove .GQTabHtml1 { border-radius:5px 5px 0px 0px; border-bottom:0px none; }
+.GQRowBelow .GQTabHtml,.GQRowBelow .GQTabHtml1 { border-radius:0px 0px 5px 5px; border-top:0px none; }
+.GQTabHtml1,.GQTabHtmlIcon1 { background:#6CA6D1; color:white; }
+
+/* Separators between Button="Tab", set to <td> tag 
+   They are created automatically to separate the Tabs or can be created manually by Button="TabSep"
+   @ Set background, border and padding or width
+   ...TabSep is set to empty <td> tag between two Tab buttons
+   ...TabSepLeft is set to empty <td> tag before Tab button
+   ...TabSepRight is set to empty <td> tag after Tab button
+   ...TabSepFirst is set to empty <td> tag before Tab button if it is the first cell
+   ...TabSepLast is set to empty <td> tag after Tab button if it is the last cell
+   ...TabSepNoBack is added to all Tab separators on row Kind="Tabber2"
+*/
+.GQTabSep,.GQTabSepLeft,.GQTabSepRight {
+   padding-left:3px; padding-right:0px; background:white!important; border:0px none; border-radius:0px; cursor:default!important;
+   }
+.GQTabSepRight,.GQTabSepLeft { padding-left:5px; }
+.GQTabSepLast { padding-left:1px; background:white!important; border:none; cursor:default!important; }
+.GQTabSepFirst { padding-left:1px; background:white!important; border:none; cursor:default!important; }
+.GQTabSepNoBack { background:none!important; }
+
+/* ------------- Button = "Button" ------------- */   
+
+/* Parent of the <button>, it is set to cell <td> tag or inner <div> tag 
+   @ Set background, border and padding
+*/
+.GQToolButton { text-align:center; padding:0px; }
+
+/* Class set to the <button> tag if set <Cfg UseButton='1'> or to <u> tag if set <Cfg UseButton='0'>.
+   @ Set background, border, margin, padding, height and text attributes
+   ...ToolButtonButton is set in table row
+   ...ToolButtonButton1 is set in table row instead if the button value is 1
+   ...ToolButtonButtonAuto is added if the table cell has not set Width attribute
+   ...ToolSpaceButton is set in Space row
+   ...ToolSpaceButton1 is set in Space row instead if the button value is 1
+   ...ToolSpaceButtonAuto is added if the Space cell has set Width="-1"
+   ...Icon is added if the cell has set Icon attribute
+   ...IconInner is set to the inner <i> tag with the icon and text if the cell has set Icon attribute
+   ...Empty is added to button with empty text to preserve its height; @ Set height
+*/
+button.GQToolButtonButton,button.GQToolButtonButton1 { font:10px/11px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; height:17px; padding:0px; margin:0px; cursor:pointer; white-space:nowrap; }
+button.GQToolSpaceButton,button.GQToolSpaceButton1 { font:11.9px/13px Verdana,Tahoma,"Trebuchet MS",sans-serif; height:19px; padding:0px; margin:0px; cursor:pointer; white-space:nowrap; }
+button.GQToolButtonButton1,button.GQToolSpaceButton1 { color:#09C; font-weight:bold; }
+
+u.GQToolButtonButton,u.GQToolButtonButton1,u.GQToolSpaceButton,u.GQToolSpaceButton1 { 
+   border:1px solid #F0F8FF; border-right:1px solid #71A8D2; border-bottom:1px solid #71A8D2; border-radius:5px; 
+   color:black; cursor:pointer; text-decoration:none; display:block; overflow:hidden; white-space:nowrap; 
+   }
+u.GQToolButtonButton,u.GQToolButtonButton1 { font:11px/12px Arial,Helvetica,sans-serif; background:#C8E5FF; padding:1px 3px 0px 3px; margin:1px; }
+u.GQToolSpaceButton,u.GQToolSpaceButton1 { font:8px/10px Verdana,Tahoma,"Trebuchet MS",sans-serif; background:#E0F5FF; padding:1px 4px 2px 4px; color:#227CC9; }
+.GQCellHeader u.GQToolButtonButton,.GQCellHeader u.GQToolButtonButton1 { border-color:white; }
+u.GQToolButtonButton1,u.GQToolSpaceButton1 { color:blue; border:1px solid #71A8D2; border-right:1px solid #F0F8FF; border-bottom:1px solid #F0F8FF; }
+u.GQToolButtonIcon { padding-top:0px; padding-bottom:0px; } .GQToolButtonIconInner { padding-top:0px; padding-bottom:1px; display:inline-block; font-style:normal; }
+u.GQToolSpaceIcon { padding-top:0px; padding-bottom:0px; }  .GQToolSpaceIconInner { padding-top:1px; padding-bottom:2px; display:inline-block; font-style:normal; }
+.GQToolButtonEmpty { height:12px; width:0px; overflow:hidden; display:inline-block; }
+.GQToolSpaceEmpty { height:14px; width:0px; overflow:hidden; display:inline-block; }
+
+.GQToolButtonButtonAuto,.GQToolSpaceButtonAuto { padding-left:3px; padding-right:3px; }
+
+/* ------------- Button = "Html" ------------- */   
+
+/* @ Set border, padding, background and text attributes
+   ...ToolHtml is set to the button <td> tag
+   ...ToolHtml1 is set to the button <td> tag instead if the button value is 1
+   ...ToolHtmlIcon... is set instead if the button has Icon or is Class button
+*/
+.GQToolHtml,.GQToolHtml1 { padding-left:4px; padding-right:4px; text-align:center; }
+.GQToolHtml1 { font-weight:bold; color:#09C; }
+.GQToolHtmlIcon,.GQToolHtmlIcon1 { text-align:center; }
+.GQToolHtmlIcon1 { }
+
+/* Added to <td> or <div> tag when the cell has set Icon attribute, according to IconAlign value */
+.GQToolHtmlIconLeft { text-align:left; }
+.GQToolHtmlIconRight { text-align:right; }
+
+/* Added to <td> tag, to button with empty text; @ Set border and padding */
+.GQToolHtmlIconSingle { }
+
+/* Added to <div> tag, to button with empty text to preserve its height; ...IE is used for IE5 quirks mode; @ Set height */
+.GQToolHtmlEmpty { height:14px; width:0px; overflow:hidden; display:inline-block; }
+.GQToolHtmlEmptyIE { overflow:hidden; display:inline-block; }
+
+/* -------------  Other Button type attributes ------------- */
+
+/* Added to <td> tag when the Button type cell has set Disabled='1' */
+.GQDisabledButton { opacity:0.3; filter:alpha(opacity=30); }
+
+/* Popup cell side icon, used for Button type cell with List attribute 
+   @ Set background and padding
+   ...PopupRight - right popup icon, used for PopupIcon="2" and for not empty value and PopupIcon="1"
+   ...PopupLeft - not used now
+   ...PopupNone - used for PopupIcon="1" and empty value, just to preserve the space
+*/
+.GQPopupLeft,.GQPopupRight { background-image:url(Menu.gif?v110); background-repeat:no-repeat; }
+.GQPopupLeft { background-position:-6px -248px; padding-left:14px;}
+.GQPopupRight { background-position:right -248px; padding-right:14px;}
+.GQPopupNone { padding-right:14px; }
+
+/* ------------------------------------------  Special Toolbar buttons' images ---------------------------------------------- */
+
+/* Class added to <td> tag for alignment of the icon in Button="Class" or Button="Html"
+   ...Single is added is added for button without ButtonText to specify the icon width
+   ...Left/Right/Top/Bottom is added for appropriate IconAlign value
+   @ Set padding
+*/
+.GQToolAlignSingle { padding-left:24px; padding-right:0px; }
+.GQToolAlignLeft { padding-left:22px; padding-right:8px; }
+.GQToolAlignRight { padding-left:8px; padding-right:22px; }
+.GQToolAlignTop { padding-left:5px; padding-right:5px; padding-top:16px; }
+.GQToolAlignBottom { padding:1px 5px 24px 5px; }
+
+/* Used for Type="Button" Button="Class" and cell value null, "", 0 or 1. Set to <td> tag
+   @ Set border, padding, background
+*/
+.GQToolSave,.GQToolReload,.GQToolRepaint,.GQToolRepaint1,.GQToolPrint,.GQToolExportPDF,.GQToolExport,.GQToolUndo,.GQToolUndo1,.GQToolRedo,.GQToolRedo1,
+.GQToolAdd,.GQToolAddChild,.GQToolJoin,.GQToolSplit,.GQToolOutdent,.GQToolIndent,.GQToolSort,.GQToolSort1,.GQToolCalc,.GQToolCalc1,
+.GQToolExpandAll,.GQToolCollapseAll,.GQToolColumns,.GQToolCfg,.GQToolHelp,.GQToolDebug,.GQResizeGrid,.GQResizeGridRtl {
+   background-image:url(Toolbar.gif?v110); background-repeat:no-repeat;
+   }
+.GQToolSave { background-position:center 0px; }            .GQToolSaveLeft { background-position:left 0px; }            .GQToolSaveRight { background-position:right 0px; }            .GQToolSaveBottom { background-position:center 20px; }
+.GQToolReload { background-position:center -100px; }       .GQToolReloadLeft { background-position:left -100px; }       .GQToolReloadRight { background-position:right -100px; }       .GQToolReloadBottom { background-position:center -80px; }
+.GQToolRepaint { background-position:center -200px; }      .GQToolRepaintLeft { background-position:left -200px; }      .GQToolRepaintRight { background-position:right -200px; }      .GQToolRepaintBottom { background-position:center -180px; }
+.GQToolRepaint1 { background-position:center -300px; }     .GQToolRepaintLeft1 { background-position:left -300px; }     .GQToolRepaintRight1 { background-position:right -300px; }     .GQToolRepaintBottom1 { background-position:center -280px; }
+.GQToolPrint { background-position:center -400px; }        .GQToolPrintLeft { background-position:left -400px; }        .GQToolPrintRight { background-position:right -400px; }        .GQToolPrintBottom { background-position:center -380px; }
+.GQToolExportPDF { background-position:center -500px; }    .GQToolExportPDFLeft { background-position:left -500px; }    .GQToolExportPDFRight { background-position:right -500px; }    .GQToolExportPDFBottom { background-position:center -480px; }
+.GQToolExport { background-position:center -600px; }       .GQToolExportLeft { background-position:left -600px; }       .GQToolExportRight { background-position:right -600px; }       .GQToolExportBottom { background-position:center -580px; }
+.GQToolUndo { background-position:center -700px; }         .GQToolUndoLeft { background-position:left -700px; }         .GQToolUndoRight { background-position:right -700px; }         .GQToolUndoBottom { background-position:center -680px; }
+.GQToolUndo1 { background-position:center -800px; }        .GQToolUndoLeft1 { background-position:left -800px; }        .GQToolUndoRight1 { background-position:right -800px; }        .GQToolUndoBottom1 { background-position:center -780px; }
+.GQToolRedo { background-position:center -900px; }         .GQToolRedoLeft { background-position:left -900px; }         .GQToolRedoRight { background-position:right -900px; }         .GQToolRedoBottom { background-position:center -880px; } 
+.GQToolRedo1 { background-position:center -1000px; }       .GQToolRedoLeft1 { background-position:left -1000px; }       .GQToolRedoRight1 { background-position:right -1000px; }       .GQToolRedoBottom1 { background-position:center -980px; }
+.GQToolAdd { background-position:center -1100px; }         .GQToolAddLeft { background-position:left -1100px; }         .GQToolAddRight { background-position:right -1100px; }         .GQToolAddBottom { background-position:center -1080px; }
+.GQToolAddChild { background-position:center -1200px; }    .GQToolAddChildLeft { background-position:left -1200px; }    .GQToolAddChildRight { background-position:right -1200px; }    .GQToolAddChildBottom { background-position:center -1180px; }
+.GQToolJoin { background-position:center -1300px; }        .GQToolJoinLeft { background-position:left -1300px; }        .GQToolJoinRight { background-position:right -1300px; }        .GQToolJoinBottom { background-position:center -1280px; }
+.GQToolSplit { background-position:center -1400px; }       .GQToolSplitLeft { background-position:left -1400px; }       .GQToolSplitRight { background-position:right -1400px; }       .GQToolSplitBottom { background-position:center -1380px; }
+.GQToolOutdent { background-position:center -1500px; }     .GQToolOutdentLeft { background-position:left -1500px; }     .GQToolOutdentRight { background-position:right -1500px; }     .GQToolOutdentBottom { background-position:center -1480px; }
+.GQToolIndent { background-position:center -1600px; }      .GQToolIndentLeft { background-position:left -1600px; }      .GQToolIndentRight { background-position:right -1600px; }      .GQToolIndentBottom { background-position:center -1580px; }
+.GQToolSort { background-position:center -1700px; }        .GQToolSortLeft { background-position:left -1700px; }        .GQToolSortRight { background-position:right -1700px; }        .GQToolSortBottom { background-position:center -1680px; }
+.GQToolSort1 { background-position:center -1800px; }       .GQToolSortLeft1 { background-position:left -1800px; }       .GQToolSortRight1 { background-position:right -1800px; }       .GQToolSortBottom1 { background-position:center -1780px; }
+.GQToolCalc { background-position:center -1900px; }        .GQToolCalcLeft { background-position:left -1900px; }        .GQToolCalcRight { background-position:right -1900px; }        .GQToolCalcBottom { background-position:center -1880px; }
+.GQToolCalc1 { background-position:center -2000px; }       .GQToolCalcLeft1 { background-position:left -2000px; }       .GQToolCalcRight1 { background-position:right -2000px; }       .GQToolCalcBottom1 { background-position:center -1980px; }
+.GQToolExpandAll { background-position:center -2100px; }   .GQToolExpandAllLeft { background-position:left -2100px; }   .GQToolExpandAllRight { background-position:right -2100px; }   .GQToolExpandAllBottom { background-position:center -2080px; }
+.GQToolCollapseAll { background-position:center -2200px; } .GQToolCollapseAllLeft { background-position:left -2200px; } .GQToolCollapseAllRight { background-position:right -2200px; } .GQToolCollapseAllBottom { background-position:center -2180px; }
+.GQToolColumns { background-position:center -2300px; }     .GQToolColumnsLeft { background-position:left -2300px; }     .GQToolColumnsRight { background-position:right -2300px; }     .GQToolColumnsBottom { background-position:center -2280px; }
+.GQToolCfg { background-position:center -2400px; }         .GQToolCfgLeft { background-position:left -2400px; }         .GQToolCfgRight { background-position:right -2400px; }         .GQToolCfgBottom { background-position:center -2380px; }
+.GQToolHelp { background-position:center -2500px; }        .GQToolHelpLeft { background-position:left -2500px; }        .GQToolHelpRight { background-position:right -2500px; }        .GQToolHelpBottom { background-position:center -2480px; }
+.GQToolDebug { background-position:center -2600px; }       .GQToolDebugLeft { background-position:left -2600px; }       .GQToolDebugRight { background-position:right -2600px; }       .GQToolDebugBottom { background-position:center -2580px; }
+.GQResizeGrid { background-position:center -2700px; }      .GQResizeGridLeft { background-position:left -2700px; }      .GQResizeGridRight { background-position:right -2700px; }      .GQResizeGridBottom { background-position:center -2680px; } 
+.GQResizeGridRtl { background-position:center -2800px; }   .GQResizeGridRtlLeft { background-position:left -2800px; }   .GQResizeGridRtlRight { background-position:right -2800px; }   .GQResizeGridRtlBottom { background-position:center -2780px; }
+
+.GQToolPagerFirst,.GQToolPagerFirst1,.GQToolPagerPrev,.GQToolPagerPrev1,.GQToolPagerNext,.GQToolPagerNext1,.GQToolPagerLast,.GQToolPagerLast1 {
+   background-image:url(Pager.gif?v110); background-repeat:no-repeat;
+   }
+.GQToolPagerFirst { background-position:center 0px; }      .GQToolPagerFirstLeft { background-position:left 0px; }      .GQToolPagerFirstRight { background-position:right 0px; }      .GQToolPagerFirstBottom { background-position:center 20px; }
+.GQToolPagerFirst1 { background-position:center -100px; }  .GQToolPagerFirstLeft1 { background-position:left -100px; }  .GQToolPagerFirstRight1 { background-position:right -100px; }  .GQToolPagerFirstBottom1 { background-position:center -80px; }
+.GQToolPagerPrev { background-position:center -200px; }    .GQToolPagerPrevLeft { background-position:left -200px; }    .GQToolPagerPrevRight { background-position:right -200px; }    .GQToolPagerPrevBottom { background-position:center -180px; } 
+.GQToolPagerPrev1 { background-position:center -300px; }   .GQToolPagerPrevLeft1 { background-position:left -300px; }   .GQToolPagerPrevRight1 { background-position:right -300px; }   .GQToolPagerPrevBottom1 { background-position:center -280px; } 
+.GQToolPagerNext { background-position:center -400px; }    .GQToolPagerNextLeft { background-position:left -400px; }    .GQToolPagerNextRight { background-position:right -400px; }    .GQToolPagerNextBottom { background-position:center -380px; } 
+.GQToolPagerNext1 { background-position:center -500px; }   .GQToolPagerNextLeft1 { background-position:left -500px; }   .GQToolPagerNextRight1 { background-position:right -500px; }   .GQToolPagerNextBottom1 { background-position:center -480px; }
+.GQToolPagerLast { background-position:center -600px; }    .GQToolPagerLastLeft { background-position:left -600px; }    .GQToolPagerLastRight { background-position:right -600px; }    .GQToolPagerLastBottom { background-position:center -580px; } 
+.GQToolPagerLast1 { background-position:center -700px; }   .GQToolPagerLastLeft1 { background-position:left -700px; }   .GQToolPagerLastRight1 { background-position:right -700px; }   .GQToolPagerLastBottom1 { background-position:center -680px; }
+
+.GQToolCorrect,.GQToolCorrect1,.GQToolZoomIn,.GQToolZoomIn1,.GQToolZoomOut,.GQToolZoomOut1,.GQToolZoomFit { 
+   background-image:url(ToolbarGantt.gif?v110); background-repeat:no-repeat;
+   }
+.GQToolCorrect { background-position:center 0px; }        .GQToolCorrectLeft { background-position:left 0px; }          .GQToolCorrectRight { background-position:right 0px; }         .GQToolCorrectBottom { background-position:center 20px; } 
+.GQToolCorrect1 { background-position:center -100px; }    .GQToolCorrectLeft1 { background-position:left -100px; }      .GQToolCorrectRight1 { background-position:right -100px; }     .GQToolCorrectBottom1 { background-position:center -80px; }
+.GQToolZoomIn { background-position:center -200px; }      .GQToolZoomInLeft { background-position:left -200px; }        .GQToolZoomInRight { background-position:right -200px; }       .GQToolZoomInBottom { background-position:center -180px; } 
+.GQToolZoomIn1 { background-position:center -300px; }     .GQToolZoomInLeft1 { background-position:left -300px; }       .GQToolZoomInRight1 { background-position:right -300px; }      .GQToolZoomInBottom1 { background-position:center -280px; }
+.GQToolZoomOut { background-position:center -400px; }     .GQToolZoomOutLeft { background-position:left -400px; }       .GQToolZoomOutRight { background-position:right -400px; }      .GQToolZoomOutBottom { background-position:center -380px; }
+.GQToolZoomOut1 { background-position:center -500px; }    .GQToolZoomOutLeft1 { background-position:left -500px; }      .GQToolZoomOutRight1 { background-position:right -500px; }     .GQToolZoomOutBottom1 { background-position:center -480px; } 
+.GQToolZoomFit { background-position:center -600px; }     .GQToolZoomFitLeft { background-position:left -600px; }       .GQToolZoomFitRight { background-position:right -600px; }      .GQToolZoomFitBottom { background-position:center -580px; }
+
+/* Void button ResizeGrid; @ Do not change */
+.GQToolResize { visibility:hidden; }
+
+/* It is added to the td tag when used VAlign and no button text is shown */
+.GQToolImage { display:inline-block; width:24px; height:17px; padding:0px; overflow:hidden; }
+
+/* It is added to the td tag when used VAlign and the button text is shown; for IconAlign values */
+.GQToolImageLeftText,.GQToolImageRightText,.GQToolImageTopText,.GQToolImageBottomText { display:inline-block; text-decoration:none; }
+.GQToolImageLeftText { padding-top:1px; padding-bottom:2px; }
+.GQToolImageRightText { padding-top:1px; padding-bottom:2px;  }
+.GQToolImageTopText { height:14px; padding-bottom:2px; }
+.GQToolImageBottomText { height:14px; padding-top:1px; padding-bottom:24px; }
+
+/* It is added to div tag when used Icon attribute with Button="Class"; for IconAlign values; Single is used without ButtonText; */
+.GQToolIconSingle { background-position:center center; }
+.GQToolIconLeft { background-position:left center; }
+.GQToolIconRight { background-position:right center; }
+.GQToolIconTop { background-position:center top; }
+.GQToolIconBottom { background-position:center bottom; }
+
+/* Special class added to <td> tag for Pager type cell edit box with pager number - it is standard editable Space cell */
+.GQPagerEdit > div { text-align:center; }
+
+/* Special icon always placed to right bottom grid corner to resize grid if set ResizingMain 
+   @ Set background and optionally margin, width and height for the icon size and position
+   ...Rtl is placed in bottom left corner and is used in RTL mode
+*/
+.GQResizeGrid  { background-position:-2px -2703px; margin:-17px 0px 0px auto; height:17px; width:19px; overflow:hidden; padding:0px; cursor:nw-resize; }
+.GQResizeGridRtl { background-position:-2px -2803px; margin:-17px auto 0px 0px; height:17px; width:19px; overflow:hidden; padding:0px; cursor:ne-resize; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                            Cell side Icon / Button                                                      */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* --------------------------------------------------  Filter images -------------------------------------------------------- */
+
+/* Filter operator icons shown on left or right side (set by IconAlign), shown in <td> or <div> tag.
+   The number 0 - 12 is the operator number set in cell Filter attribute
+   @ Set here background and padding-left
+*/
+.GQFilter0Left,.GQFilter1Left,.GQFilter2Left,.GQFilter3Left,.GQFilter4Left,.GQFilter5Left,.GQFilter6Left,
+.GQFilter7Left,.GQFilter8Left,.GQFilter9Left,.GQFilter10Left,.GQFilter11Left,.GQFilter12Left  {
+   background-image:url(Filter.gif?v110); background-repeat:no-repeat; padding-left:17px;
+   }
+.GQFilter0Right,.GQFilter1Right,.GQFilter2Right,.GQFilter3Right,.GQFilter4Right,.GQFilter5Right,.GQFilter6Right,
+.GQFilter7Right,.GQFilter8Right,.GQFilter9Right,.GQFilter10Right,.GQFilter11Right,.GQFilter12Right {
+   background-image:url(Filter.gif?v110); background-repeat:no-repeat; padding-right:17px;
+   }
+.GQFilter0Left,.GQFilter0Menu { background-position:left 0px; }   
+.GQFilter1Left,.GQFilter1Menu { background-position:left -150px; }
+.GQFilter2Left,.GQFilter2Menu { background-position:left -300px; }
+.GQFilter3Left,.GQFilter3Menu { background-position:left -450px; }
+.GQFilter4Left,.GQFilter4Menu { background-position:left -600px; }
+.GQFilter5Left,.GQFilter5Menu { background-position:left -750px; }   
+.GQFilter6Left,.GQFilter6Menu { background-position:left -900px; }
+.GQFilter7Left,.GQFilter7Menu { background-position:left -1050px; }
+.GQFilter8Left,.GQFilter8Menu { background-position:left -1200px; }
+.GQFilter9Left,.GQFilter9Menu { background-position:left -1350px; }
+.GQFilter10Left,.GQFilter10Menu { background-position:left -1500px; }
+.GQFilter11Left,.GQFilter11Menu { background-position:left -1650px; }
+.GQFilter12Left,.GQFilter12Menu { background-position:left -1800px; }
+.GQFilter0Right { background-position:right 0px; }   
+.GQFilter1Right { background-position:right -150px; }
+.GQFilter2Right { background-position:right -300px; }
+.GQFilter3Right { background-position:right -450px; }
+.GQFilter4Right { background-position:right -600px; }
+.GQFilter5Right { background-position:right -750px; }   
+.GQFilter6Right { background-position:right -900px; }
+.GQFilter7Right { background-position:right -1050px; }
+.GQFilter8Right { background-position:right -1200px; }
+.GQFilter9Right { background-position:right -1350px; }
+.GQFilter10Right { background-position:right -1500px; }
+.GQFilter11Right { background-position:right -1650px; }
+.GQFilter12Right { background-position:right -1800px; }
+
+/* The filter operator icons shown in the popup menu 
+   @ Set here background, width and height
+*/
+.GQFilter0Menu,.GQFilter1Menu,.GQFilter2Menu,.GQFilter3Menu,.GQFilter4Menu,.GQFilter5Menu,.GQFilter6Menu,
+.GQFilter7Menu,.GQFilter8Menu,.GQFilter9Menu,.GQFilter10Menu,.GQFilter11Menu,.GQFilter12Menu {
+   width:17px; height:17px; overflow:hidden; background-image:url(Filter.gif?v110); background-repeat:no-repeat; margin-left:-1px;
+   }
+
+/* ---------------------------------------------------  Sort images --------------------------------------------------------- */
+
+/* Sort icons shown on left or right side (set by IconAlign) in Header cell, shown in <td> or <div> tag.
+   0 - no sort, 1 - first sort asc, 2 - second sort asc, 3 - third sort asc, 4 - first sort desc, 5 - second sort desc, 6 - third sort desc
+   @ Set here background and padding-left
+*/
+.GQSort0Left,.GQSort1Left,.GQSort2Left,.GQSort3Left,.GQSort4Left,.GQSort5Left,.GQSort6Left,
+.GQSort0Right,.GQSort1Right,.GQSort2Right,.GQSort3Right,.GQSort4Right,.GQSort5Right,.GQSort6Right {
+   background-image:url(Sort.gif?v110); background-repeat:no-repeat;  
+   }
+.GQSort0Left,.GQSort1Left,.GQSort2Left,.GQSort3Left,.GQSort4Left,.GQSort5Left,.GQSort6Left { padding-left:17px; }
+.GQSort0Right,.GQSort1Right,.GQSort2Right,.GQSort3Right,.GQSort4Right,.GQSort5Right,.GQSort6Right{ padding-right:17px; }
+.GQSort0Left { background-position:left 0px; }   
+.GQSort1Left { background-position:left -250px; }
+.GQSort2Left { background-position:left -500px; }
+.GQSort3Left { background-position:left -750px; }
+.GQSort4Left { background-position:left -1000px; }
+.GQSort5Left { background-position:left -1250px; }
+.GQSort6Left { background-position:left -1500px; }
+.GQSort0Right { background-position:right 0px; }   
+.GQSort1Right { background-position:right -250px; }
+.GQSort2Right { background-position:right -500px; }
+.GQSort3Right { background-position:right -750px; }
+.GQSort4Right { background-position:right -1000px; }
+.GQSort5Right { background-position:right -1250px; }
+.GQSort6Right { background-position:right -1500px; }
+
+/* ------------------------------------------------  Side button images ----------------------------------------------------- */
+
+/* Predefined side icon and side button images.
+   The ...Left is used for Icon with IconAlign="Left" or without IconAlign
+   The ...Right is used for Icon with IconAlign="Right" and for Button
+   The ...Top and ...Bottom is used for Type="Button" with Icon and IconAlign="Top" or "Bottom"
+   The ...Check0... is not checked, ...Check1... is checked and ...Check2... is empty state (the ?)
+   @ Set here background and padding-left or padding-right
+ */
+.GQDateLeft,.GQDatesLeft,.GQDefaultsLeft,.GQEnumLeft,.GQCollapseLeft,.GQExpandLeft  { background-image:url(Button.gif?v110); padding-left:17px; background-repeat:no-repeat; }
+.GQDateRight,.GQDatesRight,.GQDefaultsRight,.GQEnumRight,.GQCollapseRight,.GQExpandRight { background-image:url(Button.gif?v110); padding-right:17px; background-repeat:no-repeat; }
+.GQDateTop,.GQDatesTop,.GQDefaultsTop,.GQEnumTop,.GQCollapseTop,.GQExpandTop  { background-image:url(Button.gif?v110); padding-top:16px; background-repeat:no-repeat; }
+.GQDateBottom,.GQDatesBottom,.GQDefaultsBottom,.GQEnumBottom,.GQCollapseBottom,.GQExpandBottom { background-image:url(Button.gif?v110); padding-bottom:24px; background-repeat:no-repeat; }
+.GQDateLeft,.GQDatesLeft { background-position:left -250px; padding-left:20px; }
+.GQDateRight,.GQDatesRight { background-position:right -250px; padding-right:20px; }
+.GQDateTop,.GQDatesTop { background-position:center -250px; }
+.GQDateBottom,.GQDatesBottom { background-position:center -230px; }
+.GQDefaultsLeft { background-position:left 0px; padding-left:20px; }
+.GQDefaultsRight { background-position:right 0px; padding-right:20px; }
+.GQDefaultsTop { background-position:center 0px; }
+.GQDefaultsBottom { background-position:center 20px; }
+.GQEnumLeft { background-position:left -500px; }
+.GQEnumRight { background-position:right -500px; }
+.GQEnumTop { background-position:center -500px; }
+.GQEnumBottom { background-position:center -480px; }
+.GQExpandLeft { background-position:left -1000px; }
+.GQExpandRight { background-position:right -1000px; }
+.GQExpandTop { background-position:center -1000px; }
+.GQExpandBottom { background-position:center -980px; }
+.GQCollapseLeft { background-position:left -750px;}
+.GQCollapseRight { background-position:right -750px;}
+.GQCollapseTop { background-position:center -750px; }
+.GQCollapseBottom { background-position:center -730px; }
+
+.GQCheck0Left,.GQCheck1Left,.GQCheck2Left  { background-image:url(Bool.gif?v110); padding-left:17px; background-repeat:no-repeat; }
+.GQCheck0Right,.GQCheck1Right,.GQCheck2Right { background-image:url(Bool.gif?v110); padding-right:17px; background-repeat:no-repeat; }
+.GQCheck0Top,.GQCheck1Top,.GQCheck2Top { background-image:url(Bool.gif?v110); padding-top:16px; background-repeat:no-repeat; }
+.GQCheck0Bottom,.GQCheck1Bottom,.GQCheck2Bottom { background-image:url(Bool.gif?v110); padding-bottom:24px; background-repeat:no-repeat; }
+.GQCheck0Left { background-position:left 0px; }
+.GQCheck1Left { background-position:left -250px; }
+.GQCheck2Left { background-position:left -500px; }
+.GQCheck0Right { background-position:right 0px; }
+.GQCheck1Right { background-position:right -250px; }
+.GQCheck2Right { background-position:right -500px; }
+.GQCheck0Top { background-position:center 0px; }
+.GQCheck1Top { background-position:center -250px; }
+.GQCheck2Top { background-position:center -500px; }
+.GQCheck0Bottom { background-position:center 20px; }
+.GQCheck1Bottom { background-position:center -230px; }
+.GQCheck2Bottom { background-position:center -480px; }
+
+/* Class added to right side button if shown in <u> tag - in Header cell or if the cell has set VAlign 
+   @ Set here only height
+*/
+.GQButtonImage { display:inline-block; height:17px; padding-left:0px; padding-right:0px; }
+
+/* Class added to <a> tag in Type="Icon" and Link attribute set. @ Do not change. */
+.GQIconLink { text-decoration:none; width:1000px; display:inline-block; }
+
+/* Class added to the <td> or <div> tag when set custom Icon as icon file, with the suffix as IconAlign. @ Set padding */
+.GQIconLeft { background-position:left 0px; padding-left:20px; background-repeat:no-repeat; }
+.GQIconRight { background-position:right 0px; padding-right:20px; background-repeat:no-repeat; }
+.GQIconCenter { background-position:center 0px; background-repeat:no-repeat; }
+.GQIconTop { padding-top:16px; background-position:center 0px; background-repeat:no-repeat; }
+.GQIconBottom { padding-bottom:24px; background-position:center 20px; background-repeat:no-repeat; }
+
+/* Class added to the <td> or <div> tag when set custom Icon as icon file, with the suffix as IconAlign="Top or "Bottom and VAlign. 
+   Used to synchronize position of custom icons with standard toolbar icons
+   @ Set padding and margin 
+*/
+.GQIconTopVAlignTop { padding-top:16px; }
+.GQIconTopVAlignMiddle { padding-top:16px; }
+.GQIconTopVAlignBottom { padding-top:16px; }
+.GQIconBottomVAlignTop { padding-bottom:24px; padding-top:1px; }
+.GQIconBottomVAlignMiddle { padding-bottom:24px; padding-top:1px; }
+.GQIconBottomVAlignBottom { padding-bottom:24px; padding-top:1px; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                        Cell checkboxes - Radio and Bool types                                           */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ------------------------------------------------  Radio Type images ------------------------------------------------------ */
+
+/* Radio icons for cell RadioIcon = 0,1,2, set to <td> tag
+   The ...Right is used when cell has set RadioRight='1'
+   The ...None is used for RadioIcon='6'
+   0 - unchecked radio, 1 - checked radio, 2 - unchecked checkbox, 3 - checked checkbox
+   @ Set background, padding, border and text attributes
+*/
+.GQRadio0Left,.GQRadio0Right,.GQRadio1Left,.GQRadio1Right,.GQRadio2Left,.GQRadio2Right,.GQRadio3Left,.GQRadio3Right,.GQRadioIconLeft,.GQRadioIconRight,.GQRadioNone { 
+   background-image:url(Bool.gif?v110); background-repeat:no-repeat; font:12.9px/17px Verdana,Tahoma,"Trebuchet MS",sans-serif;
+   }
+.GQRadio0Left,.GQRadio1Left,.GQRadio2Left,.GQRadio3Left,.GQRadioIconLeft { padding-left:17px; padding-right:3px; }
+.GQRadio0Right,.GQRadio1Right,.GQRadio2Right,.GQRadio3Right,.GQRadioIconRight { padding-right:17px; padding-left:3px; }
+.GQRadio0Left { background-position:left -1500px; } 
+.GQRadio1Left { background-position:left -1750px; } 
+.GQRadio2Left { background-position:left 0px; }
+.GQRadio3Left { background-position:left -250px;}
+.GQRadio0Right { background-position:right -1500px; } 
+.GQRadio1Right { background-position:right -1750px; } 
+.GQRadio2Right { background-position:right 0px; }
+.GQRadio3Right { background-position:right -250px; }
+.GQRadioNone { background-image:none; }
+
+/* Custom radio icon for cell RadioIcon = "image file", set to <td> tag. 
+   The ...Right is used when cell has set RadioRight='1'
+   @ Set padding, border and text attributes
+*/
+.GQRadioIconLeft { background-position:left top; }
+.GQRadioIconRight { background-position:right top; }
+
+/* The Radio icons if set to nobr and span tags when set cell attribute Wrap='1'
+   @ Set padding and optionally background, border and text attributes
+*/
+nobr.GQRadio0Left,nobr.GQRadio1Left,nobr.GQRadio2Left,nobr.GQRadio3Left,nobr.GQRadio0Right,nobr.GQRadio1Right,nobr.GQRadio2Right,nobr.GQRadio3Right,nobr.GQRadioIconLeft,nobr.GQRadioIconRight,
+span.GQRadio0Left,span.GQRadio1Left,span.GQRadio2Left,span.GQRadio3Left,span.GQRadio0Right,span.GQRadio1Right,span.GQRadio2Right,span.GQRadio3Right,span.GQRadioIconLeft,span.GQRadioIconRight {
+   padding-top:2px; padding-bottom:2px; 
+   }
+
+/* Radio icons by standard <input>, for cell RadioIcon = 3,4,5  
+   ...RadioCell is set to the <td> tag around the radio. @ Set background, padding and border
+   ...RadioInput is set to <input> type "checkbox" or "radio". @ Set margin, padding and line-height
+   ...RadioText is set to <span> tag next to the <input>. @ Set text attributes and optionally background, padding and border
+*/
+.GQRadioCell { white-space:nowrap; }
+.GQRadioInput { margin:0px 2px 0px 2px; padding:0px; margin-top:-4px!IE; line-height:14px; }
+.GQRadioText { font:8px/10px Verdana,Tahoma,"Trebuchet MS",sans-serif; }
+nobr.GQRadioCell,span.GQRadioCell { display:inline-block; }
+
+/* Caption of checked radio button; @ Set here border, padding, background and text attributes */
+.GQRadioChecked { color:#0099CC; }
+
+/* -------------------------------------------------  Bool Type images ------------------------------------------------------ */
+
+/* Checkbox icons for table row cell, for BoolIcon = 0,1,2,3, set to <td> or <u> tag  
+   0 - unchecked checkbox, 1 - checked checkbox, X - empty (third) state (?), 2 - unchecked radio, 3 - checked radio, RO - read only
+   ...BoolIcon is used for custom icon in BoolIcon="image file"
+   ...BoolImage is added for every the Bool icon
+   @ Set here background and width and height
+*/
+.GQBool0,.GQBool1,.GQBoolX,.GQBool0RO,.GQBool1RO,.GQBoolXRO,.GQBool2,.GQBool3,.GQBool2RO,.GQBool3RO { background-image:url(Bool.gif?v110); background-repeat:no-repeat; padding-left:17px; }
+.GQBoolIcon { background-repeat:no-repeat; }
+.GQBool0 { background-position:center 0px; }
+.GQBool1 { background-position:center -250px; }
+.GQBoolX { background-position:center -500px; }
+.GQBool0RO { background-position:center -750px; }
+.GQBool1RO { background-position:center -1000px; }
+.GQBoolXRO { background-position:center -1250px; }
+.GQBool2,.GQBool2RO { background-position:center -1500px; }
+.GQBool3,.GQBool3RO { background-position:center -1750px; }
+.GQBoolImage { display:inline-block; width:17px; height:17px; overflow:hidden; padding:0px; }
+
+/* Checkbox icons for Space row cell, for BoolIcon = 0,1,2,3, set to <td> or <u> tag  
+   0 - unchecked checkbox, 1 - checked checkbox, X - empty (third) state (?), 2 - unchecked radio, 3 - checked radio, RO - read only
+   ...BoolIconSpace is used for custom icon in BoolIcon="image file"
+   ...BoolImageSpace is added for every the Bool icon
+   @ Set here background, width and height and padding-left (width and height is used in <u> tag, padding-left in <td> tag)
+*/
+.GQBoolXSpace,.GQBool0Space,.GQBool1Space,.GQBoolXSpaceRO,.GQBool0SpaceRO,.GQBool1SpaceRO { background-image:url(Bool.gif?v110); background-repeat:no-repeat; padding-left:17px; }
+.GQBool2Space,.GQBool3Space,.GQBool2SpaceRO,.GQBool3SpaceRO { background-image:url(Bool.gif?v110); background-repeat:no-repeat; padding-left:17px; }
+.GQBoolIconSpace { background-repeat:no-repeat; }
+.GQBool0Space { background-position:center 1px; }
+.GQBool1Space { background-position:center -249px; }
+.GQBoolXSpace { background-position:center -499px; }
+.GQBool0SpaceRO { background-position:center -749px; }
+.GQBool1SpaceRO { background-position:center -999px; }
+.GQBoolXSpaceRO { background-position:center -1249px; }
+.GQBool2Space,.GQBool2SpaceRO { background-position:center -1499px; }
+.GQBool3Space,.GQBool3SpaceRO { background-position:center -1749px; }
+.GQBoolImageSpace { display:inline-block; width:17px; height:19px; overflow:hidden; padding:0px; }
+
+/* Bool icons by standard <input>, for cell BoolIcon = 4,5, different for table and Space row cells
+   @ Set margin and padding
+*/
+.GQBoolInput { margin-top:2px; margin-bottom:0px; padding:0px; margin-top:-2px!IE; margin-bottom:-6px!IE; }
+.GQBoolInputSpace { margin-top:3px; margin-bottom:0px; padding:0px; margin-top:-2px!IE; margin-bottom:-6px!IE; }
+
+/* Bool icons by text 'x' in rect, for cell BoolIcon = 6
+   0 - unchecked checkbox, 1 - checked checkbox, 2 - empty (third) state (?), RO - read only
+   ...IE is added in IE5 quirks mode
+   @ Set height, width, border, background, padding, margin and text attributes
+*/
+.GQBoolChar0,.GQBoolChar1,.GQBoolChar2,.GQBoolChar0RO,.GQBoolChar1RO,.GQBoolChar2RO {
+   height:9px; width:8px; border:2px ridge white; margin:2px auto 2px auto; font:bold 9px Arial; color:blue; text-align:center; overflow:hidden;
+   }
+.GQBoolChar2 { color:green; }
+.GQBoolChar0RO,.GQBoolChar1RO,.GQBoolChar2RO { color:gray; }
+.GQBoolCharIE { height:14px; width:12px; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                     Side pager                                                          */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ...PagerMain - main <div> tag inside <td> tag. It has set inline width. @ Set border, margin and padding
+   ...PagerBody - the pages without header, <div> tag. @ Set background, border, margin and padding. 
+   ...PagerBodyLeft, ...PagerBodyRight - added to the ...PagerBody according to the side where is the pager displayed.
+   ...PagerHeader - the pager header, <div> tag. @ Set background, border, margin and padding. 
+   ...PagerHeaderLeft, ...PagerHeaderRight - added to the ...PagerHeader according to the side where is the pager displayed.
+   ...PagerCaption - text inside header, <div> tag, set text attributes and optionally also border, padding, margin and background
+*/
+.GQPagerMain { }
+.GQPagerBody { background:#d5e9fe; }
+.GQPagerBodyLeft { border-right:1px solid #c0c0ff; }
+.GQPagerBodyRight { border-left:1px solid #c0c0ff; }
+.GQPagerHeader { background:#6CA6D1; cursor:default; }
+.GQPagerHeaderLeft { }   
+.GQPagerHeaderRight { }
+.GQPagerCaption { font:8px/10px Verdana,Tahoma,"Trebuchet MS",sans-serif; color:white; padding:4px 3px 4px 3px; white-space:nowrap; }
+
+/* ...PagerItem - one page name. @ Set background, border, margin, padding and text attributes
+   ...PagerItemTouch is added on tablet
+*/
+.GQPagerItem {
+   font:8px/10px Verdana,Tahoma,"Trebuchet MS",sans-serif; cursor:pointer; overflow:hidden; white-space:nowrap;
+   border-bottom:1px solid #bbdcff; padding:0px 3px 1px 3px;
+   }
+.GQPagerItemTouch { padding-top:4px; padding-bottom:4px; }
+
+/* Classes to ...PagerItem added on pager Type="Gantt" if set ShowUsedPages / ShowExcludedPages
+   @ Set background, border, margin, padding and text attributes
+*/
+.GQPagerItemUsed { color:green; }
+.GQPagerItemUnused { color:#888; }
+.GQPagerItemExcluded { background:#DDD; }
+
+/* Marked part of the page name, <span> tag
+   1 - the first sorted column, 2 - the second sorted column, 3 - the third sorted column, S - when the grid is not sorted
+*/
+.GQPagerSort1 { color: #006600; }
+.GQPagerSort2 { color: #00AE00; }
+.GQPagerSort3 { color: #00FF00; }
+.GQPagerSortS { color: black; }
+
+/* Focus cursor - actully shown page(s) 
+   ...PagerFocus - actually shown (scrolled) page(s) in pager Pages or actually zoomed chart in pager Gantt
+   ...PagerFocus2 - actual view (scrolled) in pager Gantt
+   ...PagerFocus3 - the whole pager is shown in actual view, in pager Gantt
+*/
+.GQPagerFocus,.GQPagerFocus2,.GQPagerFocus3 {
+   position:relative; cursor:pointer; overflow:hidden; opacity:0.3; filter:alpha(opacity=30); 
+   background:#6ca6d1;
+   }
+.GQPagerFocus2 { background:#F0F; }
+.GQPagerFocus3 { background:#AFA; }
+
+/* Hover cursor - highlighted page under mouse cursor. 
+   @ Set background, border, padding
+   */
+.GQPagerHover {
+   position:relative; cursor:pointer; overflow:hidden;
+   background:white; opacity:0.3; filter:alpha(opacity=30); 
+   }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                               State colors and classes                                                  */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* The ...Color... classes are never assigned, they are used only to read the color. 
+   @ In ...Color... set only the background-color, it must be set by number, not by name.
+   All the colors except ...FocusedCell... and ...Default are relative colors, are added to the ...Default color; if the result color number exceeds 0x1000000, it is subtracted by the 0x1000000
+   The ...Class... is added to the cell if its condition is fulfilled. Only the listed ...Class... are used, the others can have only the ...Color... set.
+   @ In ...Class... set text attributes and color and optionally border and padding. If set here background-color with !important, it overrides the cell color and sets it as absolute
+*/
+.GQColorDefault { background-color:#FFFFFF; }   /* Base color for all cells, can be changed by <I Color /> attribute */
+
+.GQColorNoFocus { background-color:#E8F4FF; }   /* Cell with CanFocus='0' */
+.GQClassNoFocus { }
+.GQColorReadOnly { background-color:#F3F3F3;}   /* Cell with CanEdit='0' */
+.GQClassReadOnly { }
+.GQColorPreview { background-color:#FFFFFF; }   /* Cell with CanEdit='2' */
+.GQClassPreview { }
+.GQColorEdit { background-color:#FFFFFF; }      /* Cell with CanFocus='1' CanEdit='1' */
+.GQClassEdit { }
+
+.GQColorAlternate { background-color:#EBFFFF; } /* Color for <Cfg Alternate/>, can be changed by <I AlternateColor /> */
+.GQClassAlternate { }                           /* Can be changed by <I AlternateClass /> */
+
+.GQColorSelected { background-color:#FFF190; }  /* Selected row or cell */
+.GQClassSelected {  }                           /* It is used only if set <Cfg SelectClass='1'/> */
+.GQColorFill { background-color:#FF80FF; }      /* Used when selecting cells by dragging due auto fill */
+
+.GQColorError { background-color:#FF6969; }     /* Cell with Error attribute set */
+.GQClassError { }
+
+/* Row / Cell state colors, are ignored if row has set NoColorState='1' */
+.GQColorDeleted { background-color:#FFF0E7; }   /* Deleted row */
+.GQClassDeleted { font-style:italic; }
+.GQColorAdded { background-color:#EDF8FF; }     /* Newly added row */
+.GQClassAdded { font-weight:bold; }
+.GQColorMoved1 { background-color:#FFFFFF; }    /* Row moved to another parent */
+.GQClassMoved1 { }
+.GQColorMoved2 { background-color:#EDF8FF; }    /* Row moved inside its parent, only if sorting is not permitted */
+.GQClassMoved2 { }
+.GQColorChanged { background-color:#EEF0FF; }   /* Row with some cell value changed */
+.GQClassChanged { }
+.GQColorChangedCell { background-color:#F0EEFF; } /* The cell with value changed */
+.GQClassChangedCell { font-weight:bold; }
+
+.GQColorMaxChildren { background-color:#FFFFF0; } /* Row created if row's children exceed <I MaxChildren/> */
+.GQClassMaxChildren { }
+
+.GQColorDetail { background-color:#FFF0FF; }    /* Row is master row, has set <I Detail /> attribute */
+.GQClassDetail { }
+.GQColorDetailSelected { background-color:#FFF0E0; } /* Master row actually shown in detail grid */
+.GQClassDetailSelected { }
+
+.GQColorDragged { background-color:#E0E0C0; }   /* The source row actually being dragged by mouse */
+
+.GQColorFound1 { background-color:#CDDBFF; }    /* Found cell in SearchAction="Mark", first search */
+.GQClassFound1 { }                              /* Used only if set <Cfg SearchClass='1'/> */
+.GQColorFound2 { background-color:#FFC387; }    /* Found cell in SearchAction="Mark", second search */
+.GQClassFound2 { }                              /* Used only if set <Cfg SearchClass='1'/> */
+.GQColorFound3 { background-color:#87FF87; }    /* Found cell in SearchAction="Mark", third search */
+.GQClassFound3 { }                              /* Used only if set <Cfg SearchClass='1'/> */
+
+.GQColorHovered { background-color:#F0F0FF; }   /* Row under mouse cursor, used only if the hovered cell or row has HoverRow["Color"]*/
+
+/* Cell under mouse cursor, according to its look or permissions
+   ...Color... is used only if the cell has set HoverCell["Color"] 
+   ...Class... is used only if the cell has set HoverCell["Class"] 
+   Always only one Color and Class is used, if the cell fulfils more conditions the latter has precedence
+   If the resulted color is #FFFFFF, it is set as transparent, therefore in some cases is required to set #FFFFFE to get white color
+*/
+.GQColorHoveredCell { background-color:#C8E3FF; }     /* Standard cell */
+.GQClassHoveredCell { }
+.GQColorHoveredCellReadOnly { background-color:#F0F0F0; } /* Cell with CanEdit='0' */
+.GQClassHoveredCellReadOnly { }
+.GQColorHoveredCellNoFocus { background-color:#F8F8F8; }  /* Cell with CanFocus='0' */
+.GQClassHoveredCellNoFocus { }
+.GQColorHoveredCellHeader { background-color:#7CB6E1; }   /* Cell in Header row */
+.GQClassHoveredCellHeader { }
+.GQColorHoveredCellPanel { background-color:#FFFFFF; }    /* Cell Type = "Panel" */
+.GQClassHoveredCellPanel { }
+.GQColorHoveredCellFastPanel { background-color:#FFFFFF; }/* Cell Type = "Panel" if FastPanel is shown */
+.GQClassHoveredCellFastPanel { }
+.GQColorHoveredCellSpace { background-color:#FFFFFF; }    /* Space row cell */
+.GQClassHoveredCellSpace { }
+.GQColorHoveredCellSpaceEdit { background-color:#C8E3FF; } /* Editable Space row cell */
+.GQClassHoveredCellSpaceEdit > div { background-color:#F0F0F0; }
+.GQColorHoveredCellSpaceDefaults { background-color:#FFFFFF; } /* Space row cell with Button="Defaults" */
+.GQClassHoveredCellSpaceDefaults > div { background-color:#F0F0F0; }
+.GQColorHoveredCellSpaceBool0 { background-color:#FFFFFE; } /* Space row cell of Type="Bool" and value 0 */
+.GQClassHoveredCellSpaceBool0,.GQClassHoveredCellSpaceBool0 > u { background-position:center -749px; }
+.GQColorHoveredCellSpaceBool1 { background-color:#FFFFFE; } /* Space row cell of Type="Bool" and value 1 */
+.GQClassHoveredCellSpaceBool1,.GQClassHoveredCellSpaceBool1 > u { background-position:center -999px; }
+.GQColorHoveredCellSpaceBoolX { background-color:#FFFFFE; } /* Space row cell of Type="Bool" and value "" */
+.GQClassHoveredCellSpaceBoolX,.GQClassHoveredCellSpaceBoolX > u { background-position:center -1249px; }
+.GQColorHoveredCellSpaceBoolIcon { background-color:#FFFFFE; } /* Space row cell of Type="Bool" and BoolIcon other than 0 and 2 */
+.GQClassHoveredCellSpaceBoolIcon { }
+.GQColorHoveredCellButton { background-color:#F0F0F0; }     /* Space row cell of Type="Button" and Button="Html" */
+.GQClassHoveredCellButton { color:green; background-color:#F0F0F0!important; }
+.GQColorHoveredCellButton1 { background-color:#F0F0F0; }    /* Space row cell of Type="Button" and Button="Html" and value 1 */
+.GQClassHoveredCellButton1 { color:red; background-color:#F0F0F0!important; }
+.GQColorHoveredCellButtonButton { background-color:#F0F0F0; }  /* Space row cell of Type="Button" and Button="Button" */
+.GQClassHoveredCellButtonButton u { color:green; background-color:#F0F0F0!important; }
+.GQColorHoveredCellButtonButton1 { background-color:#F0F0F0; } /* Space row cell of Type="Button" and Button="Button" and value 1 */
+.GQClassHoveredCellButtonButton1 u { color:red; background-color:#F0F0F0!important; }
+.GQColorHoveredCellTab { background-color:#F8F8F8; }        /* Space row cell of Type="Button" and Button="Tab" */
+.GQClassHoveredCellTab { background-image:none; }
+.GQColorHoveredCellTab1 { background-color:#CCCCCC; }       /* Space row cell of Type="Button" and Button="Tab" and value 1*/
+.GQClassHoveredCellTab1 { background-image:none; }
+
+.GQColorFocused { background-color:#E6E6E6; }               /* Focused row, used only if the focused cell or row has FocusRow["Color"] */
+.GQClassFocused { }                                         /* Used only if  the focused cell or row has FocusRow["Class"] */
+
+/* Focused cell, the color is absolute color 
+   ...Color... is used only if the cell or row has set FocusCell["Color"] 
+   ...Class... is used only if the cell or row has set FocusCell["Class"] 
+*/
+.GQColorFocusedCell { background-color:#FFFFFE; }           /* Standard cell */
+.GQClassFocusedCell { } 
+.GQColorEditedCell { background-color:#FFFFFF; }            /* Cell being edited */
+.GQColorViewedCell { background-color:#FFFFFF; }            /* Cell being viewed - edited cell with CanEdit='2' */
+.GQColorFocusedCellSafari { background-color:#A0A0FF; }     /* If the cell border is hidden due <Cfg BorderCursors='0' or '2'/> */
+.GQColorFocusedCellHeader { background-color:#FFFFFE; }     /* Header row cell */
+.GQClassFocusedCellHeader { }
+.GQColorFocusedCellSpace { background-color:#E0E0E0; }         /* Space row cell */
+.GQClassFocusedCellSpace { }
+.GQColorFocusedCellSpaceEdit { background-color:#FFFFFF; }  /* Editable Space row cell */
+.GQClassFocusedCellSpaceEdit > div { background-color:#E0E0E0; }
+.GQColorFocusedCellSpaceDefaults { background-color:#FFFFFF; }  /* Space row cell with Button="Defaults" */
+.GQClassFocusedCellSpaceDefaults > div { background-color:#E0E0E0; }
+.GQColorFocusedCellSpaceBool { background-color:#E0E0E0; }     /* Space row cell of Type="Bool" */
+.GQClassFocusedCellSpaceBool { }
+.GQColorFocusedCellButton { background-color:#E0E0E0; }        /* Space row cell of Type="Button" */
+.GQClassFocusedCellButton { }
+
+/* Side colors set by ColorCursor attribute 
+   ...Col is top / bottom side, ...Row is left / right side
+   ...Class... is used only if set <Cfg> ColorCursor bit 5, &16
+*/
+.GQColorSelectedCol { background-color:#C0C070; }          /* Side for selected cells */
+.GQClassSelectedCol { }
+.GQColorSelectedRow { background-color:#F0F0B0; } 
+.GQClassSelectedRow { }
+.GQColorFocusedCol { background-color:#BBB; }              /* Side for cells focused by range (FRect) */
+.GQClassFocusedCol { }
+.GQColorFocusedRow { background-color:#DDD; } 
+.GQClassFocusedRow { }
+.GQColorEditedCol { background-color:#BBB; }               /* Side for focused cell (FRow/FCol) */
+.GQClassEditedCol { }
+.GQColorEditedRow { background-color:#DDD; } 
+.GQClassEditedRow { }
+.GQColorHoveredCol { background-color:#B5DADF; }           /* Side for cell under mouse cursor (ARow/ACol) */
+.GQClassHoveredCol { }
+.GQColorHoveredRow { background-color:#E5FAFF; }             
+.GQClassHoveredRow { }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                               Hover, focus, edit cursors                                                */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ------------- Cell and row highlighted under mouse cursor ------------- */
+
+/* ...HoverPanelBackground - Background shown above left side Panel cell when hovering the row; shown only if the hovered cell or row has HoverRow["Background"]; @ set background and opacity 
+   ...HoverRowBackground   - Background shown above the whole hovered row, except hovered cell and Panel; shown only if the hovered cell or row has HoverRow["Background"]; @ set background and opacity
+   ...HoverRowBorder       - Border around the whole hovered row; shown only if the hovered cell or row has HoverRow["Border"]; @ set border
+   ...HoverCellBorder      - Border around the hovered cell; shown only if the hovered cell or row has HoverCell["Border"]; @ set border
+*/
+.GQHoverPanelBackground { } 
+.GQHoverRowBackground { opacity:0.1; filter:alpha(opacity=10); background:#0CF; } 
+.GQHoverRowBorder { z-index:1; border-top:1px solid #BBF; border-bottom:1px solid #BBF; cursor:default; } 
+.GQHoverCellBorder { z-index:3; padding:1px; border:1px solid #A0A0A0; background:white; } 
+
+/* ---------------- Highlighted focused cell(s) and row(s) ------------- */
+
+/* ...FocusPanelBackground - Background shown above left side Panel cell when the row is focused; shown only if the focused cell or row has FocusRow["Background"]; @ set background and opacity 
+   ...FocusRowBackground   - Background shown above the whole focused row, except focused cell and Panel; shown only if the focused cell or row has FocusRow["Background"]; @ set background and opacity
+   ...FocusRowBorder       - Border around the whole hovered row; shown only if the hovered cell or row has FocusRow["Border"]; @ set border
+   ...FocusCellBorder      - Border around the focused cell in table row; shown only if the focused cell or row has FocusCell["Border"]; @ set border and cursor
+   ...FocusCellSpaceBorder - Border around the focused cell in Space row; shown only if the focused cell or row has FocusCell["Border"]; @ set border and cursor
+   ...FocusCellCorner      - Bottom right corner for autofill; shown only if the focused cell or row has FocusCell["Corner"]; @ set border, margin, padding, background, width, height and cursor
+*/
+.GQFocusPanelBackground { } 
+.GQFocusRowBackground { opacity:0.1; filter:alpha(opacity=10); background:black; } 
+.GQFocusRowBorder { z-index:2; border:1px solid #6666FF; }    
+.GQFocusCellBorder { z-index:4; padding:1px; border:1px solid blue; background:white; } 
+.GQFocusCellSpaceBorder { z-index:4; padding:1px; border:1px solid blue; background:white; }
+.GQFocusCellCorner { position:relative; padding:0px; border:1px solid white; background:blue; margin-left:-3px; margin-top:-4px; width:5px; height:5px; z-index:4; cursor:crosshair; }
+
+/* ------------- Highlighted focused cell in edit mode ------------- */
+
+/* ...EditCellBorder      - Border around the focused cell in table row in edit mode; shown only if the focused cell or row has FocusCell["Border"]; @ set border 
+   ...EditCellSpaceBorder - Border around the focused cell in Space row in edit mode; shown only if the focused cell or row has FocusCell["Border"]; @ set border 
+   ...EditCellCorner      - Bottom right corner for autofill; shown only if the focused cell or row has FocusCell["Corner"] and is set <Cfg DragEdit='1'/>; @ set border, margin, padding, background, width, height and cursor
+   ...EditCellInput       - Parent div tag where the <input> or <textarea> is placed to; @ set border, padding and background
+ */
+.GQEditCellBorder { z-index:4; border:1px solid red; }
+.GQEditCellSpaceBorder { z-index:4; border:1px solid red; }
+.GQEditCellCorner { position:relative; padding:0px; border:1px solid white; background:red; margin-left:-3px; margin-top:-4px; width:5px; height:5px; z-index:4; cursor:crosshair; }
+.GQEditCellInput { position:relative; overflow:hidden; z-index:2; line-height:0px; font-size:0px; }
+
+/* ------------- Support classes removing border ------------- 
+
+/* added to ...Background or ...Border classes; @ Do not change */
+.GQCursorBackground { position:relative; border:none; padding:0px; overflow:hidden; }
+.GQCursorBorderLeft,.GQCursorBorderRight,.GQCursorBorderTop,.GQCursorBorderBottom { position:relative; overflow:hidden; width:0px; height:0px; }
+.GQCursorBorderLeft { border-right:none!important; border-top:none!important; border-bottom:none!important; padding-right:0px!important; padding-top:0px!important; padding-bottom:0px!important; }
+.GQCursorBorderRight { border-left:none!important; border-top:none!important; border-bottom:none!important; padding-left:0px!important; padding-top:0px!important; padding-bottom:0px!important; }
+.GQCursorBorderTop { border-bottom:none!important; border-left:none!important; border-right:none!important; padding-bottom:0px!important; padding-left:0px!important; padding-right:0px!important; }
+.GQCursorBorderBottom { border-top:none!important; border-left:none!important; border-right:none!important; padding-top:0px!important; padding-left:0px!important; padding-right:0px!important; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                        Edit control                                                    */
+/*                                                            TGLib                                                        */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* --- Edit text in <input> / <textarea> --- */
+
+/* @ Set background and text attributes
+   ...EditInput - set to <input> tag placed into inline edit cursor tag (...EditCellInput)
+   ...EditTextarea - set to <textarea> tag placed into inline edit cursor tag (...EditCellInput) for Lines type
+   ...Normal... is added to <input> / <textarea> for cell in table row, ...Header... is added for cell in Header row, ...Space is added for cell in Space row
+   ...Int..., ...Float..., ...Date..., ...Pass... is added for this cell type
+   ...Text... is added for cell type Text, Lines, Link, Img
+   ...ReadOnly is added for preview cell with CanEdit='2'
+*/
+.GQEditInput,.GQEditTextarea { font:8px/10px Verdana,Tahoma,"Trebuchet MS",sans-serif; border:0px none; margin:0px; padding:0px; outline:none; box-sizing:content-box; resize:none; }
+.GQEditInput::-ms-clear { height:13px; }
+.GQEditNormalInput,.GQEditNormalTextarea  { background-color:white; }
+.GQEditHeaderInput,.GQEditHeaderTextarea { background-color:#6CA6D1; color:white; }
+.GQEditSpaceInput,.GQEditSpaceTextarea { background-color:#E0E0E0; }
+.GQEditInt,.GQEditFloat,.GQEditDate { text-align:right; }
+.GQEditText,.GQEditPass { }
+.GQEditReadOnly { background-color:#FFEEFF; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                   Dragging objects                                                      */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* Set to ghost tag under mouse cursor when dragging something in grid or Gantt; 
+   Used when <Cfg ShowDrag='1'/>. For dragged rows is used only if set <Cfg DragObject='1'/>
+   The tag is <div> with absolute position and contains the dragged row(s), column header(s) or GanttRun box(es)
+   @ Set border, margin, padding, opacity and optionally background
+*/
+.GQMouseObject { opacity:0.5; filter:alpha(opacity=50); z-index:300; overflow:hidden; }
+
+/* Set to ghost tag under mouse cursor when dragging rows in grid, if set <Cfg DragObject='2'/> and <Cfg ShowDrag='1'/>
+   The tag is <div> with absolute position and contains information about the count of dragged rows
+   @ Set border, margin, padding, background, opacity, text attributes and optionally height and width
+*/
+.GQDragObject {
+   z-index:300; font:11px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; margin-left:10px; margin-top:10px;
+   background:#E4E5F0; border:1px solid #71A8D2; border-radius:5px; padding:2px 5px 2px 5px;
+   }
+
+/* The arrows showing actual drop position when dragging column header or GanttRun box
+   @ Set background, width and height
+*/
+.GQDragColInsideTop,.GQDragColInsideBottom,.GQDragColOutsideTop,.GQDragColOutsideBottom,.GQDragGanttRunTop,.GQDragGanttRunBottom,.GQDragGanttRunTopJoin,.GQDragGanttRunBottomJoin {
+   position:absolute; background-image:url(Sort.gif?v110); width:11px; height:14px; overflow:hidden; z-index:301;
+   }
+.GQDragColInsideTop  { background-position:-1px -1750px; }
+.GQDragColInsideBottom  { background-position:-1px -1771px; }
+.GQDragColOutsideTop  { background-position:-1px -1790px; }
+.GQDragColOutsideBottom  { background-position:-1px -1811px; }
+.GQDragGanttRunTop  { background-position:-1px -1748px; }
+.GQDragGanttRunBottom  { background-position:-1px -1767px; }
+.GQDragGanttRunTopJoin  { background-position:-1px -1788px; }
+.GQDragGanttRunBottomJoin  { background-position:-1px -1807px; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                    Message dialogs                                                      */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* Disabled grid, absolute <div> tag shown above grid main tag. The grid is disabled when it shows some message (e.g. "Rendering").
+   Note, for disabled page is used GridDisabled class instead. The whole page is disabled when the grid shows modal dialog (e.g. grid configuration menu).
+   @ Set background and opacity, optionally margin and padding
+*/
+.GQDisabled { position:absolute; z-index:264; background:white; opacity:0.5; filter:alpha(opacity=50); } 
+
+/* Grid informational or progress message, absolute <div> tag
+   @ Set border, padding, background and text attributes
+*/
+.GQMessage {
+   font:13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; white-space:nowrap; text-align:center; visibility:hidden; z-index:266;
+   position:absolute; left:0px; top:0px; background:#E2F0FF; border:1px solid #71A8D2; border-radius:5px; padding:10px;
+   }
+
+/* Shadow <div> tag displayed under grid message tag, on the same position and size 
+   @ Set margin for the shadow shift, background, opacity and border
+*/
+.GQMessageShadow {
+   position:absolute; left:0px; top:0px; margin-left:3px; margin-top:3px; z-index:265; visibility:hidden; 
+   background:#888; opacity:0.5; filter:alpha(opacity=50); border-radius:5px; 
+   }	
+
+/* Page informational message, <div> tag shown inside page being loaded or rendered, instead of the page content
+   @ Set border, padding, background and text attributes
+*/
+.GQPageMessage { background:#FAFAFA; border:1px solid #71A8D2; border-radius:5px; padding:10px; font:13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; }
+
+/* Progress message 
+   ...Main is set to inner <div> of the progress message. @ Set text attributes and optionally border, margin, padding and background
+   ...Caption is set to <div> tag showing the progress message caption. @ Set border, margin, padding, background and text attributes
+   ...Text is set to <div> tag showing the progress message text. @ Set border, margin, padding, background and text attributes
+   ...Outer is set to <div> tag showing the gauge container. @ Set border, margin, padding, background and width
+   ...Inner is set to <div> tag showing the gauge indicator. @ Set border, margin, padding, background and height
+*/
+.GQProgressMain { font:13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; }
+.GQProgressCaption { font-weight:bold; margin-bottom:15px; }
+.GQProgressText { margin-bottom:15px; }
+.GQProgressOuter { text-align:left; width:200px; border:1px solid #71A8D2; border-radius:5px; padding:2px; margin-bottom:15px; }
+.GQProgressInner { height:10px; background:green; border-radius:5px; }
+
+/* Button in informational or progress message, <button> tag below the message inside the ...Message 
+   ...Hover is added when the <button> tag is under mouse cursor
+   @ Set border, padding, margin, background and text attributes
+*/
+.GQProgressButton,.GQMessageButton { 
+   border:1px solid #71A8D2; border-radius:5px; background:#C8E5FF; font:11.9px Arial,Helvetica,sans-serif; white-space:nowrap;
+   }
+.GQProgressButton { margin:5px 2px 0px 2px; padding-left:5px; padding-right:5px; }
+.GQMessageButton { margin:10px 3px 0px 3px; width:50px; }
+.GQMessageButtonHover,.GQProgressButtonHover { }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                   Popup menus and dialogs                                               */
+/*                                                            TGLib                                                        */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* Default settings for all TreeGrid popup menus and dialogs like Enum, Defaults, Filter, cfg menu, columns menu, popup Menu, Gantt menu and custom menu shown by ShowMenu and ShowPopup
+   The styles of individual menu types can be overridden by their individual classes added to all default classes (e.g. "GMMenuMain GMEnumMenuMain")
+      Individual classes: ...EnumMenu..., ...DefaultsMenu..., ...FilterMenu..., ...CfgMenu..., ...ColumnsMenu..., ...PopupMenu, ...GanttMenu...
+      For custom JSON menu can be the individual class prefix set to Class attribute, like {..., Class:"Custom", ... } and the added classes will be ...Custom..., e.g. GxCustomMain
+   Some of the classes are used also for custom JSON dialogs shown by ShowDialog API function.
+*/
+
+/* --- Menu and dialog sections --- */
+
+/* Main menu and dialog classes
+   ...Main - Main absolute <div> tag; @ Do not change 
+   ...Static - Used instead of ...Main when dialog is written directly to page HTML by WriteDialog. Used only in TGLib, not in TreeGrid. @ Do not change
+   ...Shadow - Shadow <div> tag displayed under ...Main tag, on the same position and size. @ Set margin for the shadow shift, background, opacity and border
+   ...Outer - <div> tag inside the main tag, contains the whole menu. @ Set background, border and padding
+   ...Top is added to ...Outer when the menu is shown above the header, ...Bottom is added to ...Outer when the menu is shown below the header
+*/      
+.GQMenuMain { position:absolute; left:0px; top:0px; z-index:258; }
+.GQMenuStatic { }
+.GQMenuShadow { position:absolute; margin-left:3px; margin-top:3px; z-index:257; background:#888; border-radius:5px; opacity:0.5; filter:alpha(opacity=50); }
+.GQMenuOuter { overflow:hidden; background:white; border:1px solid #71A8D2; border-radius:5px; padding:1px; }
+.GQMenuOuterTop { }
+.GQMenuOuterBottom { }
+
+/* Shown outside menu or dialog in place of the source tag, simulating the menu is popped up. For custom JSON menus and dialogs is used when set Header attribute.
+   ...Top is added to ...Header when the menu is shown above the header, ...Bottom is added to ...Header when the menu is shown below the header
+   @ Set margin to shift the header, border, padding and background
+*/
+.GQMenuHeader { 
+   overflow:hidden; position:absolute; z-index:258; border:1px solid #b0b0c0; background:white; cursor:pointer; border-radius:5px; 
+   user-select:none; -o-user-select:none; -moz-user-select:none; -khtml-user-select:none; -webkit-user-select:none;
+   }
+.GQMenuHeaderTop { }
+.GQMenuHeaderBottom { }
+
+/* Set to menu and dialog top, not scrollable, section. Used only for TreeGrid cfg / column menus. For custom JSON menus and dialogs is used when set Head attribute.
+   @ Set border, margin, padding, background and text attributes
+*/
+.GQMenuHead { 
+   background:#6CA6D1; padding:5px 0px 4px 0px; border-radius:5px 5px 0px 0px; color:white;
+   font:8px/10px Verdana,Tahoma,"Trebuchet MS",sans-serif; text-align:center; cursor:default;
+   }
+
+/* Close icon set <div> tag inside the ...MenuHead. Used only for TreeGrid cfg / column menus. For custom JSON menus and dialogs is used when set Head attribute and can be hidden by setting HeadClose:0 
+   @ Set background, width and height
+*/
+.GQMenuClose { float:right; width:14px; cursor:pointer; display:none; background:url(Menu.gif?v110) no-repeat right -354px; }
+
+/* Set to menu and dialog middle, scrollable, section. For custom JSON dialogs the tag is filled by Body attribute value. 
+   @ Set border, margin, padding, background and optionally (for the custom dialogs) text attributes
+*/
+.GQMenuBody { cursor:default; padding: 1px 0px 1px 0px; }
+
+/* Set to menu and dialog bottom, not scrollable, section, contains usually control buttons. 
+   Used only for TreeGrid cfg / column menus and Range dialogs to display the buttons. For custom JSON menus and dialogs is used when set Foot or Buttons (JSON menu only) attribute.
+   @ Set border, margin, padding, background and text attributes
+*/
+.GQMenuFoot { 
+   background:#D5E9FE; padding:3px 0px 3px 0px; border-radius:0px 0px 5px 5px; 
+   font:bold 12px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; text-align:center; white-space:nowrap; 
+   }
+
+/* Control button inside the Foot section (e.g. OK, Cancel). <button> tag.
+   ...Hover is added when the <button> tag is under mouse cursor
+   @ Set border, margin, padding, background, width, height and text attributes
+*/
+.GQMenuButton {
+   border:1px solid #71A8D2; border-radius:5px; background:#C8E5FF; width:58px; margin:2px; padding-left:0px; padding-right:0px;
+   font:11.9px Arial,Helvetica,sans-serif; text-align:center; white-space:nowrap; overflow:hidden;  
+   }
+.GQMenuButtonHover { background:#ffeeaa; border:1px solid #aaaadd; }
+
+/* --- Menu item --- */
+
+/* <div> tags for individual menu items
+   ...Item is set to all menu items except focused and hovered
+   ...Focus is set to menu item with key cursor
+   ...Hover is set to menu item under mouse cursor (...ItemHover to not focused and ...FocusHover to focused)
+   ...Touch... is added to menu item on tablet
+   @ Set border, margin padding and background; all the eight classes should have the same edge width and height (margin+border+padding)
+*/
+.GQMenuItem { padding:2px 3px 2px 3px; }
+.GQMenuItemTouch { padding-top:5px; padding-bottom:5px; }
+.GQMenuItemHover { margin-left:1px; margin-right:1px; padding:2px; background:#D5E9FE; }
+.GQMenuItemHoverTouch { padding-top:4px; padding-bottom:4px; }
+.GQMenuFocus { margin-left:1px; margin-right:1px; padding:2px; background:#CAE1F3; }
+.GQMenuFocusTouch { padding-top:4px; padding-bottom:4px; }   
+.GQMenuFocusHover { margin-left:1px; margin-right:1px; padding:2px; background:#CAE1F3; }
+.GQMenuFocusHoverTouch { padding-top:4px; padding-bottom:4px; }   
+
+/* --- Icons inside menu items --- */
+
+/* The classes are set in <div> tag inside the menu item tag
+   ...CheckedIcon...  - Bool item, checkbox, checked state,                  ...UncheckedIcon... - Bool item, checkbox, unchecked state
+   ...CheckedRadio... - Bool item with Group, radio button, checked state,   ...UncheckedRadio... - Bool item with Group, radio button, unchecked state
+   ...Left            - the bool icon is shown on the item text left side,   ...Right - the bool icon is shown on the item text right side
+   ...CursorIcon      - Cursor icon shown on left side, when menu have set ShowCursor:1; the width of the cursor icon is set by menu Indent attribute, by default 12px
+   ...HoverIcon       - The cursor icon in menu item under mouse cursor
+   ...ExpandedIcon    - Icon in expanded section (Expanded:1),  the menu item with Level and Items set; the width of the expanded  icon is set by menu Indent attribute, by default 12px 
+   ...CollapsedIcon   - Icon in collapsed section (Expanded:0), the menu item with Level and Items set; the width of the collapsed icon is set by menu Indent attribute, by default 12px  
+   ...NextIcon        - Icon on right side of item with submenu, the menu item with Menu:1 and Items set 
+   ...Rtl             - used instead in RTL text mode, shows the icon on the other side
+   @ Set background and for some icons padding-left or padding-right
+*/
+.GQMenuCheckedIconLeft { background:url(Menu.gif?v110) no-repeat -2px -51px; padding-left:15px; }
+.GQMenuCheckedIconRight { background:url(Menu.gif?v110) no-repeat right -51px; padding-right:17px; }
+.GQMenuUncheckedIconLeft { background:url(Menu.gif?v110) no-repeat -2px -1px; padding-left:15px; }
+.GQMenuUncheckedIconRight { background:url(Menu.gif?v110) no-repeat right -1px; padding-right:17px; }
+.GQMenuCheckedRadioLeft { background:url(Menu.gif?v110) no-repeat -2px -750px; padding-left:15px; }
+.GQMenuCheckedRadioRight { background:url(Menu.gif?v110) no-repeat right -750px; padding-right:17px; }
+.GQMenuUncheckedRadioLeft { background:url(Menu.gif?v110) no-repeat -2px -700px; padding-left:15px; }
+.GQMenuUncheckedRadioRight { background:url(Menu.gif?v110) no-repeat right -700px; padding-right:17px; }
+.GQMenuCursorIcon { background:url(Menu.gif?v110) no-repeat -6px -150px; }
+.GQMenuHoverIcon { background:url(Menu.gif?v110) no-repeat -6px -100px; }   
+.GQMenuCursorIconRtl { background:url(Menu.gif?v110) no-repeat right -1000px; }
+.GQMenuHoverIconRtl { background:url(Menu.gif?v110) no-repeat right -950px; }   
+.GQMenuExpandedIcon { background:url(Menu.gif?v110) no-repeat -6px -200px; }
+.GQMenuCollapsedIcon { background:url(Menu.gif?v110) no-repeat -6px -250px; }
+.GQMenuNextIcon { background:url(Menu.gif?v110) no-repeat right -300px; padding-right:10px; }
+.GQMenuNextIconRtl { background:url(Menu.gif?v110) no-repeat left -900px; padding-left:10px; }
+
+/* --- Menu item content --- */
+
+/* The classes are set to <td> tag of inner table that is used to display the item, if it has set Edit, Enum, Icon, LeftHtml or RightHtml attribute.   
+   @ Set text attributes and optionally background, border, padding and margin
+   ...ItemText - every menu item text or caption, it set to <div> tag inside the menu item and inside the menu icon or to <td> tag with item text in inner table
+   ...ItemLeftHtml - <td> tag in inner table displaying the LeftHtml content on the left side
+   ...ItemRightHtml - <td> tag in inner table displaying the RightHtml content on the right side
+   ...ItemIcon - <td> tag in inner table displaying the Icon as background image on the left side, also left to LeftHtml; @ Do not change
+   ...Level - added to the tags with ...ItemText, ...ItemIcon, ...ItemLeft/RightHtml for item with Level set
+   ...ItemDisabled - added to all the menu item parts for item with Disabled:1; @ Set opacity and background
+*/
+.GQMenuItemText,.GQMenuItemLeftHtml,.GQMenuItemRightHtml { font:11.9px/15px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; white-space:nowrap; overflow:hidden; }
+.GQMenuItemIcon { background-repeat:no-repeat; }
+.GQMenuItemDisabled { opacity:0.50; filter:alpha(opacity=30); }
+.GQMenuLevel { color:blue; text-align:center; }  
+
+/* The Enum combo in item with Enum:1
+   ...EnumParent - <td> tag in inner table displaying the Enum combo for the Enum:1 item, on left or right side according to Left value
+   ...Enum - <div> tag inside the <td> tag ...EnumParent displaying the Enum combo
+   ...EnumHeader - is set to the <div> tag in Header of the popped up Enum menu
+*/
+.GQMenuEnumParent { padding-left:5px; padding-right:2px;}
+.GQMenuEnum,.GQMenuEnumHeader { font:11.9px/15px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; white-space:nowrap; overflow:hidden; }
+.GQMenuEnum { border:1px solid #D0E0F0; border-top:1px solid #71A8D2; border-left:1px solid #71A8D2; border-radius:5px; background:white url(Menu.gif?v110) no-repeat left -800px; padding-left:15px; }
+.GQMenuEnumHeader { background:url(Menu.gif?v110) no-repeat left -799px; padding:1px 0px 2px 15px; cursor:default; }
+
+/* The edit text in item with Edit:1
+   ...EditParent - <td> tag in inner table displaying the editable text for the Edit:1 item, on left or right side according to Left value; @ Set border, padding and background
+   ...Edit - <div> tag inside the <td> tag ...EditParent displaying the editable text; @ Set border, padding, background and text attributes 
+   ...EditIE is used instead of ...Edit in IE, in IE5 quirks mode
+   ...EditMulti - added to the ...Edit tag for item with set Multi:1, multi line edit, to be edited in <textarea>; @ Set border, background and text attributes
+   ...EditEdit - added to the ...Edit when editing the item text
+   ...EditText, ...EditInt, ...EditFloat, ...EditDate - added to the ...Edit tag and also to the <input> or <textarea> tag according to the Type attribute; @ Set text attributes
+   ...EditInput - set to <input> tag placed into ...Edit tag when editing the value; @ Set text attributes
+   ...EditTextarea - set to <textarea> tag placed into ...Edit tag when editing the value in item with Multi:1 set; @ Set text attributes
+*/
+.GQMenuEditParent { padding-left:5px; padding-right:2px; }
+.GQMenuEdit,.GQMenuEditIE {
+   font:11.9px/15px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; background:white; overflow:hidden; white-space:nowrap; 
+   border:1px solid #D0E0F0; border-top:1px solid #71A8D2; border-left:1px solid #71A8D2; border-radius:5px; padding-left:3px; padding-right:3px; height:15px;
+   }
+.GQMenuEditIE { height:17px; }
+.GQMenuEditMulti { white-space:normal; }
+.GQMenuEditEdit { background:white; }
+.GQMenuEditInput,.GQMenuEditTextarea { 
+   font:11.9px/15px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; border:0px none; margin:0px; padding:0px; outline:none; background:white; box-sizing:content-box; resize:none; 
+   }
+.GQMenuEditInput::-ms-clear { height:13px; }
+.GQMenuEditInt,.GQMenuEditFloat,.GQMenuEditDate { text-align:right; } 
+.GQMenuEditText { }
+
+/* --- Special menu items --- */
+
+/* ...Caption - Inactive item, used instead of ...Item..., along width ...ItemText, shown for menu item with Caption:1; @ Set border, margin padding, background and text attributes
+   ...Separator - Separator between items, shown for menu item with Name:"-", used instead of ...Item...; @ Set border, margin, padding, background and height
+   ...VSeparator - <td> tag shown between columns of menu items; in children of menu item width Columns attribute set; @ Set border, padding, background and width 
+   ...Section - Tag around children of item width Level attribute set; @ Set border, margin, padding and background
+*/
+.GQMenuCaption { padding:2px; background:white; color:blue; text-align:center; }
+.GQMenuSeparator { margin:3px 3px 2px 3px; height:1px; border-top:1px solid #aaaaaa; overflow:hidden; }
+.GQMenuVSeparator { border-right:1px solid #DDD; }
+.GQMenuSection  { }
+
+/* -----------------------------------------------  Filter operator menu ---------------------------------------------------- */
+
+/* Redefines standard popup ...Menu... attributes as ...FilterMenu... 
+*/
+.GQFilterMenuMain { margin-left:-3px; margin-top:-2px; } 
+.GQFilterMenuOuterTop { border-radius:5px 5px 5px 0px; padding:1px 1px 1px 0px; } 
+.GQFilterMenuOuterBottom { border-radius:0px 5px 5px 5px; padding:1px 1px 1px 0px; }
+.GQFilterMenuHeaderBottom { margin-left:-3px; margin-top:-2px; padding:2px 1px 0px 3px; border-bottom:0px none; border-radius:5px 5px 0px 0px; }
+.GQFilterMenuHeaderTop { margin-left:-3px; margin-top:-2px; padding:2px 1px 1px 3px; border-top:0px none; border-radius:0px 0px 5px 5px; }
+.GQFilterMenuShadow { margin-left:0px; margin-top:1px; }
+.GQFilterMenuItem,.GQFilterMenuItemHover,.GQFilterMenuFocus,.GQFilterMenuFocusHover { }
+
+/* ----------------------------------------------------  Enum menu ---------------------------------------------------------- */
+
+/* ...EnumMenu... redefine particular popup menu ...Menu... classes for Enum type popup menu
+   ...EnumHeader... is used inside popup menu header ...EnumMenuHeader tag and shows the Enum icon on left or right side or nowhere; @ Set background, padding and text attributes and optionally border and margin
+*/
+.GQEnumMenuHeader { background:white; }
+.GQEnumMenuHeaderBottom { padding-top:1px; }
+.GQEnumMenuHeaderTop { padding-bottom:1px; }
+
+.GQEnumHeaderLeft,.GQEnumHeaderRight,.GQEnumHeaderNone { 
+   background:white; font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; padding:2px 4px 2px 2px; white-space:nowrap; cursor:pointer; 
+   }
+.GQEnumHeaderLeft { background:white url(Menu.gif?v110) no-repeat 1px -799px; padding-left:17px; }
+.GQEnumHeaderRight { background:white url(Menu.gif?v110) no-repeat right -799px; padding-right:17px;}
+
+/* --------------------------------------------------  Button List menu ------------------------------------------------------ */
+
+/* ...ToolMenu... redefine particular popup menu ...Menu... classes for Button type with List attribute popup menu
+   ...ToolHeader... is used inside popup menu header ...ToolMenuHeader tag for row Space='-1' (Above), Space='5' (Below) and others; @ Set background, padding and text attributes and optionally border and margin
+*/
+.GQToolMenuMain { }
+.GQToolMenuHeader { padding-top:1px; border-radius:5px 5px 0px 0px; }
+.GQToolMenuItem { }
+.GQToolMenuOuter { background:#E0F5FF; border-radius:0px 0px 5px 5px; }
+.GQToolMenuBody { }
+
+.GQToolHeader,.GQToolHeaderAbove,.GQToolHeaderBelow { border:none; padding:0px 5px 100px 4px; }
+.GQToolHeaderAbove { padding-top:0px; padding-left:5px; }
+.GQToolHeaderBelow { padding-top:0px; padding-left:5px; }
+
+/* -------------------------------------------  Grid configuration menus --------------------------------------------------- */
+
+/* Special settings for Cfg and Columns TreeGrid menus; override the standard menu settings defined above */
+.GQCfgMenuOuter,.GQColumnsMenuOuter { }
+.GQCfgMenuHead,.GQColumnsMenuHead { }
+.GQCfgMenuBody,.GQColumnsMenuBody { }
+.GQCfgMenuFoot,.GQColumnsMenuFoot { }
+.GQCfgMenuButton { width:72px; } 
+.GQColumnsMenuButton { }
+.GQCfgMenuItemText { padding-left:3px; }
+.GQColumnsMenuItemText { padding-left:3px; white-space:nowrap; }
+.GQCfgMenuItem,.GQColumnsMenuItem { }
+.GQCfgMenuItemHover,.GQColumnsMenuItemHover { }
+.GQCfgMenuFocus,.GQCfgMenuFocusHover,.GQColumnsMenuFocus,.GQColumnsMenuFocusHover { }
+.GQCfgMenuItemTouch,.GQColumnsMenuItemTouch { }
+.GQCfgMenuItemHoverTouch,.GQColumnsMenuItemHoverTouch { }
+.GQCfgMenuFocusTouch,.GQCfgMenuFocusHoverTouch,.GQColumnsMenuFocusTouch,.GQColumnsMenuFocusHoverTouch { }
+
+/* ----------------------------------------------  Popup grid dialog ------------------------------------------------------- */
+
+/* Special settings for Popup grid shown by Dates button or ShowPopupGrid API method; overrides the standard dialog settings defined above */
+.GQPopupGridOuter { overflow:visible; }
+.GQPopupGridHead { padding:0px; }
+.GQPopupGridBody { padding:0px; border:0px none; }
+.GQPopupGridFoot { padding:0px; }
+.GQPopupGridButton { width:50px; margin-top:-2px; margin-bottom:3px; } 
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                       Calendar dialog                                                   */
+/*                                                            TGLib                                                        */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* --- Main calendar classes --- */
+
+/* Added to main menu / dialog classes ...Menu... as ...Pick...
+   ...Main - Main absolute <div> tag; @ Do not change 
+   ...Shadow - Shadow <div> tag displayed under ...Main tag, on the same position and size. @ Set margin for the shadow shift, background, opacity and border
+   ...Outer - <div> tag inside the main tag, contains the whole calendar. @ Set background, border and padding
+   ...Body - <div> inside ...Outer, contains the whole calendar, including buttons; @ Set background, border, padding and margin  
+*/      
+.GQPickMain { position:absolute; left:0px; top:0px; z-index:258; }
+.GQPickShadow { position:absolute; background:#888; z-index:257; margin-left:3px; margin-top:3px; opacity:0.5; filter:alpha(opacity=50); }   
+.GQPickOuter { border:1px solid #426b8c; background:white; padding:1px; overflow:hidden; }
+.GQPickBody { cursor:default; padding:0px; }
+
+/* --- Other standard dialog parts' classes, NOT shown by default  --- */
+
+/* Added to main menu / dialog classes ...Menu... as ...Pick...
+   ...Header is shown outside the calendar dialog in place of the source tag. Used only if set Header attribute. @ Set margin to shift the header, border, padding and background
+   ...HeaderTop is added to ...Header when the calendar is shown above the header, ...HeaderBottom is added to ...Header when the calendar is shown below the header
+   ...Head is set to calendar top section. Used only if set Head attribute. @ Set border, margin, padding, background and text attributes
+   ...Close is close icon set <div> tag inside the ...PickHead. Used only if set Head attribute. Can be hidden by setting HeadClose:0; @ Set background, width and height
+   ...Foot is set to calendar bottom section. Used only if set Foot attribute. It does NOT show calendar buttons. @ Set border, margin, padding, background and text attributes
+*/
+.GQPickHeader { 
+   position:absolute; z-index:258; border:1px solid black; background:white; 
+   font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; overflow:hidden; cursor:pointer; 
+   }
+.GQPickHeaderBottom { border-bottom:0px none; }
+.GQPickHeaderTop { border-top:0px none; }
+.GQPickHead,.GQPickFoot { background:#5c8397; font:8px/10px Verdana,Tahoma,"Trebuchet MS",sans-serif; color:white; cursor:default; }
+.GQPickHead { border-bottom:1px solid white; border-radius:5px; padding:1px 0px 2px 5px; }
+.GQPickFoot { border-top:1px solid white; padding:1px 0px 3px 5px; }  
+.GQPickClose { float:right; width:14px; cursor:pointer; display:none; background:url(Menu.gif?v110) no-repeat right -352px; }
+
+/* --- The calendar header showing month and year --- */
+
+/* ...PickMY - the whole header tag showing the month and year; @ Set border, padding, margin, background and text attributes
+   ...PickMYDown - shown inside PickMY to display icon down in the first calendar table; @ Set background and padding-right
+   ...PickMYUp - shown inside PickMY to display icon up in the second calendar table; @ Set background and padding-right
+   ...PickMYRtl - added to ...PickMYUp and ...PickMYDown in RTL mode; @ Set padding-left
+   ...PickBL - previous month icon, ...PickBR - next month icon; @ Set background, width and height
+*/
+.GQPickMY { 
+   background:#6CA6D1; padding:3px 0px 4px 0px; 
+   font:8px/10px Verdana,Tahoma,"Trebuchet MS",sans-serif; border-radius:5px 5px 0px 0px; color:white; cursor:default; text-align:center;
+   }   
+.GQPickMYDown { padding-right:13px; background:url(Menu.gif?v110) no-repeat right -400px; cursor:pointer; }
+.GQPickMYUp { padding-right:13px; background:url(Menu.gif?v110) no-repeat right -450px; cursor:pointer; }
+.GQPickMYRtl { padding-right:0px; padding-left:13px; }
+.GQPickBL,.GQPickBR { width:16px; height:14px; overflow:hidden; cursor:pointer; display:none; }
+.GQPickBL { float:left; background:url(Menu.gif?v110) no-repeat left -499px; }
+.GQPickBR { float:right; background:url(Menu.gif?v110) no-repeat right -549px; }
+
+/* --- The first calendar table with days --- */
+
+/* ...PickTableParent - <div> tag containing the whole table; @ Set border, padding, margin and background 
+   ...PickTable - <table> tag inside ...PickTableParent; @ Do not change
+   ...PickRow - <tr> tags with individual day numbers; @ Set background and optionally height
+   ...PickRowW - top <tr> tag with week day names; @ Set background and optionally height
+   ...PickCell - <td> tags with day numbers or week names; @ Set width and optionally background, padding and height
+   ...PickCellTouch - added to ...PickCell on tablet
+*/
+.GQPickTableParent { }
+.GQPickTable { table-layout:fixed; width:0px; }
+.GQPickRow { background:white; }
+.GQPickRowW { background:#C6DBE9 url(Backgrounds.gif?v110) repeat-x 0px -500px; }
+.GQPickRowW > td { border-bottom:1px solid #8CA9E1; }
+.GQPickCell { width:25px; }
+.GQPickCellTouch { width:32px; }
+
+/* Individual day cells in the first calendar table; only one class per tag is set (except added ...PickTouch). <div> tags inside <td> tag.
+   @ Set background, border, margin, padding, height and text attributes
+   @ All the classes should have the same height and should not be wider than ...PickCell to avoid blinking the calendar cells on mouse actions
+   ...PickWDN - week day name in top row
+   ...PickWN  - week number in left column 
+   ...PickWNE - not selectable week number in left column
+   ...PickWD  - work day number
+   ...PickSa  - Saturday number
+   ...PickSu  - Sunday number
+   ...PickOM  - Day number from another month
+   ...PickNow - Today number
+   ...PickSel - Selected day number
+   ...NE      - any not selectable day number
+   ...PickHover - Any not selected day number under mouse cursor
+   ...PickSelHover - Selected day number under mouse cursor
+   ...PickEmpty - top left button in <div> tag to select empty date; @ Set background and height
+   ...PickTouch - class added to every tag on tablet; @ Set line-height
+*/
+.GQPickWDN { margin:2px 3px 2px 3px; padding:1px; font:11px/13px Arial,Helvetica,sans-serif; color:#333333; text-align:center; cursor:default; }
+.GQPickHover,.GQPickSelHover,.GQPickWD,.GQPickSa,.GQPickSu,.GQPickSel,.GQPickNow,.GQPickWDNE,.GQPickSaNE,.GQPickSuNE,.GQPickSelNE,.GQPickNowNE,.GQPickOM,.GQPickOMNE {
+   margin:2px; padding:0px 1px 0px 1px; border:1px solid white; 
+   font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; text-align:center; cursor:pointer;
+   }
+.GQPickWN,.GQPickWNE { 
+   background:url(Backgrounds.gif?v110) no-repeat -25px 0px; padding:3px 4px 3px 4px; border-right:1px solid #8CA9E1; 
+   font:11px/13px Arial,Helvetica,sans-serif; text-align:center; cursor:pointer;
+   }
+.GQPickWNE { cursor:default; }
+.GQPickWDNE,.GQPickSaNE,.GQPickSuNE,.GQPickSelNE,.GQPickNowNE { cursor:default; text-decoration:line-through; }
+.GQPickWD { background-color:white; }
+.GQPickSa { background-color:white; }
+.GQPickSu { background-color:white; }
+.GQPickSel { background-color:#fbea54; border:1px solid #dad1d1; }
+.GQPickSelNE { background-color:#fbea54; border:1px solid #dad1d1; }
+.GQPickNow { background-color:#c0f3ff; border:1px solid #dad1d1; }
+.GQPickNowNE { background-color:#c0f3ff; border:1px solid #dad1d1; }
+.GQPickOM { background-color:white; color:#aaaaaa; }
+.GQPickOMNE { color:#aaaaaa; cursor:default; text-decoration:line-through; }
+.GQPickEmpty { background:url(Menu.gif?v110) no-repeat center -1050px; cursor:pointer; height:17px; }
+.GQPickHover { background-color:#ddd; border:1px solid #ddd; }
+.GQPickSelHover { background-color:#eeeeaa; border:1px solid #ddd; }
+.GQPickTouch { line-height:18px; }
+
+/* --- The second calendar table with months and years --- */
+
+/* ...Pick2TableParent - <div> tag containing the whole table; @ Set border, padding, margin and background 
+   ...Pick2Table - <table> tag inside ...Pick2TableParent; @ Do not change
+   ...Pick2Row - <tr> tags with the cells: 2 months, separator and 2 years; @ Set background and optionally height
+   ...Pick2CellM - <td> tags with month names; @ Set height, width and optionally background and padding
+   ...Pick2CellY - <td> tags with year numbers; @ Set height, width and optionally background and padding
+   ...Pick2CellSep - <td> tag, separator between months and years section; @ Set height, width and optionally background and padding
+   ...Pick2SepH - separator between the calendar header ...PickMY and calendar body ...Pick2TableParent; @ Set height to synchronize heights of both calendar dialogs
+   ...Touch - added to ...Pick2Cell... on tablet
+*/
+.GQPick2TableParent { }
+.GQPick2Table { table-layout:fixed; width:0px; margin-left:3px; margin-right:3px; }
+.GQPick2Row { }
+.GQPick2CellM { height:22px; width:60px; }
+.GQPick2CellMTouch { height:26px; width:75px; }
+.GQPick2CellY { height:22px; width:35px; }
+.GQPick2CellYTouch { height:26px; width:45px; }
+.GQPick2CellSep { height:22px; width:5px; }
+.GQPick2CellSepTouch { height:26px; width:5px; }
+.GQPick2SepH { width:1px; height:2px; overflow:hidden; }
+.GQPick2SepHTouch { height:7px; }
+
+/* Individual cells, <div> tag inside <td> tag
+   @ Set background, border, margin, padding, height and text attributes
+   @ All the classes should have the same height and should not be wider than ...Pick2Cell... to avoid blinking the calendar cells on mouse actions
+   ...Pick2M - month name; ...Pick2Y - year number; ...Sel - selected cell; ...Hover - cell under mouse cursor; ...SelHover - selected cell under mouse cursor
+   ...Pick2Touch - class added to every tag on tablet; @ Set line-height
+*/
+.GQPick2M,.GQPick2Y,.GQPick2MSel,.GQPick2YSel,.GQPick2MHover,.GQPick2YHover,.GQPick2MSelHover,.GQPick2YSelHover {
+   margin-left:1px; margin-right:1px; padding:3px 1px 2px 1px;
+   font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; cursor:pointer; text-align:center; overflow:hidden;
+   }
+.GQPick2MSel,.GQPick2YSel { background:#c0f3ff; border:1px solid #dad1d1; margin-left:0px; margin-right:0px; }
+.GQPick2MHover,.GQPick2YHover { background:#DDD; border:1px solid white; margin-left:0px; margin-right:0px; }
+.GQPick2MSelHover,.GQPick2YSelHover { background:#80e0f0; border:1px solid white; margin-left:0px; margin-right:0px; }   
+.GQPick2Touch { line-height:18px; }
+
+/* Special cells, <div> tag inside <td> tag
+   ...Pick2Sep - separator between months and years; @ Set height, width, background, border, margin, padding
+   ...Pick2SepTouch - class added to ...Pick2Sep on tablet; @ Set height
+   ...Pick2BL - button (<div> tag) showing previous 5 years; @ Set background, width and height
+   ...Pick2BR - button (<div> tag) showing next 5 years; @ Set background, width and height
+*/
+.GQPick2Sep { width:1px; background:#777; overflow:hidden; margin-left:2px; margin-right:2px; height:22px; }
+.GQPick2SepTouch { height:26px; }
+.GQPick2BL,.GQPick2BR { width:35px; cursor:pointer; height:22px; }
+.GQPick2CellYTouch .GQPick2BL,.GQPick2CellYTouch .GQPick2BR { margin-left:5px; }
+.GQPick2BL { background:url(Menu.gif?v110) no-repeat center -595px; }
+.GQPick2BR { background:url(Menu.gif?v110) no-repeat center -645px; }
+
+/* --- The calendar footer with time --- */
+
+/* Shown when EditFormat contains time definition (H or h or m or s); it is not shown for Range cells
+   For custom calendar it is shown if set TimeFormat attribute; it is not shown if set Multi:1
+   ...PickTimeCell - the whole calendar footer (<div> tag) on the same level as ...PickTableParent; @ Set border, padding, margin, background and text-align
+   ...PickTime - set to <input> tag inside ...PickTimeCell; @ Set text attributes
+*/
+.GQPickTimeCell { padding:7px 5px 6px 0px; border-top:1px solid #adf; background:#f0f6ff; text-align:right; line-height:0px; }
+.GQPickTime { 
+   font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; background:#f0f6ff; 
+   margin:0px; padding:0px; border:0px none; white-space:nowrap; text-align:right; outline:none; 
+   }
+
+/* --- The calendar footer with buttons --- */
+
+/* Contains buttons like OK, Today, Clear; shown for Range cells or when set CalendarButtons; For custom calendar is shown for Multi and for Buttons set.
+   ...PickFooter is the whole first calendar footer (<div> tag) on the same level as ...PickTableParent; @ Set border, padding, margin, background and text-align
+   ...Pick2Footer is the whole second calendar footer (<div> tag) on the same level as ...Pick2TableParent; @ Set border, padding, margin, background and text-align
+   ...PickButton is set to <button> tags; @ Set border, margin, padding, background, width, height and text attributes
+   ...PickButtonHover is added when the <button> tag is under mouse cursor; @ Set border, margin, padding, background, width, height and text attributes 
+*/
+.GQPickFooter,.GQPick2Footer { 
+   border-top:1px solid #8CA9E1; background:#f0f6ff; padding:3px 0px 3px 0px; cursor:default; text-align:center; 
+   }
+.GQPickButton {
+   background:#C8E5FF; border:1px solid #71A8D2; border-radius:5px; width:62px; margin:2px; padding-left:0px; padding-right:0px;
+   font:11.9px Arial,Helvetica,sans-serif; text-align:center; white-space:nowrap; overflow:hidden;  
+   }
+.GQPickButtonHover { background:#ffeeaa; border:1px solid #aaaadd; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                       TGLib special classes not used in TreeGrid                                        */
+/*                                                            TGLib                                                        */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* --- Edit control (TGLib only) --- */
+
+/* ...EditParent is set to temporary parent div tag if the edit is shown on given position, not inside tag; @ Do not change
+   ...Edit is set to the TGLib Edit control tag (cc="Edit"); @ Set border, margin, padding, background and text attributes
+   ...EditInline is set instead if the TGLib Edit control tag has display:inline; @ Set side border, margin, padding, background and text attributes
+   ...EditMulti is added for control with Multi:1 as multiline edit in <textarea>; @ Set border, margin, padding, background and text attributes
+*/
+.GQEditParent { position:absolute; z-index:258; overflow:hidden; }
+.GQEdit,.GQEditInline {
+   padding:2px 4px 2px 4px; font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif;
+   border:1px solid #CCC; background:#EEE; white-space:nowrap; overflow:hidden;
+   }
+.GQEditInline { display:inline-block; vertical-align:bottom; }
+.GQEditMulti { white-space:normal; }
+
+/* --- Enum control (TGLib only) --- */
+
+/* ...EnumControl is set to the TGLib Enum control tag (cc="Enum"); @ Set border, margin, padding, background and text attributes
+   ...EnumInline is set instead if the TGLib Enum control tag has display:inline; @ Set side border, margin, padding, background and text attributes
+   ...EnumHeader is used inside popup menu header ...MenuHeader tag and shows the Enum icon on left side; @ Set background, padding and text attributes and optionally border and margin
+*/
+.GQEnumControl,.GQEnumInline {
+   background:#EEE url(Menu.gif?v110) no-repeat left -800px; overflow:hidden; font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; cursor:pointer;
+   padding:2px 4px 2px 15px; border:1px solid #CCC;
+   }
+.GQEnumInline { display:inline-block; vertical-align:bottom; }
+.GQEnumHeader { background:white url(Menu.gif?v110) no-repeat left -798px; font:11.9px/13px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; cursor:pointer; padding:2px 4px 2px 15px; }
+
+/* --- Mouse dragging (TGLib only) --- */
+
+/* ...MouseOrig is set to original tag being dragged by mouse, when copying the tag
+   ...DragObject is set to ghost tag being dragged by mouse, when copying the tag
+*/
+.GQMouseOrig { background:yellow!important; opacity:0.5; filter:alpha(opacity=50); }
+.GQMouseDragObject { position:absolute; z-index:260; background:#888; opacity:0.5; filter:alpha(opacity=50); }
+
+/* --- Focused control (TGLib only) --- */
+
+.GQFocus { border:1px solid blue; background-color:white; } 
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                Cell tooltips -  Hint and Tip                                            */
+/*                                                TreeGrid (Hint) / TGLib (Tip)                                            */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ------------------- Hint ------------------- */
+
+/* Hint is shown in place of the cell content if the cell content is not shown the whole 
+   ...Main is the <div> tag absolutely positioned containing the whole hint; @ Set margin to shift the hint and background, border and padding
+   ...Outer is added to inner <div> inside ...Main along with all the cell css classes; @ Carefully set the attributes to override the cell settings
+   ...Shadow is set to <div> tag displayed under hint ...Main tag, on the same position and size; @ Set margin for the shadow shift, background, opacity and border
+   ...Header... is added to ...Main, ...Outer and ...Shadow for Header row (for every row is added ...xxx..., where xxx is the row Kind and for Header is Header)
+   ...SpaceEdit is added to ...Main, ...Outer and ...Shadow for editable Space cell (for Space cell is added also the ...xxx... as for row Kind along with the ...SpaceEdit...)
+   ...Space... is added to ...Main, ...Outer and ...Shadow for not editable Space cell (for Space cell is added also the ...xxx... as for row Kind along with the ...Space...)
+*/
+.GQHintMain {
+   position:absolute; margin-left:-2px; margin-top:-2px; padding-left:1px; padding-top:1px; left:0px; top:0px; z-index:260; 
+   background:white; cursor:default; border:1px solid #71A8D2; 
+   }
+.GQHintHeaderMain { }
+.GQHintSpaceMain { margin-left:-1px; margin-top:-1px; padding:0px; overflow:hidden; }
+.GQHintSpaceEditMain { border:0px none; background:none; margin-left:0px; margin-top:0px; padding:0px; overflow:hidden; }
+.GQHintOuter { overflow:hidden; background:white; color:black; text-align:left; border-color:white; }
+.GQHintSpaceOuter { margin-left:-1px; margin-top:-1px; background:#C8E5FF; }
+.GQHintSpaceEditOuter { }
+.GQHintHeaderOuter { background:#6CA6D1; }
+.GQHintShadow { position:absolute; margin-left:2px; margin-top:2px; z-index:259; background:#888; opacity:0.3; filter:alpha(opacity=30); }
+.GQHintSpaceShadow { margin-left:4px; margin-top:4px; }
+.GQHintSpaceEditShadow { margin-left:4px; margin-top:4px; }
+
+/* ------------------- Tip ------------------- */
+
+/* Tip is shown below mouse cursor on mouse hover the cell; Used only if set <Cfg StandardTip='0'/>
+   ...Main - main tip <div> tag absolutely positioned; @ Do not change
+   ...Outer - outer tip <div> tag inside ...Main, has set maximal width to overflow long text; @ Set border, margin, padding, background
+   ...Body - inner tip <div> tag inside ...Outer; @ Set text attributes and optionally border, margin, padding and background
+   ...Shadow - <div> tag displayed under tip ...Main tag, on the same position and size; @ Set margin for the shadow shift, background, opacity and border
+*/
+.GQTipMain { position:absolute; left:0px; top:0px; z-index:262; visibility:hidden; }
+.GQTipOuter { background:#E4E5F0 url(Backgrounds.gif?v110) repeat-x 0px -250px; border:1px solid #AAA; border-radius:12px; padding:1px 8px 1px 8px; overflow:hidden; cursor:default; }
+.GQTipBody { font:11.9px/14px "Microsoft Sans Serif",Tahoma,"Trebuchet MS",sans-serif; white-space:nowrap; }
+.GQTipShadow { position:absolute; margin-left:3px; margin-top:3px; z-index:261; background:#888; border-radius:12px; opacity:0.3; filter:alpha(opacity=30); visibility:hidden; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                 Line chart (cell type Chart)                                            */
+/*                                                            TGLib                                                        */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* ...Chart - cell type, <td> tag; @ Set border, padding and background
+   ...ChartInner - inner <div> tag containing the whole chart; @ Set background
+   ...ChartLayer - individual chart layers, <div> tags, one per TChartLine, one for Axis and one for Caption; @ Do not change
+   ...ChartAxisY - horizontal axis, <div> tag; @ Set height and background
+   ...ChartAxisX - vertical axis, <div> tag; @ Set width and background
+   ...ChartAxisYLabel, ...ChartAxisXLabel - <div> tag with labels for X and Y axes; @ Set background
+   ...ChartAxisYText, ...ChartAxisXText - <div> tag inside ...Label; @ Set text attributes and optionally background, border, margin and padding
+   ...ChartCaption - chart top caption, <div> tag; @ Set background, border, padding and text attributes
+*/
+.GQChart { padding:5px; }
+.GQChartInner { background:white; width:100%; }
+.GQChartLayer { overflow:hidden; height:1000px; }
+.GQChartAxisY { background:black; height:1px; overflow:hidden; }
+.GQChartAxisYLabel { overflow:hidden; }
+.GQChartAxisYText { margin-right:5px; margin-top:12px; text-align:right; font:12px/14px Arial,Helvetica,sans-serif; }
+.GQChartAxisX { width:1px; overflow:hidden; background:black; }
+.GQChartAxisXLabel { overflow:hidden; }
+.GQChartAxisXText { text-align:center; font:12px/14px Arial,Helvetica,sans-serif; }
+.GQChartCaption { text-align:center; font:12px/14px Arial,Helvetica,sans-serif; margin-top:3px; }
+
+/* Individual chart points for PointType value; @ Set only background 
+   ...Hover is added to point under mouse cursor
+*/
+.GQChartPoint1,.GQChartPoint2,.GQChartPoint3,.GQChartPoint4,.GQChartPoint5,.GQChartPoint6,.GQChartPoint7,.GQChartPoint8 {
+   background:url(Gantt.gif?v110) no-repeat; width:32px; height:32px; overflow:hidden; 
+   }
+.GQChartPoint1 { background-position:-892px 7px; }
+.GQChartPoint1Hover { background-position:-942px 7px; }
+.GQChartPoint2 { background-position:-992px 7px; }
+.GQChartPoint2Hover { background-position:-1042px 7px; }
+.GQChartPoint3 { background-position:-1092px 7px; }
+.GQChartPoint3Hover { background-position:-1142px 7px; }
+.GQChartPoint4 { background-position:-1192px 7px; }
+.GQChartPoint4Hover { background-position:-1242px 7px; }
+.GQChartPoint5 { background-position:-1292px 7px; }
+.GQChartPoint5Hover { background-position:-1342px 7px; }
+.GQChartPoint6 { background-position:-1392px 7px; }
+.GQChartPoint6Hover { background-position:-1442px 7px; }
+.GQChartPoint7 { background-position:-1492px 7px; }
+.GQChartPoint7Hover { background-position:-1542px 7px; }
+.GQChartPoint8 { background-position:-1592px 7px; }
+.GQChartPoint8Hover { background-position:-1642px 7px; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                      Custom scrollbars                                                  */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* Custom scrollbars shown if set CustomScroll (always) or CustomHScroll (for horizontal scrollbar only) or TouchScroll (on tablet only)
+   There are four scrollbar types for CustomScroll values 1 - 4 for different sizes, 1 - standard size, 2 - wide scrollbar, 3 - thin scrollbar, 4 - hidden scrollbar
+*/
+
+/* --- Horizontal scrollbars --- */
+
+/* ...RightHidden - shown instead of ...Right if the column section does not need to show scrollbar (but the other sections do) 
+      It is used also to calculate scrollbar height; @ Set height and background and optionally border and margin
+   ...Right - <div> tag placed inside ...HScroll... tag to show the right side arrow button; @ Set padding-right and background and optionally border, padding and margin
+   ...RightHover - used instead of ...Right under mouse cursor, to highlight the right side button
+   ...Left - <div> tag placed inside ...Right to show the left side arrow button; @ Set padding-left and background
+   ...LeftHover - used instead of ...Left under mouse cursor, to highlight the left side button
+   ...SliderRight - <div> tag placed inside ...Left... tag to show the right edge of the slider; @ Set padding-right and background and optionally border, padding and margin
+   ...SliderRightHover - used instead of ...SliderRight under mouse cursor, to highlight the right edge of the slider
+   ...SliderLeft - <div> tag placed inside ...SliderRight to show the left edge of the slider; @ Set padding-left and background
+   ...SliderLeftHover - used instead of ...SliderLeft under mouse cursor, to highlight the left edge of the slider
+   ...SliderHIn - <div> tag placed inside ...SliderLeft to show the body of the slider; Controls height of the whole scrollbar; 
+      @ Set height and background; The height must be height of ...RightHidden minus all vertical padding,border and margin of the ...Right, ...Left, ...SliderRight, ...SliderLeft and ...SliderHIn
+   ...SliderHInHover - used instead of ...SliderHIn under mouse cursor, to highlight the body of the slider
+   ...X - shown in the horizontal scrollbars row in place of vertical scrollbar; @ Set background
+*/
+.GQCustScroll1RightHidden { background:url(VScroll.gif?v110) left -108px; height:17px; }
+.GQCustScroll1Right { padding-right:17px; background:url(VScroll.gif?v110) right 0px; }
+.GQCustScroll1RightHover { padding-right:17px; background:url(VScroll.gif?v110) right -18px; }
+.GQCustScroll1Left { padding-left:17px; background:url(VScroll.gif?v110) left 0px; }
+.GQCustScroll1LeftHover { padding-left:17px; background:url(VScroll.gif?v110) left -18px; }
+.GQCustScroll1SliderRight { background:url(VScroll.gif?v110) right -36px; padding-right:1px; }
+.GQCustScroll1SliderRightHover { background:url(VScroll.gif?v110) right -72px; padding-right:1px; }
+.GQCustScroll1SliderLeft { background:url(VScroll.gif?v110) left -36px; padding-left:1px; }
+.GQCustScroll1SliderLeftHover { background:url(VScroll.gif?v110) left -72px; padding-left:1px; }
+.GQCustScroll1SliderHIn { height:17px; overflow:hidden; background:url(VScroll.gif?v110) center -54px; }
+.GQCustScroll1SliderHInHover { height:17px; overflow:hidden; background:url(VScroll.gif?v110) center -90px; }
+.GQCustScroll1X { background:#F4F4F4; cursor:default; }
+
+.GQCustScroll2RightHidden { background:url(VScroll.gif?v110) left -364px; height:34px; }
+.GQCustScroll2Right { padding-right:36px; background:url(VScroll.gif?v110) right -148px; }
+.GQCustScroll2RightHover { padding-right:36px; background:url(VScroll.gif?v110) right -184px; }
+.GQCustScroll2Left { padding-left:36px;  background:url(VScroll.gif?v110) left -148px; }
+.GQCustScroll2LeftHover { padding-left:36px;  background:url(VScroll.gif?v110) left -184px; }
+.GQCustScroll2SliderRight { background:url(VScroll.gif?v110) right -220px; padding-right:2px; }
+.GQCustScroll2SliderRightHover { background:url(VScroll.gif?v110) right -292px; padding-right:2px; }
+.GQCustScroll2SliderLeft { background:url(VScroll.gif?v110) left -220px; padding-left:2px; }
+.GQCustScroll2SliderLeftHover { background:url(VScroll.gif?v110) left -292px; padding-left:2px; }
+.GQCustScroll2SliderHIn { height:34px; overflow:hidden; background:url(VScroll.gif?v110) center -256px; }
+.GQCustScroll2SliderHInHover { height:34px; overflow:hidden; background:url(VScroll.gif?v110) center -328px; }
+.GQCustScroll2X { background:#F4F4F4; cursor:default; }
+
+.GQCustScroll3Right,.GQCustScroll3RightHidden { background:white; height:8px; }
+.GQCustScroll3SliderRight,.GQCustScroll3SliderRightHover { padding-right:3px; height:9px; background:url(VScroll.gif?v110) right -126px; }
+.GQCustScroll3SliderRightHover { background-position:right -135px; }
+.GQCustScroll3SliderLeft,.GQCustScroll3SliderLeftHover { height:8px; background:url(VScroll.gif?v110) left -126px; }
+.GQCustScroll3SliderLeftHover { background-position:left -135px; }
+.GQCustScroll3X { background:white; cursor:default; }
+
+.GQCustScroll4Right,.GQCustScroll4RightHidden,.GQCustScroll4SliderRight,.GQCustScroll4SliderRightHover { height:1px; background:#C8E5FF; }
+.GQCustScroll4X { }
+
+/* --- Vertical scrollbars --- */
+
+/* ...DownHidden - shown instead of ...Down if the grid does not need to show scrollbar and ShowVScroll='1' is set 
+      It is used also to calculate scrollbar width; @ Set width and background and optionally border and margin
+   ...Down - <div> tag placed inside ...VScroll tag to show the bottom side arrow button; @ Set padding-bottom and background and optionally border, padding and margin
+   ...DownHover - used instead of ...Down under mouse cursor, to highlight the bottom side button
+   ...Up - <div> tag placed inside ...Down to show the top side arrow button; @ Set padding-top and background
+   ...UpHover - used instead of ...Up under mouse cursor, to highlight the top side button
+   ...SliderDown - <div> tag placed inside ...Up... tag to show the bottom edge of the slider; @ Set padding-bottom and background and optionally border, padding and margin
+   ...SliderDownHover - used instead of ...SliderDown under mouse cursor, to highlight the bottom edge of the slider
+   ...SliderUp - <div> tag placed inside ...SliderDown to show the top edge of the slider; @ Set padding-top and background
+   ...SliderUpHover - used instead of ...SliderUp under mouse cursor, to highlight the top edge of the slider
+   ...SliderVIn - <div> tag placed inside ...SliderUp to show the body of the slider; @ Set background
+   ...SliderVInHover - used instead of ...SliderVIn under mouse cursor, to highlight the body of the slider
+*/
+.GQCustScroll1DownHidden { background:url(HScroll.png?v110) -108px top; width:17px; }
+.GQCustScroll1Down { padding-bottom:17px; background:url(HScroll.png?v110) 0px bottom; }
+.GQCustScroll1DownHover { padding-bottom:17px; background:url(HScroll.png?v110) -18px bottom; }
+.GQCustScroll1Up { padding-top:17px; background:url(HScroll.png?v110) 0px top; }
+.GQCustScroll1UpHover { padding-top:17px;  background:url(HScroll.png?v110) -18px top; }
+.GQCustScroll1SliderDown { background:url(HScroll.png?v110) -36px bottom; padding-bottom:1px; }
+.GQCustScroll1SliderDownHover { background:url(HScroll.png?v110) -72px bottom; padding-bottom:1px; }
+.GQCustScroll1SliderUp { background:url(HScroll.png?v110) -36px top; padding-top:1px; }
+.GQCustScroll1SliderUpHover { background:url(HScroll.png?v110) -72px top; padding-top:1px; }
+.GQCustScroll1SliderVIn { background:url(HScroll.png?v110) -54px center; }
+.GQCustScroll1SliderVInHover { background:url(HScroll.png?v110) -90px center; }
+
+.GQCustScroll2DownHidden { background:url(HScroll.png?v110) -364px top; width:34px; }
+.GQCustScroll2Down { padding-bottom:36px; background:url(HScroll.png?v110) -148px bottom; }
+.GQCustScroll2DownHover { padding-bottom:36px; background:url(HScroll.png?v110) -184px bottom; }
+.GQCustScroll2Up { padding-top:36px; background:url(HScroll.png?v110) -148px top; }
+.GQCustScroll2UpHover { padding-top:36px;  background:url(HScroll.png?v110) -184px top; }
+.GQCustScroll2SliderDown { background:url(HScroll.png?v110) -220px bottom; padding-bottom:2px; }
+.GQCustScroll2SliderDownHover { background:url(HScroll.png?v110) -292px bottom; padding-bottom:2px; }
+.GQCustScroll2SliderUp { background:url(HScroll.png?v110) -220px top; padding-top:2px; }
+.GQCustScroll2SliderUpHover { background:url(HScroll.png?v110) -292px top; padding-top:2px; }
+.GQCustScroll2SliderVIn { background:url(HScroll.png?v110) -256px center; }
+.GQCustScroll2SliderVInHover { background:url(HScroll.png?v110) -328px center; }
+
+.GQCustScroll3Down,.GQCustScroll3DownHidden { background:white; width:9px; }
+.GQCustScroll3SliderDown,.GQCustScroll3SliderDownHover { padding-bottom:3px; background:url(HScroll.png?v110) -126px bottom; }
+.GQCustScroll3SliderDownHover { background-position:-135px bottom; }
+.GQCustScroll3SliderUp,.GQCustScroll3SliderUpHover { background:url(HScroll.png?v110) -126px top; }
+.GQCustScroll3SliderUpHover { background-position:-135px top; }
+
+.GQCustScroll4Down,.GQCustScroll4DownHidden,.GQCustScroll4SliderDown,.GQCustScroll4SliderDownHover { width:0px; }
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/*                                                       System settings                                                   */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* --------------- Debug print ----------------- */
+/* ! Note, here is no .GQ style prefix
+   Controls the default debug window shown bottom the page, controlled by <bdo Debug> attribute
+   ...Tag - <div> tag containing the debug print; @ Set position attributes, background, border and padding
+   ...TagMax - used instead of ...Tag when maximized by clicking to Max button
+   ...Buttons - <div> tag placed next to ...Tag to show the debug control buttons; @ Set position attributes, background, border and padding
+   ...ButtonsMax - used instead of ...Buttons when maximized by clicking to Max button
+*/
+.GridDebugTag,.GridDebugTagMax { overflow:auto; overflow-y:scroll; border:1px solid black; background:#DDD; }
+.GridDebugTag,.GridDebugTagMax,.GridDebugButtons,.GridDebugButtonsMax {
+   position:fixed; z-index:256; left:5px; right:5px; bottom:5px; height:200px; padding:4px;
+   position:absolute!IE;
+   left:expression((5+(document.compatMode=="CSS1Compat"?document.documentElement.scrollLeft:document.body.scrollLeft))+"px")!IE;
+   width:expression((-10+(document.compatMode=="CSS1Compat"?document.documentElement.clientWidth-8:document.body.clientWidth))+"px")!IE;
+   top:expression((-205+(document.compatMode=="CSS1Compat"?document.documentElement.scrollTop+document.documentElement.clientHeight-8:document.body.scrollTop+document.body.clientHeight))+"px")!IE;
+   }
+.GridDebugTagMax,.GridDebugButtonsMax {
+   top:5px; height:auto; 
+   top:expression((5+(document.compatMode=="CSS1Compat"?document.documentElement.scrollTop:document.body.scrollTop))+"px")!IE;
+   height:expression((-10+(document.compatMode=="CSS1Compat"?document.documentElement.clientHeight-8:document.body.clientHeight))+"px")!IE;
+   }
+.GridDebugButtons,.GridDebugButtonsMax {
+   text-align:right; margin-right:25px; width:130px; left:auto;
+   left:expression((-155+(document.compatMode=="CSS1Compat"?document.documentElement.clientWidth-8:document.body.clientWidth))+"px")!IE;
+   }
+
+/* Individual parts of the debug print
+   ...Button - one debug button, <button> tag placed inside ...Buttons; @ Set width, height, background, border, padding, margin and text attributes
+   ...Title - <span> tag with grid or print identification; @ Set text attributes and background
+   ...Mark - <span> tag that highlights some information, e.g. actual values; @ Set text attributes and background
+   ...Stop (0), ...Error (1), ...Warning (2), ...List (3), ...Info (>3) - <div> or <span> tag containing the information according to the debug level number; @ Set text attributes and background
+*/
+.GridDebugButton { font-size:10px; width:40px; padding:0px; }
+.GridDebugTitle { font-size:10px; color:blue; font-style:normal;font-weight:normal; }
+.GridDebugMark { font-weight:bold; }
+.GridDebugStop { font-size:18px; font-weight:bold; color:red; }
+.GridDebugError { font-size:12px; color:red; }
+.GridDebugWarning { font-size:12px; color:#A60;}
+.GridDebugList { font-size:10px; color:#888;}
+.GridDebugInfo { font-size:12px; }
+
+/* ------------------- Other settings ------------------- */
+
+/* Class added to <body> tag when printing grid to actual page or to new window (for PrintLocation != 2); @ Set any <body> attribute
+*/
+.GQBodyPrint { margin:0px!important; padding:0px!important; border:0px none!important; background:none!important; }
+
+/* Temporary tag used for some calculations; @ Do not change; ! Note, here is no .GQ style prefix */
+.GridTmpTag { position:absolute; left:5px; top:5px; visibility:hidden; } 
+
+/* Tag added to disable whole page, e.g. when showing modal dialog. ! Note, here is no .GQ style prefix
+   Note, to disable only the grid is used .GQDisabled class instead (e.g. when showing message in grid).
+   @ Set background and opacity, optionally margin and padding
+*/
+.GridDisabled { position:absolute; z-index:256; background:white; opacity:0.5; filter:alpha(opacity=50); } 
+
+/* Tag where the grid is rendered and also where all the support absolute tags are rendered (e.g. cursors, dialogs or messages). ! Note, here is no .GQ style prefix
+   @ Increase z-index if the grid or its menus or cursors are not shown as expected. But it is usually better to set <Cfg ZIndex/> instead.
+*/
+.GridMain { z-index:255; }
+
+/* Marks the style loaded; must be the last class in the file; @ Do not change */
+.GQLoaded { border:1px solid black!important; }
