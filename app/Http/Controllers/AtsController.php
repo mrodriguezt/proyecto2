@@ -20,8 +20,9 @@ class AtsController extends Controller
        $mes = $request["mes"];
        $compania = $request["compania"];
        $ruc = \DB::connection('oracle')->table('COMPANY_INVOICE_INFO')
-           ->where('COMPANY', $compania)
-           ->select('VAT_NO')
+           ->join('COMPANY', 'COMPANY.COMPANY', '=', 'COMPANY_INVOICE_INFO.COMPANY')
+           ->where('COMPANY_INVOICE_INFO.COMPANY', $compania)
+           ->select('COMPANY_INVOICE_INFO.VAT_NO','COMPANY.NAME')
            ->get()->first();
 
        if ($compania == "EC03") {
@@ -35,6 +36,8 @@ class AtsController extends Controller
        $nodo = $xml->createElement('TipoIDInformante','R');
        $nodo = $raiz->appendChild($nodo);
        $nodo = $xml->createElement('IdInformante',$ruc->vat_no);
+       $nodo = $raiz->appendChild($nodo);
+       $nodo = $xml->createElement('razonSocial',str_replace("&","",$ruc->name));
        $nodo = $raiz->appendChild($nodo);
        $nodo = $xml->createElement('Anio',$anio);
        $nodo = $raiz->appendChild($nodo);
@@ -69,114 +72,117 @@ class AtsController extends Controller
        foreach ($atsCompras as $atsCompra) {
            $detalleCompras = $xml->createElement('detalleCompras');
            $detalleCompras = $compras->appendChild($detalleCompras);
-           $nodo = $xml->createElement('codSustento',$atsCompra->c_sustenance_id);
+           $nodo = $xml->createElement('codSustento', $atsCompra->c_sustenance_id);
            $detalleCompras->appendChild($nodo);
-           $nodo = $xml->createElement('tpIdProv',$atsCompra->tax_id_type);
+           $nodo = $xml->createElement('tpIdProv', $atsCompra->tax_id_type);
            $detalleCompras->appendChild($nodo);
-           $nodo = $xml->createElement('idProv',$atsCompra->identity);
+           $nodo = $xml->createElement('idProv', $atsCompra->identity);
            $detalleCompras->appendChild($nodo);
-           $invoice = explode("-",$atsCompra->invoice_no);
-           $nodo = $xml->createElement('tipoComprobante',$atsCompra->series_id);
+           $invoice = explode("-", $atsCompra->invoice_no);
+           $nodo = $xml->createElement('tipoComprobante', $atsCompra->series_id);
            $detalleCompras->appendChild($nodo);
-           if($atsCompra->c_supp_rel_party==null || $atsCompra->c_supp_rel_party==""){
-               $atsCompra->c_supp_rel_party="NO";
+           if ($atsCompra->c_supp_rel_party == null || $atsCompra->c_supp_rel_party == "") {
+               $atsCompra->c_supp_rel_party = "NO";
            }
-            $nodo = $xml->createElement('parteRel',$atsCompra->c_supp_rel_party);
+           $nodo = $xml->createElement('parteRel', $atsCompra->c_supp_rel_party);
            $detalleCompras->appendChild($nodo);
-           if($atsCompra->person_type=="Physical"){
-               $atsCompra->person_type="01";
-           }else{
-               if($atsCompra->person_type=="Juridical"){
-                   $atsCompra->person_type="02";
+           if ($atsCompra->tax_id_type == "03") {
+               if ($atsCompra->person_type == "Physical") {
+                   $atsCompra->person_type = "01";
+               } else {
+                   if ($atsCompra->person_type == "Juridical") {
+                       $atsCompra->person_type = "02";
+                   }
                }
+               $nodo = $xml->createElement('tipoProv', $atsCompra->person_type);
+               $detalleCompras->appendChild($nodo);
+               $nodo = $xml->createElement('denopr', strval(str_replace('&', '', $atsCompra->name)));
+               $detalleCompras->appendChild($nodo);
+
            }
-            $nodo = $xml->createElement('tipoProv',$atsCompra->person_type);
+           $nodo = $xml->createElement('fechaRegistro', date('d/m/Y', strtotime($atsCompra->voucher_date_ref)));
            $detalleCompras->appendChild($nodo);
-           $nodo = $xml->createElement('denopr',strval(str_replace('&','',$atsCompra->name)));
+           $nodo = $xml->createElement('establecimiento', $invoice[0]);
            $detalleCompras->appendChild($nodo);
-           $nodo = $xml->createElement('fechaRegistro',date('d/m/Y',strtotime($atsCompra->voucher_date_ref)));
+           $nodo = $xml->createElement('puntoEmision', $invoice[1]);
            $detalleCompras->appendChild($nodo);
-           $nodo = $xml->createElement('establecimiento',$invoice[0]);
+           $nodo = $xml->createElement('secuencial', intval($invoice[2]));
            $detalleCompras->appendChild($nodo);
-            $nodo = $xml->createElement('puntoEmision',$invoice[1]);
+           $nodo = $xml->createElement('fechaEmision', date('d/m/Y', strtotime($atsCompra->invoice_date)));
            $detalleCompras->appendChild($nodo);
-            $nodo = $xml->createElement('secuencial',intval($invoice[2]));
-           $detalleCompras->appendChild($nodo);
-            $nodo = $xml->createElement('fechaEmision',date('d/m/Y',strtotime($atsCompra->invoice_date)));
-           $detalleCompras->appendChild($nodo);
-            $nodo = $xml->createElement('autorizacion',$atsCompra->c_auth_id_sri);
+           $nodo = $xml->createElement('autorizacion', $atsCompra->c_auth_id_sri);
            $detalleCompras->appendChild($nodo);
            $gngiva = \DB::connection('oracle')->table('MAN_SUPP_INVOICE_ITEM')
-                ->where('INVOICE_ID',$atsCompra->invoice_id)
-                ->where('VAT_CODE','IVA_COM_0%_NO_OBJETO')
+               ->where('INVOICE_ID', $atsCompra->invoice_id)
+               ->where('VAT_CODE', 'IVA_COM_0%_NO_OBJETO')
                ->select(\DB::connection('oracle')->raw('SUM(NET_CURR_AMOUNT) as basenograiva'))
                ->get()->first();
-            if(isset($gngiva->basenograiva)) {
-                $nodo = $xml->createElement('baseNoGraIva', number_format($gngiva->basenograiva,2));
-            }else{
-                $nodo = $xml->createElement('baseNoGraIva', "0.00");
-            }
+           if (isset($gngiva->basenograiva)) {
+               $nodo = $xml->createElement('baseNoGraIva', $gngiva->basenograiva);
+           } else {
+               $nodo = $xml->createElement('baseNoGraIva', "0.00");
+           }
            $detalleCompras->appendChild($nodo);
-            $gngiva = \DB::connection('oracle')->table('MAN_SUPP_INVOICE_ITEM')
-                ->where('INVOICE_ID',$atsCompra->invoice_id)
-                ->whereIn('VAT_CODE',['IVA_COM_0%_BS','IVA_COM_0%_RISE','IVA_COM_0%_RI','IVA_COM_0%_SCAMP'])
+           $gngiva = \DB::connection('oracle')->table('MAN_SUPP_INVOICE_ITEM')
+               ->where('INVOICE_ID', $atsCompra->invoice_id)
+               ->whereIn('VAT_CODE', ['IVA_COM_0%_BS', 'IVA_COM_0%_RISE', 'IVA_COM_0%_RI', 'IVA_COM_0%_SCAMP'])
                ->select(\DB::connection('oracle')->raw('SUM(NET_CURR_AMOUNT) as base0iva'))
                ->get()->first();
-            if(isset($gngiva->base0iva)) {
-                $nodo = $xml->createElement('baseImponible', number_format($gngiva->base0iva,2));
-            }else{
-                $nodo = $xml->createElement('baseImponible', "0.00");
-            }
+           if (isset($gngiva->base0iva)) {
+               $nodo = $xml->createElement('baseImponible', $gngiva->base0iva);
+           } else {
+               $nodo = $xml->createElement('baseImponible', "0.00");
+           }
            $detalleCompras->appendChild($nodo);
-            $gngiva = \DB::connection('oracle')->table('MAN_SUPP_INVOICE_ITEM')
-                ->where('INVOICE_ID',$atsCompra->invoice_id)
-                ->whereIn('VAT_CODE',['IVA_COM_12%_AF_CT','IVA_COM_12%_BS_CT','IVA_COM_12%_BS_SCT','IVA_COM_12%_RI'])
+           $gngiva = \DB::connection('oracle')->table('MAN_SUPP_INVOICE_ITEM')
+               ->where('INVOICE_ID', $atsCompra->invoice_id)
+               ->whereIn('VAT_CODE', ['IVA_COM_12%_AF_CT', 'IVA_COM_12%_BS_CT', 'IVA_COM_12%_BS_SCT', 'IVA_COM_12%_RI'])
                ->select(\DB::connection('oracle')->raw('SUM(NET_CURR_AMOUNT) as base12iva'))
                ->get()->first();
 
-            if(isset($gngiva->base12iva)) {
-                $nodo = $xml->createElement('baseImpGrav', number_format($gngiva->base12iva,2));
-            }else{
-                $nodo = $xml->createElement('baseImpGrav', "0.00");
-            }
+           if (isset($gngiva->base12iva)) {
+               $nodo = $xml->createElement('baseImpGrav', $gngiva->base12iva);
+           } else {
+               $nodo = $xml->createElement('baseImpGrav', "0.00");
+           }
            $detalleCompras->appendChild($nodo);
            $nodo = $xml->createElement('baseImpExe', "0.00");
            $detalleCompras->appendChild($nodo);
            $nodo = $xml->createElement('montoICE', "0.00");
            $detalleCompras->appendChild($nodo);
-           $nodo = $xml->createElement('montoIva', number_format($atsCompra->vat_curr_amount,2));//VAT_CURR_AMOUNT
+           $nodo = $xml->createElement('montoIva', $atsCompra->vat_curr_amount);//VAT_CURR_AMOUNT
            $detalleCompras->appendChild($nodo);
-          // echo $atsCompra->invoice_id."---";
+           // echo $atsCompra->invoice_id."---";
            $retencion = \DB::connection('oracle')->table('C_VOUCHER_RETENTION_LINE')
-               ->where('INVOICE_ID',$atsCompra->invoice_id)
-               ->where('TAX_CODE','721A')
+               ->where('INVOICE_ID', $atsCompra->invoice_id)
+               ->where('TAX_CODE', '721A')
                ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'99999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
                ->get()->first();
-           if(isset($retencion->valorretencion)) {
-               $nodo = $xml->createElement('valRetBien10', number_format($retencion->valorretencion,2));
-           }else{
+           if (isset($retencion->valorretencion)) {
+               $nodo = $xml->createElement('valRetBien10', $retencion->valorretencion);
+           } else {
                $nodo = $xml->createElement('valRetBien10', "0.00");
            }
            $detalleCompras->appendChild($nodo);
            $retencion = \DB::connection('oracle')->table('C_VOUCHER_RETENTION_LINE')
-               ->where('INVOICE_ID',$atsCompra->invoice_id)
-               ->where('TAX_CODE','723A')
+               ->where('INVOICE_ID', $atsCompra->invoice_id)
+               ->where('TAX_CODE', '723A')
                ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'99999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
                ->get()->first();
-           if(isset($retencion->valorretencion)) {
-               $nodo = $xml->createElement('valRetServ20', number_format($retencion->valorretencion,2));
-           }else{
+           if (isset($retencion->valorretencion)) {
+               $nodo = $xml->createElement('valRetServ20', $retencion->valorretencion);
+           } else {
                $nodo = $xml->createElement('valRetServ20', "0.00");
            }
            $detalleCompras->appendChild($nodo);
            $retencion = \DB::connection('oracle')->table('C_VOUCHER_RETENTION_LINE')
-               ->where('INVOICE_ID',$atsCompra->invoice_id)
-               ->where('TAX_CODE','725A')
+               ->where('INVOICE_ID', $atsCompra->invoice_id)
+               ->where('TAX_CODE', '725A')
                ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'99999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
                ->get()->first();
-           if(isset($retencion->valorretencion)) {
-               $nodo = $xml->createElement('valorRetBienes', number_format($retencion->valorretencion,2));
-           }else{
+           if (isset($retencion->valorretencion)) {
+               $nodo = $xml->createElement('valorRetBienes', $retencion->valorretencion);
+           } else {
                $nodo = $xml->createElement('valorRetBienes', "0.00");
            }
            $detalleCompras->appendChild($nodo);
@@ -184,24 +190,24 @@ class AtsController extends Controller
            $detalleCompras->appendChild($nodo);
 
            $retencion = \DB::connection('oracle')->table('C_VOUCHER_RETENTION_LINE')
-               ->where('INVOICE_ID',$atsCompra->invoice_id)
-               ->where('TAX_CODE','727A')
+               ->where('INVOICE_ID', $atsCompra->invoice_id)
+               ->where('TAX_CODE', '727A')
                ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'99999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
                ->get()->first();
-           if(isset($retencion->valorretencion)) {
-               $nodo = $xml->createElement('valorRetServicios', number_format($retencion->valorretencion,2));
-           }else{
+           if (isset($retencion->valorretencion)) {
+               $nodo = $xml->createElement('valorRetServicios', $retencion->valorretencion);
+           } else {
                $nodo = $xml->createElement('valorRetServicios', "0.00");
            }
            $detalleCompras->appendChild($nodo);
            $retencion = \DB::connection('oracle')->table('C_VOUCHER_RETENTION_LINE')
-               ->where('INVOICE_ID',$atsCompra->invoice_id)
-               ->where('TAX_CODE','729A')
+               ->where('INVOICE_ID', $atsCompra->invoice_id)
+               ->where('TAX_CODE', '729A')
                ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'99999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
                ->get()->first();
-           if(isset($retencion->valorretencion)) {
-               $nodo = $xml->createElement('valRetServ100', number_format($retencion->valorretencion,2));
-           }else{
+           if (isset($retencion->valorretencion)) {
+               $nodo = $xml->createElement('valRetServ100', $retencion->valorretencion);
+           } else {
                $nodo = $xml->createElement('valRetServ100', "0.00");
            }
            $detalleCompras->appendChild($nodo);
@@ -214,7 +220,7 @@ class AtsController extends Controller
            $pagoExterior->appendChild($nodo);
 
            //C_REG_TYPE_ID
-           if($atsCompra->id_payment_type!='01') {
+           if ($atsCompra->id_payment_type != '01') {
                $nodo = $xml->createElement('tipoRegi', $atsCompra->c_reg_type_id);
                $pagoExterior->appendChild($nodo);
                //COUNTRY_CODE_SRI
@@ -231,82 +237,82 @@ class AtsController extends Controller
                $pagoExterior->appendChild($nodo);
            }
            //C_DOUBLE_TRIBUTATION_DB
-           if($atsCompra->c_double_tributation_db=="") {
+           if ($atsCompra->c_double_tributation_db == "") {
                $atsCompra->c_double_tributation_db = "NO";
            }
            $nodo = $xml->createElement('aplicConvDobTrib', $atsCompra->c_double_tributation_db);
            $pagoExterior->appendChild($nodo);
            //C_SUBJECT_RETENTION
-           if($atsCompra->c_subject_retention=="") {
+           if ($atsCompra->c_subject_retention == "") {
                $atsCompra->c_subject_retention = "NO";
            }
            $nodo = $xml->createElement('pagExtSujRetNorLeg', $atsCompra->c_subject_retention);
            $pagoExterior->appendChild($nodo);
            //C_SUBJECT_RETENTION
-           if($atsCompra->c_subject_retention=="") {
+           if ($atsCompra->c_subject_retention == "") {
                $atsCompra->c_subject_retention = "NO";
            }
-           $pagoRegFis="";
-           if($atsCompra->id_payment_type=='03') {
-                $pagoRegFis="SI";
-           }else{
-               $pagoRegFis="NO";
+           $pagoRegFis = "";
+           if ($atsCompra->id_payment_type == '03') {
+               $pagoRegFis = "SI";
+           } else {
+               $pagoRegFis = "NO";
            }
            $nodo = $xml->createElement('pagoRegFis', $pagoRegFis);
            $pagoExterior->appendChild($nodo);
            $nodo = $xml->createElement('formaPago', '20');
 
            $pagoExterior->appendChild($nodo);
-            if($atsCompra->series_id!="41") {
-                $air = $xml->createElement('air');
-                $air = $detalleCompras->appendChild($air);
+           if ($atsCompra->series_id != "41") {
+               $air = $xml->createElement('air');
+               $air = $detalleCompras->appendChild($air);
 
-                $retenciones = \DB::connection('oracle')->table('C_VOUCHER_RETENTION_LINE')
-                    ->where('INVOICE_ID', $atsCompra->invoice_id)
-                    ->whereRaw('TAX_CODE NOT LIKE \'7%\'', [])
-                    ->select('TAX_CODE', 'BASE_VALUE', 'TAX_CODE_PERC', 'RETENTION_VALUE')
-                    ->get();
+               $retenciones = \DB::connection('oracle')->table('C_VOUCHER_RETENTION_LINE')
+                   ->where('INVOICE_ID', $atsCompra->invoice_id)
+                   ->whereRaw('TAX_CODE NOT LIKE \'7%\'', [])
+                   ->select('TAX_CODE', 'BASE_VALUE', 'TAX_CODE_PERC', 'RETENTION_VALUE')
+                   ->get();
 
-                foreach ($retenciones as $ret) {
+               foreach ($retenciones as $ret) {
 
-                    $detalleAir = $xml->createElement('detalleAir');
-                    $detalleAir = $air->appendChild($detalleAir);
-                    $nodo = $xml->createElement('codRedAir', $ret->tax_code);
-                    $detalleAir->appendChild($nodo);
-                    $nodo = $xml->createElement('baseImpdAir', floatval($ret->base_value));
-                    $detalleAir->appendChild($nodo);
-                    $nodo = $xml->createElement('porcentajeAir', floatval($ret->tax_code_perc));
-                    $detalleAir->appendChild($nodo);
-                    $nodo = $xml->createElement('valRetAir', floatval($ret->retention_value));
-                    $detalleAir->appendChild($nodo);
-                }
-                $retencion = \DB::connection('oracle')->table('C_VOUCHER_RETENTION')
-                    ->where('INVOICE_ID', $atsCompra->invoice_id)
-                    ->select('RETENTION_NO', 'RETENTION_DATE', \DB::connection('oracle')->raw('C_ELECTRONIC_INVOICE_AUTH_API.Get_C_Auth_Id_Sri(COMPANY,C_INVOICE_ID) as AUTH_SRI'))
-                    ->get()->first();
-                if (isset($retencion->retention_no)) {
-                    $RETENTION_NO = $retencion->retention_no;
-                    $aRetention = explode("-", $RETENTION_NO);
-                    $nodo = $xml->createElement('estabRetencion1', $aRetention[0]);
-                    $detalleCompras->appendChild($nodo);
-                    $nodo = $xml->createElement('ptoEmiRetencion1', $aRetention[1]);
-                    $detalleCompras->appendChild($nodo);
-                    $nodo = $xml->createElement('secRetencion1', intval($aRetention[2]));
-                    $detalleCompras->appendChild($nodo);
-                    $nodo = $xml->createElement('autRetencion1', $retencion->auth_sri);
-                    $detalleCompras->appendChild($nodo);
-                    $nodo = $xml->createElement('fechaEmiRet1', date('d/m/Y', strtotime($retencion->retention_date)));
-                    $detalleCompras->appendChild($nodo);
-                }
-                //'MAN_SUPP_INVOICE.,INVOICE_NO','MAN_SUPP_INVOICE.SERIES_ID'
-            }
-           if(isset($atsCompra->c_invoice_no) && $atsCompra->c_invoice_no!=null) {
+                   $detalleAir = $xml->createElement('detalleAir');
+                   $detalleAir = $air->appendChild($detalleAir);
+                   $nodo = $xml->createElement('codRetAir', $ret->tax_code);
+                   $detalleAir->appendChild($nodo);
+                   $nodo = $xml->createElement('baseImpdAir', floatval($ret->base_value));
+                   $detalleAir->appendChild($nodo);
+                   $nodo = $xml->createElement('porcentajeAir', floatval($ret->tax_code_perc));
+                   $detalleAir->appendChild($nodo);
+                   $nodo = $xml->createElement('valRetAir', floatval($ret->retention_value));
+                   $detalleAir->appendChild($nodo);
+               }
+               $retencion = \DB::connection('oracle')->table('C_VOUCHER_RETENTION')
+                   ->where('INVOICE_ID', $atsCompra->invoice_id)
+                   ->select('RETENTION_NO', 'RETENTION_DATE', \DB::connection('oracle')->raw('C_ELECTRONIC_INVOICE_AUTH_API.Get_C_Auth_Id_Sri(COMPANY,C_INVOICE_ID) as AUTH_SRI'))
+                   ->get()->first();
+               if (isset($retencion->retention_no)) {
+                   $RETENTION_NO = $retencion->retention_no;
+                   $aRetention = explode("-", $RETENTION_NO);
+                   $nodo = $xml->createElement('estabRetencion1', $aRetention[0]);
+                   $detalleCompras->appendChild($nodo);
+                   $nodo = $xml->createElement('ptoEmiRetencion1', $aRetention[1]);
+                   $detalleCompras->appendChild($nodo);
+                   $nodo = $xml->createElement('secRetencion1', intval($aRetention[2]));
+                   $detalleCompras->appendChild($nodo);
+                   $nodo = $xml->createElement('autRetencion1', $retencion->auth_sri);
+                   $detalleCompras->appendChild($nodo);
+                   $nodo = $xml->createElement('fechaEmiRet1', date('d/m/Y', strtotime($retencion->retention_date)));
+                   $detalleCompras->appendChild($nodo);
+               }
+               //'MAN_SUPP_INVOICE.,INVOICE_NO','MAN_SUPP_INVOICE.SERIES_ID'
+           }
+           if (isset($atsCompra->c_invoice_no) && $atsCompra->c_invoice_no != null) {
                //select C_AUTH_ID_SRI from MAN_SUPP_INVOICE where INVOICE_NO = '001-007-000009824' AND COMPANY;
                $authSri = \DB::connection('oracle')->table('MAN_SUPP_INVOICE')
-               ->where('INVOICE_NO',$atsCompra->c_invoice_no)
-               ->where('COMPANY',$compania)
-               ->select('C_AUTH_ID_SRI')
-               ->get()->first();
+                   ->where('INVOICE_NO', $atsCompra->c_invoice_no)
+                   ->where('COMPANY', $compania)
+                   ->select('C_AUTH_ID_SRI')
+                   ->get()->first();
                $nodo = $xml->createElement('docModificado', $atsCompra->c_series_id);
                $detalleCompras->appendChild($nodo);
                $INVOICE_NO = explode("-", $atsCompra->c_invoice_no);
@@ -319,53 +325,54 @@ class AtsController extends Controller
                $nodo = $xml->createElement('autModificado', $authSri->c_auth_id_sri);
                $detalleCompras->appendChild($nodo);
            }
+           if ($atsCompra->series_id == "41") {
+               $reembolsos = $xml->createElement('reembolsos');
+               $reembolsos = $detalleCompras->appendChild($reembolsos);
+               $reembolsosDB = \DB::connection('oracle')->table('C_REFUND_INVOICE_LINE')
+                   ->where('INVOICE_ID', $atsCompra->invoice_id)
+                   ->where('COMPANY', $compania)
+                   ->select('SUPPLIER_ID', 'SERIES_ID', 'INVOICE_NO', 'INVOICE_DATE', 'C_AUTH_ID_SRI', 'BASE_AMOUNT0_VAT', 'BASE_AMOUNT_N_VAT', 'BASE_AMOUNT_NO_VAT', 'VAT_AMOUNT', 'ICE_AMOUNT', 'TAX_ID_TYPE')
+                   ->get();
+               $totbasesImpReemb = 0;
+               foreach ($reembolsosDB as $rem) {
+                   $reembolso = $xml->createElement('reembolso');
+                   $reembolso = $reembolsos->appendChild($reembolso);
+                   $nodo = $xml->createElement('tipoComprobanteReemb', $rem->series_id);
+                   $reembolso->appendChild($nodo);
+                   $nodo = $xml->createElement('tpIdProvReemb', $rem->tax_id_type);
+                   $reembolso->appendChild($nodo);
+                   $nodo = $xml->createElement('idProvReemb', $rem->supplier_id);
+                   $reembolso->appendChild($nodo);
+                   $INVOICE_NO = explode("-", $rem->invoice_no);
+                   $nodo = $xml->createElement('establecimientoReemb', $INVOICE_NO[0]);
+                   $reembolso->appendChild($nodo);
+                   $nodo = $xml->createElement('puntoEmisionReemb', $INVOICE_NO[1]);
+                   $reembolso->appendChild($nodo);
+                   $nodo = $xml->createElement('secuencialReemb', $INVOICE_NO[2]);
+                   $reembolso->appendChild($nodo);
+                   $nodo = $xml->createElement('autorizacionReemb', $rem->c_auth_id_sri);
+                   $reembolso->appendChild($nodo);
+                   $nodo = $xml->createElement('baseImponibleReemb', $rem->base_amount0_vat);
+                   $reembolso->appendChild($nodo);
+                   $nodo = $xml->createElement('baseImpGravReemb', $rem->base_amount_n_vat);
+                   $reembolso->appendChild($nodo);
+                   $nodo = $xml->createElement('baseNoGraIvaReemb', $rem->base_amount_no_vat);
+                   $reembolso->appendChild($nodo);
+                   $nodo = $xml->createElement('baseImpExeReemb', "0.00");
+                   $reembolso->appendChild($nodo);
+                   $totbasesImpReemb += floatval($rem->base_amount0_vat) + floatval($rem->base_amount_n_vat) + floatval($rem->base_amount_no_vat);
 
-           $reembolsos = $xml->createElement('reembolsos');
-           $reembolsos = $detalleCompras->appendChild($reembolsos);
-           $reembolsosDB = \DB::connection('oracle')->table('C_REFUND_INVOICE_LINE')
-               ->where('INVOICE_ID',$atsCompra->invoice_id)
-               ->where('COMPANY',$compania)
-               ->select('SUPPLIER_ID','SERIES_ID','INVOICE_NO','INVOICE_DATE','C_AUTH_ID_SRI','BASE_AMOUNT0_VAT','BASE_AMOUNT_N_VAT','BASE_AMOUNT_NO_VAT','VAT_AMOUNT','ICE_AMOUNT','TAX_ID_TYPE')
-               ->get();
-           $totbasesImpReemb=0;
-            foreach($reembolsosDB as $rem){
-                $reembolso = $xml->createElement('reembolso');
-                $reembolso = $reembolsos->appendChild($reembolso);
-                $nodo = $xml->createElement('tipoComprobanteReemb', $rem->series_id);
-                $reembolso->appendChild($nodo);
-                $nodo = $xml->createElement('tpIdProvReemb', $rem->tax_id_type);
-                $reembolso->appendChild($nodo);
-                $nodo = $xml->createElement('idProvReemb', $rem->supplier_id);
-                $reembolso->appendChild($nodo);
-                $INVOICE_NO = explode("-",$rem->invoice_no);
-                $nodo = $xml->createElement('establecimientoReemb', $INVOICE_NO[0]);
-                $reembolso->appendChild($nodo);
-                $nodo = $xml->createElement('puntoEmisionReemb', $INVOICE_NO[1]);
-                $reembolso->appendChild($nodo);
-                $nodo = $xml->createElement('secuencialReemb', $INVOICE_NO[2]);
-                $reembolso->appendChild($nodo);
-                $nodo = $xml->createElement('autorizacionReemb',  $rem->c_auth_id_sri);
-                $reembolso->appendChild($nodo);
-                $nodo = $xml->createElement('baseImponibleReemb',  number_format($rem->base_amount0_vat,2));
-                $reembolso->appendChild($nodo);
-                $nodo = $xml->createElement('baseImpGravReemb',  number_format($rem->base_amount_n_vat,2));
-                $reembolso->appendChild($nodo);
-                $nodo = $xml->createElement('baseNoGraIvaReemb',  number_format($rem->base_amount_no_vat,2));
-                $reembolso->appendChild($nodo);
-                $nodo = $xml->createElement('baseImpExeReemb',  "0.00");
-                $reembolso->appendChild($nodo);
-                $totbasesImpReemb += floatval($rem->base_amount0_vat)+floatval($rem->base_amount_n_vat)+floatval( $rem->base_amount_no_vat);
+                   $nodo = $xml->createElement('montoIceReemb', $rem->ice_amount);
+                   $reembolso->appendChild($nodo);
+                   $nodo = $xml->createElement('montoIvaRemb', $rem->vat_amount);
+                   $reembolso->appendChild($nodo);
+               }
+               
+                   $nodo = $xml->createElement('totbasesImpReemb', $totbasesImpReemb);
+                   $detalleCompras->appendChild($nodo);
 
-                $nodo = $xml->createElement('montoIceReemb',  number_format($rem->ice_amount,2));
-                $reembolso->appendChild($nodo);
-                $nodo = $xml->createElement('montoIvaRemb',  number_format($rem->vat_amount,2));
-                $reembolso->appendChild($nodo);
-            }
-           if($atsCompra->series_id!="41") {
-               $nodo = $xml->createElement('totbasesImpReemb', $totbasesImpReemb);
-               $detalleCompras->appendChild($nodo);
            }
-        }
+       }
        $ventasNodo = $xml->createElement('ventas');
        $ventasNodo = $raiz->appendChild($ventasNodo);
        $atsVentas = \DB::connection('oracle')->table('INSTANT_INVOICE')
@@ -815,6 +822,30 @@ class AtsController extends Controller
                $detalleAnulados->appendChild($nodo);
            }
        }
+
+/*
+       $exportacionesNodo = $xml->createElement('exportaciones');
+       $exportacionesNodo = $raiz->appendChild($exportacionesNodo);
+
+       $exportaciones= \DB::connection('oracle')->table('INSTANT_INVOICE')
+           ->join('CUSTOMER_INFO', 'INSTANT_INVOICE.IDENTITY', '=', 'customer_info.customer_id')
+           ->join('C_INVOIC_EXPORTATION_DATA', 'C_INVOIC_EXPORTATION_DATA.INVOICE_ID', '=', 'INSTANT_INVOICE.INVOICE_ID')
+           ->join('CUSTOMER_INFO_VAT', 'customer_info.customer_id', '=', 'customer_info_vat.customer_id')
+           ->where('INSTANT_INVOICE.invoice_type','Like','EXPORTACIO%')
+           ->where('INSTANT_INVOICE.COMPANY', $compania)
+           ->whereNotIn('INSTANT_INVOICE.OBJSTATE',['Preliminary','Cancelled'])
+           ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+           ->select('CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','INSTANT_INVOICE.SERIES_ID')
+           ->get();
+       foreach ($exportaciones as $exportacion) {
+           $detalleExportaciones = $xml->createElement('detalleExportaciones');
+           $detalleExportaciones = $exportacionesNodo->appendChild($detalleExportaciones);
+           $nodo = $xml->createElement('tipoComprobante', str_replace("_BO","",$exportacion->tax_id_type));
+           $detalleExportaciones->appendChild($nodo);
+           $nodo = $xml->createElement('idClienteEx', $exportacion->customer_id);
+           $detalleExportaciones->appendChild($nodo);
+       }
+*/
        $xml->formatOutput = true;
        $el_xml = $xml->saveXML();
 
