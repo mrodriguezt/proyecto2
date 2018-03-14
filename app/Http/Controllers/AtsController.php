@@ -173,7 +173,7 @@ class AtsController extends Controller
            $detalleCompras->appendChild($nodo);
            $nodo = $xml->createElement('baseImpExe', "0.00");
            $detalleCompras->appendChild($nodo);
-           $nodo = $xml->createElement('montoICE', "0.00");
+           $nodo = $xml->createElement('montoIce', "0.00");
            $detalleCompras->appendChild($nodo);
            $nodo = $xml->createElement('montoIva', number_format(abs(floatval($atsCompra->vat_curr_amount)),2,".",""));
 
@@ -599,7 +599,7 @@ class AtsController extends Controller
                $nodo = $xml->createElement('montoIva',"0.00");
                $detalleVentas->appendChild($nodo);
            }
-           $nodo = $xml->createElement('montoICE',"0.00");
+           $nodo = $xml->createElement('montoIce',"0.00");
            $detalleVentas->appendChild($nodo);
            $retenciones = \DB::connection('oracle')->table('BILL_OF_EXCHANGE')
                ->where('IDENTITY', $atsVenta->customer_id)
@@ -762,7 +762,7 @@ class AtsController extends Controller
                $nodo = $xml->createElement('montoIva',"0.00");
                $detalleVentas->appendChild($nodo);
            }
-           $nodo = $xml->createElement('montoICE',"0.00");
+           $nodo = $xml->createElement('montoIce',"0.00");
            $detalleVentas->appendChild($nodo);
            $retenciones = \DB::connection('oracle')->table('BILL_OF_EXCHANGE')
                ->where('IDENTITY', $atsVenta->customer_id)
