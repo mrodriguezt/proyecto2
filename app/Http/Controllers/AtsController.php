@@ -119,7 +119,7 @@ class AtsController extends Controller
                ->select(\DB::connection('oracle')->raw('SUM(NET_CURR_AMOUNT) as basenograiva'))
                ->get()->first();
            if (isset($gngiva->basenograiva)) {
-               $nodo = $xml->createElement('baseNoGraIva', $gngiva->basenograiva);
+               $nodo = $xml->createElement('baseNoGraIva', abs(floatval($gngiva->basenograiva)));
            } else {
                $nodo = $xml->createElement('baseNoGraIva', "0.00");
            }
@@ -130,7 +130,7 @@ class AtsController extends Controller
                ->select(\DB::connection('oracle')->raw('SUM(NET_CURR_AMOUNT) as base0iva'))
                ->get()->first();
            if (isset($gngiva->base0iva)) {
-               $nodo = $xml->createElement('baseImponible', $gngiva->base0iva);
+               $nodo = $xml->createElement('baseImponible',abs(floatval($gngiva->base0iva)));
            } else {
                $nodo = $xml->createElement('baseImponible', "0.00");
            }
@@ -142,7 +142,7 @@ class AtsController extends Controller
                ->get()->first();
 
            if (isset($gngiva->base12iva)) {
-               $nodo = $xml->createElement('baseImpGrav', $gngiva->base12iva);
+               $nodo = $xml->createElement('baseImpGrav', abs(floatval($gngiva->base12iva)));
            } else {
                $nodo = $xml->createElement('baseImpGrav', "0.00");
            }
@@ -151,7 +151,7 @@ class AtsController extends Controller
            $detalleCompras->appendChild($nodo);
            $nodo = $xml->createElement('montoICE', "0.00");
            $detalleCompras->appendChild($nodo);
-           $nodo = $xml->createElement('montoIva', $atsCompra->vat_curr_amount);//VAT_CURR_AMOUNT
+           $nodo = $xml->createElement('montoIva', abs(floatval($atsCompra->vat_curr_amount)));//VAT_CURR_AMOUNT
            $detalleCompras->appendChild($nodo);
            // echo $atsCompra->invoice_id."---";
            $retencion = \DB::connection('oracle')->table('C_VOUCHER_RETENTION_LINE')
@@ -160,7 +160,7 @@ class AtsController extends Controller
                ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'99999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
                ->get()->first();
            if (isset($retencion->valorretencion)) {
-               $nodo = $xml->createElement('valRetBien10', $retencion->valorretencion);
+               $nodo = $xml->createElement('valRetBien10', abs(floatval($retencion->valorretencion)));
            } else {
                $nodo = $xml->createElement('valRetBien10', "0.00");
            }
@@ -171,7 +171,7 @@ class AtsController extends Controller
                ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'99999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
                ->get()->first();
            if (isset($retencion->valorretencion)) {
-               $nodo = $xml->createElement('valRetServ20', $retencion->valorretencion);
+               $nodo = $xml->createElement('valRetServ20', abs(floatval($retencion->valorretencion)));
            } else {
                $nodo = $xml->createElement('valRetServ20', "0.00");
            }
@@ -182,7 +182,7 @@ class AtsController extends Controller
                ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'99999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
                ->get()->first();
            if (isset($retencion->valorretencion)) {
-               $nodo = $xml->createElement('valorRetBienes', $retencion->valorretencion);
+               $nodo = $xml->createElement('valorRetBienes', abs(floatval($retencion->valorretencion)));
            } else {
                $nodo = $xml->createElement('valorRetBienes', "0.00");
            }
@@ -196,7 +196,7 @@ class AtsController extends Controller
                ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'99999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
                ->get()->first();
            if (isset($retencion->valorretencion)) {
-               $nodo = $xml->createElement('valorRetServicios', $retencion->valorretencion);
+               $nodo = $xml->createElement('valorRetServicios', abs(floatval($retencion->valorretencion)));
            } else {
                $nodo = $xml->createElement('valorRetServicios', "0.00");
            }
@@ -207,7 +207,7 @@ class AtsController extends Controller
                ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'99999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
                ->get()->first();
            if (isset($retencion->valorretencion)) {
-               $nodo = $xml->createElement('valRetServ100', $retencion->valorretencion);
+               $nodo = $xml->createElement('valRetServ100', abs(floatval($retencion->valorretencion)));
            } else {
                $nodo = $xml->createElement('valRetServ100', "0.00");
            }
@@ -262,9 +262,9 @@ class AtsController extends Controller
            $nodo = $xml->createElement('pagoRegFis', $pagoRegFis);
            $pagoExterior->appendChild($nodo);
            $nodo = $xml->createElement('formaPago', '20');
-
            $pagoExterior->appendChild($nodo);
-           if ($atsCompra->series_id != "41") {
+
+           if ($atsCompra->series_id != "41" && $atsCompra->series_id != "04" && $atsCompra->series_id != "05" ) {
                $air = $xml->createElement('air');
                $air = $detalleCompras->appendChild($air);
 
@@ -394,6 +394,7 @@ class AtsController extends Controller
                ->join('CUSTOMER_INFO_VAT', 'customer_info.customer_id', '=', 'customer_info_vat.customer_id')
                ->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
                ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
+               ->where('CUSTOMER_INFO_VAT.COMPANY', $compania)
                ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY',$atsVenta->customer_id)
                ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.OBJSTATE',['Preliminary','Cancelled'])
                ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
