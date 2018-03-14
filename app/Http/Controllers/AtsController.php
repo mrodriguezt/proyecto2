@@ -61,6 +61,7 @@ class AtsController extends Controller
            ->join('IDENTITY_INVOICE_INFO', 'IDENTITY_INVOICE_INFO.IDENTITY', '=', 'MAN_SUPP_INVOICE.IDENTITY')
            ->join('SUPPLIER_INFO', 'SUPPLIER_INFO.SUPPLIER_ID', '=', 'MAN_SUPP_INVOICE.IDENTITY')
            ->where('IDENTITY_INVOICE_INFO.COMPANY', $compania)
+           ->where('IDENTITY_INVOICE_INFO.PARTY_TYPE', 'Proveedor')
            ->where('MAN_SUPP_INVOICE.COMPANY', $compania)
            ->whereIn('MAN_SUPP_INVOICE.SERIES_ID',['01','02','03','04','05','06','07','08','09','10','11','12','15','16','18','19','20','21','22','23','24','41','42','43','44','45','47','48','49','50','51','52','294','344'])
            ->whereNotIn('MAN_SUPP_INVOICE.OBJSTATE',['Preliminary','Cancelled'])
@@ -367,7 +368,7 @@ class AtsController extends Controller
                    $nodo = $xml->createElement('montoIvaRemb', $rem->vat_amount);
                    $reembolso->appendChild($nodo);
                }
-               
+
                    $nodo = $xml->createElement('totbasesImpReemb', $totbasesImpReemb);
                    $detalleCompras->appendChild($nodo);
 
