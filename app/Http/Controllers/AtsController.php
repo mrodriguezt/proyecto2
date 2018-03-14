@@ -14,6 +14,25 @@ class AtsController extends Controller
 
        return view('ats.index')->with('companias',$companias);
    }
+    public function limpiarcadena($cadena=""){
+        $datos = explode(" ", $cadena);//separar palabras
+
+        if(is_array($datos) && count($datos)>0){
+            $aux="";
+            for($i=0;$i<count($datos);$i++){
+                $aux.= $this->limpiarString($datos[$i])." ";
+            }
+            $cadena = $aux;
+        }else{
+            $cadena = $this->limpiarString($razonsocial);
+        }
+        return $cadena;
+    }
+    public function limpiarString($texto)
+    {
+        $textoLimpio = preg_replace('([^A-Za-z0-9])', '', $texto);
+        return $textoLimpio;
+    }
    public function getAts(Request $request)
    {
        $anio = $request["anio"];
@@ -30,6 +49,8 @@ class AtsController extends Controller
        } else {
             $numEstabRuc = '001';
         }
+
+       $ruc->name = $this->limpiarcadena($ruc->name);
        $xml = new DomDocument('1.0', 'UTF-8');
        $raiz = $xml->createElement('iva');
        $raiz = $xml->appendChild($raiz);
@@ -37,7 +58,7 @@ class AtsController extends Controller
        $nodo = $raiz->appendChild($nodo);
        $nodo = $xml->createElement('IdInformante',$ruc->vat_no);
        $nodo = $raiz->appendChild($nodo);
-       $nodo = $xml->createElement('razonSocial',str_replace("&","",$ruc->name));
+       $nodo = $xml->createElement('razonSocial',$ruc->name);
        $nodo = $raiz->appendChild($nodo);
        $nodo = $xml->createElement('Anio',$anio);
        $nodo = $raiz->appendChild($nodo);
@@ -97,7 +118,8 @@ class AtsController extends Controller
                }
                $nodo = $xml->createElement('tipoProv', $atsCompra->person_type);
                $detalleCompras->appendChild($nodo);
-               $nodo = $xml->createElement('denopr', strval(str_replace('&', '', $atsCompra->name)));
+               $atsCompra->name = $this->limpiarcadena( $atsCompra->name);
+               $nodo = $xml->createElement('denopr',  $atsCompra->name);
                $detalleCompras->appendChild($nodo);
 
            }
@@ -119,7 +141,8 @@ class AtsController extends Controller
                ->select(\DB::connection('oracle')->raw('SUM(NET_CURR_AMOUNT) as basenograiva'))
                ->get()->first();
            if (isset($gngiva->basenograiva)) {
-               $nodo = $xml->createElement('baseNoGraIva', abs(floatval($gngiva->basenograiva)));
+
+               $nodo = $xml->createElement('baseNoGraIva', number_format(abs(floatval($gngiva->basenograiva)),2,".",""));
            } else {
                $nodo = $xml->createElement('baseNoGraIva', "0.00");
            }
@@ -130,7 +153,8 @@ class AtsController extends Controller
                ->select(\DB::connection('oracle')->raw('SUM(NET_CURR_AMOUNT) as base0iva'))
                ->get()->first();
            if (isset($gngiva->base0iva)) {
-               $nodo = $xml->createElement('baseImponible',abs(floatval($gngiva->base0iva)));
+
+               $nodo = $xml->createElement('baseImponible', number_format(abs(floatval($gngiva->base0iva)),2,".",""));
            } else {
                $nodo = $xml->createElement('baseImponible', "0.00");
            }
@@ -142,7 +166,7 @@ class AtsController extends Controller
                ->get()->first();
 
            if (isset($gngiva->base12iva)) {
-               $nodo = $xml->createElement('baseImpGrav', abs(floatval($gngiva->base12iva)));
+               $nodo = $xml->createElement('baseImpGrav', number_format(abs(floatval($gngiva->base12iva)),2,".",""));
            } else {
                $nodo = $xml->createElement('baseImpGrav', "0.00");
            }
@@ -151,7 +175,8 @@ class AtsController extends Controller
            $detalleCompras->appendChild($nodo);
            $nodo = $xml->createElement('montoICE', "0.00");
            $detalleCompras->appendChild($nodo);
-           $nodo = $xml->createElement('montoIva', abs(floatval($atsCompra->vat_curr_amount)));//VAT_CURR_AMOUNT
+           $nodo = $xml->createElement('montoIva', number_format(abs(floatval($atsCompra->vat_curr_amount)),2,".",""));
+
            $detalleCompras->appendChild($nodo);
            // echo $atsCompra->invoice_id."---";
            $retencion = \DB::connection('oracle')->table('C_VOUCHER_RETENTION_LINE')
@@ -160,7 +185,8 @@ class AtsController extends Controller
                ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'99999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
                ->get()->first();
            if (isset($retencion->valorretencion)) {
-               $nodo = $xml->createElement('valRetBien10', abs(floatval($retencion->valorretencion)));
+               $nodo = $xml->createElement('valRetBien10', number_format(abs(floatval($retencion->valorretencion)),2,".",""));
+
            } else {
                $nodo = $xml->createElement('valRetBien10', "0.00");
            }
@@ -171,7 +197,7 @@ class AtsController extends Controller
                ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'99999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
                ->get()->first();
            if (isset($retencion->valorretencion)) {
-               $nodo = $xml->createElement('valRetServ20', abs(floatval($retencion->valorretencion)));
+               $nodo = $xml->createElement('valRetServ20', number_format(abs(floatval($retencion->valorretencion)),2,".",""));
            } else {
                $nodo = $xml->createElement('valRetServ20', "0.00");
            }
@@ -182,7 +208,7 @@ class AtsController extends Controller
                ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'99999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
                ->get()->first();
            if (isset($retencion->valorretencion)) {
-               $nodo = $xml->createElement('valorRetBienes', abs(floatval($retencion->valorretencion)));
+               $nodo = $xml->createElement('valorRetBienes', number_format(abs(floatval($retencion->valorretencion)),2,".",""));
            } else {
                $nodo = $xml->createElement('valorRetBienes', "0.00");
            }
@@ -196,7 +222,7 @@ class AtsController extends Controller
                ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'99999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
                ->get()->first();
            if (isset($retencion->valorretencion)) {
-               $nodo = $xml->createElement('valorRetServicios', abs(floatval($retencion->valorretencion)));
+               $nodo = $xml->createElement('valorRetServicios', number_format(abs(floatval($retencion->valorretencion)),2,".",""));
            } else {
                $nodo = $xml->createElement('valorRetServicios', "0.00");
            }
@@ -207,7 +233,7 @@ class AtsController extends Controller
                ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'99999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
                ->get()->first();
            if (isset($retencion->valorretencion)) {
-               $nodo = $xml->createElement('valRetServ100', abs(floatval($retencion->valorretencion)));
+               $nodo = $xml->createElement('valRetServ100', number_format(abs(floatval($retencion->valorretencion)),2,".",""));
            } else {
                $nodo = $xml->createElement('valRetServ100', "0.00");
            }
@@ -280,11 +306,12 @@ class AtsController extends Controller
                    $detalleAir = $air->appendChild($detalleAir);
                    $nodo = $xml->createElement('codRetAir', $ret->tax_code);
                    $detalleAir->appendChild($nodo);
-                   $nodo = $xml->createElement('baseImpdAir', floatval($ret->base_value));
+                   $nodo = $xml->createElement('baseImpAir', floatval($ret->base_value));
                    $detalleAir->appendChild($nodo);
                    $nodo = $xml->createElement('porcentajeAir', floatval($ret->tax_code_perc));
                    $detalleAir->appendChild($nodo);
-                   $nodo = $xml->createElement('valRetAir', floatval($ret->retention_value));
+
+                   $nodo = $xml->createElement('valRetAir', number_format(abs(floatval($ret->retention_value)),2,".",""));
                    $detalleAir->appendChild($nodo);
                }
                $retencion = \DB::connection('oracle')->table('C_VOUCHER_RETENTION')
@@ -353,11 +380,14 @@ class AtsController extends Controller
                    $reembolso->appendChild($nodo);
                    $nodo = $xml->createElement('autorizacionReemb', $rem->c_auth_id_sri);
                    $reembolso->appendChild($nodo);
-                   $nodo = $xml->createElement('baseImponibleReemb', $rem->base_amount0_vat);
+
+                   $nodo = $xml->createElement('baseImponibleReemb',  number_format(abs(floatval($rem->base_amount0_vat)),2,".",""));
                    $reembolso->appendChild($nodo);
-                   $nodo = $xml->createElement('baseImpGravReemb', $rem->base_amount_n_vat);
+                   $nodo = $xml->createElement('baseImpGravReemb', number_format(abs(floatval($rem->base_amount_n_vat)),2,".",""));
+
                    $reembolso->appendChild($nodo);
-                   $nodo = $xml->createElement('baseNoGraIvaReemb', $rem->base_amount_no_vat);
+                   $nodo = $xml->createElement('baseNoGraIvaReemb',  number_format(abs(floatval($rem->base_amount_no_vat)),2,".",""));
+
                    $reembolso->appendChild($nodo);
                    $nodo = $xml->createElement('baseImpExeReemb', "0.00");
                    $reembolso->appendChild($nodo);
@@ -369,7 +399,8 @@ class AtsController extends Controller
                    $reembolso->appendChild($nodo);
                }
 
-                   $nodo = $xml->createElement('totbasesImpReemb', $totbasesImpReemb);
+                   $nodo = $xml->createElement('totbasesImpReemb',   number_format(abs(floatval($totbasesImpReemb)),2,".",""));
+
                    $detalleCompras->appendChild($nodo);
 
            }
@@ -426,7 +457,9 @@ class AtsController extends Controller
            }
            $nodo = $xml->createElement('tipoCliente',$atsVenta->person_type);
            $detalleVentas->appendChild($nodo);
-           $nodo = $xml->createElement('DenoCli',strval(str_replace('&','',$atsVenta->name)));
+
+           $atsVenta->name = $this->limpiarcadena( $atsVenta->name);
+           $nodo = $xml->createElement('DenoCli',$atsVenta->name);
            $detalleVentas->appendChild($nodo);
            $nodo = $xml->createElement('tipoComprobante',$atsVenta->series_id);
            $detalleVentas->appendChild($nodo);
@@ -461,7 +494,8 @@ class AtsController extends Controller
                }
            }
            if(isset($noObjetoIva->basenograiva)){
-               $nodo = $xml->createElement('baseNoGraIva',$noObjetoIva->basenograiva);
+               $nodo = $xml->createElement('baseNoGraIva',number_format(abs(floatval($noObjetoIva->basenograiva)),2,".",""));
+
                $detalleVentas->appendChild($nodo);
            }else{
                $nodo = $xml->createElement('baseNoGraIva',"0.00");
@@ -493,7 +527,8 @@ class AtsController extends Controller
                }
            }
            if(isset($noObjetoIva->baseimponible)){
-               $nodo = $xml->createElement('baseImponible',$noObjetoIva->baseimponible);
+               $nodo = $xml->createElement('baseImponible',number_format(abs(floatval($noObjetoIva->baseimponible)),2,".",""));
+
                $detalleVentas->appendChild($nodo);
            }else{
                $nodo = $xml->createElement('baseImponible',"0.00");
@@ -525,7 +560,7 @@ class AtsController extends Controller
                }
            }
            if(isset($noObjetoIva->base)){
-               $nodo = $xml->createElement('baseImpGrav',$noObjetoIva->base);
+               $nodo = $xml->createElement('baseImpGrav',number_format(abs(floatval($noObjetoIva->base)),2,".",""));
                $detalleVentas->appendChild($nodo);
            }else{
                $nodo = $xml->createElement('baseImpGrav',"0.00");
@@ -558,13 +593,13 @@ class AtsController extends Controller
                }
            }
            if(isset($montoIva->iva)){
-               $nodo = $xml->createElement('montoIva',$montoIva->iva);
+               $nodo = $xml->createElement('montoIva',number_format(abs($montoIva->iva),2,".",""));
                $detalleVentas->appendChild($nodo);
            }else{
                $nodo = $xml->createElement('montoIva',"0.00");
                $detalleVentas->appendChild($nodo);
            }
-           $nodo = $xml->createElement('montoIce',"0.00");
+           $nodo = $xml->createElement('montoICE',"0.00");
            $detalleVentas->appendChild($nodo);
            $retenciones = \DB::connection('oracle')->table('BILL_OF_EXCHANGE')
                ->where('IDENTITY', $atsVenta->customer_id)
@@ -573,7 +608,8 @@ class AtsController extends Controller
                ->select(\DB::connection('oracle')->raw('SUM(FULL_CURR_AMOUNT) AS ret'))
                ->get()->first();
            if(isset($retenciones->ret)){
-               $nodo = $xml->createElement('valorRetIva',$retenciones->ret);
+               $nodo = $xml->createElement('valorRetIva',number_format(abs($retenciones->ret),2,".",""));
+
                $detalleVentas->appendChild($nodo);
            }else{
                $nodo = $xml->createElement('valorRetIva',"0.00");
@@ -589,7 +625,8 @@ class AtsController extends Controller
                ->get()->first();
 
            if(isset($retenciones->ret)){
-               $nodo = $xml->createElement('valorRetRenta',$retenciones->ret);
+               $nodo = $xml->createElement('valorRetRenta',number_format(abs($retenciones->ret),2,".",""));
+
                $detalleVentas->appendChild($nodo);
            }else{
                $nodo = $xml->createElement('valorRetRenta',"0.00");
@@ -642,7 +679,8 @@ class AtsController extends Controller
            }
            $nodo = $xml->createElement('tipoCliente',$atsVenta->person_type);
            $detalleVentas->appendChild($nodo);
-           $nodo = $xml->createElement('DenoCli',strval(str_replace('&','',$atsVenta->name)));
+           $atsVenta->name = $this->limpiarcadena( $atsVenta->name);
+           $nodo = $xml->createElement('DenoCli',$atsVenta->name);
            $detalleVentas->appendChild($nodo);
            $nodo = $xml->createElement('tipoComprobante',$atsVenta->series_id);
            $detalleVentas->appendChild($nodo);
@@ -663,7 +701,7 @@ class AtsController extends Controller
                ->get()->first();
 
            if(isset($noObjetoIva->basenograiva)){
-               $nodo = $xml->createElement('baseNoGraIva',$noObjetoIva->basenograiva);
+               $nodo = $xml->createElement('baseNoGraIva',number_format(abs(floatval($noObjetoIva->basenograiva)),2,".",""));
                $detalleVentas->appendChild($nodo);
            }else{
                $nodo = $xml->createElement('baseNoGraIva',"0.00");
@@ -680,7 +718,7 @@ class AtsController extends Controller
                ->select(\DB::connection('oracle')->raw('SUM(CUSTOMER_ORDER_INV_ITEM.NET_CURR_AMOUNT) AS baseImponible'))
                ->get()->first();
            if(isset($noObjetoIva->baseimponible)){
-               $nodo = $xml->createElement('baseImponible',$noObjetoIva->baseimponible);
+               $nodo = $xml->createElement('baseImponible',number_format(abs(floatval($noObjetoIva->baseimponible)),2,".",""));
                $detalleVentas->appendChild($nodo);
            }else{
                $nodo = $xml->createElement('baseImponible',"0.00");
@@ -699,7 +737,7 @@ class AtsController extends Controller
                ->get()->first();
 
            if(isset($noObjetoIva->base)){
-               $nodo = $xml->createElement('baseImpGrav',$noObjetoIva->base);
+               $nodo = $xml->createElement('baseImpGrav',number_format(abs(floatval($noObjetoIva->base)),2,".",""));
                $detalleVentas->appendChild($nodo);
            }else{
                $nodo = $xml->createElement('baseImpGrav',"0.00");
@@ -718,13 +756,13 @@ class AtsController extends Controller
                ->get()->first();
 
            if(isset($montoIva->iva)){
-               $nodo = $xml->createElement('montoIva',$montoIva->iva);
+               $nodo = $xml->createElement('montoIva',number_format(abs(floatval($montoIva->iva)),2,".",""));
                $detalleVentas->appendChild($nodo);
            }else{
                $nodo = $xml->createElement('montoIva',"0.00");
                $detalleVentas->appendChild($nodo);
            }
-           $nodo = $xml->createElement('montoIce',"0.00");
+           $nodo = $xml->createElement('montoICE',"0.00");
            $detalleVentas->appendChild($nodo);
            $retenciones = \DB::connection('oracle')->table('BILL_OF_EXCHANGE')
                ->where('IDENTITY', $atsVenta->customer_id)
@@ -733,7 +771,7 @@ class AtsController extends Controller
                ->select(\DB::connection('oracle')->raw('SUM(FULL_CURR_AMOUNT) AS ret'))
                ->get()->first();
            if(isset($retenciones->ret)){
-               $nodo = $xml->createElement('valorRetIva',$retenciones->ret);
+               $nodo = $xml->createElement('valorRetIva',number_format(abs(floatval($retenciones->iva)),2,".",""));
                $detalleVentas->appendChild($nodo);
            }else{
                $nodo = $xml->createElement('valorRetIva',"0.00");
@@ -749,7 +787,7 @@ class AtsController extends Controller
                ->get()->first();
 
            if(isset($retenciones->ret)){
-               $nodo = $xml->createElement('valorRetRenta',$retenciones->ret);
+               $nodo = $xml->createElement('valorRetRenta',number_format(abs(floatval($retenciones->ret)),2,".",""));
                $detalleVentas->appendChild($nodo);
            }else{
                $nodo = $xml->createElement('valorRetRenta',"0.00");
