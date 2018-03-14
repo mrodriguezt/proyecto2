@@ -52,53 +52,6 @@ class AtsController extends Controller
 
        $fechaFinMes =  date("d",(mktime(0,0,0,intval($mes)+1,1,$anio)-1));
        //echo '2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes;
-       $ventas = $xml->createElement('ventas');
-       $ventas = $raiz->appendChild($ventas);
-       $atsVentas = \DB::connection('oracle')->table('INSTANT_INVOICE')
-           ->join('CUSTOMER_INFO', 'INSTANT_INVOICE.IDENTITY', '=', 'customer_info.customer_id')
-           ->join('CUSTOMER_INFO_VAT', 'customer_info.customer_id', '=', 'customer_info_vat.customer_id')
-           ->whereIn('INSTANT_INVOICE.SERIES_ID', ['18','04','05'])
-           ->where('INSTANT_INVOICE.COMPANY', $compania)
-           ->whereNotIn('INSTANT_INVOICE.OBJSTATE',['Preliminary','Cancelled'])
-           ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
-           ->select(\DB::connection('oracle')->raw('COUNT(instant_invoice.invoice_no) as NUMERO_COMPROBANTES'),'CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','INSTANT_INVOICE.SERIES_ID')
-           ->groupBy('CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','INSTANT_INVOICE.SERIES_ID')
-           ->get();
-
-       foreach ($atsVentas as $atsVenta) {
-           $detalleVentas = $xml->createElement('detalleVentas');
-           $detalleVentas = $compras->appendChild($detalleVentas);
-           $nodo = $xml->createElement('tpIdCliente',$atsVenta->tax_id_type);
-           $detalleVentas->appendChild($nodo);
-           $nodo = $xml->createElement('idCliente',$atsVenta->customer_id);
-           $detalleVentas->appendChild($nodo);
-           if($atsVenta->c_related_party!="NO" && $atsVenta->c_related_party!=null){
-               $atsVenta->c_related_party!="SI";
-           }else{
-               $atsVenta->c_related_party!="NO";
-           }
-           $nodo = $xml->createElement('parteRel',$atsVenta->c_related_party);
-           $detalleVentas->appendChild($nodo);
-           if($atsVenta->person_type=="Physical"){
-               $atsVenta->person_type="01";
-           }else{
-               if($atsVenta->person_type=="Juridical"){
-                   $atsVenta->person_type="02";
-               }
-           }
-           $nodo = $xml->createElement('tipoCliente',$atsVenta->person_type);
-           $detalleVentas->appendChild($nodo);
-           $nodo = $xml->createElement('DenoCli',$atsVenta->name);
-           $detalleVentas->appendChild($nodo);
-           $nodo = $xml->createElement('tipoComprobante',$atsVenta->series_id);
-           $detalleVentas->appendChild($nodo);
-           $nodo = $xml->createElement('tipoEm',"E");
-           $detalleVentas->appendChild($nodo);
-           $nodo = $xml->createElement('numeroComprobantes',$atsVenta->numero_comprobantes);
-           $detalleVentas->appendChild($nodo);
-
-       }
-
 
 
        $atsCompras = \DB::connection('oracle')->table('MAN_SUPP_INVOICE')
@@ -112,7 +65,7 @@ class AtsController extends Controller
            ->select('SUPPLIER_INFO.NAME','SUPPLIER_INFO.PERSON_TYPE','MAN_SUPP_INVOICE.C_INVOICE_NO','MAN_SUPP_INVOICE.C_SERIES_ID','MAN_SUPP_INVOICE.C_SUBJECT_RETENTION','MAN_SUPP_INVOICE.C_DOUBLE_TRIBUTATION_DB','MAN_SUPP_INVOICE.C_TAX_REGIME_TEXT','MAN_SUPP_INVOICE.C_TAX_HAVEN_ID','MAN_SUPP_INVOICE.COUNTRY_CODE_SRI','MAN_SUPP_INVOICE.C_REG_TYPE_ID','MAN_SUPP_INVOICE.ID_PAYMENT_TYPE','MAN_SUPP_INVOICE.VAT_CURR_AMOUNT','MAN_SUPP_INVOICE.INVOICE_ID','MAN_SUPP_INVOICE.C_AUTH_ID_SRI','MAN_SUPP_INVOICE.VOUCHER_DATE_REF','MAN_SUPP_INVOICE.INVOICE_DATE','MAN_SUPP_INVOICE.SERIES_ID','MAN_SUPP_INVOICE.C_SUSTENANCE_ID','MAN_SUPP_INVOICE.IDENTITY','IDENTITY_INVOICE_INFO.TAX_ID_TYPE','IDENTITY_INVOICE_INFO.C_SUPP_REL_PARTY','MAN_SUPP_INVOICE.INVOICE_NO')
            ->get();
        //dd($atsCompras);
-       /*
+
        foreach ($atsCompras as $atsCompra) {
            $detalleCompras = $xml->createElement('detalleCompras');
            $detalleCompras = $compras->appendChild($detalleCompras);
@@ -293,13 +246,16 @@ class AtsController extends Controller
            if($atsCompra->c_subject_retention=="") {
                $atsCompra->c_subject_retention = "NO";
            }
-           $nodo = $xml->createElement('pagoRegFis', $atsCompra->country_code_sri);
-           $pagoExterior->appendChild($nodo);
-           if($atsCompra->c_reg_type_id=='03'){
-               $nodo = $xml->createElement('formaPago', 'SI');
+           $pagoRegFis="";
+           if($atsCompra->id_payment_type=='03') {
+                $pagoRegFis="SI";
            }else{
-               $nodo = $xml->createElement('formaPago', 'NO');
+               $pagoRegFis="NO";
            }
+           $nodo = $xml->createElement('pagoRegFis', $pagoRegFis);
+           $pagoExterior->appendChild($nodo);
+           $nodo = $xml->createElement('formaPago', '20');
+
            $pagoExterior->appendChild($nodo);
             if($atsCompra->series_id!="41") {
                 $air = $xml->createElement('air');
@@ -409,8 +365,456 @@ class AtsController extends Controller
                $nodo = $xml->createElement('totbasesImpReemb', $totbasesImpReemb);
                $detalleCompras->appendChild($nodo);
            }
-        }*/
+        }
+       $ventasNodo = $xml->createElement('ventas');
+       $ventasNodo = $raiz->appendChild($ventasNodo);
+       $atsVentas = \DB::connection('oracle')->table('INSTANT_INVOICE')
+           ->join('CUSTOMER_INFO', 'INSTANT_INVOICE.IDENTITY', '=', 'customer_info.customer_id')
+           ->join('CUSTOMER_INFO_VAT', 'customer_info.customer_id', '=', 'customer_info_vat.customer_id')
+           ->whereIn('INSTANT_INVOICE.SERIES_ID', ['18','04','05'])
+           ->where('INSTANT_INVOICE.COMPANY', $compania)
+           ->whereNotIn('INSTANT_INVOICE.OBJSTATE',['Preliminary','Cancelled'])
+           ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+           ->select(\DB::connection('oracle')->raw('COUNT(instant_invoice.invoice_no) as NUMERO_COMPROBANTES'),'CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','INSTANT_INVOICE.SERIES_ID')
+           ->groupBy('CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','INSTANT_INVOICE.SERIES_ID')
+           ->get();
+       $aClientes = array();
+       foreach ($atsVentas as $atsVenta) {
+           $aClientes[] = $atsVenta->customer_id;
+           $vtasTerceros = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
+               ->join('CUSTOMER_INFO', 'CUSTOMER_ORDER_INV_HEAD.IDENTITY', '=', 'customer_info.customer_id')
+               ->join('CUSTOMER_INFO_VAT', 'customer_info.customer_id', '=', 'customer_info_vat.customer_id')
+               ->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+               ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
+               ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY',$atsVenta->customer_id)
+               ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.OBJSTATE',['Preliminary','Cancelled'])
+               ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->select(\DB::connection('oracle')->raw('COUNT(CUSTOMER_ORDER_INV_HEAD.INVOICE_ID) as NUMERO_COMPROBANTES'),'CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','CUSTOMER_ORDER_INV_HEAD.SERIES_ID')
+               ->groupBy('CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','CUSTOMER_ORDER_INV_HEAD.SERIES_ID')
+               ->get()->first();
+           if($vtasTerceros!=null){
+               $atsVenta->numero_comprobantes = floatval($atsVenta->numero_comprobantes)+floatval($vtasTerceros->numero_comprobantes);
+           }
+
+           $detalleVentas = $xml->createElement('detalleVentas');
+           $detalleVentas = $ventasNodo->appendChild($detalleVentas);
+           $nodo = $xml->createElement('tpIdCliente',$atsVenta->tax_id_type);
+           $detalleVentas->appendChild($nodo);
+           $nodo = $xml->createElement('idCliente',$atsVenta->customer_id);
+           $detalleVentas->appendChild($nodo);
+           if($atsVenta->c_related_party==null || $atsVenta->c_related_party==""){
+               $atsVenta->c_related_party="NO";
+           }
+           $nodo = $xml->createElement('parteRel',$atsVenta->c_related_party);
+           $detalleVentas->appendChild($nodo);
+           if($atsVenta->person_type=="Physical"){
+               $atsVenta->person_type="01";
+           }else{
+               if($atsVenta->person_type=="Juridical"){
+                   $atsVenta->person_type="02";
+               }
+           }
+           $nodo = $xml->createElement('tipoCliente',$atsVenta->person_type);
+           $detalleVentas->appendChild($nodo);
+           $nodo = $xml->createElement('DenoCli',strval(str_replace('&','',$atsVenta->name)));
+           $detalleVentas->appendChild($nodo);
+           $nodo = $xml->createElement('tipoComprobante',$atsVenta->series_id);
+           $detalleVentas->appendChild($nodo);
+           $nodo = $xml->createElement('tipoEm',"E");
+           $detalleVentas->appendChild($nodo);
+           $nodo = $xml->createElement('numeroComprobantes',$atsVenta->numero_comprobantes);
+           $detalleVentas->appendChild($nodo);
+           $noObjetoIva = \DB::connection('oracle')->table('INSTANT_INVOICE')
+               ->join('INSTANT_INVOICE_ITEM', 'INSTANT_INVOICE_ITEM.INVOICE_ID', '=', 'INSTANT_INVOICE.INVOICE_ID')
+               ->whereIn('INSTANT_INVOICE.SERIES_ID', ['18','04','05'])
+               ->where('INSTANT_INVOICE.COMPANY', $compania)
+               ->where('INSTANT_INVOICE.IDENTITY', $atsVenta->customer_id)
+               ->whereIn('INSTANT_INVOICE_ITEM.VAT_CODE', ['IVA_VEN_00%_NO_OBJET'])
+               ->whereNotIn('INSTANT_INVOICE.OBJSTATE',['Preliminary','Cancelled'])
+               ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->select(\DB::connection('oracle')->raw('SUM(NET_CURR_AMOUNT) AS baseNoGraIva'))
+               ->get()->first();
+
+           if($vtasTerceros!=null) {
+               $ventas = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
+                   ->join('CUSTOMER_ORDER_INV_ITEM', 'CUSTOMER_ORDER_INV_ITEM.INVOICE_ID', '=', 'CUSTOMER_ORDER_INV_HEAD.INVOICE_ID')
+                   ->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+                   ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
+                   ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
+                   ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE', ['IVA_VEN_00%_NO_OBJET'])
+                   ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.OBJSTATE',['Preliminary','Cancelled'])
+                   ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+                   ->select(\DB::connection('oracle')->raw('SUM(CUSTOMER_ORDER_INV_ITEM.NET_CURR_AMOUNT) AS baseNoGraIva'))
+                   ->get()->first();
+               if($ventas!=null){
+                   $noObjetoIva->basenograiva = floatval($noObjetoIva->basenograiva)+floatval($ventas->basenograiva);
+               }
+           }
+           if(isset($noObjetoIva->basenograiva)){
+               $nodo = $xml->createElement('baseNoGraIva',$noObjetoIva->basenograiva);
+               $detalleVentas->appendChild($nodo);
+           }else{
+               $nodo = $xml->createElement('baseNoGraIva',"0.00");
+               $detalleVentas->appendChild($nodo);
+           }
+           $noObjetoIva = \DB::connection('oracle')->table('INSTANT_INVOICE')
+               ->join('INSTANT_INVOICE_ITEM', 'INSTANT_INVOICE_ITEM.INVOICE_ID', '=', 'INSTANT_INVOICE.INVOICE_ID')
+               ->whereIn('INSTANT_INVOICE.SERIES_ID', ['18','04','05'])
+               ->where('INSTANT_INVOICE.COMPANY', $compania)
+               ->where('INSTANT_INVOICE.IDENTITY', $atsVenta->customer_id)
+               ->whereIn('INSTANT_INVOICE_ITEM.VAT_CODE', ['IVA_VEN_00%_LO_CRE','IVA_VEN_00%_RE_GA'])
+               ->whereNotIn('INSTANT_INVOICE.OBJSTATE',['Preliminary','Cancelled'])
+               ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->select(\DB::connection('oracle')->raw('SUM(NET_CURR_AMOUNT) AS baseImponible'))
+               ->get()->first();
+           if($vtasTerceros!=null) {
+               $ventas = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
+                   ->join('CUSTOMER_ORDER_INV_ITEM', 'CUSTOMER_ORDER_INV_ITEM.INVOICE_ID', '=', 'CUSTOMER_ORDER_INV_HEAD.INVOICE_ID')
+                   ->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+                   ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
+                   ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
+                   ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE', ['IVA_VEN_00%_LO_CRE','IVA_VEN_00%_RE_GA'])
+                   ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.OBJSTATE',['Preliminary','Cancelled'])
+                   ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+                   ->select(\DB::connection('oracle')->raw('SUM(CUSTOMER_ORDER_INV_ITEM.NET_CURR_AMOUNT) AS baseImponible'))
+                   ->get()->first();
+               if($ventas!=null){
+                   $noObjetoIva->baseImponible = floatval($noObjetoIva->baseImponible)+floatval($ventas->baseImponible);
+               }
+           }
+           if(isset($noObjetoIva->baseimponible)){
+               $nodo = $xml->createElement('baseImponible',$noObjetoIva->baseimponible);
+               $detalleVentas->appendChild($nodo);
+           }else{
+               $nodo = $xml->createElement('baseImponible',"0.00");
+               $detalleVentas->appendChild($nodo);
+           }
+           $noObjetoIva = \DB::connection('oracle')->table('INSTANT_INVOICE')
+               ->join('INSTANT_INVOICE_ITEM', 'INSTANT_INVOICE_ITEM.INVOICE_ID', '=', 'INSTANT_INVOICE.INVOICE_ID')
+               ->whereIn('INSTANT_INVOICE.SERIES_ID', ['18','04','05'])
+               ->where('INSTANT_INVOICE.COMPANY', $compania)
+               ->where('INSTANT_INVOICE.IDENTITY', $atsVenta->customer_id)
+               ->whereIn('INSTANT_INVOICE_ITEM.VAT_CODE', ['IVA_VEN_12%_AF_CON','IVA_VEN_12%_AF_CRE','IVA_VEN_12%_LO_CON','IVA_VEN_12%_LO_CRE'])
+               ->whereNotIn('INSTANT_INVOICE.OBJSTATE',['Preliminary','Cancelled'])
+               ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->select(\DB::connection('oracle')->raw('SUM(NET_CURR_AMOUNT) AS base'))
+               ->get()->first();
+           if($vtasTerceros!=null) {
+               $ventas = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
+                   ->join('CUSTOMER_ORDER_INV_ITEM', 'CUSTOMER_ORDER_INV_ITEM.INVOICE_ID', '=', 'CUSTOMER_ORDER_INV_HEAD.INVOICE_ID')
+                   ->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+                   ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
+                   ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
+                   ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE',['IVA_VEN_12%_AF_CON','IVA_VEN_12%_AF_CRE','IVA_VEN_12%_LO_CON','IVA_VEN_12%_LO_CRE'])
+                   ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.OBJSTATE',['Preliminary','Cancelled'])
+                   ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+                   ->select(\DB::connection('oracle')->raw('SUM(CUSTOMER_ORDER_INV_ITEM.NET_CURR_AMOUNT) AS base'))
+                   ->get()->first();
+               if($ventas!=null){
+                   $noObjetoIva->base = floatval($noObjetoIva->base)+floatval($ventas->base);
+               }
+           }
+           if(isset($noObjetoIva->base)){
+               $nodo = $xml->createElement('baseImpGrav',$noObjetoIva->base);
+               $detalleVentas->appendChild($nodo);
+           }else{
+               $nodo = $xml->createElement('baseImpGrav',"0.00");
+               $detalleVentas->appendChild($nodo);
+           }
+
+
+           $montoIva = \DB::connection('oracle')->table('INSTANT_INVOICE')
+               ->join('INSTANT_INVOICE_ITEM', 'INSTANT_INVOICE_ITEM.INVOICE_ID', '=', 'INSTANT_INVOICE.INVOICE_ID')
+               ->whereIn('INSTANT_INVOICE.SERIES_ID', ['18','04','05'])
+               ->where('INSTANT_INVOICE.COMPANY', $compania)
+               ->where('INSTANT_INVOICE.IDENTITY', $atsVenta->customer_id)
+               ->whereNotIn('INSTANT_INVOICE.OBJSTATE',['Preliminary','Cancelled'])
+               ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->select(\DB::connection('oracle')->raw('SUM(VAT_CURR_AMOUNT) AS iva'))
+               ->get()->first();
+           if($vtasTerceros!=null) {
+               $ventas = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
+                   ->join('CUSTOMER_ORDER_INV_ITEM', 'CUSTOMER_ORDER_INV_ITEM.INVOICE_ID', '=', 'CUSTOMER_ORDER_INV_HEAD.INVOICE_ID')
+                   ->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+                   ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
+                   ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
+                   ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE',['IVA_VEN_12%_AF_CON','IVA_VEN_12%_AF_CRE','IVA_VEN_12%_LO_CON','IVA_VEN_12%_LO_CRE'])
+                   ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.OBJSTATE',['Preliminary','Cancelled'])
+                   ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+                   ->select(\DB::connection('oracle')->raw('SUM(CUSTOMER_ORDER_INV_ITEM.VAT_CURR_AMOUNT) AS iva'))
+                   ->get()->first();
+               if($ventas!=null){
+                   $montoIva->iva = floatval($montoIva->iva)+floatval($ventas->iva);
+               }
+           }
+           if(isset($montoIva->iva)){
+               $nodo = $xml->createElement('montoIva',$montoIva->iva);
+               $detalleVentas->appendChild($nodo);
+           }else{
+               $nodo = $xml->createElement('montoIva',"0.00");
+               $detalleVentas->appendChild($nodo);
+           }
+           $nodo = $xml->createElement('montoIce',"0.00");
+           $detalleVentas->appendChild($nodo);
+           $retenciones = \DB::connection('oracle')->table('BILL_OF_EXCHANGE')
+               ->where('IDENTITY', $atsVenta->customer_id)
+               ->where('BILL_TYPE', 'RIVA')
+               ->whereRaw('VOUCHER_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->select(\DB::connection('oracle')->raw('SUM(FULL_CURR_AMOUNT) AS ret'))
+               ->get()->first();
+           if(isset($retenciones->ret)){
+               $nodo = $xml->createElement('valorRetIva',$retenciones->ret);
+               $detalleVentas->appendChild($nodo);
+           }else{
+               $nodo = $xml->createElement('valorRetIva',"0.00");
+               $detalleVentas->appendChild($nodo);
+           }
+
+           $retenciones = \DB::connection('oracle')->table('BILL_OF_EXCHANGE')
+               ->where('IDENTITY', $atsVenta->customer_id)
+               ->where('BILL_TYPE', 'RFTE')
+               ->whereRaw('VOUCHER_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->select(\DB::connection('oracle')->raw('SUM(FULL_CURR_AMOUNT) AS ret'))
+               // ->select('FULL_CURR_AMOUNT')
+               ->get()->first();
+
+           if(isset($retenciones->ret)){
+               $nodo = $xml->createElement('valorRetRenta',$retenciones->ret);
+               $detalleVentas->appendChild($nodo);
+           }else{
+               $nodo = $xml->createElement('valorRetRenta',"0.00");
+               $detalleVentas->appendChild($nodo);
+           }
+           $nodo = $xml->createElement('formaPago',"20");
+           $detalleVentas->appendChild($nodo);
+           $nodo = $xml->createElement('codEstab',$numEstabRuc);
+           $detalleVentas->appendChild($nodo);
+           $nodo = $xml->createElement('ventasEstab',"0.00");
+           $detalleVentas->appendChild($nodo);
+           $nodo = $xml->createElement('ivaComp',"0.00");
+           $detalleVentas->appendChild($nodo);
+
+
+       }
+
+       $atsVentas = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
+           ->join('CUSTOMER_INFO', 'CUSTOMER_ORDER_INV_HEAD.IDENTITY', '=', 'customer_info.customer_id')
+           ->join('CUSTOMER_INFO_VAT', 'customer_info.customer_id', '=', 'customer_info_vat.customer_id')
+           ->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+           ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
+           ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.IDENTITY',$aClientes)
+           ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.OBJSTATE',['Preliminary','Cancelled'])
+           ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+           ->select(\DB::connection('oracle')->raw('COUNT(CUSTOMER_ORDER_INV_HEAD.INVOICE_ID) as NUMERO_COMPROBANTES'),'CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','CUSTOMER_ORDER_INV_HEAD.SERIES_ID')
+           ->groupBy('CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','CUSTOMER_ORDER_INV_HEAD.SERIES_ID')
+           ->get();
+       foreach ($atsVentas as $atsVenta) {
+
+           $detalleVentas = $xml->createElement('detalleVentas');
+           $detalleVentas = $ventasNodo->appendChild($detalleVentas);
+           $nodo = $xml->createElement('tpIdCliente',$atsVenta->tax_id_type);
+           $detalleVentas->appendChild($nodo);
+           $nodo = $xml->createElement('idCliente',$atsVenta->customer_id);
+           $detalleVentas->appendChild($nodo);
+
+           if($atsVenta->c_related_party==null || $atsVenta->c_related_party==""){
+               $atsVenta->c_related_party="NO";
+           }
+           $nodo = $xml->createElement('parteRel',$atsVenta->c_related_party);
+           $detalleVentas->appendChild($nodo);
+           if($atsVenta->person_type=="Physical"){
+               $atsVenta->person_type="01";
+           }else{
+               if($atsVenta->person_type=="Juridical"){
+                   $atsVenta->person_type="02";
+               }
+           }
+           $nodo = $xml->createElement('tipoCliente',$atsVenta->person_type);
+           $detalleVentas->appendChild($nodo);
+           $nodo = $xml->createElement('DenoCli',strval(str_replace('&','',$atsVenta->name)));
+           $detalleVentas->appendChild($nodo);
+           $nodo = $xml->createElement('tipoComprobante',$atsVenta->series_id);
+           $detalleVentas->appendChild($nodo);
+           $nodo = $xml->createElement('tipoEm',"E");
+           $detalleVentas->appendChild($nodo);
+           $nodo = $xml->createElement('numeroComprobantes',$atsVenta->numero_comprobantes);
+           $detalleVentas->appendChild($nodo);
+
+           $noObjetoIva = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
+               ->join('CUSTOMER_ORDER_INV_ITEM', 'CUSTOMER_ORDER_INV_ITEM.INVOICE_ID', '=', 'CUSTOMER_ORDER_INV_HEAD.INVOICE_ID')
+               ->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+               ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
+               ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
+               ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE', ['IVA_VEN_00%_NO_OBJET'])
+               ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.OBJSTATE',['Preliminary','Cancelled'])
+               ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->select(\DB::connection('oracle')->raw('SUM(CUSTOMER_ORDER_INV_ITEM.NET_CURR_AMOUNT) AS baseNoGraIva'))
+               ->get()->first();
+
+           if(isset($noObjetoIva->basenograiva)){
+               $nodo = $xml->createElement('baseNoGraIva',$noObjetoIva->basenograiva);
+               $detalleVentas->appendChild($nodo);
+           }else{
+               $nodo = $xml->createElement('baseNoGraIva',"0.00");
+               $detalleVentas->appendChild($nodo);
+           }
+           $noObjetoIva = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
+               ->join('CUSTOMER_ORDER_INV_ITEM', 'CUSTOMER_ORDER_INV_ITEM.INVOICE_ID', '=', 'CUSTOMER_ORDER_INV_HEAD.INVOICE_ID')
+               ->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+               ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
+               ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
+               ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE', ['IVA_VEN_00%_LO_CRE','IVA_VEN_00%_RE_GA'])
+               ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.OBJSTATE',['Preliminary','Cancelled'])
+               ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->select(\DB::connection('oracle')->raw('SUM(CUSTOMER_ORDER_INV_ITEM.NET_CURR_AMOUNT) AS baseImponible'))
+               ->get()->first();
+           if(isset($noObjetoIva->baseimponible)){
+               $nodo = $xml->createElement('baseImponible',$noObjetoIva->baseimponible);
+               $detalleVentas->appendChild($nodo);
+           }else{
+               $nodo = $xml->createElement('baseImponible',"0.00");
+               $detalleVentas->appendChild($nodo);
+           }
+
+           $noObjetoIva = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
+               ->join('CUSTOMER_ORDER_INV_ITEM', 'CUSTOMER_ORDER_INV_ITEM.INVOICE_ID', '=', 'CUSTOMER_ORDER_INV_HEAD.INVOICE_ID')
+               ->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+               ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
+               ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
+               ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE',['IVA_VEN_12%_AF_CON','IVA_VEN_12%_AF_CRE','IVA_VEN_12%_LO_CON','IVA_VEN_12%_LO_CRE'])
+               ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.OBJSTATE',['Preliminary','Cancelled'])
+               ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->select(\DB::connection('oracle')->raw('SUM(CUSTOMER_ORDER_INV_ITEM.NET_CURR_AMOUNT) AS base'))
+               ->get()->first();
+
+           if(isset($noObjetoIva->base)){
+               $nodo = $xml->createElement('baseImpGrav',$noObjetoIva->base);
+               $detalleVentas->appendChild($nodo);
+           }else{
+               $nodo = $xml->createElement('baseImpGrav',"0.00");
+               $detalleVentas->appendChild($nodo);
+           }
+
+           $montoIva = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
+               ->join('CUSTOMER_ORDER_INV_ITEM', 'CUSTOMER_ORDER_INV_ITEM.INVOICE_ID', '=', 'CUSTOMER_ORDER_INV_HEAD.INVOICE_ID')
+               ->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+               ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
+               ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
+               ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE',['IVA_VEN_12%_AF_CON','IVA_VEN_12%_AF_CRE','IVA_VEN_12%_LO_CON','IVA_VEN_12%_LO_CRE'])
+               ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.OBJSTATE',['Preliminary','Cancelled'])
+               ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->select(\DB::connection('oracle')->raw('SUM(CUSTOMER_ORDER_INV_ITEM.VAT_CURR_AMOUNT) AS iva'))
+               ->get()->first();
+
+           if(isset($montoIva->iva)){
+               $nodo = $xml->createElement('montoIva',$montoIva->iva);
+               $detalleVentas->appendChild($nodo);
+           }else{
+               $nodo = $xml->createElement('montoIva',"0.00");
+               $detalleVentas->appendChild($nodo);
+           }
+           $nodo = $xml->createElement('montoIce',"0.00");
+           $detalleVentas->appendChild($nodo);
+           $retenciones = \DB::connection('oracle')->table('BILL_OF_EXCHANGE')
+               ->where('IDENTITY', $atsVenta->customer_id)
+               ->where('BILL_TYPE', 'RIVA')
+               ->whereRaw('VOUCHER_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->select(\DB::connection('oracle')->raw('SUM(FULL_CURR_AMOUNT) AS ret'))
+               ->get()->first();
+           if(isset($retenciones->ret)){
+               $nodo = $xml->createElement('valorRetIva',$retenciones->ret);
+               $detalleVentas->appendChild($nodo);
+           }else{
+               $nodo = $xml->createElement('valorRetIva',"0.00");
+               $detalleVentas->appendChild($nodo);
+           }
+
+           $retenciones = \DB::connection('oracle')->table('BILL_OF_EXCHANGE')
+               ->where('IDENTITY', $atsVenta->customer_id)
+               ->where('BILL_TYPE', 'RFTE')
+               ->whereRaw('VOUCHER_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->select(\DB::connection('oracle')->raw('SUM(FULL_CURR_AMOUNT) AS ret'))
+               // ->select('FULL_CURR_AMOUNT')
+               ->get()->first();
+
+           if(isset($retenciones->ret)){
+               $nodo = $xml->createElement('valorRetRenta',$retenciones->ret);
+               $detalleVentas->appendChild($nodo);
+           }else{
+               $nodo = $xml->createElement('valorRetRenta',"0.00");
+               $detalleVentas->appendChild($nodo);
+           }
+           $nodo = $xml->createElement('formaPago',"20");
+           $detalleVentas->appendChild($nodo);
+           $nodo = $xml->createElement('codEstab',$numEstabRuc);
+           $detalleVentas->appendChild($nodo);
+           $nodo = $xml->createElement('ventasEstab',"0.00");
+           $detalleVentas->appendChild($nodo);
+           $nodo = $xml->createElement('ivaComp',"0.00");
+           $detalleVentas->appendChild($nodo);
+
+
+       }
        //ID_PAYMENT_TYPE
+       $anuladosNodo = $xml->createElement('anulados');
+       $anuladosNodo = $raiz->appendChild($anuladosNodo);
+
+       $anulados = \DB::connection('oracle')->table('INSTANT_INVOICE')
+           ->where('COMPANY', $compania)
+           ->where('OBJSTATE','Cancelled')
+           ->whereRaw('INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+           ->select(\DB::connection('oracle')->raw('(C_ELECTRONIC_INVOICE_AUTH_API.Get_C_Auth_Id_Sri(COMPANY,INVOICE_ID)) as SRI_AUTH'),\DB::connection('oracle')->raw('(C_ELECTRONIC_INVOICE_AUTH_API.Get_Obj_State(COMPANY,INVOICE_ID)) as ESTADO_SRI_AUTH'),'INVOICE_NO','SERIES_ID')
+           ->get();
+
+       foreach ($anulados as $anulado){
+           if($anulado->sri_auth!="" && $anulado->sri_auth!=null){
+               $detalleAnulados = $xml->createElement('detalleAnulados');
+               $detalleAnulados = $anuladosNodo->appendChild($detalleAnulados);
+               if($anulado->series_id=="PR"){
+                   $anulado->series_id="18";
+               }
+               $a_invoiceId = explode("-",$anulado->invoice_no);
+               $nodo = $xml->createElement('tipoComprobante',$anulado->series_id);
+               $detalleAnulados->appendChild($nodo);
+               $nodo = $xml->createElement('establecimiento',$a_invoiceId[0]);
+               $detalleAnulados->appendChild($nodo);
+               $nodo = $xml->createElement('puntoEmision',$a_invoiceId[1]);
+               $detalleAnulados->appendChild($nodo);
+               $nodo = $xml->createElement('secuencialInicio',intval($a_invoiceId[2]));
+               $detalleAnulados->appendChild($nodo);
+               $nodo = $xml->createElement('secuencialFin',intval($a_invoiceId[2]));
+               $detalleAnulados->appendChild($nodo);
+               $nodo = $xml->createElement('autorizacion',$anulado->sri_auth);
+               $detalleAnulados->appendChild($nodo);
+           }
+
+       }
+       $anulados = \DB::connection('oracle')->table('C_VOUCHER_RETENTION')
+           ->where('COMPANY', $compania)
+           ->where('OBJSTATE','Cancelled')
+           ->whereRaw('RETENTION_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+           ->select(\DB::connection('oracle')->raw('(C_ELECTRONIC_INVOICE_AUTH_API.Get_C_Auth_Id_Sri(COMPANY,C_INVOICE_ID)) as SRI_AUTH'),\DB::connection('oracle')->raw('(C_ELECTRONIC_INVOICE_AUTH_API.Get_Obj_State(COMPANY,C_INVOICE_ID)) as ESTADO_SRI_AUTH'),'RETENTION_NO')
+           ->get();
+
+       foreach ($anulados as $anulado){
+           if($anulado->sri_auth!="" && $anulado->sri_auth!=null){
+               $detalleAnulados = $xml->createElement('detalleAnulados');
+               $detalleAnulados = $anuladosNodo->appendChild($detalleAnulados);
+               $a_invoiceId = explode("-",$anulado->retention_no);
+               $nodo = $xml->createElement('tipoComprobante','07');
+               $detalleAnulados->appendChild($nodo);
+               $nodo = $xml->createElement('establecimiento',$a_invoiceId[0]);
+               $detalleAnulados->appendChild($nodo);
+               $nodo = $xml->createElement('puntoEmision',$a_invoiceId[1]);
+               $detalleAnulados->appendChild($nodo);
+               $nodo = $xml->createElement('secuencialInicio',intval($a_invoiceId[2]));
+               $detalleAnulados->appendChild($nodo);
+               $nodo = $xml->createElement('secuencialFin',intval($a_invoiceId[2]));
+               $detalleAnulados->appendChild($nodo);
+               $nodo = $xml->createElement('autorizacion',$anulado->sri_auth);
+               $detalleAnulados->appendChild($nodo);
+           }
+       }
        $xml->formatOutput = true;
        $el_xml = $xml->saveXML();
 
