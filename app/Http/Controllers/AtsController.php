@@ -135,14 +135,15 @@ class AtsController extends Controller
            $detalleCompras->appendChild($nodo);
            $nodo = $xml->createElement('autorizacion', $atsCompra->c_auth_id_sri);
            $detalleCompras->appendChild($nodo);
+           $sumaBases = 0;
            $gngiva = \DB::connection('oracle')->table('MAN_SUPP_INVOICE_ITEM')
                ->where('INVOICE_ID', $atsCompra->invoice_id)
                ->where('VAT_CODE', 'IVA_COM_0%_NO_OBJETO')
                ->select(\DB::connection('oracle')->raw('SUM(NET_CURR_AMOUNT) as basenograiva'))
                ->get()->first();
            if (isset($gngiva->basenograiva)) {
-
                $nodo = $xml->createElement('baseNoGraIva', number_format(abs(floatval($gngiva->basenograiva)),2,".",""));
+               $sumaBases += abs(floatval($gngiva->basenograiva));
            } else {
                $nodo = $xml->createElement('baseNoGraIva', "0.00");
            }
@@ -153,8 +154,8 @@ class AtsController extends Controller
                ->select(\DB::connection('oracle')->raw('SUM(NET_CURR_AMOUNT) as base0iva'))
                ->get()->first();
            if (isset($gngiva->base0iva)) {
-
                $nodo = $xml->createElement('baseImponible', number_format(abs(floatval($gngiva->base0iva)),2,".",""));
+               $sumaBases += abs(floatval($gngiva->base0iva));
            } else {
                $nodo = $xml->createElement('baseImponible', "0.00");
            }
@@ -167,6 +168,7 @@ class AtsController extends Controller
 
            if (isset($gngiva->base12iva)) {
                $nodo = $xml->createElement('baseImpGrav', number_format(abs(floatval($gngiva->base12iva)),2,".",""));
+               $sumaBases += abs(floatval($gngiva->base12iva));
            } else {
                $nodo = $xml->createElement('baseImpGrav', "0.00");
            }
@@ -176,7 +178,7 @@ class AtsController extends Controller
            $nodo = $xml->createElement('montoIce', "0.00");
            $detalleCompras->appendChild($nodo);
            $nodo = $xml->createElement('montoIva', number_format(abs(floatval($atsCompra->vat_curr_amount)),2,".",""));
-
+           $sumaBases += abs(floatval($atsCompra->vat_curr_amount));
            $detalleCompras->appendChild($nodo);
            // echo $atsCompra->invoice_id."---";
            $retencion = \DB::connection('oracle')->table('C_VOUCHER_RETENTION_LINE')
@@ -213,7 +215,7 @@ class AtsController extends Controller
                $nodo = $xml->createElement('valorRetBienes', "0.00");
            }
            $detalleCompras->appendChild($nodo);
-           $nodo = $xml->createElement('valorRetServ50', "0.00");
+           $nodo = $xml->createElement('valRetServ50', "0.00");
            $detalleCompras->appendChild($nodo);
 
            $retencion = \DB::connection('oracle')->table('C_VOUCHER_RETENTION_LINE')
@@ -287,9 +289,10 @@ class AtsController extends Controller
            }
            $nodo = $xml->createElement('pagoRegFis', $pagoRegFis);
            $pagoExterior->appendChild($nodo);
-           $nodo = $xml->createElement('formaPago', '20');
-           $pagoExterior->appendChild($nodo);
-
+           if($sumaBases>1000) {
+               $nodo = $xml->createElement('formaPago', '20');
+               $pagoExterior->appendChild($nodo);
+           }
            if ($atsCompra->series_id != "41" && $atsCompra->series_id != "04" && $atsCompra->series_id != "05" ) {
                $air = $xml->createElement('air');
                $air = $detalleCompras->appendChild($air);
@@ -306,7 +309,7 @@ class AtsController extends Controller
                    $detalleAir = $air->appendChild($detalleAir);
                    $nodo = $xml->createElement('codRetAir', $ret->tax_code);
                    $detalleAir->appendChild($nodo);
-                   $nodo = $xml->createElement('baseImpAir', floatval($ret->base_value));
+                   $nodo = $xml->createElement('baseImpAir', number_format(abs(floatval($ret->base_value)),2,".",""));
                    $detalleAir->appendChild($nodo);
                    $nodo = $xml->createElement('porcentajeAir', floatval($ret->tax_code_perc));
                    $detalleAir->appendChild($nodo);
