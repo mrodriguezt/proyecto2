@@ -235,11 +235,11 @@ class AtsController extends Controller
                ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'99999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
                ->get()->first();
            if (isset($retencion->valorretencion)) {
-               $nodo = $xml->createElement('valRetServ100', number_format(abs(floatval($retencion->valorretencion)),2,".",""));
+               $valRetServ100 = $xml->createElement('valRetServ100', number_format(abs(floatval($retencion->valorretencion)),2,".",""));
            } else {
-               $nodo = $xml->createElement('valRetServ100', "0.00");
+               $valRetServ100 = $xml->createElement('valRetServ100', "0.00");
            }
-           $detalleCompras->appendChild($nodo);
+           $ultimoDetalleCompras = $detalleCompras->appendChild($valRetServ100);
 
 
            $pagoExterior = $xml->createElement('pagoExterior');
@@ -358,6 +358,8 @@ class AtsController extends Controller
                $nodo = $xml->createElement('autModificado', $authSri->c_auth_id_sri);
                $detalleCompras->appendChild($nodo);
            }
+
+
            if ($atsCompra->series_id == "41") {
                $reembolsos = $xml->createElement('reembolsos');
                $reembolsos = $detalleCompras->appendChild($reembolsos);
@@ -395,19 +397,17 @@ class AtsController extends Controller
                    $reembolso->appendChild($nodo);
                    $nodo = $xml->createElement('baseImpExeReemb', "0.00");
                    $reembolso->appendChild($nodo);
-                   $totbasesImpReemb = floatval($rem->base_amount0_vat) + floatval($rem->base_amount_n_vat) + floatval($rem->base_amount_no_vat);
-                   $nodo = $xml->createElement('totbasesImpReemb',   number_format(abs(floatval($totbasesImpReemb)),2,".",""));
-                   $reembolso->appendChild($nodo);
-                   $nodo = $xml->createElement('montoIceReemb',  number_format(abs(floatval($rem->ice_amount)),2,".",""));
+                   $totbasesImpReemb += floatval($rem->base_amount0_vat) + floatval($rem->base_amount_n_vat) + floatval($rem->base_amount_no_vat);
 
+                   $nodo = $xml->createElement('montoIceRemb',  number_format(abs(floatval($rem->ice_amount)),2,".",""));
                    $reembolso->appendChild($nodo);
                    $nodo = $xml->createElement('montoIvaRemb',  number_format(abs(floatval($rem->vat_amount)),2,".",""));
-
                    $reembolso->appendChild($nodo);
                }
-
-
-
+               //$ultimoDetalleCompras
+               $impuestosReembolsos = $xml->createElement('totbasesImpReemb',   number_format(abs(floatval($totbasesImpReemb)),2,".",""));
+               $detalleCompras->insertBefore($impuestosReembolsos,$ultimoDetalleCompras);
+               $detalleCompras->insertBefore($ultimoDetalleCompras,$impuestosReembolsos);
            }
        }
        $ventasNodo = $xml->createElement('ventas');
