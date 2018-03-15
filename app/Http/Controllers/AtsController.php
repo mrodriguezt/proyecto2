@@ -637,8 +637,12 @@ class AtsController extends Controller
                $nodo = $xml->createElement('valorRetRenta',"0.00");
                $detalleVentas->appendChild($nodo);
            }
-           $nodo = $xml->createElement('formaPago',"20");
-           $detalleVentas->appendChild($nodo);
+           $formasDepago = $xml->createElement('formasDepago');
+           $formasDepago = $detalleVentas->appendChild($formasDepago);
+           $nodo = $xml->createElement('formaPago', '20');
+           $formasDepago->appendChild($nodo);
+
+
            $nodo = $xml->createElement('codEstab',$numEstabRuc);
            $detalleVentas->appendChild($nodo);
            $nodo = $xml->createElement('ventasEstab',"0.00");
