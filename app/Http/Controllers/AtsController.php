@@ -290,7 +290,7 @@ class AtsController extends Controller
            $nodo = $xml->createElement('pagoRegFis', $pagoRegFis);
            $pagoExterior->appendChild($nodo);
            if($sumaBases>1000) {
-               $formasDepago = $xml->createElement('formasDepago');
+               $formasDepago = $xml->createElement('formasDePago');
                $formasDepago = $detalleCompras->appendChild($formasDepago);
                $nodo = $xml->createElement('formaPago', '20');
                $formasDepago->appendChild($nodo);
@@ -383,30 +383,30 @@ class AtsController extends Controller
                    $reembolso->appendChild($nodo);
                    $nodo = $xml->createElement('secuencialReemb', $INVOICE_NO[2]);
                    $reembolso->appendChild($nodo);
-                   $nodo = $xml->createElement('autorizacionReemb', $rem->c_auth_id_sri);
+                   $nodo = $xml->createElement('fechaEmisionReemb',  date('d/m/Y', strtotime($rem->invoice_date)));
                    $reembolso->appendChild($nodo);
-
+                   $nodo = $xml->createElement('autorizacionReemb',$rem->c_auth_id_sri);
+                   $reembolso->appendChild($nodo);
                    $nodo = $xml->createElement('baseImponibleReemb',  number_format(abs(floatval($rem->base_amount0_vat)),2,".",""));
                    $reembolso->appendChild($nodo);
                    $nodo = $xml->createElement('baseImpGravReemb', number_format(abs(floatval($rem->base_amount_n_vat)),2,".",""));
-
                    $reembolso->appendChild($nodo);
                    $nodo = $xml->createElement('baseNoGraIvaReemb',  number_format(abs(floatval($rem->base_amount_no_vat)),2,".",""));
-
                    $reembolso->appendChild($nodo);
                    $nodo = $xml->createElement('baseImpExeReemb', "0.00");
                    $reembolso->appendChild($nodo);
-                   $totbasesImpReemb += floatval($rem->base_amount0_vat) + floatval($rem->base_amount_n_vat) + floatval($rem->base_amount_no_vat);
-
-                   $nodo = $xml->createElement('montoIceReemb', $rem->ice_amount);
+                   $totbasesImpReemb = floatval($rem->base_amount0_vat) + floatval($rem->base_amount_n_vat) + floatval($rem->base_amount_no_vat);
+                   $nodo = $xml->createElement('totbasesImpReemb',   number_format(abs(floatval($totbasesImpReemb)),2,".",""));
                    $reembolso->appendChild($nodo);
-                   $nodo = $xml->createElement('montoIvaRemb', $rem->vat_amount);
+                   $nodo = $xml->createElement('montoIceReemb',  number_format(abs(floatval($rem->ice_amount)),2,".",""));
+
+                   $reembolso->appendChild($nodo);
+                   $nodo = $xml->createElement('montoIvaRemb',  number_format(abs(floatval($rem->vat_amount)),2,".",""));
+
                    $reembolso->appendChild($nodo);
                }
 
-                   $nodo = $xml->createElement('totbasesImpReemb',   number_format(abs(floatval($totbasesImpReemb)),2,".",""));
 
-                   $detalleCompras->appendChild($nodo);
 
            }
        }
@@ -637,7 +637,7 @@ class AtsController extends Controller
                $nodo = $xml->createElement('valorRetRenta',"0.00");
                $detalleVentas->appendChild($nodo);
            }
-           $formasDepago = $xml->createElement('formasDepago');
+           $formasDepago = $xml->createElement('formasDePago');
            $formasDepago = $detalleVentas->appendChild($formasDepago);
            $nodo = $xml->createElement('formaPago', '20');
            $formasDepago->appendChild($nodo);
