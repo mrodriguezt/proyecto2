@@ -290,8 +290,10 @@ class AtsController extends Controller
            $nodo = $xml->createElement('pagoRegFis', $pagoRegFis);
            $pagoExterior->appendChild($nodo);
            if($sumaBases>1000) {
+               $formasDepago = $xml->createElement('formasDepago');
+               $formasDepago = $detalleCompras->appendChild($formasDepago);
                $nodo = $xml->createElement('formaPago', '20');
-               $pagoExterior->appendChild($nodo);
+               $formasDepago->appendChild($nodo);
            }
            if ($atsCompra->series_id != "41" && $atsCompra->series_id != "04" && $atsCompra->series_id != "05" ) {
                $air = $xml->createElement('air');
