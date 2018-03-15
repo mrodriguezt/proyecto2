@@ -774,7 +774,7 @@ class AtsController extends Controller
                ->select(\DB::connection('oracle')->raw('SUM(FULL_CURR_AMOUNT) AS ret'))
                ->get()->first();
            if(isset($retenciones->ret)){
-               $nodo = $xml->createElement('valorRetIva',number_format(abs(floatval($retenciones->iva)),2,".",""));
+               $nodo = $xml->createElement('valorRetIva',number_format(abs(floatval($retenciones->ret)),2,".",""));
                $detalleVentas->appendChild($nodo);
            }else{
                $nodo = $xml->createElement('valorRetIva',"0.00");
