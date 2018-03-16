@@ -304,8 +304,13 @@ class AtsController extends Controller
            } else {
                $pagoRegFis = "NO";
            }
-           $nodo = $xml->createElement('pagoRegFis', $pagoRegFis);
-           $pagoExterior->appendChild($nodo);
+           if ($atsCompra->id_payment_type == '01') {
+               $nodo = $xml->createElement('pagoRegFis', "NA");
+               $pagoExterior->appendChild($nodo);
+           }else{
+               $nodo = $xml->createElement('pagoRegFis', $pagoRegFis);
+               $pagoExterior->appendChild($nodo);
+           }
            if($sumaBases>1000) {
                $formasDepago = $xml->createElement('formasDePago');
                $formasDepago = $detalleCompras->appendChild($formasDepago);
