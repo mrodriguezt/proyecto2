@@ -1142,7 +1142,7 @@ class AtsController extends Controller
        $xml->formatOutput = true;
        //$path = public_path().'/rfq/';
        $el_xml = $xml->saveXML();
-        $nombreArchivo = public_path()."\atsExport\ATS-". $anio."-".$mes."-".$ruc->vat_no.".xml";
+        $nombreArchivo = public_path()."/atsExport/ATS-". $anio."-".$mes."-".$ruc->vat_no.".xml";
        $xml->save($nombreArchivo);
       // echo htmlentities($el_xml);
        return response()->download($nombreArchivo)->deleteFileAfterSend(true);
