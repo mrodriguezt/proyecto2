@@ -882,7 +882,7 @@ class AtsController extends Controller
            $detalleExportaciones = $exportacionesNodo->appendChild($detalleExportaciones);
 
            $exportacion->tax_id_type = str_replace("_BO", "", $exportacion->tax_id_type);
-           $nodo = $xml->createElement('tpIdClienteEx', $exportacion->tax_id_type);
+           $nodo = $xml->createElement('tpIdClienteEx', "21");
            $detalleExportaciones->appendChild($nodo);
 
            $nodo = $xml->createElement('idClienteEx', $exportacion->customer_id);
@@ -901,7 +901,7 @@ class AtsController extends Controller
                        $exportacion->person_type = "02";
                    }
                }
-               $nodo = $xml->createElement('tipoCli', 21);
+               $nodo = $xml->createElement('tipoCli', $exportacion->person_type);
                $detalleExportaciones->appendChild($nodo);
                $exportacion->name = $this->limpiarcadena($exportacion->name);
                $nodo = $xml->createElement('denoExpCli', $exportacion->name);
