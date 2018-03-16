@@ -433,8 +433,7 @@ class AtsController extends Controller
            $detalleCompras->insertBefore($impuestosReembolsos,$ultimoDetalleCompras);
            $detalleCompras->insertBefore($ultimoDetalleCompras,$impuestosReembolsos);
        }
-       $ventasNodo = $xml->createElement('ventas');
-       $ventasNodo = $raiz->appendChild($ventasNodo);
+
        $atsVentas = \DB::connection('oracle')->table('INSTANT_INVOICE')
            ->join('CUSTOMER_INFO', 'INSTANT_INVOICE.IDENTITY', '=', 'customer_info.customer_id')
            ->join('CUSTOMER_INFO_VAT', 'customer_info.customer_id', '=', 'customer_info_vat.customer_id')
@@ -447,6 +446,12 @@ class AtsController extends Controller
            ->groupBy('CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','INSTANT_INVOICE.SERIES_ID')
            ->get();
        $aClientes = array();
+       $creacionVentas=0;
+       if($atsVentas != null && count($atsVentas)>0){
+           $creacionVentas=1;
+           $ventasNodo = $xml->createElement('ventas');
+           $ventasNodo = $raiz->appendChild($ventasNodo);
+       }
        foreach ($atsVentas as $atsVenta) {
            $aClientes[] = $atsVenta->customer_id;
            $vtasTerceros = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
@@ -692,6 +697,11 @@ class AtsController extends Controller
            ->select(\DB::connection('oracle')->raw('COUNT(CUSTOMER_ORDER_INV_HEAD.INVOICE_ID) as NUMERO_COMPROBANTES'),'CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','CUSTOMER_ORDER_INV_HEAD.SERIES_ID')
            ->groupBy('CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','CUSTOMER_ORDER_INV_HEAD.SERIES_ID')
            ->get();
+       if($atsVentas != null && count($atsVentas)>0 && $creacionVentas==0){
+           $creacionVentas=1;
+           $ventasNodo = $xml->createElement('ventas');
+           $ventasNodo = $raiz->appendChild($ventasNodo);
+       }
        foreach ($atsVentas as $atsVenta) {
 
            $detalleVentas = $xml->createElement('detalleVentas');
@@ -849,16 +859,18 @@ class AtsController extends Controller
 
 
        }
-       $ventasEstablecimiento = $xml->createElement('ventasEstablecimiento');
-       $ventasEstablecimiento = $raiz->appendChild($ventasEstablecimiento);
-       $ventaEst = $xml->createElement('ventaEst');
-       $ventaEst = $ventasEstablecimiento->appendChild($ventaEst);
-       $nodo = $xml->createElement('codEstab',$numEstabRuc);
-       $ventaEst->appendChild($nodo);
-       $nodo = $xml->createElement('ventasEstab',"0.00");
-       $ventaEst->appendChild($nodo);
-       $nodo = $xml->createElement('ivaComp',"0.00");
-       $ventaEst->appendChild($nodo);
+       if($creacionVentas==1){
+           $ventasEstablecimiento = $xml->createElement('ventasEstablecimiento');
+           $ventasEstablecimiento = $raiz->appendChild($ventasEstablecimiento);
+           $ventaEst = $xml->createElement('ventaEst');
+           $ventaEst = $ventasEstablecimiento->appendChild($ventaEst);
+           $nodo = $xml->createElement('codEstab',$numEstabRuc);
+           $ventaEst->appendChild($nodo);
+           $nodo = $xml->createElement('ventasEstab',"0.00");
+           $ventaEst->appendChild($nodo);
+           $nodo = $xml->createElement('ivaComp',"0.00");
+           $ventaEst->appendChild($nodo);
+       }
 
 
 
