@@ -9,7 +9,7 @@
 
         </div>
         <div class="form-group col-md-2">
-            {!! Form::label('mes','Mes') !!}after
+            {!! Form::label('mes','Mes') !!}
             {!! Form::select('mes',["01"=>"Enero","02"=>"Febrero","03"=>"Marzo","04"=>"Abril","05"=>"Mayo","06"=>"Junio","07"=>"Julio","08"=>"Agosto","09"=>"Septiembre","10"=>"Octubre","11"=>"Noviembre","12"=>"Diciembte"],null,['class'=>'form-control select-proyecto','placeholder'=>'Seleccione el Mes','required']) !!}
         </div>
 
