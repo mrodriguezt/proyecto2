@@ -184,7 +184,7 @@ class AtsController extends Controller
            $retencion = \DB::connection('oracle')->table('C_VOUCHER_RETENTION_LINE')
                ->where('INVOICE_ID', $atsCompra->invoice_id)
                ->where('TAX_CODE', '721A')
-               ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'99999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
+               ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'999999999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
                ->get()->first();
            if (isset($retencion->valorretencion)) {
                $nodo = $xml->createElement('valRetBien10', number_format(abs(floatval($retencion->valorretencion)),2,".",""));
@@ -196,7 +196,7 @@ class AtsController extends Controller
            $retencion = \DB::connection('oracle')->table('C_VOUCHER_RETENTION_LINE')
                ->where('INVOICE_ID', $atsCompra->invoice_id)
                ->where('TAX_CODE', '723A')
-               ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'99999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
+               ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'999999999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
                ->get()->first();
            if (isset($retencion->valorretencion)) {
                $nodo = $xml->createElement('valRetServ20', number_format(abs(floatval($retencion->valorretencion)),2,".",""));
@@ -207,7 +207,7 @@ class AtsController extends Controller
            $retencion = \DB::connection('oracle')->table('C_VOUCHER_RETENTION_LINE')
                ->where('INVOICE_ID', $atsCompra->invoice_id)
                ->where('TAX_CODE', '725A')
-               ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'99999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
+               ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'999999999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
                ->get()->first();
            if (isset($retencion->valorretencion)) {
                $nodo = $xml->createElement('valorRetBienes', number_format(abs(floatval($retencion->valorretencion)),2,".",""));
@@ -221,7 +221,7 @@ class AtsController extends Controller
            $retencion = \DB::connection('oracle')->table('C_VOUCHER_RETENTION_LINE')
                ->where('INVOICE_ID', $atsCompra->invoice_id)
                ->where('TAX_CODE', '727A')
-               ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'99999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
+               ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'999999999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
                ->get()->first();
            if (isset($retencion->valorretencion)) {
                $nodo = $xml->createElement('valorRetServicios', number_format(abs(floatval($retencion->valorretencion)),2,".",""));
@@ -232,7 +232,7 @@ class AtsController extends Controller
            $retencion = \DB::connection('oracle')->table('C_VOUCHER_RETENTION_LINE')
                ->where('INVOICE_ID', $atsCompra->invoice_id)
                ->where('TAX_CODE', '729A')
-               ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'99999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
+               ->select(\DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'999999999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) valorretencion'))
                ->get()->first();
            if (isset($retencion->valorretencion)) {
                $valRetServ100 = $xml->createElement('valRetServ100', number_format(abs(floatval($retencion->valorretencion)),2,".",""));
@@ -262,21 +262,38 @@ class AtsController extends Controller
                $nodo = $xml->createElement('denopago', $atsCompra->c_tax_regime_text);
                $pagoExterior->appendChild($nodo);
                //country_code_sri
+
+           }
+           if ($atsCompra->id_payment_type == '01') {
+               $nodo = $xml->createElement('paisEfecPago', "NA");
+               $pagoExterior->appendChild($nodo);
+           }else{
                $nodo = $xml->createElement('paisEfecPago', $atsCompra->country_code_sri);
                $pagoExterior->appendChild($nodo);
            }
+
            //C_DOUBLE_TRIBUTATION_DB
            if ($atsCompra->c_double_tributation_db == "") {
                $atsCompra->c_double_tributation_db = "NO";
            }
-           $nodo = $xml->createElement('aplicConvDobTrib', $atsCompra->c_double_tributation_db);
-           $pagoExterior->appendChild($nodo);
+           if ($atsCompra->id_payment_type == '01') {
+                $nodo = $xml->createElement('aplicConvDobTrib', "NA");
+                $pagoExterior->appendChild($nodo);
+           }else{
+               $nodo = $xml->createElement('aplicConvDobTrib', $atsCompra->c_double_tributation_db);
+               $pagoExterior->appendChild($nodo);
+           }
            //C_SUBJECT_RETENTION
            if ($atsCompra->c_subject_retention == "") {
                $atsCompra->c_subject_retention = "NO";
            }
-           $nodo = $xml->createElement('pagExtSujRetNorLeg', $atsCompra->c_subject_retention);
-           $pagoExterior->appendChild($nodo);
+           if ($atsCompra->id_payment_type == '01') {
+               $nodo = $xml->createElement('pagExtSujRetNorLeg', "NA");
+               $pagoExterior->appendChild($nodo);
+           }else{
+               $nodo = $xml->createElement('pagExtSujRetNorLeg', $atsCompra->c_subject_retention);
+               $pagoExterior->appendChild($nodo);
+           }
            //C_SUBJECT_RETENTION
            if ($atsCompra->c_subject_retention == "") {
                $atsCompra->c_subject_retention = "NO";
@@ -302,7 +319,8 @@ class AtsController extends Controller
                $retenciones = \DB::connection('oracle')->table('C_VOUCHER_RETENTION_LINE')
                    ->where('INVOICE_ID', $atsCompra->invoice_id)
                    ->whereRaw('TAX_CODE NOT LIKE \'7%\'', [])
-                   ->select('TAX_CODE', 'BASE_VALUE', 'TAX_CODE_PERC', 'RETENTION_VALUE')
+                   ->select( \DB::connection('oracle')->raw('SUM(to_number(RETENTION_VALUE, \'999999999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) RETENTION_VALUE'),\DB::connection('oracle')->raw('SUM(to_number(BASE_VALUE, \'999999999D99\', \'NLS_NUMERIC_CHARACTERS=\'\'.,\'\'\')) BASE_VALUE'),'TAX_CODE','TAX_CODE_PERC')
+                   ->groupBy('TAX_CODE','TAX_CODE_PERC')
                    ->get();
 
                foreach ($retenciones as $ret) {
@@ -359,7 +377,7 @@ class AtsController extends Controller
                $detalleCompras->appendChild($nodo);
            }
 
-
+           $totbasesImpReemb = 0;
            if ($atsCompra->series_id == "41") {
                $reembolsos = $xml->createElement('reembolsos');
                $reembolsos = $detalleCompras->appendChild($reembolsos);
@@ -368,7 +386,6 @@ class AtsController extends Controller
                    ->where('COMPANY', $compania)
                    ->select('SUPPLIER_ID', 'SERIES_ID', 'INVOICE_NO', 'INVOICE_DATE', 'C_AUTH_ID_SRI', 'BASE_AMOUNT0_VAT', 'BASE_AMOUNT_N_VAT', 'BASE_AMOUNT_NO_VAT', 'VAT_AMOUNT', 'ICE_AMOUNT', 'TAX_ID_TYPE')
                    ->get();
-               $totbasesImpReemb = 0;
                foreach ($reembolsosDB as $rem) {
                    $reembolso = $xml->createElement('reembolso');
                    $reembolso = $reembolsos->appendChild($reembolso);
@@ -405,10 +422,11 @@ class AtsController extends Controller
                    $reembolso->appendChild($nodo);
                }
                //$ultimoDetalleCompras
-               $impuestosReembolsos = $xml->createElement('totbasesImpReemb',   number_format(abs(floatval($totbasesImpReemb)),2,".",""));
-               $detalleCompras->insertBefore($impuestosReembolsos,$ultimoDetalleCompras);
-               $detalleCompras->insertBefore($ultimoDetalleCompras,$impuestosReembolsos);
+
            }
+           $impuestosReembolsos = $xml->createElement('totbasesImpReemb',   number_format(abs(floatval($totbasesImpReemb)),2,".",""));
+           $detalleCompras->insertBefore($impuestosReembolsos,$ultimoDetalleCompras);
+           $detalleCompras->insertBefore($ultimoDetalleCompras,$impuestosReembolsos);
        }
        $ventasNodo = $xml->createElement('ventas');
        $ventasNodo = $raiz->appendChild($ventasNodo);
@@ -444,6 +462,7 @@ class AtsController extends Controller
 
            $detalleVentas = $xml->createElement('detalleVentas');
            $detalleVentas = $ventasNodo->appendChild($detalleVentas);
+           $atsVenta->tax_id_type = str_replace("_BO","",$atsVenta->tax_id_type);
            $nodo = $xml->createElement('tpIdCliente',$atsVenta->tax_id_type);
            $detalleVentas->appendChild($nodo);
            $nodo = $xml->createElement('idCliente',$atsVenta->customer_id);
@@ -451,24 +470,27 @@ class AtsController extends Controller
            if($atsVenta->c_related_party==null || $atsVenta->c_related_party==""){
                $atsVenta->c_related_party="NO";
            }
-           $nodo = $xml->createElement('parteRel',$atsVenta->c_related_party);
-           $detalleVentas->appendChild($nodo);
-           if($atsVenta->person_type=="Physical"){
-               $atsVenta->person_type="01";
-           }else{
-               if($atsVenta->person_type=="Juridical"){
-                   $atsVenta->person_type="02";
-               }
-           }
-           $nodo = $xml->createElement('tipoCliente',$atsVenta->person_type);
+           $nodo = $xml->createElement('parteRelVtas',$atsVenta->c_related_party);
            $detalleVentas->appendChild($nodo);
 
-           $atsVenta->name = $this->limpiarcadena( $atsVenta->name);
-           $nodo = $xml->createElement('DenoCli',$atsVenta->name);
+           if ($atsVenta->tax_id_type == "06") {
+               if($atsVenta->person_type=="Physical"){
+                   $atsVenta->person_type="01";
+               }else{
+                   if($atsVenta->person_type=="Juridical"){
+                       $atsVenta->person_type="02";
+                   }
+               }
+               $nodo = $xml->createElement('tipoCliente',$atsVenta->person_type);
+               $detalleVentas->appendChild($nodo);
+               $atsVenta->name = $this->limpiarcadena( $atsVenta->name);
+               $nodo = $xml->createElement('denoCli',$atsVenta->name);
+           }
+
            $detalleVentas->appendChild($nodo);
            $nodo = $xml->createElement('tipoComprobante',$atsVenta->series_id);
            $detalleVentas->appendChild($nodo);
-           $nodo = $xml->createElement('tipoEm',"E");
+           $nodo = $xml->createElement('tipoEmision',"E");
            $detalleVentas->appendChild($nodo);
            $nodo = $xml->createElement('numeroComprobantes',$atsVenta->numero_comprobantes);
            $detalleVentas->appendChild($nodo);
@@ -643,12 +665,12 @@ class AtsController extends Controller
            $formasDepago->appendChild($nodo);
 
 
-           $nodo = $xml->createElement('codEstab',$numEstabRuc);
+         /*  $nodo = $xml->createElement('codEstab',$numEstabRuc);
            $detalleVentas->appendChild($nodo);
            $nodo = $xml->createElement('ventasEstab',"0.00");
            $detalleVentas->appendChild($nodo);
            $nodo = $xml->createElement('ivaComp',"0.00");
-           $detalleVentas->appendChild($nodo);
+           $detalleVentas->appendChild($nodo);*/
 
 
        }
@@ -669,6 +691,7 @@ class AtsController extends Controller
 
            $detalleVentas = $xml->createElement('detalleVentas');
            $detalleVentas = $ventasNodo->appendChild($detalleVentas);
+           $atsVenta->tax_id_type = str_replace("_BO","",$atsVenta->tax_id_type);
            $nodo = $xml->createElement('tpIdCliente',$atsVenta->tax_id_type);
            $detalleVentas->appendChild($nodo);
            $nodo = $xml->createElement('idCliente',$atsVenta->customer_id);
@@ -677,23 +700,27 @@ class AtsController extends Controller
            if($atsVenta->c_related_party==null || $atsVenta->c_related_party==""){
                $atsVenta->c_related_party="NO";
            }
-           $nodo = $xml->createElement('parteRel',$atsVenta->c_related_party);
+           $nodo = $xml->createElement('parteRelVtas',$atsVenta->c_related_party);
            $detalleVentas->appendChild($nodo);
-           if($atsVenta->person_type=="Physical"){
-               $atsVenta->person_type="01";
-           }else{
-               if($atsVenta->person_type=="Juridical"){
-                   $atsVenta->person_type="02";
+
+           if ($atsVenta->tax_id_type == "06") {
+               if($atsVenta->person_type=="Physical"){
+                   $atsVenta->person_type="01";
+               }else{
+                   if($atsVenta->person_type=="Juridical"){
+                       $atsVenta->person_type="02";
+                   }
                }
+               $nodo = $xml->createElement('tipoCliente',$atsVenta->person_type);
+               $detalleVentas->appendChild($nodo);
+               $atsVenta->name = $this->limpiarcadena( $atsVenta->name);
+               $nodo = $xml->createElement('denoCli',$atsVenta->name);
            }
-           $nodo = $xml->createElement('tipoCliente',$atsVenta->person_type);
-           $detalleVentas->appendChild($nodo);
-           $atsVenta->name = $this->limpiarcadena( $atsVenta->name);
-           $nodo = $xml->createElement('DenoCli',$atsVenta->name);
-           $detalleVentas->appendChild($nodo);
+
+
            $nodo = $xml->createElement('tipoComprobante',$atsVenta->series_id);
            $detalleVentas->appendChild($nodo);
-           $nodo = $xml->createElement('tipoEm',"E");
+           $nodo = $xml->createElement('tipoEmision',"E");
            $detalleVentas->appendChild($nodo);
            $nodo = $xml->createElement('numeroComprobantes',$atsVenta->numero_comprobantes);
            $detalleVentas->appendChild($nodo);
@@ -802,18 +829,256 @@ class AtsController extends Controller
                $nodo = $xml->createElement('valorRetRenta',"0.00");
                $detalleVentas->appendChild($nodo);
            }
-           $nodo = $xml->createElement('formaPago',"20");
-           $detalleVentas->appendChild($nodo);
-           $nodo = $xml->createElement('codEstab',$numEstabRuc);
+
+           $formasDepago = $xml->createElement('formasDePago');
+           $formasDepago = $detalleVentas->appendChild($formasDepago);
+           $nodo = $xml->createElement('formaPago', '20');
+           $formasDepago->appendChild($nodo);
+
+           /*$nodo = $xml->createElement('codEstab',$numEstabRuc);
            $detalleVentas->appendChild($nodo);
            $nodo = $xml->createElement('ventasEstab',"0.00");
            $detalleVentas->appendChild($nodo);
            $nodo = $xml->createElement('ivaComp',"0.00");
-           $detalleVentas->appendChild($nodo);
+           $detalleVentas->appendChild($nodo);*/
 
 
        }
-       //ID_PAYMENT_TYPE
+       $ventasEstablecimiento = $xml->createElement('ventasEstablecimiento');
+       $ventasEstablecimiento = $raiz->appendChild($ventasEstablecimiento);
+       $ventaEst = $xml->createElement('ventaEst');
+       $ventaEst = $ventasEstablecimiento->appendChild($ventaEst);
+       $nodo = $xml->createElement('codEstab',$numEstabRuc);
+       $ventaEst->appendChild($nodo);
+       $nodo = $xml->createElement('ventasEstab',"0.00");
+       $ventaEst->appendChild($nodo);
+       $nodo = $xml->createElement('ivaComp',"0.00");
+       $ventaEst->appendChild($nodo);
+
+
+
+
+       $exportacionesNodo = $xml->createElement('exportaciones');
+       $exportacionesNodo = $raiz->appendChild($exportacionesNodo);
+
+       $exportaciones= \DB::connection('oracle')->table('INSTANT_INVOICE')
+           ->join('CUSTOMER_INFO', 'INSTANT_INVOICE.IDENTITY', '=', 'customer_info.customer_id')
+           ->join('C_INVOIC_EXPORTATION_DATA', 'C_INVOIC_EXPORTATION_DATA.INVOICE_ID', '=', 'INSTANT_INVOICE.INVOICE_ID')
+           ->join('CUSTOMER_INFO_VAT', 'customer_info.customer_id', '=', 'customer_info_vat.customer_id')
+           ->where('INSTANT_INVOICE.invoice_type','Like','EXPORTACIO%')
+           ->where('INSTANT_INVOICE.COMPANY', $compania)
+           ->where('CUSTOMER_INFO_VAT.COMPANY', $compania)
+           ->whereNotIn('INSTANT_INVOICE.OBJSTATE',['Preliminary','Cancelled'])
+           ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+           ->select('C_INVOIC_EXPORTATION_DATA.COUNTRY_CODE_SRI','C_INVOIC_EXPORTATION_DATA.TAX_HAVEN_ID','C_INVOIC_EXPORTATION_DATA.C_TAX_REGIME','C_INVOIC_EXPORTATION_DATA.COUNTRY_CODE_SRI','C_INVOIC_EXPORTATION_DATA.EXPORTATION_CODE','C_INVOIC_EXPORTATION_DATA.OPERATION_ID','C_INVOIC_EXPORTATION_DATA.C_GRAVA_INCOME_TAX','C_INVOIC_EXPORTATION_DATA.C_TAX_VALUE','C_INVOIC_EXPORTATION_DATA.DISTRICT_CODE','C_INVOIC_EXPORTATION_DATA.YEAR','C_INVOIC_EXPORTATION_DATA.SCHAME_CODE','C_INVOIC_EXPORTATION_DATA.CORRELATIVE','C_INVOIC_EXPORTATION_DATA.CHECKER','C_INVOIC_EXPORTATION_DATA.TRANSPORT_DOCUMENT','C_INVOIC_EXPORTATION_DATA.TRANSACTION_DATE','C_INVOIC_EXPORTATION_DATA.NO_FUE','C_INVOIC_EXPORTATION_DATA.FOB_VALUE','C_INVOIC_EXPORTATION_DATA.FOB_VOUCHER',\DB::connection('oracle')->raw('(C_ELECTRONIC_INVOICE_AUTH_API.Get_C_Auth_Id_Sri(INSTANT_INVOICE.COMPANY,INSTANT_INVOICE.INVOICE_ID)) as SRI_AUTH'),'C_INVOIC_EXPORTATION_DATA.REG_TYPE_ID','CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','INSTANT_INVOICE.SERIES_ID','INSTANT_INVOICE.INVOICE_NO','INSTANT_INVOICE.INVOICE_DATE')
+           ->get();
+       foreach ($exportaciones as $exportacion) {
+           $detalleExportaciones = $xml->createElement('detalleExportaciones');
+           $detalleExportaciones = $exportacionesNodo->appendChild($detalleExportaciones);
+
+           $exportacion->tax_id_type = str_replace("_BO", "", $exportacion->tax_id_type);
+           $nodo = $xml->createElement('tpIdClienteEx', $exportacion->tax_id_type);
+           $detalleExportaciones->appendChild($nodo);
+
+           $nodo = $xml->createElement('idClienteEx', $exportacion->customer_id);
+           $detalleExportaciones->appendChild($nodo);
+            if($exportacion->c_related_party==null){
+                $exportacion->c_related_party="NO";
+            }
+           $nodo = $xml->createElement('parteRelExp', $exportacion->c_related_party);
+           $detalleExportaciones->appendChild($nodo);
+
+           //if ($exportacion->tax_id_type == "06") {
+               if ($exportacion->person_type == "Physical") {
+                   $exportacion->person_type = "01";
+               } else {
+                   if ($exportacion->person_type == "Juridical") {
+                       $exportacion->person_type = "02";
+                   }
+               }
+               $nodo = $xml->createElement('tipoCli', 21);
+               $detalleExportaciones->appendChild($nodo);
+               $exportacion->name = $this->limpiarcadena($exportacion->name);
+               $nodo = $xml->createElement('denoExpCli', $exportacion->name);
+               $detalleExportaciones->appendChild($nodo);
+           //}
+           $nodo = $xml->createElement('tipoRegi', $exportacion->reg_type_id);
+           $detalleExportaciones->appendChild($nodo);
+           //'C_INVOIC_EXPORTATION_DATA.COUNTRY_CODE_SRI','C_INVOIC_EXPORTATION_DATA.TAX_HAVEN_ID','C_INVOIC_EXPORTATION_DATA.C_TAX_REGIME','C_INVOIC_EXPORTATION_DATA.COUNTRY_CODE_SRI','C_INVOIC_EXPORTATION_DATA.EXPORTATION_CODE','C_INVOIC_EXPORTATION_DATA.OPERATION_ID','C_INVOIC_EXPORTATION_DATA.C_GRAVA_INCOME_TAX','C_INVOIC_EXPORTATION_DATA.C_TAX_VALUE','C_INVOIC_EXPORTATION_DATA.DISTRICT_CODE','C_INVOIC_EXPORTATION_DATA.YEAR','C_INVOIC_EXPORTATION_DATA.SCHAME_CODE','C_INVOIC_EXPORTATION_DATA.CORRELATIVE','C_INVOIC_EXPORTATION_DATA.CHECKER','C_INVOIC_EXPORTATION_DATA.TRANSPORT_DOCUMENT','C_INVOIC_EXPORTATION_DATA.TRANSACTION_DATE','C_INVOIC_EXPORTATION_DATA.NO_FUE','C_INVOIC_EXPORTATION_DATA.FOB_VALUE','C_INVOIC_EXPORTATION_DATA.FOB_VOUCHER'
+           $nodo = $xml->createElement('paisEfecPagoGen', $exportacion->country_code_sri);
+           $detalleExportaciones->appendChild($nodo);
+           //TAX_HAVEN_ID
+           if (isset($exportacion->tax_haven_id)) {
+               if ($exportacion->tax_haven_id != null) {
+                   $nodo = $xml->createElement('paisEfecPagoParFis', $exportacion->tax_haven_id);
+                   $detalleExportaciones->appendChild($nodo);
+               }
+           }
+           //C_TAX_REGIME
+           if (isset($exportacion->c_tax_regime)) {
+               if ($exportacion->c_tax_regime != null) {
+                   $nodo = $xml->createElement('denopagoRegFis', $exportacion->c_tax_regime);
+                   $detalleExportaciones->appendChild($nodo);
+               }
+           }
+           //COUNTRY_CODE_SRI
+           if (isset($exportacion->country_code_sri)) {
+               if ($exportacion->country_code_sri != null) {
+                   $nodo = $xml->createElement('paisEfecExp', $exportacion->country_code_sri);
+                   $detalleExportaciones->appendChild($nodo);
+               }
+           }
+
+           //reg_type_id<>01 - poner SI ----------------------
+           if ($exportacion->reg_type_id != '01' && $exportacion->reg_type_id != null) {
+               $nodo = $xml->createElement('pagoRegFis', "SI");
+               $detalleExportaciones->appendChild($nodo);
+           }
+
+           //EXPORTATION_CODE
+           if(isset($exportacion->exportation_code)){
+               if($exportacion->exportation_code!=null){
+                   $nodo = $xml->createElement('exportacionDe',$exportacion->exportation_code);
+                   $detalleExportaciones->appendChild($nodo);
+               }
+           }
+
+            //OPERATION_ID
+           if(isset($exportacion->opertation_id)){
+               if($exportacion->opertation_id!=null){
+                   $nodo = $xml->createElement('tipIngExt',$exportacion->opertation_id);
+                   $detalleExportaciones->appendChild($nodo);
+               }
+           }
+
+            //C_GRAVA_INCOME_TAX
+           if(isset($exportacion->c_grava_income_tax)){
+               if($exportacion->c_grava_income_tax!=null){
+                   $nodo = $xml->createElement('ingextgravotropaís',$exportacion->c_grava_income_tax);
+                   $detalleExportaciones->appendChild($nodo);
+               }
+           }
+
+            //C_TAX_VALUE
+           if(isset($exportacion->c_tax_value)){
+               if($exportacion->c_tax_value!=null){
+                   $nodo = $xml->createElement('impuestootropaís', number_format(abs(floatval($exportacion->c_tax_value)),2,".",""));
+
+                   $detalleExportaciones->appendChild($nodo);
+               }
+           }
+            ;
+            //SERIES_ID
+           if(isset($exportacion->series_id)){
+               if($exportacion->series_id!=null){
+                   $nodo = $xml->createElement('tipoComprobante',$exportacion->series_id);
+                   $detalleExportaciones->appendChild($nodo);
+               }
+           }
+
+            //DISTRICT_CODE
+           if(isset($exportacion->distrinct_code)){
+               if($exportacion->distrinct_code!=null){
+                   $nodo = $xml->createElement('distAduanero',$exportacion->distrinct_code);
+                   $detalleExportaciones->appendChild($nodo);
+               }
+           }
+
+            //YEAR
+           if(isset($exportacion->year)){
+               if($exportacion->year!=null){
+                   $nodo = $xml->createElement('anio',$exportacion->year);
+                   $detalleExportaciones->appendChild($nodo);
+               }
+           }
+
+           //SCHAME_CODE
+           if(isset($exportacion->schame_code)){
+               if($exportacion->schame_code!=null){
+                   $nodo = $xml->createElement('regimen',$exportacion->schame_code);
+                   $detalleExportaciones->appendChild($nodo);
+               }
+           }
+
+            //CORRELATIVE
+           if(isset($exportacion->correlative)){
+               if($exportacion->correlative!=null){
+                   $nodo = $xml->createElement('correlativo',$exportacion->correlative);
+                   $detalleExportaciones->appendChild($nodo);
+               }
+           }
+
+
+             //CHECKER
+           if(isset($exportacion->checker)){
+               if($exportacion->checker!=null){
+                   $nodo = $xml->createElement('verificador',$exportacion->checker);
+                   $detalleExportaciones->appendChild($nodo);
+               }
+           }
+
+            //TRANSPORT_DOCUMENT
+           if(isset($exportacion->transport_document)){
+               if($exportacion->transport_document!=null){
+                   $nodo = $xml->createElement('docTransp',$exportacion->transport_document);
+                   $detalleExportaciones->appendChild($nodo);
+               }
+           }
+
+            //TRANSACTION_DATE
+           if(isset($exportacion->transaction_date)){
+               if($exportacion->transaction_date!=null){
+                   $nodo = $xml->createElement('fechaEmbarque',date('d/m/Y', strtotime($exportacion->transaction_date)));
+                   $detalleExportaciones->appendChild($nodo);
+               }
+           }
+
+            //NO_FUE
+           if(isset($exportacion->no_fue)){
+               if($exportacion->no_fue!=null && $exportacion->no_fue!="0000000000000"){
+                   $nodo = $xml->createElement('fue',$exportacion->no_fue);
+                   $detalleExportaciones->appendChild($nodo);
+               }
+           }
+
+            //FOB_VALUE
+           if(isset($exportacion->fob_value)){
+               if($exportacion->fob_value!=null){
+                   $nodo = $xml->createElement('valorFOB', number_format(abs(floatval($exportacion->fob_value)),2,".",""));
+                   $detalleExportaciones->appendChild($nodo);
+               }
+           }
+
+            //FOB_VOUCHER
+           if(isset($exportacion->fob_voucher)){
+               if($exportacion->fob_voucher!=null){
+                   $nodo = $xml->createElement('valorFOBComprobante', number_format(abs(floatval($exportacion->fob_voucher)),2,".",""));
+                   $detalleExportaciones->appendChild($nodo);
+               }
+           }
+
+
+
+            $a_invoice = explode("-",$exportacion->invoice_no);
+            $nodo = $xml->createElement('establecimiento',$a_invoice[0]);
+           $detalleExportaciones->appendChild($nodo);
+
+            $nodo = $xml->createElement('puntoEmision',$a_invoice[1]);
+           $detalleExportaciones->appendChild($nodo);
+
+            $nodo = $xml->createElement('secuencial',intval($a_invoice[2]));
+           $detalleExportaciones->appendChild($nodo);
+
+            $nodo = $xml->createElement('autorizacion',$exportacion->sri_auth);
+           $detalleExportaciones->appendChild($nodo);
+
+            $nodo = $xml->createElement('fechaEmision',date('d/m/Y', strtotime($exportacion->invoice_date)));
+           $detalleExportaciones->appendChild($nodo);
+
+
+       }
+
+
        $anuladosNodo = $xml->createElement('anulados');
        $anuladosNodo = $raiz->appendChild($anuladosNodo);
 
@@ -874,34 +1139,16 @@ class AtsController extends Controller
            }
        }
 
-/*
-       $exportacionesNodo = $xml->createElement('exportaciones');
-       $exportacionesNodo = $raiz->appendChild($exportacionesNodo);
-
-       $exportaciones= \DB::connection('oracle')->table('INSTANT_INVOICE')
-           ->join('CUSTOMER_INFO', 'INSTANT_INVOICE.IDENTITY', '=', 'customer_info.customer_id')
-           ->join('C_INVOIC_EXPORTATION_DATA', 'C_INVOIC_EXPORTATION_DATA.INVOICE_ID', '=', 'INSTANT_INVOICE.INVOICE_ID')
-           ->join('CUSTOMER_INFO_VAT', 'customer_info.customer_id', '=', 'customer_info_vat.customer_id')
-           ->where('INSTANT_INVOICE.invoice_type','Like','EXPORTACIO%')
-           ->where('INSTANT_INVOICE.COMPANY', $compania)
-           ->whereNotIn('INSTANT_INVOICE.OBJSTATE',['Preliminary','Cancelled'])
-           ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
-           ->select('CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','INSTANT_INVOICE.SERIES_ID')
-           ->get();
-       foreach ($exportaciones as $exportacion) {
-           $detalleExportaciones = $xml->createElement('detalleExportaciones');
-           $detalleExportaciones = $exportacionesNodo->appendChild($detalleExportaciones);
-           $nodo = $xml->createElement('tipoComprobante', str_replace("_BO","",$exportacion->tax_id_type));
-           $detalleExportaciones->appendChild($nodo);
-           $nodo = $xml->createElement('idClienteEx', $exportacion->customer_id);
-           $detalleExportaciones->appendChild($nodo);
-       }
-*/
        $xml->formatOutput = true;
+       //$path = public_path().'/rfq/';
        $el_xml = $xml->saveXML();
+        $nombreArchivo = public_path()."\atsExport\ATS-". $anio."-".$mes."-".$ruc->vat_no.".xml";
+       $xml->save($nombreArchivo);
+      // echo htmlentities($el_xml);
+       return response()->download($nombreArchivo)->deleteFileAfterSend(true);
+       //return response()->file($nombreArchivo);
+       //return response()->view("ats.generacion_ats",["nombreArchivo"=>$nombreArchivo])->header('Content-Type', 'text/xml');
 
-       echo htmlentities($el_xml);
-      // return response()->view("ats.generacion_ats",["xml"=>htmlentities($el_xml)])->header('Content-Type', 'text/xml');
 
    }
 }

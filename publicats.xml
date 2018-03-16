@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<iva>
+  <TipoIDInformante>R</TipoIDInformante>
+  <IdInformante>1790350543001</IdInformante>
+  <razonSocial>CONTROL DE BODEGAS BTQ </razonSocial>
+  <Anio>2018</Anio>
+  <Mes>02</Mes>
+  <numEstabRuc>001</numEstabRuc>
+  <totalVentas>0.00</totalVentas>
+  <codigoOperativo>IVA</codigoOperativo>
+  <compras/>
+  <ventas/>
+  <ventasEstablecimiento>
+    <ventaEst>
+      <codEstab>001</codEstab>
+      <ventasEstab>0.00</ventasEstab>
+      <ivaComp>0.00</ivaComp>
+    </ventaEst>
+  </ventasEstablecimiento>
+  <exportaciones/>
+  <anulados/>
+</iva>
