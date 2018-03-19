@@ -440,11 +440,13 @@ class AtsController extends Controller
            ->whereIn('INSTANT_INVOICE.SERIES_ID', ['18','04','05'])
            ->where('INSTANT_INVOICE.COMPANY', $compania)
            ->where('CUSTOMER_INFO_VAT.COMPANY', $compania)
+           ->where('CUSTOMER_INFO_VAT.ADDRESS_ID','01')
            ->whereNotIn('INSTANT_INVOICE.OBJSTATE',['Preliminary','Cancelled'])
            ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
            ->select(\DB::connection('oracle')->raw('COUNT(instant_invoice.invoice_no) as NUMERO_COMPROBANTES'),'CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','INSTANT_INVOICE.SERIES_ID')
            ->groupBy('CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','INSTANT_INVOICE.SERIES_ID')
            ->get();
+
        $aClientes = array();
        $creacionVentas=0;
        if($atsVentas != null && count($atsVentas)>0){
@@ -480,8 +482,10 @@ class AtsController extends Controller
            if($atsVenta->c_related_party==null || $atsVenta->c_related_party==""){
                $atsVenta->c_related_party="NO";
            }
-           $nodo = $xml->createElement('parteRelVtas',$atsVenta->c_related_party);
-           $detalleVentas->appendChild($nodo);
+           if($atsVenta->tax_id_type=="04" || $atsVenta->tax_id_type=="05" || $atsVenta->tax_id_type=="06"){
+            $nodo = $xml->createElement('parteRelVtas',$atsVenta->c_related_party);
+            $detalleVentas->appendChild($nodo);
+           }
 
            if ($atsVenta->tax_id_type == "06") {
                if($atsVenta->person_type=="Physical"){
@@ -871,9 +875,6 @@ class AtsController extends Controller
            $nodo = $xml->createElement('ivaComp',"0.00");
            $ventaEst->appendChild($nodo);
        }
-
-
-
 
        $exportacionesNodo = $xml->createElement('exportaciones');
        $exportacionesNodo = $raiz->appendChild($exportacionesNodo);
