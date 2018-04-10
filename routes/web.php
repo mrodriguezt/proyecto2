@@ -20,7 +20,15 @@ Route::get('ats/', [
     'as'=>'ats',
     'uses'=>'AtsController@ats'
 ]);
+Route::get('subirFacturas/', [
+    'as'=>'subir.facturas',
+    'uses'=>'FacturasController@subir'
+]);
 Route::post('getAts/', [
     'as'=>'getAts',
     'uses'=>'AtsController@getAts'
+]);
+Route::post('subirXML/', [
+    'as'=>'subirXML',
+    'uses'=>'FacturasController@subirXML'
 ]);

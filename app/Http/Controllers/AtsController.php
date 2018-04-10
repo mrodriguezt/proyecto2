@@ -312,10 +312,12 @@ class AtsController extends Controller
                $pagoExterior->appendChild($nodo);
            }
            if($sumaBases>1000) {
-               $formasDepago = $xml->createElement('formasDePago');
-               $formasDepago = $detalleCompras->appendChild($formasDepago);
-               $nodo = $xml->createElement('formaPago', '20');
-               $formasDepago->appendChild($nodo);
+               if($atsCompra->series_id!="04") {
+                   $formasDepago = $xml->createElement('formasDePago');
+                   $formasDepago = $detalleCompras->appendChild($formasDepago);
+                   $nodo = $xml->createElement('formaPago', '20');
+                   $formasDepago->appendChild($nodo);
+               }
            }
            if ($atsCompra->series_id != "41" && $atsCompra->series_id != "04" && $atsCompra->series_id != "05" ) {
                $air = $xml->createElement('air');
@@ -447,6 +449,7 @@ class AtsController extends Controller
            ->groupBy('CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','INSTANT_INVOICE.SERIES_ID')
            ->get();
 
+
        $aClientes = array();
        $creacionVentas=0;
        if($atsVentas != null && count($atsVentas)>0){
@@ -468,6 +471,7 @@ class AtsController extends Controller
                ->select(\DB::connection('oracle')->raw('COUNT(CUSTOMER_ORDER_INV_HEAD.INVOICE_ID) as NUMERO_COMPROBANTES'),'CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','CUSTOMER_ORDER_INV_HEAD.SERIES_ID')
                ->groupBy('CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','CUSTOMER_ORDER_INV_HEAD.SERIES_ID')
                ->get()->first();
+
            if($vtasTerceros!=null){
                $atsVenta->numero_comprobantes = floatval($atsVenta->numero_comprobantes)+floatval($vtasTerceros->numero_comprobantes);
            }
@@ -507,10 +511,12 @@ class AtsController extends Controller
            $nodo = $xml->createElement('tipoEmision',"E");
            $detalleVentas->appendChild($nodo);
            $nodo = $xml->createElement('numeroComprobantes',$atsVenta->numero_comprobantes);
+
            $detalleVentas->appendChild($nodo);
            $noObjetoIva = \DB::connection('oracle')->table('INSTANT_INVOICE')
                ->join('INSTANT_INVOICE_ITEM', 'INSTANT_INVOICE_ITEM.INVOICE_ID', '=', 'INSTANT_INVOICE.INVOICE_ID')
-               ->whereIn('INSTANT_INVOICE.SERIES_ID', ['18','04','05'])
+               ->where('INSTANT_INVOICE.SERIES_ID', $atsVenta->series_id)
+               //->whereIn('INSTANT_INVOICE.SERIES_ID', ['18','04','05'])
                ->where('INSTANT_INVOICE.COMPANY', $compania)
                ->where('INSTANT_INVOICE.IDENTITY', $atsVenta->customer_id)
                ->whereIn('INSTANT_INVOICE_ITEM.VAT_CODE', ['IVA_VEN_00%_NO_OBJET'])
@@ -522,7 +528,8 @@ class AtsController extends Controller
            if($vtasTerceros!=null) {
                $ventas = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
                    ->join('CUSTOMER_ORDER_INV_ITEM', 'CUSTOMER_ORDER_INV_ITEM.INVOICE_ID', '=', 'CUSTOMER_ORDER_INV_HEAD.INVOICE_ID')
-                   ->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+                   //->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+                   ->where('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', $atsVenta->series_id)
                    ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
                    ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
                    ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE', ['IVA_VEN_00%_NO_OBJET'])
@@ -544,7 +551,8 @@ class AtsController extends Controller
            }
            $noObjetoIva = \DB::connection('oracle')->table('INSTANT_INVOICE')
                ->join('INSTANT_INVOICE_ITEM', 'INSTANT_INVOICE_ITEM.INVOICE_ID', '=', 'INSTANT_INVOICE.INVOICE_ID')
-               ->whereIn('INSTANT_INVOICE.SERIES_ID', ['18','04','05'])
+               //->whereIn('INSTANT_INVOICE.SERIES_ID', ['18','04','05'])
+               ->where('INSTANT_INVOICE.SERIES_ID', $atsVenta->series_id)
                ->where('INSTANT_INVOICE.COMPANY', $compania)
                ->where('INSTANT_INVOICE.IDENTITY', $atsVenta->customer_id)
                ->whereIn('INSTANT_INVOICE_ITEM.VAT_CODE', ['IVA_VEN_00%_LO_CRE','IVA_VEN_00%_RE_GA'])
@@ -555,7 +563,8 @@ class AtsController extends Controller
            if($vtasTerceros!=null) {
                $ventas = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
                    ->join('CUSTOMER_ORDER_INV_ITEM', 'CUSTOMER_ORDER_INV_ITEM.INVOICE_ID', '=', 'CUSTOMER_ORDER_INV_HEAD.INVOICE_ID')
-                   ->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+                   //->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+                   ->where('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', $atsVenta->series_id)
                    ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
                    ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
                    ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE', ['IVA_VEN_00%_LO_CRE','IVA_VEN_00%_RE_GA'])
@@ -577,7 +586,8 @@ class AtsController extends Controller
            }
            $noObjetoIva = \DB::connection('oracle')->table('INSTANT_INVOICE')
                ->join('INSTANT_INVOICE_ITEM', 'INSTANT_INVOICE_ITEM.INVOICE_ID', '=', 'INSTANT_INVOICE.INVOICE_ID')
-               ->whereIn('INSTANT_INVOICE.SERIES_ID', ['18','04','05'])
+               //->whereIn('INSTANT_INVOICE.SERIES_ID', ['18','04','05'])
+               ->where('INSTANT_INVOICE.SERIES_ID', $atsVenta->series_id)
                ->where('INSTANT_INVOICE.COMPANY', $compania)
                ->where('INSTANT_INVOICE.IDENTITY', $atsVenta->customer_id)
                ->whereIn('INSTANT_INVOICE_ITEM.VAT_CODE', ['IVA_VEN_12%_AF_CON','IVA_VEN_12%_AF_CRE','IVA_VEN_12%_LO_CON','IVA_VEN_12%_LO_CRE'])
@@ -588,7 +598,8 @@ class AtsController extends Controller
            if($vtasTerceros!=null) {
                $ventas = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
                    ->join('CUSTOMER_ORDER_INV_ITEM', 'CUSTOMER_ORDER_INV_ITEM.INVOICE_ID', '=', 'CUSTOMER_ORDER_INV_HEAD.INVOICE_ID')
-                   ->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+                   //->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+                   ->where('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', $atsVenta->series_id)
                    ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
                    ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
                    ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE',['IVA_VEN_12%_AF_CON','IVA_VEN_12%_AF_CRE','IVA_VEN_12%_LO_CON','IVA_VEN_12%_LO_CRE'])
@@ -611,7 +622,8 @@ class AtsController extends Controller
 
            $montoIva = \DB::connection('oracle')->table('INSTANT_INVOICE')
                ->join('INSTANT_INVOICE_ITEM', 'INSTANT_INVOICE_ITEM.INVOICE_ID', '=', 'INSTANT_INVOICE.INVOICE_ID')
-               ->whereIn('INSTANT_INVOICE.SERIES_ID', ['18','04','05'])
+               //->whereIn('INSTANT_INVOICE.SERIES_ID', ['18','04','05'])
+               ->where('INSTANT_INVOICE.SERIES_ID', $atsVenta->series_id)
                ->where('INSTANT_INVOICE.COMPANY', $compania)
                ->where('INSTANT_INVOICE.IDENTITY', $atsVenta->customer_id)
                ->whereNotIn('INSTANT_INVOICE.OBJSTATE',['Preliminary','Cancelled'])
@@ -621,7 +633,8 @@ class AtsController extends Controller
            if($vtasTerceros!=null) {
                $ventas = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
                    ->join('CUSTOMER_ORDER_INV_ITEM', 'CUSTOMER_ORDER_INV_ITEM.INVOICE_ID', '=', 'CUSTOMER_ORDER_INV_HEAD.INVOICE_ID')
-                   ->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+                   //->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+                   ->where('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', $atsVenta->series_id)
                    ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
                    ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
                    ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE',['IVA_VEN_12%_AF_CON','IVA_VEN_12%_AF_CRE','IVA_VEN_12%_LO_CON','IVA_VEN_12%_LO_CRE'])
@@ -648,7 +661,7 @@ class AtsController extends Controller
                ->whereRaw('VOUCHER_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
                ->select(\DB::connection('oracle')->raw('SUM(FULL_CURR_AMOUNT) AS ret'))
                ->get()->first();
-           if(isset($retenciones->ret)){
+           if(isset($retenciones->ret) && $atsVenta->series_id!="04" && $atsVenta->series_id!="05"){
                $nodo = $xml->createElement('valorRetIva',number_format(abs($retenciones->ret),2,".",""));
 
                $detalleVentas->appendChild($nodo);
@@ -665,7 +678,7 @@ class AtsController extends Controller
                // ->select('FULL_CURR_AMOUNT')
                ->get()->first();
 
-           if(isset($retenciones->ret)){
+           if(isset($retenciones->ret) && $atsVenta->series_id!="04" && $atsVenta->series_id!="05"){
                $nodo = $xml->createElement('valorRetRenta',number_format(abs($retenciones->ret),2,".",""));
 
                $detalleVentas->appendChild($nodo);
@@ -673,11 +686,14 @@ class AtsController extends Controller
                $nodo = $xml->createElement('valorRetRenta',"0.00");
                $detalleVentas->appendChild($nodo);
            }
-           $formasDepago = $xml->createElement('formasDePago');
-           $formasDepago = $detalleVentas->appendChild($formasDepago);
-           $nodo = $xml->createElement('formaPago', '20');
-           $formasDepago->appendChild($nodo);
 
+
+           if($atsVenta->series_id!="04") {
+               $formasDepago = $xml->createElement('formasDePago');
+               $formasDepago = $detalleVentas->appendChild($formasDepago);
+               $nodo = $xml->createElement('formaPago', '20');
+               $formasDepago->appendChild($nodo);
+           }
 
          /*  $nodo = $xml->createElement('codEstab',$numEstabRuc);
            $detalleVentas->appendChild($nodo);
@@ -746,7 +762,8 @@ class AtsController extends Controller
 
            $noObjetoIva = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
                ->join('CUSTOMER_ORDER_INV_ITEM', 'CUSTOMER_ORDER_INV_ITEM.INVOICE_ID', '=', 'CUSTOMER_ORDER_INV_HEAD.INVOICE_ID')
-               ->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+               //->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+               ->where('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', $atsVenta->series_id)
                ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
                ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
                ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE', ['IVA_VEN_00%_NO_OBJET'])
@@ -764,7 +781,8 @@ class AtsController extends Controller
            }
            $noObjetoIva = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
                ->join('CUSTOMER_ORDER_INV_ITEM', 'CUSTOMER_ORDER_INV_ITEM.INVOICE_ID', '=', 'CUSTOMER_ORDER_INV_HEAD.INVOICE_ID')
-               ->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+               //->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+               ->where('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', $atsVenta->series_id)
                ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
                ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
                ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE', ['IVA_VEN_00%_LO_CRE','IVA_VEN_00%_RE_GA'])
@@ -782,7 +800,8 @@ class AtsController extends Controller
 
            $noObjetoIva = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
                ->join('CUSTOMER_ORDER_INV_ITEM', 'CUSTOMER_ORDER_INV_ITEM.INVOICE_ID', '=', 'CUSTOMER_ORDER_INV_HEAD.INVOICE_ID')
-               ->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+               //->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+               ->where('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', $atsVenta->series_id)
                ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
                ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
                ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE',['IVA_VEN_12%_AF_CON','IVA_VEN_12%_AF_CRE','IVA_VEN_12%_LO_CON','IVA_VEN_12%_LO_CRE'])
@@ -801,7 +820,8 @@ class AtsController extends Controller
 
            $montoIva = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
                ->join('CUSTOMER_ORDER_INV_ITEM', 'CUSTOMER_ORDER_INV_ITEM.INVOICE_ID', '=', 'CUSTOMER_ORDER_INV_HEAD.INVOICE_ID')
-               ->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+               //->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+               ->where('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', $atsVenta->series_id)
                ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
                ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
                ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE',['IVA_VEN_12%_AF_CON','IVA_VEN_12%_AF_CRE','IVA_VEN_12%_LO_CON','IVA_VEN_12%_LO_CRE'])
@@ -825,7 +845,8 @@ class AtsController extends Controller
                ->whereRaw('VOUCHER_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
                ->select(\DB::connection('oracle')->raw('SUM(FULL_CURR_AMOUNT) AS ret'))
                ->get()->first();
-           if(isset($retenciones->ret)){
+           if(isset($retenciones->ret)&& $atsVenta->series_id!="04" && $atsVenta->series_id!="05"){
+
                $nodo = $xml->createElement('valorRetIva',number_format(abs(floatval($retenciones->ret)),2,".",""));
                $detalleVentas->appendChild($nodo);
            }else{
@@ -841,7 +862,7 @@ class AtsController extends Controller
                // ->select('FULL_CURR_AMOUNT')
                ->get()->first();
 
-           if(isset($retenciones->ret)){
+           if(isset($retenciones->ret)&& $atsVenta->series_id!="04" && $atsVenta->series_id!="05"){
                $nodo = $xml->createElement('valorRetRenta',number_format(abs(floatval($retenciones->ret)),2,".",""));
                $detalleVentas->appendChild($nodo);
            }else{
@@ -849,11 +870,13 @@ class AtsController extends Controller
                $detalleVentas->appendChild($nodo);
            }
 
-           $formasDepago = $xml->createElement('formasDePago');
-           $formasDepago = $detalleVentas->appendChild($formasDepago);
-           $nodo = $xml->createElement('formaPago', '20');
-           $formasDepago->appendChild($nodo);
+           if($atsVenta->series_id!="04") {
+               $formasDepago = $xml->createElement('formasDePago');
+               $formasDepago = $detalleVentas->appendChild($formasDepago);
 
+               $nodo = $xml->createElement('formaPago', '20');
+               $formasDepago->appendChild($nodo);
+           }
            /*$nodo = $xml->createElement('codEstab',$numEstabRuc);
            $detalleVentas->appendChild($nodo);
            $nodo = $xml->createElement('ventasEstab',"0.00");

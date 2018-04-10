@@ -13,11 +13,9 @@
  
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">        
-
+      <ul class="nav navbar-nav">
         <li><a href="{{ route('ats') }}">ATS</a></li>
-
-
+        <li><a href="{{ route('subir.facturas') }}">Facturas Proveedor</a></li>
       </ul>
       <ul class="nav navbar-nav">
             &nbsp; <li class="dropdown">
@@ -28,9 +26,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 Reportes <span class="caret"></span>
                             </a>
-
                             <ul class="dropdown-menu" role="menu">
-
                             </ul>
 
                         </li>
