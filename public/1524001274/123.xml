@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<factura id="comprobante" version="1.0.0">
+    <infoTributaria>
+        <ambiente>2</ambiente>
+        <tipoEmision>1</tipoEmision>
+        <razonSocial>DEGSO CIA LTDA</razonSocial>
+        <nombreComercial>DEGSO CIA. LTDA.</nombreComercial>
+        <ruc>1791705122001</ruc>
+        <claveAcceso>2003201801179170512200120010030000247381234567819</claveAcceso>
+        <codDoc>01</codDoc>
+        <estab>001</estab>
+        <ptoEmi>003</ptoEmi>
+        <secuencial>000024738</secuencial>
+        <dirMatriz>Mariano Pozo N73-77 y Calle 73A Ponciano Alto</dirMatriz>
+    </infoTributaria>
+    <infoFactura>
+        <fechaEmision>20/03/2018</fechaEmision>
+        <dirEstablecimiento>Mariano Pozo N73-77 y Calle 73A Ponciano Alto</dirEstablecimiento>
+        <obligadoContabilidad>SI</obligadoContabilidad>
+        <tipoIdentificacionComprador>04</tipoIdentificacionComprador>
+        <razonSocialComprador>SANTOSCMI  S.A.</razonSocialComprador>
+        <identificacionComprador>1791280733001</identificacionComprador>
+        <direccionComprador>Av. Eloy Alfaro N30-341 y Amazonas</direccionComprador>
+        <totalSinImpuestos>215.13</totalSinImpuestos>
+        <totalDescuento>0.00</totalDescuento>
+        <totalConImpuestos>
+            <totalImpuesto>
+                <codigo>2</codigo>
+                <codigoPorcentaje>2</codigoPorcentaje>
+                <baseImponible>215.13</baseImponible>
+                <valor>25.82</valor>
+            </totalImpuesto>
+        </totalConImpuestos>
+        <propina>0.00</propina>
+        <importeTotal>240.95</importeTotal>
+        <pagos>
+            <pago>
+                <formaPago>20</formaPago>
+                <total>240.95</total>
+                <plazo>30</plazo>
+                <unidadTiempo>dias</unidadTiempo>
+            </pago>
+        </pagos>
+    </infoFactura>
+    <detalles>
+        <detalle>
+            <codigoPrincipal>3M6800</codigoPrincipal>
+            <codigoAuxiliar>3M 6800</codigoAuxiliar>
+            <descripcion>Respirador de cara completa full face</descripcion>
+            <cantidad>1</cantidad>
+            <precioUnitario>144.63</precioUnitario>
+            <descuento>0</descuento>
+            <precioTotalSinImpuesto>144.63</precioTotalSinImpuesto>
+            <detallesAdicionales>
+                <detAdicional nombre="Unidad" valor="UNI"/>
+            </detallesAdicionales>
+            <impuestos>
+                <impuesto>
+                    <codigo>2</codigo>
+                    <codigoPorcentaje>2</codigoPorcentaje>
+                    <tarifa>12.00</tarifa>
+                    <baseImponible>144.63</baseImponible>
+                    <valor>17.36</valor>
+                </impuesto>
+            </impuestos>
+        </detalle>
+        <detalle>
+            <codigoPrincipal>3M6885</codigoPrincipal>
+            <codigoAuxiliar>3M 6885</codigoAuxiliar>
+            <descripcion>Protector de visor para respirador 6800</descripcion>
+            <cantidad>50</cantidad>
+            <precioUnitario>1.41</precioUnitario>
+            <descuento>0</descuento>
+            <precioTotalSinImpuesto>70.50</precioTotalSinImpuesto>
+            <detallesAdicionales>
+                <detAdicional nombre="Unidad" valor="UNI"/>
+            </detallesAdicionales>
+            <impuestos>
+                <impuesto>
+                    <codigo>2</codigo>
+                    <codigoPorcentaje>2</codigoPorcentaje>
+                    <tarifa>12.00</tarifa>
+                    <baseImponible>70.50</baseImponible>
+                    <valor>8.46</valor>
+                </impuesto>
+            </impuestos>
+        </detalle>
+    </detalles>
+    <infoAdicional>
+        <campoAdicional nombre="Codigo Cliente">001330</campoAdicional>
+        <campoAdicional nombre="Condiciones">30 Dias</campoAdicional>
+        <campoAdicional nombre="Vencimiento">19/04/2018</campoAdicional>
+        <campoAdicional nombre="Pedido">0</campoAdicional>
+        <campoAdicional nombre="Orden de Compra">Y1014376</campoAdicional>
+        <campoAdicional nombre="Dirección">Av. Eloy Alfaro N30-341 y Amazonas</campoAdicional>
+        <campoAdicional nombre="Teléfono">3 979600</campoAdicional>
+        <campoAdicional nombre="Email">proveedores@santoscmi.com;merly.alava@degso.com</campoAdicional>
+        <campoAdicional nombre="Ciudad">Quito</campoAdicional>
+        <campoAdicional nombre="Vendedor">MERLY ALAVA</campoAdicional>
+    </infoAdicional>
+</factura>
