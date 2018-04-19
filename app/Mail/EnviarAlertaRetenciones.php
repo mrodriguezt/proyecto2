@@ -33,7 +33,7 @@ class EnviarAlertaRetenciones extends Mailable
     {
 
         return $this->subject("Retenciones")->
-        //bcc("mrodriguezt@santoscmi.com","Mary Rodríguez")->
+        bcc("mrodriguezt@santoscmi.com","Mary Rodríguez")->
         view("correos.alertaRetencion")->with("facturasSinAutorizacion",$this->facturasSinAutorizacion)->with("facturasSinRetencion",$this->facturasSinRetencion);
 
     }
