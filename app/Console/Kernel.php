@@ -27,8 +27,8 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
         //$schedule->command('create:alertaRetenciones')->daily();
-        //$schedule->command('create:alertaRetenciones')->dailyAt('12:00:00');
-        $schedule->command('create:alertaRetenciones')->everyMinute();
+        $schedule->command('create:alertaRetenciones')->dailyAt('12:53:00');
+        //$schedule->command('create:alertaRetenciones')->everyMinute();
     }
 
     /**
