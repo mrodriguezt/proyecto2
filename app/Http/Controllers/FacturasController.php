@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Xml;
 use Illuminate\Http\Request;
 
+
 class FacturasController extends Controller
 {
     public function subir()
     {
         $mensaje="";
+
         return view('facturas.index')->with('mensaje',$mensaje);
     }
     public function subirXML(Request $request)
