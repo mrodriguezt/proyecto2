@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<autorizacion>
+<estado>AUTORIZADO</estado>
+<numeroAutorizacion>0212201701200132704080025617912561154</numeroAutorizacion>
+<fechaAutorizacion>2017-12-02T17:18:30-05:00</fechaAutorizacion>
+<ambiente>PRODUCCIÓN</ambiente>
+<comprobante><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<factura id="comprobante" version="1.1.0">
+<infoTributaria> 
+<ambiente>2</ambiente>
+<tipoEmision>1</tipoEmision>
+<razonSocial>OTECEL S.A.</razonSocial>
+<nombreComercial>MOVISTAR</nombreComercial>
+<ruc>1791256115001</ruc>
+<claveAcceso>0212201701179125611500120013270408002562355673716</claveAcceso>
+<codDoc>01</codDoc>
+<estab>001</estab>
+<ptoEmi>327</ptoEmi>
+<secuencial>040800256</secuencial>
+<dirMatriz>CENTRO CORPORATIVO EKOPARK, TORRE 3 AV. SIMÓN BOLÍVAR Y VÍA A NAYÓN QUITO-ECUADOR</dirMatriz>
+</infoTributaria>
+<infoFactura>
+<fechaEmision>02/12/2017</fechaEmision>
+<dirEstablecimiento>CENTRO CORPORATIVO EKOPARK, TORRE 3 AV. SIMÓN BOLÍVAR Y VÍA A NAYÓN QUITO-ECUADOR</dirEstablecimiento>
+<contribuyenteEspecial>5368</contribuyenteEspecial>
+<obligadoContabilidad>SI</obligadoContabilidad>
+<tipoIdentificacionComprador>04</tipoIdentificacionComprador>
+<razonSocialComprador>SANTOSCMI S.A. .</razonSocialComprador>
+<identificacionComprador>1791280733001</identificacionComprador>
+<direccionComprador>AV. ELOY ALFARO N30-341 AMAZONAS QUITO-ECUADOR</direccionComprador>
+<totalSinImpuestos>900.00</totalSinImpuestos>
+<totalDescuento>0.00</totalDescuento>
+<totalConImpuestos>
+<totalImpuesto>
+<codigo>2</codigo>
+<codigoPorcentaje>2</codigoPorcentaje>
+<baseImponible>900.00</baseImponible>
+<tarifa>12.00</tarifa>
+<valor>108.00</valor>
+</totalImpuesto>
+</totalConImpuestos>
+<propina>0.00</propina>
+<importeTotal>1008.00</importeTotal>
+<moneda>DOLAR</moneda>
+<pagos>
+<pago>
+<formaPago>01</formaPago>
+<total>1008.00</total>
+</pago>
+</pagos>
+</infoFactura>
+<detalles>
+<detalle>
+<codigoPrincipal>10505</codigoPrincipal>
+<codigoAuxiliar>0</codigoAuxiliar>
+<descripcion>INFOINTERNET EMPRESAS</descripcion>
+<cantidad>2</cantidad>
+<precioUnitario>0.000000</precioUnitario>
+<descuento>0.00</descuento>
+<precioTotalSinImpuesto>0.00</precioTotalSinImpuesto>
+<impuestos>
+<impuesto>
+<codigo>2</codigo>
+<codigoPorcentaje>2</codigoPorcentaje>
+<tarifa>12.00</tarifa>
+<baseImponible>0.00</baseImponible>
+<valor>0.00</valor>
+</impuesto>
+</impuestos>
+</detalle>
+<detalle>
+<codigoPrincipal>10506</codigoPrincipal>
+<codigoAuxiliar>0</codigoAuxiliar>
+<descripcion>IP VPN</descripcion>
+<cantidad>1</cantidad>
+<precioUnitario>0.000000</precioUnitario>
+<descuento>0.00</descuento>
+<precioTotalSinImpuesto>0.00</precioTotalSinImpuesto>
+<impuestos>
+<impuesto>
+<codigo>2</codigo>
+<codigoPorcentaje>2</codigoPorcentaje>
+<tarifa>12.00</tarifa>
+<baseImponible>0.00</baseImponible>
+<valor>0.00</valor>
+</impuesto>
+</impuestos>
+</detalle>
+<detalle>
+<codigoPrincipal>6104</codigoPrincipal>
+<codigoAuxiliar>0</codigoAuxiliar>
+<descripcion>CAUDAL INTERNET30MB</descripcion>
+<cantidad>2</cantidad>
+<precioUnitario>306.000000</precioUnitario>
+<descuento>0.00</descuento>
+<precioTotalSinImpuesto>612.00</precioTotalSinImpuesto>
+<impuestos>
+<impuesto>
+<codigo>2</codigo>
+<codigoPorcentaje>2</codigoPorcentaje>
+<tarifa>12.00</tarifa>
+<baseImponible>612.00</baseImponible>
+<valor>73.44</valor>
+</impuesto>
+</impuestos>
+</detalle>
+<detalle>
+<codigoPrincipal>6451</codigoPrincipal>
+<codigoAuxiliar>0</codigoAuxiliar>
+<descripcion>ULTIMA MILLA RENTA MENSUAL</descripcion>
+<cantidad>3</cantidad>
+<precioUnitario>36.666700</precioUnitario>
+<descuento>0.00</descuento>
+<precioTotalSinImpuesto>110.00</precioTotalSinImpuesto>
+<impuestos>
+<impuesto>
+<codigo>2</codigo>
+<codigoPorcentaje>2</codigoPorcentaje>
+<tarifa>12.00</tarifa>
+<baseImponible>110.00</baseImponible>
+<valor>13.20</valor>
+</impuesto>
+</impuestos>
+</detalle>
+<detalle>
+<codigoPrincipal>6876</codigoPrincipal>
+<codigoAuxiliar>0</codigoAuxiliar>
+<descripcion>CAUDAL IP VPN PLATA1MB</descripcion>
+<cantidad>1</cantidad>
+<precioUnitario>60.000000</precioUnitario>
+<descuento>0.00</descuento>
+<precioTotalSinImpuesto>60.00</precioTotalSinImpuesto>
+<impuestos>
+<impuesto>
+<codigo>2</codigo>
+<codigoPorcentaje>2</codigoPorcentaje>
+<tarifa>12.00</tarifa>
+<baseImponible>60.00</baseImponible>
+<valor>7.20</valor>
+</impuesto>
+</impuestos>
+</detalle>
+<detalle>
+<codigoPrincipal>8146</codigoPrincipal>
+<codigoAuxiliar>0</codigoAuxiliar>
+<descripcion>EQUIPO RENTA</descripcion>
+<cantidad>2</cantidad>
+<precioUnitario>50.000000</precioUnitario>
+<descuento>0.00</descuento>
+<precioTotalSinImpuesto>100.00</precioTotalSinImpuesto>
+<impuestos>
+<impuesto>
+<codigo>2</codigo>
+<codigoPorcentaje>2</codigoPorcentaje>
+<tarifa>12.00</tarifa>
+<baseImponible>100.00</baseImponible>
+<valor>12.00</valor>
+</impuesto>
+</impuestos>
+</detalle>
+<detalle>
+<codigoPrincipal>10591</codigoPrincipal>
+<codigoAuxiliar>0</codigoAuxiliar>
+<descripcion>EQUIPO - RENTA GENERICO</descripcion>
+<cantidad>1</cantidad>
+<precioUnitario>18.000000</precioUnitario>
+<descuento>0.00</descuento>
+<precioTotalSinImpuesto>18.00</precioTotalSinImpuesto>
+<impuestos>
+<impuesto>
+<codigo>2</codigo>
+<codigoPorcentaje>2</codigoPorcentaje>
+<tarifa>12.00</tarifa>
+<baseImponible>18.00</baseImponible>
+<valor>2.16</valor>
+</impuesto>
+</impuestos>
+</detalle>
+</detalles> 
+<infoAdicional>
+<campoAdicional nombre="Teléfono">022227700</campoAdicional>
+<campoAdicional nombre="Página web">www.movistar.com.ec</campoAdicional>
+<campoAdicional nombre="rucFirmante">1791256115001</campoAdicional>
+<campoAdicional nombre="Factura">001-327-040800256</campoAdicional>
+<campoAdicional nombre="email">ECRUZ@SANTOSCMI.COM</campoAdicional>
+<campoAdicional nombre="account">23556737</campoAdicional>
+<campoAdicional nombre="MSISDN">0</campoAdicional>
+<campoAdicional nombre="DireccionComprador">AV. ELOY ALFARO N30-341 AMAZONAS QUITO-ECUADOR</campoAdicional>
+<campoAdicional nombre="NoOrdenFactura">113053817</campoAdicional>
+<campoAdicional nombre="FormaPago">01</campoAdicional>
+<campoAdicional nombre="Valor">1008.00</campoAdicional>
+</infoAdicional>
+<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:etsi="http://uri.etsi.org/01903/v1.3.2#" Id="Signature767197">
+<ds:SignedInfo Id="Signature-SignedInfo266647">
+<ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"></ds:CanonicalizationMethod>
+<ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"></ds:SignatureMethod>
+<ds:Reference Id="SignedPropertiesID315405" Type="http://uri.etsi.org/01903#SignedProperties" URI="#Signature767197-SignedProperties666305">
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></ds:DigestMethod>
+<ds:DigestValue>XOMX09s3IP4AGY1S2MpHl+AbAD8=</ds:DigestValue>
+</ds:Reference>
+<ds:Reference URI="#Certificate1703146">
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></ds:DigestMethod>
+<ds:DigestValue>tDsr+n2ZnlUZv3srmvXamXTHsq0=</ds:DigestValue>
+</ds:Reference>
+<ds:Reference Id="Reference-ID-566038" URI="#comprobante">
+<ds:Transforms>
+<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></ds:Transform>
+</ds:Transforms>
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></ds:DigestMethod>
+<ds:DigestValue>jQoQVgm+lgxB4/68Tb3rw7M20Xk=</ds:DigestValue>
+</ds:Reference>
+</ds:SignedInfo>
+<ds:SignatureValue Id="SignatureValue527382">
+Rarb73rNIhcahKOAWnfbRCbYnnQoetKn6gt35nTCadgXpWL9fYD/WyMILYL3+J4h/EamY00ay0bO
+FBKKNAheVKhB4NAcBc+ibabZ+C1vybGz+Fwpvn+DBQQo3AV3xCZsOXwhaje8EA8PdxYMgzNkOU1C
+AC6R1PWHOlG5O1okvwVh9//EpvRNbSwRMAL6cu9QRmFgWiDzcTU5jo5FH/Kfirr2BUC15B4OoD80
+Cd+uSbey/QuMcNPuGHOd6gmp2I38aQtaXvG1EQnzBh6sJeIohhmiXD6C/5eAPaN2gz/e2cyB3Ivm
+BaVNXW+S03pa1cnls1t07Iyrbe6ZqftnBxUQMA==
+</ds:SignatureValue>
+<ds:KeyInfo Id="Certificate1703146">
+<ds:X509Data>
+<ds:X509Certificate>
+MIIJoDCCCIigAwIBAgIEVM4e9TANBgkqhkiG9w0BAQsFADCBkzELMAkGA1UEBhMCRUMxGzAZBgNV
+BAoTElNFQ1VSSVRZIERBVEEgUy5BLjEwMC4GA1UECxMnRU5USURBRCBERSBDRVJUSUZJQ0FDSU9O
+IERFIElORk9STUFDSU9OMTUwMwYDVQQDEyxBVVRPUklEQUQgREUgQ0VSVElGSUNBQ0lPTiBTVUIg
+U0VDVVJJVFkgREFUQTAeFw0xNjAzMTcyMTA4MzlaFw0xODAzMTcyMTM4MzlaMH0xCzAJBgNVBAYT
+AkVDMRswGQYDVQQKExJTRUNVUklUWSBEQVRBIFMuQS4xMDAuBgNVBAsTJ0VOVElEQUQgREUgQ0VS
+VElGSUNBQ0lPTiBERSBJTkZPUk1BQ0lPTjEfMB0GA1UEAxMWR2VybWFuIEYuIFNhb25hIEdhYmVs
+YTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALSOc7EghQqN8v3sosu/WYRbKJZowbmI
+sj76w17IiCwO9sVqUXLOctZSf1jAsZAvJGC05rMbfavRWg3HBTSX4IzQgyOOPNGjeKcZAhDC9WOY
+85ibIQGxEa5S21ihtQMHeeXV5fkzL1Pqx5xe4wT2OXugojl1ReG/6vqotXG8PwD4mAj7hO4nMt1b
+GFnPwuPCvP9mj/B/yRbzaMbXjA8X4ooNEJGEWyBBM2IGCHX8G6KesLL32xIT/03Pd8cxfFIoUkhi
+sci15b9QxVlIVgFKrSeqWuUoCP+PglKh32pTpzIQAYahKI9+uJQ2mBnB+SR2pxZg06xpKF8ah8/2
+c4O3EJUCAwEAAaOCBg8wggYLMAsGA1UdDwQEAwIF4DBZBggrBgEFBQcBAQRNMEswSQYIKwYBBQUH
+MAGGPWh0dHA6Ly9vY3NwZ3cuc2VjdXJpdHlkYXRhLm5ldC5lYy9lamJjYS9wdWJsaWN3ZWIvc3Rh
+dHVzL29jc3AwgcoGA1UdIASBwjCBvzA/BgorBgEEAYKmcgIKMDEwLwYIKwYBBQUHAgIwIxohQ2Vy
+dGlmaWNhZG8gZGUgTWllbWJybyBkZSBFbXByZXNhMHwGCisGAQQBgqZyAgQwbjBsBggrBgEFBQcC
+ARZgaHR0cHM6Ly93d3cuc2VjdXJpdHlkYXRhLm5ldC5lYy9sZXllc19ub3JtYXRpdmFzL1BvbGl0
+aWNhcyBkZSBDZXJ0aWZpY2FkbyBNaWVtYnJvIGRlIEVtcHJlc2EucGRmMBsGCisGAQQBgqZyAwoE
+DRMLT1RFQ0VMIFMuQS4wHQYKKwYBBAGCpnIDCwQPEw0xNzkxMjU2MTE1MDAxMBoGCisGAQQBgqZy
+AwEEDBMKMTcwODQ0MzIxMTAgBgorBgEEAYKmcgMCBBITEEdlcm1hbiBGcmFuY2lzY28wFQYKKwYB
+BAGCpnIDAwQHEwVTYW9uYTAWBgorBgEEAYKmcgMEBAgTBkdhYmVsYTAiBgorBgEEAYKmcgMFBBQT
+EkdlcmVudGUgVHJpYnV0YXJpbzAwBgorBgEEAYKmcgMHBCITIEF2LiBSZXB1YmxpY2EgRTctMTYg
+eSBMYSBQcmFkZXJhMBYGCisGAQQBgqZyAyIECBMGMTcwMTAyMB0GCisGAQQBgqZyAwgEDxMNNTkz
+LTItMjIyNzcwMDAVBgorBgEEAYKmcgMJBAcTBVF1aXRvMBcGCisGAQQBgqZyAwwECRMHRWN1YWRv
+cjAhBgorBgEEAYKmcgMgBBMTETAwMi0wMDEtMDAwMDA5MzY5MBMGCisGAQQBgqZyAyEEBRMDUEZY
+MCYGA1UdEQQfMB2BG2dlcm1hbi5zYW9uYUB0ZWxlZm9uaWNhLmNvbTCCAnkGA1UdHwSCAnAwggJs
+MIICaKCCAmSgggJghj1odHRwOi8vb2NzcGd3LnNlY3VyaXR5ZGF0YS5uZXQuZWMvZWpiY2EvcHVi
+bGljd2ViL3N0YXR1cy9vY3NwhoHUbGRhcDovL2RpcmVjdC5zZWN1cml0eWRhdGEubmV0LmVjL2Nu
+PUNSTDgzLGNuPUFVVE9SSURBRCUyMERFJTIwQ0VSVElGSUNBQ0lPTiUyMFNVQiUyMFNFQ1VSSVRZ
+JTIwREFUQSxvdT1FTlRJREFEJTIwREUlMjBDRVJUSUZJQ0FDSU9OJTIwREUlMjBJTkZPUk1BQ0lP
+TixvPVNFQ1VSSVRZJTIwREFUQSUyMFMuQS4sYz1FQz9jZXJ0aWZpY2F0ZVJldm9jYXRpb25MaXN0
+P2Jhc2WGgZ5odHRwczovL2RpcmVjdC5zZWN1cml0eWRhdGEubmV0LmVjL35jcmwvYXV0b3JpZGFk
+X2RlX2NlcnRpZmljYWNpb25fc3ViX3NlY3VyaXR5X2RhdGFfZW50aWRhZF9kZV9jZXJ0aWZpY2Fj
+aW9uX2RlX2luZm9ybWFjaW9uX2N1cml0eV9kYXRhX3MuYS5fY19lY19jcmxmaWxlLmNybKSBpjCB
+ozELMAkGA1UEBhMCRUMxGzAZBgNVBAoTElNFQ1VSSVRZIERBVEEgUy5BLjEwMC4GA1UECxMnRU5U
+SURBRCBERSBDRVJUSUZJQ0FDSU9OIERFIElORk9STUFDSU9OMTUwMwYDVQQDEyxBVVRPUklEQUQg
+REUgQ0VSVElGSUNBQ0lPTiBTVUIgU0VDVVJJVFkgREFUQTEOMAwGA1UEAxMFQ1JMODMwKwYDVR0Q
+BCQwIoAPMjAxNjAzMTcyMTA4MzlagQ8yMDE4MDMxNzIxMzgzOVowHwYDVR0jBBgwFoAU9y9M4HXn
+YqN4llsGti5xO8xsP5AwHQYDVR0OBBYEFHKn8rHdHNE3dxLDeLjXwo0zUfCVMAkGA1UdEwQCMAAw
+GQYJKoZIhvZ9B0EABAwwChsEVjguMQMCA6gwDQYJKoZIhvcNAQELBQADggEBAC/LOJIhz8HhmS24
+Xnmi6cS5/3wCKiu4wPLlIbpdBr7nO0/r+9QIAuwHhmrOHqouRCj66Rvc4g+8p3R7qTbJlWWOJ1lr
+RF44FGjxY9NVwp1aGdPgpDsKFnFZF9YqqQagvqtDaBNHirnNj/ZO94n4zRlk9voyM4SVO6+1/Zq7
+yHEtJ9Auws29a1NBmSmFoLNk+uuEnnrc9LVkLJSYG6gQ09DploS3stW6cyGeYgL7ilwxlPC9vEBQ
+PSjGXKSuSuIENLe+A2NiBbs5e0j1D+coa85yqGjz6N1jyj54LavPcJLWkWlS+VMnGMalZTcgOZTY
+89JbFddtOeCC+vaL+1v57Pk=
+</ds:X509Certificate>
+</ds:X509Data>
+<ds:KeyValue>
+<ds:RSAKeyValue>
+<ds:Modulus>
+tI5zsSCFCo3y/eyiy79ZhFsolmjBuYiyPvrDXsiILA72xWpRcs5y1lJ/WMCxkC8kYLTmsxt9q9Fa
+DccFNJfgjNCDI4480aN4pxkCEML1Y5jzmJshAbERrlLbWKG1Awd55dXl+TMvU+rHnF7jBPY5e6Ci
+OXVF4b/q+qi1cbw/APiYCPuE7icy3VsYWc/C48K8/2aP8H/JFvNoxteMDxfiig0QkYRbIEEzYgYI
+dfwbop6wsvfbEhP/Tc93xzF8UihSSGKxyLXlv1DFWUhWAUqtJ6pa5SgI/4+CUqHfalOnMhABhqEo
+j364lDaYGcH5JHanFmDTrGkoXxqHz/Zzg7cQlQ==
+</ds:Modulus>
+<ds:Exponent>AQAB</ds:Exponent>
+</ds:RSAKeyValue>
+</ds:KeyValue>
+</ds:KeyInfo>
+<ds:Object Id="Signature767197-Object778116"><etsi:QualifyingProperties Target="#Signature767197"><etsi:SignedProperties Id="Signature767197-SignedProperties666305"><etsi:SignedSignatureProperties><etsi:SigningTime>2017-12-02T16:21:32-05:00</etsi:SigningTime><etsi:SigningCertificate><etsi:Cert><etsi:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></ds:DigestMethod><ds:DigestValue>osVAStqk//1Dxq/EKNNxZjjtn5w=</ds:DigestValue></etsi:CertDigest><etsi:IssuerSerial><ds:X509IssuerName>CN=AUTORIDAD DE CERTIFICACION SUB SECURITY DATA,OU=ENTIDAD DE CERTIFICACION DE INFORMACION,O=SECURITY DATA S.A.,C=EC</ds:X509IssuerName><ds:X509SerialNumber>1422794485</ds:X509SerialNumber></etsi:IssuerSerial></etsi:Cert></etsi:SigningCertificate></etsi:SignedSignatureProperties><etsi:SignedDataObjectProperties><etsi:DataObjectFormat ObjectReference="#Reference-ID-566038"><etsi:Description>contenido comprobante</etsi:Description><etsi:MimeType>text/xml</etsi:MimeType></etsi:DataObjectFormat></etsi:SignedDataObjectProperties></etsi:SignedProperties></etsi:QualifyingProperties></ds:Object></ds:Signature></factura>]]></comprobante>
+<mensajes/>
+</autorizacion>
+

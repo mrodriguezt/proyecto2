@@ -32,3 +32,23 @@ Route::post('subirXML/', [
     'as'=>'subirXML',
     'uses'=>'FacturasController@subirXML'
 ]);
+Route::post('validarArchivo/', [
+    'as'=>'validarArchivo',
+    'uses'=>'FacturasController@validarArchivo'
+]);
+
+Route::get('validarFacturas/', [
+    'as'=>'validar.facturas',
+    'uses'=>'FacturasController@validarFacturas'
+]);
+
+Route::get('gridLayoutXML/', [
+    'as'=>'grid.layoutXML',
+    'uses'=>'FacturasController@layoutXML'
+]);
+Route::get('gridDataXML/{compania}', [
+    'as'=>'grid.dataXML',
+    'uses'=>'FacturasController@dataXML'
+]);
+
+

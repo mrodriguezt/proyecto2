@@ -1,0 +1,441 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><ns2:autorizacionComprobanteResponse xmlns:ns2="http://ec.gob.sri.ws.autorizacion"><RespuestaAutorizacionComprobante><claveAccesoConsultada>1604201801099234268400120010020000349210000000119</claveAccesoConsultada><numeroComprobantes>1</numeroComprobantes><autorizaciones><autorizacion><estado>AUTORIZADO</estado><numeroAutorizacion>1604201801099234268400120010020000349210000000119</numeroAutorizacion><fechaAutorizacion>2018-04-16T11:58:53-05:00</fechaAutorizacion><ambiente>PRODUCCI�N</ambiente><comprobante>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;factura id="comprobante" version="1.1.0">
+    &lt;infoTributaria>
+        &lt;ambiente>2&lt;/ambiente>
+        &lt;tipoEmision>1&lt;/tipoEmision>
+        &lt;razonSocial>TONICOMSA S.A.&lt;/razonSocial>
+        &lt;nombreComercial>TONICOMSA S.A.&lt;/nombreComercial>
+        &lt;ruc>0992342684001&lt;/ruc>
+        &lt;claveAcceso>1604201801099234268400120010020000349210000000119&lt;/claveAcceso>
+        &lt;codDoc>01&lt;/codDoc>
+        &lt;estab>001&lt;/estab>
+        &lt;ptoEmi>002&lt;/ptoEmi>
+        &lt;secuencial>000034921&lt;/secuencial>
+        &lt;dirMatriz>VIA A MARIANAS MEDICINWOW LOTE14 Y EL VERGEL&lt;/dirMatriz>
+    &lt;/infoTributaria>
+    &lt;infoFactura>
+        &lt;fechaEmision>16/04/2018&lt;/fechaEmision>
+        &lt;dirEstablecimiento>VIA A MARIANAS MEDICINWOW LOTE 14 Y EL VERGEL&lt;/dirEstablecimiento>        &lt;contribuyenteEspecial>00577&lt;/contribuyenteEspecial>
+        &lt;obligadoContabilidad>SI&lt;/obligadoContabilidad>
+        &lt;tipoIdentificacionComprador>04&lt;/tipoIdentificacionComprador>
+        &lt;razonSocialComprador>SANTOSCMI S.A.&lt;/razonSocialComprador>
+        &lt;identificacionComprador>1791280733001&lt;/identificacionComprador>
+&lt;direccionComprador>AV. ELOY ALFARO N30 341 Y AV. AMAZONAS&lt;/direccionComprador>
+        &lt;totalSinImpuestos>1471.25&lt;/totalSinImpuestos>
+        &lt;totalDescuento>0.00&lt;/totalDescuento>
+                &lt;totalConImpuestos>
+                    &lt;totalImpuesto>
+                &lt;codigo>2&lt;/codigo>
+                &lt;codigoPorcentaje>2&lt;/codigoPorcentaje>
+                &lt;baseImponible>1471.25&lt;/baseImponible>
+                &lt;valor>176.55&lt;/valor>
+            &lt;/totalImpuesto>
+        &lt;/totalConImpuestos>
+        &lt;propina>0.00&lt;/propina>
+        &lt;importeTotal>1647.80&lt;/importeTotal>
+        &lt;moneda>DOLAR&lt;/moneda>
+&lt;pagos>  &lt;pago>
+  &lt;formaPago>20&lt;/formaPago>
+  &lt;total>1647.80&lt;/total>
+  &lt;plazo>30.00&lt;/plazo>
+  &lt;unidadTiempo>DIAS&lt;/unidadTiempo>
+  &lt;/pago>&lt;/pagos>
+    &lt;/infoFactura>
+    &lt;detalles>
+    
+        &lt;detalle>
+            &lt;codigoPrincipal>04221105&lt;/codigoPrincipal>
+            &lt;descripcion>KCP GUAN JACK G80 NIT VER 13" T 9&lt;/descripcion>
+            &lt;cantidad>25.000000&lt;/cantidad>
+            &lt;precioUnitario>2.600000&lt;/precioUnitario>
+            &lt;descuento>0.00&lt;/descuento>
+            &lt;precioTotalSinImpuesto>65.00&lt;/precioTotalSinImpuesto>
+&lt;detallesAdicionales>
+        &lt;detAdicional nombre="Dato3" valor="114790">&lt;/detAdicional>
+   &lt;/detallesAdicionales> 
+            &lt;impuestos>
+                &lt;impuesto>
+                    &lt;codigo>2&lt;/codigo>
+                    &lt;codigoPorcentaje>2&lt;/codigoPorcentaje>
+                    &lt;tarifa>12.00&lt;/tarifa>
+                    &lt;baseImponible>65.00&lt;/baseImponible>
+                    &lt;valor>7.80&lt;/valor>
+                &lt;/impuesto>
+                
+            &lt;/impuestos>
+        &lt;/detalle>
+         
+        &lt;detalle>
+            &lt;codigoPrincipal>04211338&lt;/codigoPrincipal>
+            &lt;descripcion>BOTA WORKMAN SAFETY OIL RESISTANT AMARILLO C P 38&lt;/descripcion>
+            &lt;cantidad>10.000000&lt;/cantidad>
+            &lt;precioUnitario>14.750000&lt;/precioUnitario>
+            &lt;descuento>0.00&lt;/descuento>
+            &lt;precioTotalSinImpuesto>147.50&lt;/precioTotalSinImpuesto>
+&lt;detallesAdicionales>
+        &lt;detAdicional nombre="Dato3" valor="114747">&lt;/detAdicional>
+   &lt;/detallesAdicionales> 
+            &lt;impuestos>
+                &lt;impuesto>
+                    &lt;codigo>2&lt;/codigo>
+                    &lt;codigoPorcentaje>2&lt;/codigoPorcentaje>
+                    &lt;tarifa>12.00&lt;/tarifa>
+                    &lt;baseImponible>147.50&lt;/baseImponible>
+                    &lt;valor>17.70&lt;/valor>
+                &lt;/impuesto>
+                
+            &lt;/impuestos>
+        &lt;/detalle>
+         
+        &lt;detalle>
+            &lt;codigoPrincipal>04211339&lt;/codigoPrincipal>
+            &lt;descripcion>BOTA WORKMAN SAFETY OIL RESISTANT AMARILLO C P 39&lt;/descripcion>
+            &lt;cantidad>10.000000&lt;/cantidad>
+            &lt;precioUnitario>14.750000&lt;/precioUnitario>
+            &lt;descuento>0.00&lt;/descuento>
+            &lt;precioTotalSinImpuesto>147.50&lt;/precioTotalSinImpuesto>
+&lt;detallesAdicionales>
+        &lt;detAdicional nombre="Dato3" valor="114747">&lt;/detAdicional>
+   &lt;/detallesAdicionales> 
+            &lt;impuestos>
+                &lt;impuesto>
+                    &lt;codigo>2&lt;/codigo>
+                    &lt;codigoPorcentaje>2&lt;/codigoPorcentaje>
+                    &lt;tarifa>12.00&lt;/tarifa>
+                    &lt;baseImponible>147.50&lt;/baseImponible>
+                    &lt;valor>17.70&lt;/valor>
+                &lt;/impuesto>
+                
+            &lt;/impuestos>
+        &lt;/detalle>
+         
+        &lt;detalle>
+            &lt;codigoPrincipal>04211340&lt;/codigoPrincipal>
+            &lt;descripcion>BOTA WORKMAN SAFETY OIL RESISTANT AMARILLO C P 40&lt;/descripcion>
+            &lt;cantidad>10.000000&lt;/cantidad>
+            &lt;precioUnitario>14.750000&lt;/precioUnitario>
+            &lt;descuento>0.00&lt;/descuento>
+            &lt;precioTotalSinImpuesto>147.50&lt;/precioTotalSinImpuesto>
+&lt;detallesAdicionales>
+        &lt;detAdicional nombre="Dato3" valor="114747">&lt;/detAdicional>
+   &lt;/detallesAdicionales> 
+            &lt;impuestos>
+                &lt;impuesto>
+                    &lt;codigo>2&lt;/codigo>
+                    &lt;codigoPorcentaje>2&lt;/codigoPorcentaje>
+                    &lt;tarifa>12.00&lt;/tarifa>
+                    &lt;baseImponible>147.50&lt;/baseImponible>
+                    &lt;valor>17.70&lt;/valor>
+                &lt;/impuesto>
+                
+            &lt;/impuestos>
+        &lt;/detalle>
+         
+        &lt;detalle>
+            &lt;codigoPrincipal>04251840&lt;/codigoPrincipal>
+            &lt;descripcion>TRAJE IMPERMEABLE C 12 T 40&lt;/descripcion>
+            &lt;cantidad>12.000000&lt;/cantidad>
+            &lt;precioUnitario>14.350000&lt;/precioUnitario>
+            &lt;descuento>0.00&lt;/descuento>
+            &lt;precioTotalSinImpuesto>172.20&lt;/precioTotalSinImpuesto>
+&lt;detallesAdicionales>
+        &lt;detAdicional nombre="Dato3" valor="114747">&lt;/detAdicional>
+   &lt;/detallesAdicionales> 
+            &lt;impuestos>
+                &lt;impuesto>
+                    &lt;codigo>2&lt;/codigo>
+                    &lt;codigoPorcentaje>2&lt;/codigoPorcentaje>
+                    &lt;tarifa>12.00&lt;/tarifa>
+                    &lt;baseImponible>172.20&lt;/baseImponible>
+                    &lt;valor>20.66&lt;/valor>
+                &lt;/impuesto>
+                
+            &lt;/impuestos>
+        &lt;/detalle>
+         
+        &lt;detalle>
+            &lt;codigoPrincipal>04251842&lt;/codigoPrincipal>
+            &lt;descripcion>TRAJE IMPERMEABLE C 12 T 42&lt;/descripcion>
+            &lt;cantidad>13.000000&lt;/cantidad>
+            &lt;precioUnitario>14.350000&lt;/precioUnitario>
+            &lt;descuento>0.00&lt;/descuento>
+            &lt;precioTotalSinImpuesto>186.55&lt;/precioTotalSinImpuesto>
+&lt;detallesAdicionales>
+        &lt;detAdicional nombre="Dato3" valor="114747">&lt;/detAdicional>
+   &lt;/detallesAdicionales> 
+            &lt;impuestos>
+                &lt;impuesto>
+                    &lt;codigo>2&lt;/codigo>
+                    &lt;codigoPorcentaje>2&lt;/codigoPorcentaje>
+                    &lt;tarifa>12.00&lt;/tarifa>
+                    &lt;baseImponible>186.55&lt;/baseImponible>
+                    &lt;valor>22.39&lt;/valor>
+                &lt;/impuesto>
+                
+            &lt;/impuestos>
+        &lt;/detalle>
+         
+        &lt;detalle>
+            &lt;codigoPrincipal>04260553&lt;/codigoPrincipal>
+            &lt;descripcion>CASCO 902388 MILENIUM CLASS AZUL CON RACHET LIBUS&lt;/descripcion>
+            &lt;cantidad>30.000000&lt;/cantidad>
+            &lt;precioUnitario>6.300000&lt;/precioUnitario>
+            &lt;descuento>0.00&lt;/descuento>
+            &lt;precioTotalSinImpuesto>189.00&lt;/precioTotalSinImpuesto>
+&lt;detallesAdicionales>
+        &lt;detAdicional nombre="Dato3" valor="114747">&lt;/detAdicional>
+   &lt;/detallesAdicionales> 
+            &lt;impuestos>
+                &lt;impuesto>
+                    &lt;codigo>2&lt;/codigo>
+                    &lt;codigoPorcentaje>2&lt;/codigoPorcentaje>
+                    &lt;tarifa>12.00&lt;/tarifa>
+                    &lt;baseImponible>189.00&lt;/baseImponible>
+                    &lt;valor>22.68&lt;/valor>
+                &lt;/impuesto>
+                
+            &lt;/impuestos>
+        &lt;/detalle>
+         
+        &lt;detalle>
+            &lt;codigoPrincipal>04301110&lt;/codigoPrincipal>
+            &lt;descripcion>ANTEOJO DE SEGURIDAD NEON OSCURO AF 902028 LIBUS&lt;/descripcion>
+            &lt;cantidad>50.000000&lt;/cantidad>
+            &lt;precioUnitario>1.450000&lt;/precioUnitario>
+            &lt;descuento>0.00&lt;/descuento>
+            &lt;precioTotalSinImpuesto>72.50&lt;/precioTotalSinImpuesto>
+&lt;detallesAdicionales>
+        &lt;detAdicional nombre="Dato3" valor="114747">&lt;/detAdicional>
+   &lt;/detallesAdicionales> 
+            &lt;impuestos>
+                &lt;impuesto>
+                    &lt;codigo>2&lt;/codigo>
+                    &lt;codigoPorcentaje>2&lt;/codigoPorcentaje>
+                    &lt;tarifa>12.00&lt;/tarifa>
+                    &lt;baseImponible>72.50&lt;/baseImponible>
+                    &lt;valor>8.70&lt;/valor>
+                &lt;/impuesto>
+                
+            &lt;/impuestos>
+        &lt;/detalle>
+         
+        &lt;detalle>
+            &lt;codigoPrincipal>04301107&lt;/codigoPrincipal>
+            &lt;descripcion>ANTEOJO DE SEGURIDAD NEON CLARO AF 902027 LIBUS&lt;/descripcion>
+            &lt;cantidad>50.000000&lt;/cantidad>
+            &lt;precioUnitario>1.450000&lt;/precioUnitario>
+            &lt;descuento>0.00&lt;/descuento>
+            &lt;precioTotalSinImpuesto>72.50&lt;/precioTotalSinImpuesto>
+&lt;detallesAdicionales>
+        &lt;detAdicional nombre="Dato3" valor="114747">&lt;/detAdicional>
+   &lt;/detallesAdicionales> 
+            &lt;impuestos>
+                &lt;impuesto>
+                    &lt;codigo>2&lt;/codigo>
+                    &lt;codigoPorcentaje>2&lt;/codigoPorcentaje>
+                    &lt;tarifa>12.00&lt;/tarifa>
+                    &lt;baseImponible>72.50&lt;/baseImponible>
+                    &lt;valor>8.70&lt;/valor>
+                &lt;/impuesto>
+                
+            &lt;/impuestos>
+        &lt;/detalle>
+         
+        &lt;detalle>
+            &lt;codigoPrincipal>04231107&lt;/codigoPrincipal>
+            &lt;descripcion>PROT. AUDITIVO REUSABLE C CAJA Y CORDON 901467 LIBUS&lt;/descripcion>
+            &lt;cantidad>100.000000&lt;/cantidad>
+            &lt;precioUnitario>0.750000&lt;/precioUnitario>
+            &lt;descuento>0.00&lt;/descuento>
+            &lt;precioTotalSinImpuesto>75.00&lt;/precioTotalSinImpuesto>
+&lt;detallesAdicionales>
+        &lt;detAdicional nombre="Dato3" valor="114747">&lt;/detAdicional>
+   &lt;/detallesAdicionales> 
+            &lt;impuestos>
+                &lt;impuesto>
+                    &lt;codigo>2&lt;/codigo>
+                    &lt;codigoPorcentaje>2&lt;/codigoPorcentaje>
+                    &lt;tarifa>12.00&lt;/tarifa>
+                    &lt;baseImponible>75.00&lt;/baseImponible>
+                    &lt;valor>9.00&lt;/valor>
+                &lt;/impuesto>
+                
+            &lt;/impuestos>
+        &lt;/detalle>
+         
+        &lt;detalle>
+            &lt;codigoPrincipal>04221202&lt;/codigoPrincipal>
+            &lt;descripcion>GUANTE LANA PUNTOS PVC&lt;/descripcion>
+            &lt;cantidad>150.000000&lt;/cantidad>
+            &lt;precioUnitario>0.520000&lt;/precioUnitario>
+            &lt;descuento>0.00&lt;/descuento>
+            &lt;precioTotalSinImpuesto>78.00&lt;/precioTotalSinImpuesto>
+&lt;detallesAdicionales>
+        &lt;detAdicional nombre="Dato3" valor="114747">&lt;/detAdicional>
+   &lt;/detallesAdicionales> 
+            &lt;impuestos>
+                &lt;impuesto>
+                    &lt;codigo>2&lt;/codigo>
+                    &lt;codigoPorcentaje>2&lt;/codigoPorcentaje>
+                    &lt;tarifa>12.00&lt;/tarifa>
+                    &lt;baseImponible>78.00&lt;/baseImponible>
+                    &lt;valor>9.36&lt;/valor>
+                &lt;/impuesto>
+                
+            &lt;/impuestos>
+        &lt;/detalle>
+         
+        &lt;detalle>
+            &lt;codigoPrincipal>04221104&lt;/codigoPrincipal>
+            &lt;descripcion>KCP GUAN JACK G80 NIT VER 13" T 8&lt;/descripcion>
+            &lt;cantidad>25.000000&lt;/cantidad>
+            &lt;precioUnitario>2.600000&lt;/precioUnitario>
+            &lt;descuento>0.00&lt;/descuento>
+            &lt;precioTotalSinImpuesto>65.00&lt;/precioTotalSinImpuesto&gt;
+&lt;detallesAdicionales>
+        &lt;detAdicional nombre="Dato3" valor="114747">&lt;/detAdicional>
+   &lt;/detallesAdicionales> 
+            &lt;impuestos>
+                &lt;impuesto>
+                    &lt;codigo>2&lt;/codigo>
+                    &lt;codigoPorcentaje>2&lt;/codigoPorcentaje>
+                    &lt;tarifa>12.00&lt;/tarifa>
+                    &lt;baseImponible>65.00&lt;/baseImponible>
+                    &lt;valor>7.80&lt;/valor>
+                &lt;/impuesto>
+                
+            &lt;/impuestos>
+        &lt;/detalle>
+         
+        &lt;detalle>
+            &lt;codigoPrincipal>01110106&lt;/codigoPrincipal>
+            &lt;descripcion>PANO ABSORBENTE 2MB 17 X 19 PESO MEDIANO SOLO ACEITE ESP&lt;/descripcion>
+            &lt;cantidad>1.000000&lt;/cantidad>
+            &lt;precioUnitario>53.000000&lt;/precioUnitario>
+            &lt;descuento>0.00&lt;/descuento>
+            &lt;precioTotalSinImpuesto>53.00&lt;/precioTotalSinImpuesto>
+&lt;detallesAdicionales>
+        &lt;detAdicional nombre="Dato3" valor="114747">&lt;/detAdicional>
+   &lt;/detallesAdicionales> 
+            &lt;impuestos>
+                &lt;impuesto>
+                    &lt;codigo>2&lt;/codigo>
+                    &lt;codigoPorcentaje>2&lt;/codigoPorcentaje>
+                    &lt;tarifa>12.00&lt;/tarifa>
+                    &lt;baseImponible>53.00&lt;/baseImponible>
+                    &lt;valor>6.36&lt;/valor>
+                &lt;/impuesto>
+                
+            &lt;/impuestos>
+        &lt;/detalle>
+            &lt;/detalles>    &lt;infoAdicional>
+        &lt;campoAdicional nombre="eMail">rrondal@santoscmi.com&lt;/campoAdicional>&lt;campoAdicional nombre="eMail">proveedores@santoscmi.com&lt;/campoAdicional>
+        &lt;campoAdicional nombre="Sistema">FenixPRO&lt;/campoAdicional>
+        &lt;campoAdicional nombre="Vendedor">TRIVINO JORGE&lt;/campoAdicional>
+        &lt;campoAdicional nombre="Telefono">2828742&lt;/campoAdicional>
+        &lt;campoAdicional nombre="Observacion">AV. ELOY ALFARO N30 341 Y AV. AMAZONAS&lt;/campoAdicional>
+        &lt;campoAdicional nombre="Correo">info@tonicomsa.com&lt;/campoAdicional>
+        &lt;campoAdicional nombre="Forma Pago">OTROS CON UTILIZACION DEL SISTEMA FINANCIERO USD 1647.80&lt;/campoAdicional>
+        &lt;campoAdicional nombre="Plazo">30 DIAS&lt;/campoAdicional>
+        &lt;campoAdicional nombre="Orden de compra">1014689&lt;/campoAdicional>
+        &lt;campoAdicional nombre="Email Empresa">info@tonicomsa.com&lt;/campoAdicional>
+        &lt;campoAdicional nombre="Email cliente">rrondal@santoscmi.comproveedores@santoscmi.com&lt;/campoAdicional>
+    &lt;/infoAdicional>
+&lt;ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:etsi="http://uri.etsi.org/01903/v1.3.2#" Id="Signature36352">
+&lt;ds:SignedInfo Id="Signature-SignedInfo817021">
+&lt;ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315">&lt;/ds:CanonicalizationMethod>
+&lt;ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1">&lt;/ds:SignatureMethod>
+&lt;ds:Reference Id="SignedPropertiesID134108" Type="http://uri.etsi.org/01903#SignedProperties" URI="#Signature36352-SignedProperties842522">
+&lt;ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1">&lt;/ds:DigestMethod>
+&lt;ds:DigestValue>3ZRf1mrX/6MZ+fGcxO4vHD1gBfI=&lt;/ds:DigestValue>
+&lt;/ds:Reference>
+&lt;ds:Reference URI="#Certificate1446924">
+&lt;ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1">&lt;/ds:DigestMethod>
+&lt;ds:DigestValue>igRzfQQ2Js598/wyqIE3BHzj+6k=&lt;/ds:DigestValue>
+&lt;/ds:Reference>
+&lt;ds:Reference Id="Reference-ID-640099" URI="#comprobante">
+&lt;ds:Transforms>
+&lt;ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature">&lt;/ds:Transform>
+&lt;/ds:Transforms>
+&lt;ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1">&lt;/ds:DigestMethod>
+&lt;ds:DigestValue>BZUi201ReKKSPL2baJr17Izj9Ko=&lt;/ds:DigestValue>
+&lt;/ds:Reference>
+&lt;ds:Reference Id="Reference-ID-861082" URI="">
+&lt;ds:Transforms>
+&lt;ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature">&lt;/ds:Transform>
+&lt;/ds:Transforms>
+&lt;ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1">&lt;/ds:DigestMethod>
+&lt;ds:DigestValue>BZUi201ReKKSPL2baJr17Izj9Ko=&lt;/ds:DigestValue>
+&lt;/ds:Reference>
+&lt;/ds:SignedInfo>
+&lt;ds:SignatureValue Id="SignatureValue903085">
+gCFd4AAK4cszPxnL72f0R2Hwn+idSO3ZRkAK4u1LvW6S0xBt8Tf5N50fr+qTsXr2MyX30jlemiLa
+TIIRiw2nXmFC8ak2AGHSCMQIiqImGQNawGlEJ16hIsbEFBUB8xDfczrf5+ocP+OdXAv37UPQUTd/
+5lmPJ5VkexKm2DoF6K+wgCZqMOYQI3AwccxU0uRQHobEMeiDsa4nZ8yaI/u1pznSVc3hyRqlzC2O
+Pbf1z293OBRFLu+OpuXl21NtzQJW8eW3qwTE7KTv6cNBf70dnYIHdAGQowj34DpRH39P2gHBg1H6
+tO07iRMj3UWJPj+4VgjjC60l04c7ukK44CpmDw==
+&lt;/ds:SignatureValue>
+&lt;ds:KeyInfo Id="Certificate1446924">
+&lt;ds:X509Data>
+&lt;ds:X509Certificate>
+MIIJ/jCCB+agAwIBAgIEWH9XszANBgkqhkiG9w0BAQsFADCBoTELMAkGA1UEBhMCRUMxIjAgBgNV
+BAoTGUJBTkNPIENFTlRSQUwgREVMIEVDVUFET1IxNzA1BgNVBAsTLkVOVElEQUQgREUgQ0VSVElG
+SUNBQ0lPTiBERSBJTkZPUk1BQ0lPTi1FQ0lCQ0UxDjAMBgNVBAcTBVFVSVRPMSUwIwYDVQQDExxB
+QyBCQU5DTyBDRU5UUkFMIERFTCBFQ1VBRE9SMB4XDTE3MTEyODE2NDkwNVoXDTE5MTEyODE3MTkw
+NVowga4xCzAJBgNVBAYTAkVDMSIwIAYDVQQKExlCQU5DTyBDRU5UUkFMIERFTCBFQ1VBRE9SMTcw
+NQYDVQQLEy5FTlRJREFEIERFIENFUlRJRklDQUNJT04gREUgSU5GT1JNQUNJT04tRUNJQkNFMQ4w
+DAYDVQQHEwVRVUlUTzEyMBEGA1UEBRMKMDAwMDA5Njc5NzAdBgNVBAMTFkFORFJFUyBNQVJUSU5F
+WiBIRVJWQVMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC3RquA9ExhiVBNpmTvrJbF
+2cH06URfz/LI+EycnU2/SwKQouqGJhIIL6iS39xgTxhLDuRZw5QKJaDOcAvWWdcL7ECFjnnaoirf
+k5pncZnJz/CS48/O1JzHh8EFBESYpw8yEDITrQChWgUiHYj4f0SrbB6KJp2F1kf7tMQVvPbKq0mf
+Yq7EdSYkYuAqQHYYd7fRVTIPCrZ87hocecYpcpDcl2p306NGoT07WydroLaVD7BAxm2m1plhXuIH
+w4u4JGSmtxitX2xt2cgnZYvLPOSOYMTJDGK4m3r6SiHjTn/8AtrfynoR/39oN9GFE826Zq0OWGHZ
+pM+ynnGnJOGgNxe/AgMBAAGjggUtMIIFKTALBgNVHQ8EBAMCB4AwZwYDVR0gBGAwXjBcBgsrBgEE
+AYKoOwICATBNMEsGCCsGAQUFBwIBFj9odHRwOi8vd3d3LmVjaS5iY2UuZWMvcG9saXRpY2EtY2Vy
+dGlmaWNhZG8vcGVyc29uYS1qdXJpZGljYS5wZGYwgZEGCCsGAQUFBwEBBIGEMIGBMD4GCCsGAQUF
+BzABhjJodHRwOi8vb2NzcC5lY2kuYmNlLmVjL2VqYmNhL3B1YmxpY3dlYi9zdGF0dXMvb2NzcDA/
+BggrBgEFBQcwAYYzaHR0cDovL29jc3AxLmVjaS5iY2UuZWMvZWpiY2EvcHVibGljd2ViL3N0YXR1
+cy9vY3NwMBwGCisGAQQBgqg7AwoEDhMMVE9OSUNPTVNBIFNBMB0GCisGAQQBgqg7AwsEDxMNMDk5
+MjM0MjY4NDAwMTAaBgorBgEEAYKoOwMBBAwTCjE3MDc0NDIzMjEwFgYKKwYBBAGCqDsDAgQIEwZB
+TkRSRVMwGAYKKwYBBAGCqDsDAwQKEwhNQVJUSU5FWjAWBgorBgEEAYKoOwMEBAgTBkhFUlZBUzAf
+BgorBgEEAYKoOwMFBBETD0dFUkVOVEUgR0VORVJBTDA4BgorBgEEAYKoOwMHBCoTKENBUkFQVU5H
+TyBNRURJQ0lOV09XIExPVEUgMTQgWSBFTCBWRVJHRUwwGQYKKwYBBAGCqDsDCAQLEwkwMjI4Mjg5
+ODMwFQYKKwYBBAGCqDsDCQQHEwVRdWl0bzAXBgorBgEEAYKoOwMMBAkTB0VDVUFET1IwHQYKKwYB
+BAGCqDsDMgQPEw0wOTkyMzQyNjg0MDAxMCAGCisGAQQBgqg7AzMEEhMQU09GVFdBUkUtQVJDSElW
+TzAdBgNVHREEFjAUgRJpbmZvQHRvbmljb21zYS5jb20wggHfBgNVHR8EggHWMIIB0jCCAc6gggHK
+oIIBxoaB1WxkYXA6Ly9iY2VxbGRhcHN1YnAxLmJjZS5lYy9jbj1DUkw0NzksY249QUMlMjBCQU5D
+TyUyMENFTlRSQUwlMjBERUwlMjBFQ1VBRE9SLGw9UVVJVE8sb3U9RU5USURBRCUyMERFJTIwQ0VS
+VElGSUNBQ0lPTiUyMERFJTIwSU5GT1JNQUNJT04tRUNJQkNFLG89QkFOQ08lMjBDRU5UUkFMJTIw
+REVMJTIwRUNVQURPUixjPUVDP2NlcnRpZmljYXRlUmV2b2NhdGlvbkxpc3Q/YmFzZYY0aHR0cDov
+L3d3dy5lY2kuYmNlLmVjL0NSTC9lY2lfYmNlX2VjX2NybGZpbGVjb21iLmNybKSBtTCBsjELMAkG
+A1UEBhMCRUMxIjAgBgNVBAoTGUJBTkNPIENFTlRSQUwgREVMIEVDVUFET1IxNzA1BgNVBAsTLkVO
+VElEQUQgREUgQ0VSVElGSUNBQ0lPTiBERSBJTkZPUk1BQ0lPTi1FQ0lCQ0UxDjAMBgNVBAcTBVFV
+SVRPMSUwIwYDVQQDExxBQyBCQU5DTyBDRU5UUkFMIERFTCBFQ1VBRE9SMQ8wDQYDVQQDEwZDUkw0
+NzkwKwYDVR0QBCQwIoAPMjAxNzExMjgxNjQ5MDVagQ8yMDE5MTEyODE3MTkwNVowHwYDVR0jBBgw
+FoAUGPnw++YyHJlmOSrKi7JpfUknv84wHQYDVR0OBBYEFOxGzSbBvzadYp2fVfHB/xlVtneWMAkG
+A1UdEwQCMAAwGQYJKoZIhvZ9B0EABAwwChsEVjguMQMCBLAwDQYJKoZIhvcNAQELBQADggIBACS2
+Wdg3FjtAsenLJUXqz4jJrYQerA1OG2pycvyyoE0q2yCeZBk1eB+2S+c7fPZNNMfEFSdZhcpijFFY
+wJoypMaZqxGGVciNeY58hyiVUVPAgVl+NN6yz7xO1x5fqwpCM8TB/2koArukFo9d6BZ0ck/ocwjq
+hq9BZ1vuNsUsEGZOE65b02Z9TgXdC6GgsA20pQAvvpi42ObaDB6537kgK+i9OW7dxV5qhrP+RZ5Z
+N4AQ+wEVZBM2UaiOn7mJnAR7dhHzJlPHMMk8m4OxiVW6vSWLxU8MaGW2/OAdkqZu7Sced4c3Rihr
+5MqJreXx2xKoP9PI6bptZ9xI6vc1+sY+SDzzud3Q/jdnrPnFDn+auk/fJgYeYjKpFP/275nXi5Ie
+6TfHbSNQ/Z+ycqdfxlhstzs91JPYgKvzfBpflrrRxziHfcRX8GpKEsNGdtX1YQWahOfd1NJkwXxX
+JE/bb6wCsrXKpoyFY6hRxMRrfLBMTykMTj/kyLSyTGGXGvcxF+hWhJLE9lX1i9ZkiDOGbe7ZKoVy
+ulJhS4Bi1QvEoCCTA0cvmmnKqbWyksSu1r2pOltmPyHmyypyfavsKVi0U9LAkePx9UeziIdsFTf5
+wU+jcQJVioph+mJDWOe7j0ZmUZPD0zIQpajtezyYiMijBNvjekrCf1R1KxuzJC2KaASq7d9r
+&lt;/ds:X509Certificate>
+&lt;/ds:X509Data>
+&lt;ds:KeyValue>
+&lt;ds:RSAKeyValue>
+&lt;ds:Modulus>
+t0argPRMYYlQTaZk76yWxdnB9OlEX8/yyPhMnJ1Nv0sCkKLqhiYSCC+okt/cYE8YSw7kWcOUCiWg
+znAL1lnXC+xAhY552qIq35OaZ3GZyc/wkuPPztScx4fBBQREmKcPMhAyE60AoVoFIh2I+H9Eq2we
+iiadhdZH+7TEFbz2yqtJn2KuxHUmJGLgKkB2GHe30VUyDwq2fO4aHHnGKXKQ3Jdqd9OjRqE9O1sn
+a6C2lQ+wQMZtptaZYV7iB8OLuCRkprcYrV9sbdnIJ2WLyzzkjmDEyQxiuJt6+koh405//ALa38p6
+Ef9/aDfRhRPNumatDlhh2aTPsp5xpyThoDcXvw==
+&lt;/ds:Modulus>
+&lt;ds:Exponent>AQAB&lt;/ds:Exponent>
+&lt;/ds:RSAKeyValue>
+&lt;/ds:KeyValue>
+&lt;/ds:KeyInfo>
+&lt;ds:Object Id="Signature36352-Object240248">&lt;etsi:QualifyingProperties Target="#Signature36352">&lt;etsi:SignedProperties Id="Signature36352-SignedProperties842522">&lt;etsi:SignedSignatureProperties>&lt;etsi:SigningTime>2018-04-16T11:58:51-05:00&lt;/etsi:SigningTime>&lt;etsi:SigningCertificate>&lt;etsi:Cert>&lt;etsi:CertDigest>&lt;ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1">&lt;/ds:DigestMethod>&lt;ds:DigestValue>6V5cIsSxsa5+tcS3rYwbewO6Nqk=&lt;/ds:DigestValue>&lt;/etsi:CertDigest>&lt;etsi:IssuerSerial>&lt;ds:X509IssuerName>CN=AC BANCO CENTRAL DEL ECUADOR,L=QUITO,OU=ENTIDAD DE CERTIFICACION DE INFORMACION-ECIBCE,O=BANCO CENTRAL DEL ECUADOR,C=EC&lt;/ds:X509IssuerName>&lt;ds:X509SerialNumber>1484740531&lt;/ds:X509SerialNumber>&lt;/etsi:IssuerSerial>&lt;/etsi:Cert>&lt;/etsi:SigningCertificate>&lt;/etsi:SignedSignatureProperties>&lt;etsi:SignedDataObjectProperties>&lt;etsi:DataObjectFormat ObjectReference="#Reference-ID-640099">&lt;etsi:Description>contenido comprobante&lt;/etsi:Description>&lt;etsi:MimeType>text/xml&lt;/etsi:MimeType>&lt;/etsi:DataObjectFormat>&lt;etsi:DataObjectFormat ObjectReference="#Reference-ID-861082">&lt;etsi:Description>Descripcion del documento&lt;/etsi:Description>&lt;etsi:MimeType>text/xml&lt;/etsi:MimeType>&lt;/etsi:DataObjectFormat>&lt;/etsi:SignedDataObjectProperties>&lt;/etsi:SignedProperties>&lt;/etsi:QualifyingProperties>&lt;/ds:Object>&lt;/ds:Signature>&lt;/factura></comprobante><mensajes/></autorizacion></autorizaciones></RespuestaAutorizacionComprobante></ns2:autorizacionComprobanteResponse></soap:Body></soap:Envelope>

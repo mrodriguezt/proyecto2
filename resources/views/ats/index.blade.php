@@ -13,7 +13,7 @@
             {!! Form::select('mes',["01"=>"Enero","02"=>"Febrero","03"=>"Marzo","04"=>"Abril","05"=>"Mayo","06"=>"Junio","07"=>"Julio","08"=>"Agosto","09"=>"Septiembre","10"=>"Octubre","11"=>"Noviembre","12"=>"Diciembte"],null,['class'=>'form-control select-proyecto','placeholder'=>'Seleccione el Mes','required']) !!}
         </div>
 
-<div class="form-group col-md-2">
+        <div class="form-group col-md-2">
             {!! Form::label('compania','Companias') !!}
             {!! Form::select('compania',$companias,null,['class'=>'form-control select-proyecto','placeholder'=>'Seleccione la Compañia','required']) !!}
         </div>
@@ -21,7 +21,6 @@
 <div class="form-group col-md-2">
     <BR>
     {!! Form::submit('Generar ATS',['class'=>'btn btn-primary']) !!}
-
 </div>
 </div>
 {!! Form::close()  !!}

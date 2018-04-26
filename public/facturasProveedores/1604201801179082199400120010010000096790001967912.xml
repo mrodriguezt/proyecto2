@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><autorizacion><estado>AUTORIZADO</estado><numeroAutorizacion>1604201801200100100000967917908219941</numeroAutorizacion><fechaAutorizacion>Mon Apr 16 13:35:31 COT 2018</fechaAutorizacion><comprobante><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<factura id="comprobante" version="1.0.0">
+    <infoTributaria>
+        <ambiente>2</ambiente>
+        <tipoEmision>1</tipoEmision>
+        <razonSocial>SISTEMAS Y EQUIPOS INDUSTRIALES S.A. SEIN</razonSocial>
+        <nombreComercial>SEIN</nombreComercial>
+        <ruc>1790821994001</ruc>
+        <claveAcceso>1604201801179082199400120010010000096790001967912</claveAcceso>
+        <codDoc>01</codDoc>
+        <estab>001</estab>
+        <ptoEmi>001</ptoEmi>
+        <secuencial>000009679</secuencial>
+        <dirMatriz>De los Arupos E5-142 y Eloy Alfaro	</dirMatriz>
+    </infoTributaria>
+    <infoFactura>
+        <fechaEmision>16/04/2018</fechaEmision>
+        <dirEstablecimiento>De los Arupos E5-142 y Eloy Alfaro	</dirEstablecimiento>
+        <contribuyenteEspecial>176</contribuyenteEspecial>
+        <obligadoContabilidad>SI</obligadoContabilidad>
+        <tipoIdentificacionComprador>04</tipoIdentificacionComprador>
+        <razonSocialComprador>SANTOSCMI S.A.</razonSocialComprador>
+        <identificacionComprador>1791280733001</identificacionComprador>
+        <totalSinImpuestos>5240.00</totalSinImpuestos>
+        <totalDescuento>0.00</totalDescuento>
+        <totalConImpuestos>
+            <totalImpuesto>
+                <codigo>2</codigo>
+                <codigoPorcentaje>2</codigoPorcentaje>
+                <baseImponible>5240.00</baseImponible>
+                <valor>628.80</valor>
+            </totalImpuesto>
+        </totalConImpuestos>
+        <propina>0.00</propina>
+        <importeTotal>5868.80</importeTotal>
+        <moneda>DOLAR</moneda>
+        <pagos>
+            <pago>
+                <formaPago>20</formaPago>
+                <total>5868.80</total>
+                <plazo>30</plazo>
+                <unidadTiempo>DIAS</unidadTiempo>
+            </pago>
+        </pagos>
+    </infoFactura>
+    <detalles>
+        <detalle>
+            <codigoPrincipal>92W-1205-42448</codigoPrincipal>
+            <descripcion>PILOT OPERATED REGULATOR. BODY SIZE: 1-1/2", NPT CONNECTION.  PORT SIZE: 7/8 INCH.BODY MATERIAL: CAST IRON.</descripcion>
+            <cantidad>1.00</cantidad>
+            <precioUnitario>2620.00</precioUnitario>
+            <descuento>0</descuento>
+            <precioTotalSinImpuesto>2620.00</precioTotalSinImpuesto>
+            <detallesAdicionales>
+                <detAdicional nombre="Marca" valor="REGULATOR TECHNOLOGIES INC."></detAdicional>
+            </detallesAdicionales>
+            <impuestos>
+                <impuesto>
+                    <codigo>2</codigo>
+                    <codigoPorcentaje>2</codigoPorcentaje>
+                    <tarifa>12.00</tarifa>
+                    <baseImponible>2620.00</baseImponible>
+                    <valor>314.40</valor>
+                </impuesto>
+            </impuestos> 
+        </detalle>
+        <detalle>
+            <codigoPrincipal>92W-1205-42473</codigoPrincipal>
+            <descripcion>PILOT OPERATED REGULATOR 92W FISHER</descripcion>
+            <cantidad>1.00</cantidad>
+            <precioUnitario>2620.00</precioUnitario>
+            <descuento>0</descuento>
+            <precioTotalSinImpuesto>2620.00</precioTotalSinImpuesto>
+            <detallesAdicionales>
+                <detAdicional nombre="Marca" valor="REGULATOR TECHNOLOGIES INC."></detAdicional>
+            </detallesAdicionales>
+            <impuestos>
+                <impuesto>
+                    <codigo>2</codigo>
+                    <codigoPorcentaje>2</codigoPorcentaje>
+                    <tarifa>12.00</tarifa>
+                    <baseImponible>2620.00</baseImponible>
+                    <valor>314.40</valor>
+                </impuesto>
+            </impuestos> 
+        </detalle>
+    </detalles>
+    <infoAdicional>
+        <campoAdicional nombre="Direccion">AV. ELOY ALFARO N30-341 Y AV. AMAZONAS, EDIF. FINANDES QUITO</campoAdicional>
+        <campoAdicional nombre="Telefono">3979600</campoAdicional>
+        <campoAdicional nombre="Email">mmoscoso@santoscmi.com</campoAdicional>
+    </infoAdicional>
+<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:etsi="http://uri.etsi.org/01903/v1.3.2#" Id="Signature398329">
+<ds:SignedInfo Id="Signature-SignedInfo808642">
+<ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"></ds:CanonicalizationMethod>
+<ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"></ds:SignatureMethod>
+<ds:Reference Id="SignedPropertiesID82367" Type="http://uri.etsi.org/01903#SignedProperties" URI="#Signature398329-SignedProperties419780">
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></ds:DigestMethod>
+<ds:DigestValue>PkeqlvJgMoR1+xFlc9N6eqwCZSg=</ds:DigestValue>
+</ds:Reference>
+<ds:Reference URI="#Certificate1934893">
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></ds:DigestMethod>
+<ds:DigestValue>HnFfmy/ZwkqftD5s93wqS95bJ3c=</ds:DigestValue>
+</ds:Reference>
+<ds:Reference Id="Reference-ID-572124" URI="#comprobante">
+<ds:Transforms>
+<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></ds:Transform>
+</ds:Transforms>
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></ds:DigestMethod>
+<ds:DigestValue>+PxncYJ7heGqR7dcVQtCaDUnUgo=</ds:DigestValue>
+</ds:Reference>
+</ds:SignedInfo>
+<ds:SignatureValue Id="SignatureValue931771">
+dMTOPfWZcEjpJPr+I3LTdLp8VK8M3vSaCdz5jW3rpy/Hr3oSCa5HITeOPV5BcVlzFfoxz609+UFq
+N7q46NuO3DzJEhF93iiUjPLPz1jkafY2V90FS3m2Aq0ITHnd9zNuWpneTR0Ge9o7J9B+IZOGm/jQ
+Tv+gSCPK8PabaH8yOwV7upPaxpBdeY7I6EnWmw/VMdag8uEeEJV8p9Eho/+8uiSC9Nlc4nVf0P1+
+Y1os+0YeEA9dlIKdpy6UJRUI2nJFMBmFcTMP5RRk1JvuthqZ6/KrxuWVI7LPkm/AVpmRGnKMoPxE
+JtI0JiboD0zD+gTv7uiISpj5qF8OdaYadJMgmA==
+</ds:SignatureValue>
+<ds:KeyInfo Id="Certificate1934893">
+<ds:X509Data>
+<ds:X509Certificate>
+MIIJgDCCB2igAwIBAgIEWluDwDANBgkqhkiG9w0BAQsFADCBoTELMAkGA1UEBhMCRUMxIjAgBgNV
+BAoTGUJBTkNPIENFTlRSQUwgREVMIEVDVUFET1IxNzA1BgNVBAsTLkVOVElEQUQgREUgQ0VSVElG
+SUNBQ0lPTiBERSBJTkZPUk1BQ0lPTi1FQ0lCQ0UxDjAMBgNVBAcTBVFVSVRPMSUwIwYDVQQDExxB
+QyBCQU5DTyBDRU5UUkFMIERFTCBFQ1VBRE9SMB4XDTE4MDQwNDE0NTE0NloXDTIwMDQwNDE1MjE0
+NlowgbcxCzAJBgNVBAYTAkVDMSIwIAYDVQQKExlCQU5DTyBDRU5UUkFMIERFTCBFQ1VBRE9SMTcw
+NQYDVQQLEy5FTlRJREFEIERFIENFUlRJRklDQUNJT04gREUgSU5GT1JNQUNJT04tRUNJQkNFMQ4w
+DAYDVQQHEwVRVUlUTzE7MBEGA1UEBRMKMDAwMDExMTczMzAmBgNVBAMTH01FUkNFREVTIENBVEFM
+SU5BIFBFUkVaIFJFSU5PU08wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC5zU4pCeUd
+BqCHu5kSmq3a33FgTgKdox1Rx2I/5+zLhrMA/VzrI1s3CSDWHW7XdP5S4AoidUc67Zsegs/1WOU/
+c9iJBf+8eB1+2LxaP3J/5p3jZrVxyDNdRhq9ERnHSCNwUKolaJDkkIuMdeZbfQC4Q2gDSNl6yevw
+B847hGXV96nV3tCoQv+S4LqLPN3q2CMbo/RgEAonYSm4CZte8C+s1tS7Ps3Z0WDqgcE1MmLQZ8IF
+FQ/VNZ3hxFMPDGberJvTpJmj5RPH9tcB478yoRlPuOytTRoCknEO5HIBmgtqxOPy3A1TznFTnwT0
+xEEkk7hMnWui+ft0jDAZzQOuc2uHAgMBAAGjggSmMIIEojCBkQYIKwYBBQUHAQEEgYQwgYEwPgYI
+KwYBBQUHMAGGMmh0dHA6Ly9vY3NwLmVjaS5iY2UuZWMvZWpiY2EvcHVibGljd2ViL3N0YXR1cy9v
+Y3NwMD8GCCsGAQUFBzABhjNodHRwOi8vb2NzcDEuZWNpLmJjZS5lYy9lamJjYS9wdWJsaWN3ZWIv
+c3RhdHVzL29jc3AwNwYKKwYBBAGCqDsDCgQpEydTSVNURU1BUyBZIEVRVUlQT1MgSU5EVVNUUklB
+TEVTIFNBIFNFSU4wHQYKKwYBBAGCqDsDCwQPEw0xNzkwODIxOTk0MDAxMBoGCisGAQQBgqg7AwEE
+DBMKMTcxNDQ5Mjk1NDAhBgorBgEEAYKoOwMCBBMTEU1FUkNFREVTIENBVEFMSU5BMBUGCisGAQQB
+gqg7AwMEBxMFUEVSRVowFwYKKwYBBAGCqDsDBAQJEwdSRUlOT1NPMBkGCisGAQQBgqg7AwUECxMJ
+Q09OVEFET1JBMEQGCisGAQQBgqg7AwcENhM0QVYgU0hZUklTIE4zNDQwIFkgUkVQVUJMSUNBIERF
+TCBTQUxWQURPUiBFRCBUQVBJQSBNWjAZBgorBgEEAYKoOwMIBAsTCTAyMjI2ODY2MTAVBgorBgEE
+AYKoOwMJBAcTBVF1aXRvMBcGCisGAQQBgqg7AwwECRMHRUNVQURPUjAgBgorBgEEAYKoOwMzBBIT
+EFNPRlRXQVJFLUFSQ0hJVk8wIQYDVR0RBBowGIEWY2F0eS5wZXJlekBzZWluLmNvbS5lYzCCAd8G
+A1UdHwSCAdYwggHSMIIBzqCCAcqgggHGhoHVbGRhcDovL2JjZXFsZGFwc3VicDEuYmNlLmVjL2Nu
+PUNSTDU0NCxjbj1BQyUyMEJBTkNPJTIwQ0VOVFJBTCUyMERFTCUyMEVDVUFET1IsbD1RVUlUTyxv
+dT1FTlRJREFEJTIwREUlMjBDRVJUSUZJQ0FDSU9OJTIwREUlMjBJTkZPUk1BQ0lPTi1FQ0lCQ0Us
+bz1CQU5DTyUyMENFTlRSQUwlMjBERUwlMjBFQ1VBRE9SLGM9RUM/Y2VydGlmaWNhdGVSZXZvY2F0
+aW9uTGlzdD9iYXNlhjRodHRwOi8vd3d3LmVjaS5iY2UuZWMvQ1JML2VjaV9iY2VfZWNfY3JsZmls
+ZWNvbWIuY3JspIG1MIGyMQswCQYDVQQGEwJFQzEiMCAGA1UEChMZQkFOQ08gQ0VOVFJBTCBERUwg
+RUNVQURPUjE3MDUGA1UECxMuRU5USURBRCBERSBDRVJUSUZJQ0FDSU9OIERFIElORk9STUFDSU9O
+LUVDSUJDRTEOMAwGA1UEBxMFUVVJVE8xJTAjBgNVBAMTHEFDIEJBTkNPIENFTlRSQUwgREVMIEVD
+VUFET1IxDzANBgNVBAMTBkNSTDU0NDALBgNVHQ8EBAMCBSAwHwYDVR0jBBgwFoAUGPnw++YyHJlm
+OSrKi7JpfUknv84wHQYDVR0OBBYEFGpVePcP4rVKTjUSJDrAdZOwme55MAkGA1UdEwQCMAAwGQYJ
+KoZIhvZ9B0EABAwwChsEVjguMQMCBJAwDQYJKoZIhvcNAQELBQADggIBAAOVurMZPPfoZV7iUQ5I
+BY3L9dwU5VBvtJwEQ0d0NAWmi7bIGEZ8VsRPsVK0Z6fT9LT2Bqx3okUqUDNWLhkhcUDNupiuSJwR
+nx3MKhNrbJHD6fIqrPcWa6O1SZ1v71qp3ZeDevyfEkO+mPj9q9/IpiA6gSbYF803MmbvZPa/mWyh
+iqJ98Mpe1Qf8rU6HYjlmJZ5mmAiP+eLpQMKvlCfvnRQZIKEBK96TSzcBmrZ7TOEvowyy+eNNLsrC
+TNp4Nlneoj4Ou87tRK00asOFvl+ayPWt1/NoKg9+G6FGPNOX2fOpoYC3uLUtlD3C2NA5afSt7P2w
+RzuclO517eetd6hkfcTUwDGAJmuV0pXOr18VlvSkunsaugUlRvDAK0ISSFz+9JTdSnsu6TxycFL5
+dOQjybtjUbVCJCGglH4uhwszUiuKEDprEX0/+wPgWbQyk70vJv9+54/Cv+fU+g+nryNzBMO6uaJv
+NH9rRcksqWGrffZasmShM9Jl4KOrT/xZ+FNc94Ztys99l7vxMlhOmXXiUMY/pFlu3gQdkscLZV11
+wt5O/OR1hZ9vsEfWPtt2sDsQf3pKBNkGrDhQakDZKerheBizHxqV/+kKwrGIqnNG3QBT/FPEeg/c
+fhFH79yUewMKjw3ax85lzf626xTU5xVX5u2CA6JxIhjt8fSMKfVFDICF
+</ds:X509Certificate>
+</ds:X509Data>
+<ds:KeyValue>
+<ds:RSAKeyValue>
+<ds:Modulus>
+uc1OKQnlHQagh7uZEpqt2t9xYE4CnaMdUcdiP+fsy4azAP1c6yNbNwkg1h1u13T+UuAKInVHOu2b
+HoLP9VjlP3PYiQX/vHgdfti8Wj9yf+ad42a1ccgzXUYavREZx0gjcFCqJWiQ5JCLjHXmW30AuENo
+A0jZesnr8AfOO4Rl1fep1d7QqEL/kuC6izzd6tgjG6P0YBAKJ2EpuAmbXvAvrNbUuz7N2dFg6oHB
+NTJi0GfCBRUP1TWd4cRTDwxm3qyb06SZo+UTx/bXAeO/MqEZT7jsrU0aApJxDuRyAZoLasTj8twN
+U85xU58E9MRBJJO4TJ1rovn7dIwwGc0DrnNrhw==
+</ds:Modulus>
+<ds:Exponent>AQAB</ds:Exponent>
+</ds:RSAKeyValue>
+</ds:KeyValue>
+</ds:KeyInfo>
+<ds:Object Id="Signature398329-Object780727"><etsi:QualifyingProperties Target="#Signature398329"><etsi:SignedProperties Id="Signature398329-SignedProperties419780"><etsi:SignedSignatureProperties><etsi:SigningTime>2018-04-16T13:35:31-05:00</etsi:SigningTime><etsi:SigningCertificate><etsi:Cert><etsi:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></ds:DigestMethod><ds:DigestValue>Vr74/kj84B8Z5yY9u/GlYhnxa1I=</ds:DigestValue></etsi:CertDigest><etsi:IssuerSerial><ds:X509IssuerName>CN=AC BANCO CENTRAL DEL ECUADOR,L=QUITO,OU=ENTIDAD DE CERTIFICACION DE INFORMACION-ECIBCE,O=BANCO CENTRAL DEL ECUADOR,C=EC</ds:X509IssuerName><ds:X509SerialNumber>1515946944</ds:X509SerialNumber></etsi:IssuerSerial></etsi:Cert></etsi:SigningCertificate></etsi:SignedSignatureProperties><etsi:SignedDataObjectProperties><etsi:DataObjectFormat ObjectReference="#Reference-ID-572124"><etsi:Description>powered by ElectroFacturas.com</etsi:Description><etsi:MimeType>text/xml</etsi:MimeType></etsi:DataObjectFormat></etsi:SignedDataObjectProperties></etsi:SignedProperties></etsi:QualifyingProperties></ds:Object></ds:Signature></factura>]]></comprobante></autorizacion>

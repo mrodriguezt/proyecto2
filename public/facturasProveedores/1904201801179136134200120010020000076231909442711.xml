@@ -1,0 +1,320 @@
+<autorizacion><estado>AUTORIZADO</estado><numeroAutorizacion>1904201801179136134200120010020000076231909442711</numeroAutorizacion><fechaAutorizacion>2018-04-19T09:48:06-05:00</fechaAutorizacion><ambiente>PRODUCCIÓN</ambiente><comprobante><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<factura id="comprobante" version="1.1.0">
+  <infoTributaria>
+    <ambiente>2</ambiente>
+    <tipoEmision>1</tipoEmision>
+    <razonSocial>E S A C E R O   S.A.</razonSocial>
+    <nombreComercial>E S A C E R O   S.A.</nombreComercial>
+    <ruc>1791361342001</ruc>
+    <claveAcceso>1904201801179136134200120010020000076231909442711</claveAcceso>
+    <codDoc>01</codDoc>
+    <estab>001</estab>
+    <ptoEmi>002</ptoEmi>
+    <secuencial>000007623</secuencial>
+    <dirMatriz>Quito Panamericana Norte km 14 1/2 y pasaje Cenepa Telf. 023824930 - Cel. 0998022463. Guayaquil Av. Juan Tanca Marengo Km 4 1/2 C.C. Saibaba Bodega 12. Telf. 043711990 Cel. 0987001905</dirMatriz>
+  </infoTributaria>
+  <infoFactura>
+    <fechaEmision>19/04/2018</fechaEmision>
+    <dirEstablecimiento>Panamericana Norte km 14 1/2 y pasaje Cenepa</dirEstablecimiento>
+    <contribuyenteEspecial>176</contribuyenteEspecial>
+    <obligadoContabilidad>SI</obligadoContabilidad>
+    <tipoIdentificacionComprador>04</tipoIdentificacionComprador>
+    <razonSocialComprador>SANTOSCMI S.A</razonSocialComprador>
+    <identificacionComprador>1791280733001</identificacionComprador>
+    <totalSinImpuestos>499.90</totalSinImpuestos>
+    <totalDescuento>0.00</totalDescuento>
+    <totalConImpuestos>
+      <totalImpuesto>
+        <codigo>2</codigo>
+        <codigoPorcentaje>2</codigoPorcentaje>
+        <baseImponible>499.90</baseImponible>
+        <tarifa>12</tarifa>
+        <valor>59.99</valor>
+      </totalImpuesto>
+    </totalConImpuestos>
+    <propina>0.00</propina>
+    <importeTotal>559.89</importeTotal>
+    <moneda>DOLAR</moneda>
+    <pagos>
+      <pago>
+        <formaPago>20</formaPago>
+        <total>559.89</total>
+        <plazo>30.00</plazo>
+        <unidadTiempo>dias</unidadTiempo>
+      </pago>
+    </pagos>
+  </infoFactura>
+  <detalles>
+    <detalle>
+      <codigoPrincipal>PE-1238</codigoPrincipal>
+      <codigoAuxiliar>PE-1238</codigoAuxiliar>
+      <descripcion>Perno hexagonal de 1/2" x 1 1/2". Galvanizado electrolitico - </descripcion>
+      <cantidad>40.000000</cantidad>
+      <precioUnitario>0.400000</precioUnitario>
+      <descuento>0.00</descuento>
+      <precioTotalSinImpuesto>16.00</precioTotalSinImpuesto>
+      <impuestos>
+        <impuesto>
+          <codigo>2</codigo>
+          <codigoPorcentaje>2</codigoPorcentaje>
+          <tarifa>12</tarifa>
+          <baseImponible>16.00</baseImponible>
+          <valor>1.92</valor>
+        </impuesto>
+      </impuestos>
+    </detalle>
+    <detalle>
+      <codigoPrincipal>ASB-38</codigoPrincipal>
+      <codigoAuxiliar>ASB-38</codigoAuxiliar>
+      <descripcion>Sujetador de bandeja 3/8. Aluminio. - </descripcion>
+      <cantidad>30.000000</cantidad>
+      <precioUnitario>0.550000</precioUnitario>
+      <descuento>0.00</descuento>
+      <precioTotalSinImpuesto>16.50</precioTotalSinImpuesto>
+      <impuestos>
+        <impuesto>
+          <codigo>2</codigo>
+          <codigoPorcentaje>2</codigoPorcentaje>
+          <tarifa>12</tarifa>
+          <baseImponible>16.50</baseImponible>
+          <valor>1.98</valor>
+        </impuesto>
+      </impuestos>
+    </detalle>
+    <detalle>
+      <codigoPrincipal>ITE-38</codigoPrincipal>
+      <codigoAuxiliar>ITE-38</codigoAuxiliar>
+      <descripcion>Tuerca hexagonal de 3/8". Acero inoxidable - </descripcion>
+      <cantidad>300.000000</cantidad>
+      <precioUnitario>0.240000</precioUnitario>
+      <descuento>0.00</descuento>
+      <precioTotalSinImpuesto>72.00</precioTotalSinImpuesto>
+      <impuestos>
+        <impuesto>
+          <codigo>2</codigo>
+          <codigoPorcentaje>2</codigoPorcentaje>
+          <tarifa>12</tarifa>
+          <baseImponible>72.00</baseImponible>
+          <valor>8.64</valor>
+        </impuesto>
+      </impuestos>
+    </detalle>
+    <detalle>
+      <codigoPrincipal>AR-38</codigoPrincipal>
+      <codigoAuxiliar>AR-38</codigoAuxiliar>
+      <descripcion>Arandela redonda para perno de 3/8". Galvanizado electrolitico - </descripcion>
+      <cantidad>50.000000</cantidad>
+      <precioUnitario>0.060000</precioUnitario>
+      <descuento>0.00</descuento>
+      <precioTotalSinImpuesto>3.00</precioTotalSinImpuesto>
+      <impuestos>
+        <impuesto>
+          <codigo>2</codigo>
+          <codigoPorcentaje>2</codigoPorcentaje>
+          <tarifa>12</tarifa>
+          <baseImponible>3.00</baseImponible>
+          <valor>0.36</valor>
+        </impuesto>
+      </impuestos>
+    </detalle>
+    <detalle>
+      <codigoPrincipal>IPC-1419</codigoPrincipal>
+      <codigoAuxiliar>IPC-1419</codigoAuxiliar>
+      <descripcion>Perno de carriaje de 1/4" x 3/4". Acero inoxidable - </descripcion>
+      <cantidad>200.000000</cantidad>
+      <precioUnitario>0.290000</precioUnitario>
+      <descuento>0.00</descuento>
+      <precioTotalSinImpuesto>58.00</precioTotalSinImpuesto>
+      <impuestos>
+        <impuesto>
+          <codigo>2</codigo>
+          <codigoPorcentaje>2</codigoPorcentaje>
+          <tarifa>12</tarifa>
+          <baseImponible>58.00</baseImponible>
+          <valor>6.96</valor>
+        </impuesto>
+      </impuestos>
+    </detalle>
+    <detalle>
+      <codigoPrincipal>IPC-3819</codigoPrincipal>
+      <codigoAuxiliar>IPC-3819</codigoAuxiliar>
+      <descripcion>Perno de carriaje de 3/8" x 3/4". Acero inoxidable - </descripcion>
+      <cantidad>300.000000</cantidad>
+      <precioUnitario>0.920000</precioUnitario>
+      <descuento>0.00</descuento>
+      <precioTotalSinImpuesto>276.00</precioTotalSinImpuesto>
+      <impuestos>
+        <impuesto>
+          <codigo>2</codigo>
+          <codigoPorcentaje>2</codigoPorcentaje>
+          <tarifa>12</tarifa>
+          <baseImponible>276.00</baseImponible>
+          <valor>33.12</valor>
+        </impuesto>
+      </impuestos>
+    </detalle>
+    <detalle>
+      <codigoPrincipal>PEX-383</codigoPrincipal>
+      <codigoAuxiliar>PEX-383</codigoAuxiliar>
+      <descripcion>Perno expansivo de camisa de 3/8" x 3". Galvanizado electrolitico - </descripcion>
+      <cantidad>30.000000</cantidad>
+      <precioUnitario>0.630000</precioUnitario>
+      <descuento>0.00</descuento>
+      <precioTotalSinImpuesto>18.90</precioTotalSinImpuesto>
+      <impuestos>
+        <impuesto>
+          <codigo>2</codigo>
+          <codigoPorcentaje>2</codigoPorcentaje>
+          <tarifa>12</tarifa>
+          <baseImponible>18.90</baseImponible>
+          <valor>2.27</valor>
+        </impuesto>
+      </impuestos>
+    </detalle>
+    <detalle>
+      <codigoPrincipal>ITE-14</codigoPrincipal>
+      <codigoAuxiliar>ITE-14</codigoAuxiliar>
+      <descripcion>Tuerca hexagonal de 1/4". Acero inoxidable - </descripcion>
+      <cantidad>200.000000</cantidad>
+      <precioUnitario>0.140000</precioUnitario>
+      <descuento>0.00</descuento>
+      <precioTotalSinImpuesto>28.00</precioTotalSinImpuesto>
+      <impuestos>
+        <impuesto>
+          <codigo>2</codigo>
+          <codigoPorcentaje>2</codigoPorcentaje>
+          <tarifa>12</tarifa>
+          <baseImponible>28.00</baseImponible>
+          <valor>3.36</valor>
+        </impuesto>
+      </impuestos>
+    </detalle>
+    <detalle>
+      <codigoPrincipal>AP-38</codigoPrincipal>
+      <codigoAuxiliar>AP-38</codigoAuxiliar>
+      <descripcion>Arandela de presion para perno de 3/8". Galvanizado electrolitico - </descripcion>
+      <cantidad>50.000000</cantidad>
+      <precioUnitario>0.030000</precioUnitario>
+      <descuento>0.00</descuento>
+      <precioTotalSinImpuesto>1.50</precioTotalSinImpuesto>
+      <impuestos>
+        <impuesto>
+          <codigo>2</codigo>
+          <codigoPorcentaje>2</codigoPorcentaje>
+          <tarifa>12</tarifa>
+          <baseImponible>1.50</baseImponible>
+          <valor>0.18</valor>
+        </impuesto>
+      </impuestos>
+    </detalle>
+    <detalle>
+      <codigoPrincipal>PE-3838</codigoPrincipal>
+      <codigoAuxiliar>PE-3838</codigoAuxiliar>
+      <descripcion>Perno hexagonal de 3/8" x 1 1/2". Galvanizado electrolitico - </descripcion>
+      <cantidad>50.000000</cantidad>
+      <precioUnitario>0.200000</precioUnitario>
+      <descuento>0.00</descuento>
+      <precioTotalSinImpuesto>10.00</precioTotalSinImpuesto>
+      <impuestos>
+        <impuesto>
+          <codigo>2</codigo>
+          <codigoPorcentaje>2</codigoPorcentaje>
+          <tarifa>12</tarifa>
+          <baseImponible>10.00</baseImponible>
+          <valor>1.20</valor>
+        </impuesto>
+      </impuestos>
+    </detalle>
+  </detalles>
+<ds:Signature Id="Signature547509" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:etsi="http://uri.etsi.org/01903/v1.3.2#">
+<ds:SignedInfo Id="Signature-SignedInfo793654">
+<ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+<ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+<ds:Reference Id="SignedPropertiesID292974" Type="http://uri.etsi.org/01903#SignedProperties" URI="#Signature547509-SignedProperties582255">
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+<ds:DigestValue>Xk4a5Biauex81v2nWr49zRyOzqs=</ds:DigestValue>
+</ds:Reference>
+<ds:Reference URI="#Certificate1869564">
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+<ds:DigestValue>IWnN1EL13eHq80Pfy+tz2YLfnRk=</ds:DigestValue>
+</ds:Reference>
+<ds:Reference Id="Reference-ID-955268" URI="#comprobante">
+<ds:Transforms>
+<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+</ds:Transforms>
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+<ds:DigestValue>XqTsAu0tcTltlgQSbZffK0ciKI8=</ds:DigestValue>
+</ds:Reference>
+</ds:SignedInfo>
+<ds:SignatureValue Id="SignatureValue550282">
+r4hz59nXSiqATWyQRI9N0Uud4HkSbAQJGFm4+GbUWHai25MjDxVmvDefOZhJeXWg+2p+WzU6knm6
+nfUmTzqx70YHmTSkl9vgceZxAfoysNXWw4lyVPU0J9CxwTCL+2W/NR6WHSoIdLMSm8CcLvSjBrT6
+L1gUG27UOeW29GmlMEDZhOAS5IFegqOujZi9aHdcXmRNwAQOC3/SvX3P72dQ9DY/eKBr6RSjQqoU
+hypBmnwvy9klTYbWqCbPp8G7lLWXQ7/xu0WDcYwaZqEiqWxoXGxuzAB+R/TSRQnu69YV9Ved4dPx
+/3TqFUdXyGOoalUZ+DBLBw3l7SK188ITaUWZ1g==
+</ds:SignatureValue>
+<ds:KeyInfo Id="Certificate1869564">
+<ds:X509Data>
+<ds:X509Certificate>
+MIIKJDCCCAygAwIBAgIETkbUDzANBgkqhkiG9w0BAQsFADCBoTELMAkGA1UEBhMCRUMxIjAgBgNV
+BAoTGUJBTkNPIENFTlRSQUwgREVMIEVDVUFET1IxNzA1BgNVBAsTLkVOVElEQUQgREUgQ0VSVElG
+SUNBQ0lPTiBERSBJTkZPUk1BQ0lPTi1FQ0lCQ0UxDjAMBgNVBAcTBVFVSVRPMSUwIwYDVQQDExxB
+QyBCQU5DTyBDRU5UUkFMIERFTCBFQ1VBRE9SMB4XDTE2MDcyMTE5MDUzNVoXDTE4MDcyMTE5MzUz
+NVowgbYxCzAJBgNVBAYTAkVDMSIwIAYDVQQKExlCQU5DTyBDRU5UUkFMIERFTCBFQ1VBRE9SMTcw
+NQYDVQQLEy5FTlRJREFEIERFIENFUlRJRklDQUNJT04gREUgSU5GT1JNQUNJT04tRUNJQkNFMQ4w
+DAYDVQQHEwVRVUlUTzE6MBEGA1UEBRMKMDAwMDA3NTEyNDAlBgNVBAMTHlZJREFMIEZFUk5BTkRP
+IFBBTEFDSU9TIFBPVkVEQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAOlhMBQFKWOV
++ZQ+61z0a22FsE/hNqNx3NyaEYapq9tAy10wZaQK6ecLfRv1bNaSyBLI+BOuV7VtZhA5A41pOOEw
+eTMt55DHQaebYL0GZRKmfxdWTK9bJhsCSypZIxT7sEou7yHrBQZAmllw4dPDfgVkLbrbbzHP5S2A
+frH3elkiHJ7osbyYV8MKP3Z8UhBYuKVRVOY4yluEmmuKnCrCvUOpCp1XkNyfFNBJnjkcCfU65piE
+XcEIMFMgnMzJMthdqPGKjiVGXlhK0IA6XIWEQQAxvVQljbnEfC2iVRh0s/NAuDPkjf5hfmVuLzg2
+Nx/L9ZGG9QhE9G48aGRijwh+A2sCAwEAAaOCBUswggVHMAsGA1UdDwQEAwIHgDBnBgNVHSAEYDBe
+MFwGCysGAQQBgqg7AgIBME0wSwYIKwYBBQUHAgEWP2h0dHA6Ly93d3cuZWNpLmJjZS5lYy9wb2xp
+dGljYS1jZXJ0aWZpY2Fkby9wZXJzb25hLWp1cmlkaWNhLnBkZjCBkQYIKwYBBQUHAQEEgYQwgYEw
+PgYIKwYBBQUHMAGGMmh0dHA6Ly9vY3NwLmVjaS5iY2UuZWMvZWpiY2EvcHVibGljd2ViL3N0YXR1
+cy9vY3NwMD8GCCsGAQUFBzABhjNodHRwOi8vb2NzcDEuZWNpLmJjZS5lYy9lamJjYS9wdWJsaWN3
+ZWIvc3RhdHVzL29jc3AwLwYKKwYBBAGCqDsDCgQhEx9FU1RSVUNUVVJBUyBERSBBQ0VSTyBFU0FD
+RVJPIFNBMB0GCisGAQQBgqg7AwsEDxMNMTc5MTM2MTM0MjAwMTAaBgorBgEEAYKoOwMBBAwTCjE3
+MDc2MzE3MTcwHgYKKwYBBAGCqDsDAgQQEw5WSURBTCBGRVJOQU5ETzAYBgorBgEEAYKoOwMDBAoT
+CFBBTEFDSU9TMBYGCisGAQQBgqg7AwQECBMGUE9WRURBMB8GCisGAQQBgqg7AwUEERMPR0VSRU5U
+RSBHRU5FUkFMMDsGCisGAQQBgqg7AwcELRMrUEFOQU1FUklDQU5BIE5PUlRFIEtNIDE0IDEyIFkg
+UEFTQUpFIENFTkVQQTAZBgorBgEEAYKoOwMIBAsTCTAyMjgyNDA0NjAVBgorBgEEAYKoOwMJBAcT
+BVF1aXRvMBcGCisGAQQBgqg7AwwECRMHRUNVQURPUjAaBgorBgEEAYKoOwMyBAwTCjE3MDc2MzE3
+MTcwIAYKKwYBBAGCqDsDMwQSExBTT0ZUV0FSRS1BUkNISVZPMCAGA1UdEQQZMBeBFWZwYWxhY2lv
+c0Blc2FjZXJvLmNvbTCCAd8GA1UdHwSCAdYwggHSMIIBzqCCAcqgggHGhoHVbGRhcDovL2JjZXFs
+ZGFwc3VicDEuYmNlLmVjL2NuPUNSTDM0Myxjbj1BQyUyMEJBTkNPJTIwQ0VOVFJBTCUyMERFTCUy
+MEVDVUFET1IsbD1RVUlUTyxvdT1FTlRJREFEJTIwREUlMjBDRVJUSUZJQ0FDSU9OJTIwREUlMjBJ
+TkZPUk1BQ0lPTi1FQ0lCQ0Usbz1CQU5DTyUyMENFTlRSQUwlMjBERUwlMjBFQ1VBRE9SLGM9RUM/
+Y2VydGlmaWNhdGVSZXZvY2F0aW9uTGlzdD9iYXNlhjRodHRwOi8vd3d3LmVjaS5iY2UuZWMvQ1JM
+L2VjaV9iY2VfZWNfY3JsZmlsZWNvbWIuY3JspIG1MIGyMQswCQYDVQQGEwJFQzEiMCAGA1UEChMZ
+QkFOQ08gQ0VOVFJBTCBERUwgRUNVQURPUjE3MDUGA1UECxMuRU5USURBRCBERSBDRVJUSUZJQ0FD
+SU9OIERFIElORk9STUFDSU9OLUVDSUJDRTEOMAwGA1UEBxMFUVVJVE8xJTAjBgNVBAMTHEFDIEJB
+TkNPIENFTlRSQUwgREVMIEVDVUFET1IxDzANBgNVBAMTBkNSTDM0MzArBgNVHRAEJDAigA8yMDE2
+MDcyMTE5MDUzNVqBDzIwMTgwNzIxMTkzNTM1WjAfBgNVHSMEGDAWgBQY+fD75jIcmWY5KsqLsml9
+SSe/zjAdBgNVHQ4EFgQU+EQcuwBLsh/s6NnrzneYdiucWzcwCQYDVR0TBAIwADAZBgkqhkiG9n0H
+QQAEDDAKGwRWOC4xAwIEsDANBgkqhkiG9w0BAQsFAAOCAgEAanDUgRysvLK7v2bfd08EuoOZ8AR2
+E7G3Va6+OMDsk65j6agsXLXCKFKgaxpsa3MbZ0Sq61V/lYsMTqx7ue3Mt7fWnt/ixiy1a4wEKhxQ
+NbXRLGTe3r+7lBNREaHIHzH9m2wkL00L4BNrYsG+flHfTFnIrTtHGRyQhhRzd/LUUF7/d2gjvtUa
+fkAK7WG1mX2dJsprNB3MU3JWSkAH0KFhnvKLiCgx7Gw6QWnWWFoUFRIs/80Uu3wGp2Y8I5qqaQti
+mndE/dlYzweeSmCvs6cFzjsrwZpJYW69uBBvB6ylSej/DTXm88O0S9g8urJH3lnj+rfWHGFO3pxs
+wNxxfBKAyjicUc5Rvag1fjV+0NeyaIVTd9y9btmx/SSV3r7vvqLam+j3nANj6YvPTcETjOceu0Bu
+gD91aFvaJEjKyHSu3SUy+nwpW3BwZRFxkjH2L0RlNcfw/C3k5xpEQNhRbIOhgrDKcFgITP4Wh3Wk
+tSlX9yWfnkzdniu7sAmtk+mTPpYpm75hl9umFIQJpErJ+7l/w2QC977G/HeZd0z0EwlzsOdLio0G
+MWBQ+qXy2+lBgpX9nwOlTslOmmA0VtUYamPnyiWndIAojx+grHXlTONQIR3NOOw1/cT7K88CP8sQ
+L1LZkhhpcu+dGa/JVgUeF3dqNzBEGhn1cHaMeRHccwuCbu8=
+</ds:X509Certificate>
+</ds:X509Data>
+<ds:KeyValue>
+<ds:RSAKeyValue>
+<ds:Modulus>
+6WEwFAUpY5X5lD7rXPRrbYWwT+E2o3Hc3JoRhqmr20DLXTBlpArp5wt9G/Vs1pLIEsj4E65XtW1m
+EDkDjWk44TB5My3nkMdBp5tgvQZlEqZ/F1ZMr1smGwJLKlkjFPuwSi7vIesFBkCaWXDh08N+BWQt
+uttvMc/lLYB+sfd6WSIcnuixvJhXwwo/dnxSEFi4pVFU5jjKW4Saa4qcKsK9Q6kKnVeQ3J8U0Eme
+ORwJ9TrmmIRdwQgwUyCczMky2F2o8YqOJUZeWErQgDpchYRBADG9VCWNucR8LaJVGHSz80C4M+SN
+/mF+ZW4vODY3H8v1kYb1CET0bjxoZGKPCH4Daw==
+</ds:Modulus>
+<ds:Exponent>AQAB</ds:Exponent>
+</ds:RSAKeyValue>
+</ds:KeyValue>
+</ds:KeyInfo>
+<ds:Object Id="Signature547509-Object503163"><etsi:QualifyingProperties Target="#Signature547509"><etsi:SignedProperties Id="Signature547509-SignedProperties582255"><etsi:SignedSignatureProperties><etsi:SigningTime>2018-04-19T09:44:27-05:00</etsi:SigningTime><etsi:SigningCertificate><etsi:Cert><etsi:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>36OCaXIRo12ejS0tac6WHr8NNig=</ds:DigestValue></etsi:CertDigest><etsi:IssuerSerial><ds:X509IssuerName>CN=AC BANCO CENTRAL DEL ECUADOR,L=QUITO,OU=ENTIDAD DE CERTIFICACION DE INFORMACION-ECIBCE,O=BANCO CENTRAL DEL ECUADOR,C=EC</ds:X509IssuerName><ds:X509SerialNumber>1313264655</ds:X509SerialNumber></etsi:IssuerSerial></etsi:Cert></etsi:SigningCertificate></etsi:SignedSignatureProperties><etsi:SignedDataObjectProperties><etsi:DataObjectFormat ObjectReference="#Reference-ID-955268"><etsi:Description>comprobante</etsi:Description><etsi:MimeType>text/xml</etsi:MimeType></etsi:DataObjectFormat></etsi:SignedDataObjectProperties></etsi:SignedProperties></etsi:QualifyingProperties></ds:Object></ds:Signature></factura>]]></comprobante><mensajes /></autorizacion>
