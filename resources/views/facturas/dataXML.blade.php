@@ -11,7 +11,8 @@
                no_factura ="{{$dato->estab}}-{{$dato->ptoEmi}}-{{$dato->secuencial}}"
                enviado_ifs ="{{$dato->enviado_ifs}}"
                fecha_envio ="{{$dato->fecha_envio}}"
-               path ="|{{ public_path()."/facturasProveedores/".$dato->path }}|Descargar|new_window"
+
+               path ="|{{ route('archivo',[$dato->path])}}|Descargar|new_window"
             />
         @endforeach
     </B>

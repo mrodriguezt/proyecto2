@@ -50,5 +50,9 @@ Route::get('gridDataXML/{compania}', [
     'as'=>'grid.dataXML',
     'uses'=>'FacturasController@dataXML'
 ]);
+Route::get('archivo/{nombreArchivoXml}', function ($nombreArchivoXml) {
+    return response()->file(public_path()."/facturasProveedores/".$nombreArchivoXml);
+})->name('archivo');
+
 
 
