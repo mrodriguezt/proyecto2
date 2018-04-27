@@ -20,46 +20,67 @@ class FacturasController extends Controller
     public function validarFacturas()
     {
         $mensaje=[];
+        $facturas= [];
         $companias = Company_tab::select('COMPANY as value','NAME as label')->where('COUNTRY','EC')->whereNotNull('PERSON_TYPE')->get()->pluck('label','value');
 
-        return view('facturas.validar')->with('companias',$companias)->with('mensaje',$mensaje);
+        return view('facturas.validar')->with('companias',$companias)->with('mensaje',$mensaje)->with('facturas',$facturas);
     }
     public function validarArchivo(Request $request)
     {
         $companias = Company_tab::select('COMPANY as value','NAME as label')->where('COUNTRY','EC')->whereNotNull('PERSON_TYPE')->get()->pluck('label','value');
-
+        $facturas= [];
         $compania = $request["compania"];
+        $noExiste=0;
         if($request->file('file')) {
             $file = $request->file('file');
             if($file->getClientMimeType()=="text/plain"){
                 $mensaje=array();
                 $archivo = fopen($file->getRealPath(), "r");
+                $i=-1;
+
                 while(!feof($archivo)) {
                     $linea = fgets($archivo);
                     $fields = explode("\t", $linea);
+
                         if($fields[0]=="Factura"){
                             $factura = $fields[1];
                             $RUCproveedor = $fields[2];
                             $proveedor = $fields[3];
-
                             $facturaIFS = \DB::connection('oracle')->table('MAN_SUPP_INVOICE')
                                 ->where('COMPANY', $compania)
                                 ->where('IDENTITY', $RUCproveedor)
                                 ->where('INVOICE_NO', $factura)
                                 ->select('INVOICE_NO','SERIES_ID')
                                 ->get()->first();
+
                             if(!isset($facturaIFS->invoice_no)){
                              //   echo $proveedor.$factura;
-//                                $mensaje[] = "La factura ".$factura. " del Proveedor ".$RUCproveedor."--".$this->limpiaCadena(strval($proveedor))." NO EXISTE EN EL SISTEMA";
-                             $mensaje[] = "La factura ".$factura. " del Proveedor ".$RUCproveedor." NO EXISTE EN EL SISTEMA";
+                                $i++;
+                                $noExiste=1;
+                                $facturas[$i]["FACTURA"] = $factura;
+                                $facturas[$i]["RUC"] = $fields[2];
+                                $facturas[$i]["PROVEEDOR"] = $this->limpiaCadena($proveedor);
+////                            $mensaje[] = "La factura ".$factura. " del Proveedor ".$RUCproveedor."--".$this->limpiaCadena(strval($proveedor))." NO EXISTE EN EL SISTEMA";
+                                $mensaje[] = "La factura ".$factura. " del Proveedor ".$RUCproveedor." NO EXISTE EN EL SISTEMA";
+                            }else{
+                                $noExiste=0;
                             }
-                        }
-                }
+                        }else{
+                            if(floatval($fields[0])>=0 && $noExiste==1){
+                               // echo $i."---".$fields[0]."<br>";
+                                $facturas[$i]["VALOR"] = $fields[0];
 
-                return view('facturas.validar')->with('mensaje',$mensaje)->with('companias',$companias);
+                            }
+
+                        }
+
+                }
+                //print_r($facturas);
+//dd();
+                return view('facturas.validar')->with('mensaje',$mensaje)->with('companias',$companias)->with('facturas',$facturas);
             }else{
                 $mensaje[] = "El archivo debe ser .txt";
-                return view('facturas.validar')->with('mensaje',$mensaje)->with('companias',$companias);
+                return view('facturas.validar')->with('mensaje',$mensaje)->with('companias',$companias)->with('facturas',$facturas);
             }
         }
     }
@@ -224,10 +245,10 @@ class FacturasController extends Controller
                                         $importeTotal = floatval($xml->infoFactura->importeTotal);
                                         $totalImpuestos = $importeTotal - $totalSinImpuestos;
 
-                                        \DB::connection('oracle')->insert('insert into INVOICE_TAB (COMPANY,IDENTITY,PARTY_TYPE, INVOICE_ID, ROWVERSION, ROWSTATE, SERIES_ID, INVOICE_NO, CREATOR, INVOICE_DATE,DUE_DATE, CASH, COLLECT, INT_ALLOWED, INVOICE_TYPE, PAY_TERM_ID, AFF_BASE_LEDG_POST, AFF_LINE_POST, DELIVERY_DATE, ARRIVAL_DATE, CREATION_DATE, CURR_RATE, DIV_FACTOR, INVOICE_VERSION, GROSS_UP, PAY_TERM_BASE_DATE,C_AUTH_ID_SRI,NET_CURR_AMOUNT,VAT_CURR_AMOUNT)
+                                      /*  \DB::connection('oracle')->insert('insert into INVOICE_TAB (COMPANY,IDENTITY,PARTY_TYPE, INVOICE_ID, ROWVERSION, ROWSTATE, SERIES_ID, INVOICE_NO, CREATOR, INVOICE_DATE,DUE_DATE, CASH, COLLECT, INT_ALLOWED, INVOICE_TYPE, PAY_TERM_ID, AFF_BASE_LEDG_POST, AFF_LINE_POST, DELIVERY_DATE, ARRIVAL_DATE, CREATION_DATE, CURR_RATE, DIV_FACTOR, INVOICE_VERSION, GROSS_UP, PAY_TERM_BASE_DATE,C_AUTH_ID_SRI,NET_CURR_AMOUNT,VAT_CURR_AMOUNT)
                                         values (\''.$compania.'\', \'' . $ruc . '\',\'SUPPLIER\', \'' . $invoiceID->valor . '\', \'1\', \'Preliminary\', \'01\',\'' . $noFactura . '\', \'MAN_SUPP_INVOICE_API\',TO_DATE(\'' . $fechaEmision . '\', \'DD/MM/RRRR\')
                                         ,TO_DATE(\'' . $fecha . '\', \'DD/MM/RRRR\'), \'FALSE\', \'FALSE\', \'TRUE\', \'FAC_LOCAL\', \'5\', \'TRUE\', \'FALSE\',TO_DATE(\'' . $fecha . '\', \'DD/MM/RRRR\'),TO_DATE(\'' . $fecha . '\', \'DD/MM/RRRR\'),TO_DATE(\'' . $fecha . '\', \'DD/MM/RRRR\')
-                                        , \'1\', \'1\', \'1\', \'FALSE\',TO_DATE(\'' . $fecha . '\', \'DD/MM/RRRR\'),\'' . $claveAcceso . '\','. $totalSinImpuestos. ','.$totalImpuestos.')');
+                                        , \'1\', \'1\', \'1\', \'FALSE\',TO_DATE(\'' . $fecha . '\', \'DD/MM/RRRR\'),\'' . $claveAcceso . '\','. $totalSinImpuestos. ','.$totalImpuestos.')');*/
                                         $xmlTable = Xml::where('claveAcceso', $xml->infoTributaria->claveAcceso)->get()->first();
                                         if (!isset($xmlTable->id)) {
                                             Xml::insert([

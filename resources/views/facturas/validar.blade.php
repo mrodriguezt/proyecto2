@@ -20,14 +20,33 @@
         </div>
     </div>
     {!! Form::close()  !!}
+
     <br>
     <br>
     <br>
     <div class="form-row">
         <div class="form-group col-md-12">
-            @for($i=0;$i<count($mensaje);$i++)
-                <div align="center" class="success"><b>{{ $i+1  }}. {{ $mensaje[$i] }}</b></div>
+            <table class="table table-bordered">
+                <tr>
+                    <td>No.</td>
+                    <td>FACTURA</td>
+                    <td>RUC</td>
+                    <td>NOMBRE</td>
+                    <td>VALOR</td>
+                </tr>
+            @for($i=0;$i<count($facturas);$i++)
+                <tr>
+                    <td>{{ $i+1  }}</td>
+                    <td>{{ $facturas[$i]["FACTURA"] }}</td>
+                    <td>{{ $facturas[$i]["RUC"] }}</td>
+                    <td>{{ $facturas[$i]["PROVEEDOR"] }}</td>
+                    <td>{{ $facturas[$i]["VALOR"] }}</td>
+                </tr>
+                </tr>
             @endfor
+            </table>
+
+
          </div>
     </div>
 
