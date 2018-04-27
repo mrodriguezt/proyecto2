@@ -27,7 +27,7 @@
     <div class="form-row">
         <div class="form-group col-md-12">
             <table class="table table-bordered">
-                <tr>
+                <tr class="bg-primary">
                     <td>No.</td>
                     <td>FACTURA</td>
                     <td>RUC</td>
@@ -40,7 +40,7 @@
                     <td>{{ $facturas[$i]["FACTURA"] }}</td>
                     <td>{{ $facturas[$i]["RUC"] }}</td>
                     <td>{{ $facturas[$i]["PROVEEDOR"] }}</td>
-                    <td>{{ $facturas[$i]["VALOR"] }}</td>
+                    <td align="right">${{ number_format(floatval($facturas[$i]["VALOR"]),2) }}</td>
                 </tr>
                 </tr>
             @endfor
