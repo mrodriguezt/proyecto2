@@ -26,7 +26,7 @@
     <div class="form-row">
         <div class="form-group col-md-12">
             @for($i=0;$i<count($mensaje);$i++)
-                <div align="center" class="success"><b>{{ $mensaje[$i] }}</b></div>
+                <div align="center" class="success"><b>{{ $i+1  }}. {{ $mensaje[$i] }}</b></div>
             @endfor
          </div>
     </div>

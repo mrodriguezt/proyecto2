@@ -39,25 +39,32 @@ class FacturasController extends Controller
                     $fields = explode("\t", $linea);
                         if($fields[0]=="Factura"){
                             $factura = $fields[1];
-                            $proveedor = $fields[2];
+                            $RUCproveedor = $fields[2];
+                            $proveedor = $fields[3];
 
                             $facturaIFS = \DB::connection('oracle')->table('MAN_SUPP_INVOICE')
                                 ->where('COMPANY', $compania)
-                                ->where('IDENTITY', $proveedor)
+                                ->where('IDENTITY', $RUCproveedor)
                                 ->where('INVOICE_NO', $factura)
                                 ->select('INVOICE_NO','SERIES_ID')
                                 ->get()->first();
                             if(!isset($facturaIFS->invoice_no)){
-                                $mensaje[] = "La factura ".$factura. " del Proveedor ".$proveedor." NO EXISTE EN EL SISTEMA";
+                             //   echo $proveedor.$factura;
+//                                $mensaje[] = "La factura ".$factura. " del Proveedor ".$RUCproveedor."--".$this->limpiaCadena(strval($proveedor))." NO EXISTE EN EL SISTEMA";
+                             $mensaje[] = "La factura ".$factura. " del Proveedor ".$RUCproveedor." NO EXISTE EN EL SISTEMA";
                             }
                         }
                 }
+
                 return view('facturas.validar')->with('mensaje',$mensaje)->with('companias',$companias);
             }else{
                 $mensaje[] = "El archivo debe ser .txt";
                 return view('facturas.validar')->with('mensaje',$mensaje)->with('companias',$companias);
             }
         }
+    }
+    public function limpiaCadena($cadena) {
+        return (preg_replace('[^ A-Za-z0-9_-ñÑ]', '', $cadena));
     }
     public function subirXML(Request $request)
     {
@@ -124,13 +131,13 @@ class FacturasController extends Controller
                                     $ptoEmi = $xml->infoTributaria->ptoEmi;
                                     $secuencial = $xml->infoTributaria->secuencial;
                                     $fechaEmision = $xml->infoFactura->fechaEmision;
-                                    $invoiceID = \DB::connection('clon')->table('dual')
-                                        ->select(\DB::connection('clon')->raw('INVOICE_ID_SEQ.nextval AS VALOR'))
+                                    $invoiceID = \DB::connection('oracle')->table('dual')
+                                        ->select(\DB::connection('oracle')->raw('INVOICE_ID_SEQ.nextval AS VALOR'))
                                         ->get()->first();
 
                                     $noFactura = $estab . "-" . $ptoEmi . "-" . $secuencial;
                                     $fecha = date("d/m/Y");
-                                    $invoices = \DB::connection('clon')->table('INVOICE_TAB')
+                                    $invoices = \DB::connection('oracle')->table('INVOICE_TAB')
                                         ->where('IDENTITY', strval($ruc))
                                         ->where('INVOICE_NO', strval($noFactura))
                                         ->where('ROWSTATE', '!=', 'Cancelled')
@@ -172,7 +179,8 @@ class FacturasController extends Controller
                                                     'importeTotal' => $xml->infoFactura->importeTotal,
                                                     'enviado_ifs' => "NO",
                                                     'fecha_envio' => date('Y-m-d'),
-                                                    'path' => $file
+                                                    'path' => $file,
+                                                    'company' => $compania
                                                 ]
 
                                             );
@@ -203,7 +211,8 @@ class FacturasController extends Controller
                                                     'importeTotal' => $xml->infoFactura->importeTotal,
                                                     'enviado_ifs' => "NO",
                                                     'fecha_envio' => date('Y-m-d'),
-                                                    'path' => $file
+                                                    'path' => $file,
+                                                    'company' => $compania
                                                 ]
 
                                             );
@@ -215,7 +224,7 @@ class FacturasController extends Controller
                                         $importeTotal = floatval($xml->infoFactura->importeTotal);
                                         $totalImpuestos = $importeTotal - $totalSinImpuestos;
 
-                                        \DB::connection('clon')->insert('insert into INVOICE_TAB (COMPANY,IDENTITY,PARTY_TYPE, INVOICE_ID, ROWVERSION, ROWSTATE, SERIES_ID, INVOICE_NO, CREATOR, INVOICE_DATE,DUE_DATE, CASH, COLLECT, INT_ALLOWED, INVOICE_TYPE, PAY_TERM_ID, AFF_BASE_LEDG_POST, AFF_LINE_POST, DELIVERY_DATE, ARRIVAL_DATE, CREATION_DATE, CURR_RATE, DIV_FACTOR, INVOICE_VERSION, GROSS_UP, PAY_TERM_BASE_DATE,C_AUTH_ID_SRI,NET_CURR_AMOUNT,VAT_CURR_AMOUNT)
+                                        \DB::connection('oracle')->insert('insert into INVOICE_TAB (COMPANY,IDENTITY,PARTY_TYPE, INVOICE_ID, ROWVERSION, ROWSTATE, SERIES_ID, INVOICE_NO, CREATOR, INVOICE_DATE,DUE_DATE, CASH, COLLECT, INT_ALLOWED, INVOICE_TYPE, PAY_TERM_ID, AFF_BASE_LEDG_POST, AFF_LINE_POST, DELIVERY_DATE, ARRIVAL_DATE, CREATION_DATE, CURR_RATE, DIV_FACTOR, INVOICE_VERSION, GROSS_UP, PAY_TERM_BASE_DATE,C_AUTH_ID_SRI,NET_CURR_AMOUNT,VAT_CURR_AMOUNT)
                                         values (\''.$compania.'\', \'' . $ruc . '\',\'SUPPLIER\', \'' . $invoiceID->valor . '\', \'1\', \'Preliminary\', \'01\',\'' . $noFactura . '\', \'MAN_SUPP_INVOICE_API\',TO_DATE(\'' . $fechaEmision . '\', \'DD/MM/RRRR\')
                                         ,TO_DATE(\'' . $fecha . '\', \'DD/MM/RRRR\'), \'FALSE\', \'FALSE\', \'TRUE\', \'FAC_LOCAL\', \'5\', \'TRUE\', \'FALSE\',TO_DATE(\'' . $fecha . '\', \'DD/MM/RRRR\'),TO_DATE(\'' . $fecha . '\', \'DD/MM/RRRR\'),TO_DATE(\'' . $fecha . '\', \'DD/MM/RRRR\')
                                         , \'1\', \'1\', \'1\', \'FALSE\',TO_DATE(\'' . $fecha . '\', \'DD/MM/RRRR\'),\'' . $claveAcceso . '\','. $totalSinImpuestos. ','.$totalImpuestos.')');
@@ -246,7 +255,8 @@ class FacturasController extends Controller
                                                 'importeTotal' => $xml->infoFactura->importeTotal,
                                                 'enviado_ifs' => "SI",
                                                 'fecha_envio' => date('Y-m-d'),
-                                                'path' => $file
+                                                'path' => $file,
+                                                'company' => $compania
 
                                             ]);
                                         } else {
@@ -275,7 +285,8 @@ class FacturasController extends Controller
                                                 'importeTotal' => $xml->infoFactura->importeTotal,
                                                 'enviado_ifs' => "SI",
                                                 'fecha_envio' => date('Y-m-d'),
-                                                'path' => $file
+                                                'path' => $file,
+                                                'company' => $compania
                                             ]);
                                         }
                                     }
