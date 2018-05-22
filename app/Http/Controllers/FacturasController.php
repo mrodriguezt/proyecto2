@@ -41,7 +41,6 @@ class FacturasController extends Controller
                 while(!feof($archivo)) {
                     $linea = fgets($archivo);
                     $fields = explode("\t", $linea);
-
                         if($fields[0]=="Factura"){
                             $factura = $fields[1];
                             $RUCproveedor = $fields[2];
@@ -69,7 +68,6 @@ class FacturasController extends Controller
                             if(floatval($fields[0])>=0 && $noExiste==1){
                                // echo $i."---".$fields[0]."<br>";
                                 $facturas[$i]["VALOR"] = $fields[0];
-
                             }
 
                         }
