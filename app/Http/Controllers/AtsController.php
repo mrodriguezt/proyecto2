@@ -96,6 +96,7 @@ class AtsController extends Controller
            $detalleCompras = $compras->appendChild($detalleCompras);
            $nodo = $xml->createElement('codSustento', $atsCompra->c_sustenance_id);
            $detalleCompras->appendChild($nodo);
+           $atsCompra->tax_id_type = str_replace("_BR","",$atsCompra->tax_id_type);
            $nodo = $xml->createElement('tpIdProv', $atsCompra->tax_id_type);
            $detalleCompras->appendChild($nodo);
            $nodo = $xml->createElement('idProv', $atsCompra->identity);
@@ -106,7 +107,7 @@ class AtsController extends Controller
            if ($atsCompra->c_supp_rel_party == null || $atsCompra->c_supp_rel_party == "") {
                $atsCompra->c_supp_rel_party = "NO";
            }
-           $nodo = $xml->createElement('parteRel', $atsCompra->c_supp_rel_party);
+           $nodo = $xml->createElement('parteRel', strtoupper($atsCompra->c_supp_rel_party));
            $detalleCompras->appendChild($nodo);
            if ($atsCompra->tax_id_type == "03") {
                if ($atsCompra->person_type == "Physical") {
@@ -162,7 +163,7 @@ class AtsController extends Controller
            $detalleCompras->appendChild($nodo);
            $gngiva = \DB::connection('oracle')->table('MAN_SUPP_INVOICE_ITEM')
                ->where('INVOICE_ID', $atsCompra->invoice_id)
-               ->whereIn('VAT_CODE', ['IVA_COM_12%_AF_CT', 'IVA_COM_12%_BS_CT', 'IVA_COM_12%_BS_SCT', 'IVA_COM_12%_RI'])
+               ->whereIn('VAT_CODE', ['IVA_COM_12%_AF_CT', 'IVA_COM_12%_BS_CT', 'IVA_COM_12%_BS_SCT', 'IVA_COM_12%_RI','IVA_IMP_12%_BS_CT'])
                ->select(\DB::connection('oracle')->raw('SUM(NET_CURR_AMOUNT) as base12iva'))
                ->get()->first();
 
@@ -256,11 +257,15 @@ class AtsController extends Controller
                $nodo = $xml->createElement('paisEfecPagoGen', $atsCompra->country_code_sri);
                $pagoExterior->appendChild($nodo);
                //C_TAX_HAVEN_ID
-               $nodo = $xml->createElement('paisEfecPagoParFis', $atsCompra->c_tax_haven_id);
-               $pagoExterior->appendChild($nodo);
+               if ($atsCompra->c_reg_type_id == '02') {
+                   $nodo = $xml->createElement('paisEfecPagoParFis', $atsCompra->c_tax_haven_id);
+                   $pagoExterior->appendChild($nodo);
+               }
                //C_TAX_REGIME_TEXT
-               $nodo = $xml->createElement('denopago', $atsCompra->c_tax_regime_text);
-               $pagoExterior->appendChild($nodo);
+               if ($atsCompra->c_reg_type_id == '03') {
+                   $nodo = $xml->createElement('denopago', $atsCompra->c_tax_regime_text);
+                   $pagoExterior->appendChild($nodo);
+               }
                //country_code_sri
 
            }
@@ -280,23 +285,24 @@ class AtsController extends Controller
                 $nodo = $xml->createElement('aplicConvDobTrib', "NA");
                 $pagoExterior->appendChild($nodo);
            }else{
-               $nodo = $xml->createElement('aplicConvDobTrib', $atsCompra->c_double_tributation_db);
+               $nodo = $xml->createElement('aplicConvDobTrib', strtoupper($atsCompra->c_double_tributation_db));
                $pagoExterior->appendChild($nodo);
            }
            //C_SUBJECT_RETENTION
-           if ($atsCompra->c_subject_retention == "") {
-               $atsCompra->c_subject_retention = "NO";
+           if ($atsCompra->c_double_tributation_db == "SI") {
+               $atsCompra->c_subject_retention = "NA";
+           }else {
+               if ($atsCompra->c_subject_retention == "") {
+                   $atsCompra->c_subject_retention = "NO";
+               }
            }
+
            if ($atsCompra->id_payment_type == '01') {
                $nodo = $xml->createElement('pagExtSujRetNorLeg', "NA");
                $pagoExterior->appendChild($nodo);
            }else{
-               $nodo = $xml->createElement('pagExtSujRetNorLeg', $atsCompra->c_subject_retention);
+               $nodo = $xml->createElement('pagExtSujRetNorLeg', strtoupper($atsCompra->c_subject_retention));
                $pagoExterior->appendChild($nodo);
-           }
-           //C_SUBJECT_RETENTION
-           if ($atsCompra->c_subject_retention == "") {
-               $atsCompra->c_subject_retention = "NO";
            }
            $pagoRegFis = "";
            if ($atsCompra->id_payment_type == '03') {
@@ -380,7 +386,12 @@ class AtsController extends Controller
                $detalleCompras->appendChild($nodo);
                $nodo = $xml->createElement('secModificado', intval($INVOICE_NO[2]));
                $detalleCompras->appendChild($nodo);
-               $nodo = $xml->createElement('autModificado', $authSri->c_auth_id_sri);
+               if (isset($authSri->c_auth_id_sri)){
+                   $nodo = $xml->createElement('autModificado', $authSri->c_auth_id_sri);
+                }else{
+                   $nodo = $xml->createElement('autModificado', "SIN AUTORIZACION");
+               }
+
                $detalleCompras->appendChild($nodo);
            }
 
@@ -487,7 +498,7 @@ class AtsController extends Controller
                $atsVenta->c_related_party="NO";
            }
            if($atsVenta->tax_id_type=="04" || $atsVenta->tax_id_type=="05" || $atsVenta->tax_id_type=="06"){
-            $nodo = $xml->createElement('parteRelVtas',$atsVenta->c_related_party);
+            $nodo = $xml->createElement('parteRelVtas',strtoupper($atsVenta->c_related_party));
             $detalleVentas->appendChild($nodo);
            }
 
@@ -737,7 +748,7 @@ class AtsController extends Controller
            if($atsVenta->c_related_party==null || $atsVenta->c_related_party==""){
                $atsVenta->c_related_party="NO";
            }
-           $nodo = $xml->createElement('parteRelVtas',$atsVenta->c_related_party);
+           $nodo = $xml->createElement('parteRelVtas',strtoupper($atsVenta->c_related_party));
            $detalleVentas->appendChild($nodo);
 
            if ($atsVenta->tax_id_type == "06") {
@@ -930,7 +941,7 @@ class AtsController extends Controller
             if($exportacion->c_related_party==null){
                 $exportacion->c_related_party="NO";
             }
-           $nodo = $xml->createElement('parteRelExp', $exportacion->c_related_party);
+           $nodo = $xml->createElement('parteRelExp', strtoupper($exportacion->c_related_party));
            $detalleExportaciones->appendChild($nodo);
 
            //if ($exportacion->tax_id_type == "06") {
