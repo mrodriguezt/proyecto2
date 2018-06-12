@@ -670,6 +670,7 @@ class AtsController extends Controller
                ->where('IDENTITY', $atsVenta->customer_id)
                ->where('COMPANY', $compania)
                ->where('BILL_TYPE', 'RIVA')
+               ->where('OBJSTATE', 'Cancelled')
                ->whereRaw('VOUCHER_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
                ->select(\DB::connection('oracle')->raw('SUM(FULL_CURR_AMOUNT) AS ret'))
                ->get()->first();
@@ -686,6 +687,7 @@ class AtsController extends Controller
                ->where('IDENTITY', $atsVenta->customer_id)
                ->where('BILL_TYPE', 'RFTE')
                ->where('COMPANY', $compania)
+               ->where('OBJSTATE', 'Cancelled')
                ->whereRaw('VOUCHER_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
                ->select(\DB::connection('oracle')->raw('SUM(FULL_CURR_AMOUNT) AS ret'))
                // ->select('FULL_CURR_AMOUNT')
@@ -871,6 +873,7 @@ class AtsController extends Controller
            $retenciones = \DB::connection('oracle')->table('BILL_OF_EXCHANGE')
                ->where('IDENTITY', $atsVenta->customer_id)
                ->where('COMPANY', $compania)
+               ->where('OBJSTATE', 'Cancelled')
                ->where('BILL_TYPE', 'RFTE')
                ->whereRaw('VOUCHER_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
                ->select(\DB::connection('oracle')->raw('SUM(FULL_CURR_AMOUNT) AS ret'))
