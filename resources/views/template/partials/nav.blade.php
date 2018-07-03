@@ -27,12 +27,26 @@
                                 Facturas Proveedores<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ route('subir.facturas') }}">Subir Facturas IFS</a></li>
                                 <li><a href="{{ route('validar.facturas') }}">Validar Facturas SRI</a></li>
                             </ul>
-
                         </li>
+                </ul>
+            </li>
+        </ul>
 
+        <ul class="nav navbar-nav">
+            &nbsp; <li class="dropdown">
+                <!-- Right Side Of Navbar -->
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- Authentication Links -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                Facturas Clienter<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ route('facturacion.electronica') }}">Facturación Electrónica</a></li>
+                            </ul>
+                        </li>
                 </ul>
             </li>
         </ul>

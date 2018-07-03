@@ -38,6 +38,8 @@
 	</div>
 	<script src="{{ asset('js/app.js') }}"></script>
 	<script src="{{ asset('plugins/chosen/chosen.jquery.js')}}"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 	<script src="{{ asset('plugins/grid-11/GridE.js')}}"></script>
 
 	<script>

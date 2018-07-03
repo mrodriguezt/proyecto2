@@ -11,11 +11,12 @@
 |
 */
 
+
 Route::get('/', function () {
     return view('index');
 });
 Auth::routes();
-
+Route::group(['middleware'=>'auth'],function(){
 Route::get('ats/', [
     'as'=>'ats',
     'uses'=>'AtsController@ats'
@@ -54,5 +55,21 @@ Route::get('archivo/{nombreArchivoXml}', function ($nombreArchivoXml) {
     return response()->file(public_path()."/facturasProveedores/".$nombreArchivoXml);
 })->name('archivo');
 
+Route::get('facturacionElectronica/', [
+    'as'=>'facturacion.electronica',
+    'uses'=>'FacturacionElectronicaController@facturacionElectronica'
+]);
+Route::get('gridLayoutFacturacion/', [
+    'as'=>'gridLayoutFacturacion',
+    'uses'=>'FacturacionElectronicaController@layoutFacturacion'
+]);
+Route::get('gridDataFacturacion/{fecha_inicio}/{fecha_fin}/{compania}', [
+    'as'=>'gridDataFacturacion',
+    'uses'=>'FacturacionElectronicaController@dataFacturacion'
+]);
+Route::post('enviarFactura', [
+    'as'=>'enviar.factura',
+    'uses'=>'FacturacionElectronicaController@enviarFacturaTandi'
+]);
 
-
+});

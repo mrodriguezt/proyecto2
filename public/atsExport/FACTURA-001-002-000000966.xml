@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<factura id="comprobante" version="1.1.0">
+  <infoTributaria>
+    <ambiente>1</ambiente>
+    <tipoEmision>1</tipoEmision>
+    <razonSocial>SANTOSCMI S.A.</razonSocial>
+    <ruc>1791280733001</ruc>
+    <codDoc>01</codDoc>
+    <estab>001</estab>
+    <ptoEmi>002</ptoEmi>
+    <secuencial>000000966</secuencial>
+    <dirMatriz>Av. Eloy Alfaro N30-341 y Av. Amazonas, Edif. Finandes  - QUITO PICHINCHA EC - ECUADOR</dirMatriz>
+  </infoTributaria>
+  <infoFactura>
+    <fechaEmision>15/05/2018</fechaEmision>
+    <contribuyenteEspecial>2289</contribuyenteEspecial>
+    <obligadoContabilidad>SI</obligadoContabilidad>
+    <tipoIdentificacionComprador>04</tipoIdentificacionComprador>
+    <razonSocialComprador>ANDES PETROLEUM ECUADOR LTD.</razonSocialComprador>
+    <identificacionComprador>1790749509001</identificacionComprador>
+    <direccionComprador>PRUEBA DIRECCION</direccionComprador>
+    <direccionComprador>PRUEBA DE FACTURA</direccionComprador>
+    <totalSinImpuestos>711372.61</totalSinImpuestos>
+    <totalDescuento>0</totalDescuento>
+    <totalConImpuestos>
+      <totalImpuesto>
+        <codigo>2</codigo>
+        <codigoPorcentaje>2</codigoPorcentaje>
+        <baseImponible>711372.61</baseImponible>
+        <tarifa>12</tarifa>
+        <valor>85364.71</valor>
+      </totalImpuesto>
+    </totalConImpuestos>
+    <propina>0</propina>
+    <importeTotal>796737.32</importeTotal>
+    <moneda>DOLAR</moneda>
+    <pagos>
+      <pago>
+        <formaPago>20</formaPago>
+        <total>796737.32</total>
+        <plazo>30</plazo>
+        <unidadTiempo>dias</unidadTiempo>
+      </pago>
+    </pagos>
+  </infoFactura>
+  <detalles>
+    <detalle>
+      <codigoPrincipal>AVANCE DE OBRA</codigoPrincipal>
+      <descripcion/>
+      <cantidad>1</cantidad>
+      <precioUnitario>711372.61</precioUnitario>
+      <descuento>0</descuento>
+      <precioTotalSinImpuesto>711372.61</precioTotalSinImpuesto>
+      <impuestos>
+        <impuesto>
+          <codigo>2</codigo>
+          <codigoPorcentaje>2</codigoPorcentaje>
+          <tarifa>12</tarifa>
+          <baseImponible>711372.61</baseImponible>
+          <valor>85364.71</valor>
+        </impuesto>
+      </impuestos>
+    </detalle>
+  </detalles>
+  <infoAdicional>
+    <campoAdicional nombre="CERTIFICADO PROPIETARIO">RVASCONEZ</campoAdicional>
+    <campoAdicional nombre="EC01">COMPANY</campoAdicional>
+    <campoAdicional nombre="001-002-000000966">INVOICE_ID</campoAdicional>
+  </infoAdicional>
+  <email>rvasconez@santoscmi.com</email>
+  <nombreUsuario>mrodriguezt</nombreUsuario>
+  <claveUsuario>mrodriguezt</claveUsuario>
+  <adicional/>
+</factura>
