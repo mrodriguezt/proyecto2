@@ -17,12 +17,12 @@
         <li><a href="{{ route('ats') }}">ATS</a></li>
 
       </ul>
-      <ul class="nav navbar-nav">
+      <!--<ul class="nav navbar-nav">
             &nbsp; <li class="dropdown">
                 <!-- Right Side Of Navbar -->
-                <ul class="nav navbar-nav navbar-right">
-                    <!-- Authentication Links -->
-                        <li class="dropdown">
+        <!--   <ul class="nav navbar-nav navbar-right">
+               <!-- Authentication Links -->
+    <!-- <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 Facturas Proveedores<span class="caret"></span>
                             </a>
@@ -32,7 +32,7 @@
                         </li>
                 </ul>
             </li>
-        </ul>
+        </ul>-->
 
         <ul class="nav navbar-nav">
             &nbsp; <li class="dropdown">
@@ -41,35 +41,34 @@
                     <!-- Authentication Links -->
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                Facturas Clienter<span class="caret"></span>
+                                Documentos Electrónicos<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ route('facturacion.electronica') }}">Facturación Electrónica</a></li>
+                                <li><a href="{{ route('facturacion.electronica') }}">Facturación</a></li>
                             </ul>
                         </li>
                 </ul>
             </li>
         </ul>
-        <ul class="nav navbar-nav">
+        <!--<ul class="nav navbar-nav">
             &nbsp; <li class="dropdown">
                 <!-- Right Side Of Navbar -->
-                <ul class="nav navbar-nav navbar-right">
-                    <!-- Authentication Links -->
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                Reportes <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                            </ul>
+        <!--     <ul class="nav navbar-nav navbar-right">
+                 <!-- Authentication Links -->
+        <!-- <li class="dropdown">
+             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                 Reportes <span class="caret"></span>
+             </a>
+             <ul class="dropdown-menu" role="menu">
+             </ul>
 
-                        </li>
+         </li>-->
 
-                </ul>
-            </li>
-        </ul>
+ </ul>
+</li>
+</ul>
 
-
-        <!-- Left Side Of Navbar -->
+<!-- Left Side Of Navbar -->
         <ul class="nav navbar-nav">
             &nbsp;
         </ul>
