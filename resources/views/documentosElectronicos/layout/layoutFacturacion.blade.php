@@ -27,10 +27,13 @@
         <I Kind='Filter'
         />
     </Head>
-    <Toolbar id="toolbarDatos" Cells="Save,Export,Reload,Enviar_XML,Formula"  Space="-1"
+    <Toolbar id="toolbarDatos" Cells="Save,Export,Reload,Enviar_XML,Actualizar_IFS,Formula"  Space="-1"
              Enviar_XMLType="Button"
              Enviar_XMLButton="Button"
              Enviar_XMLOnClick="enviarXML(Grid)" Enviar_XML="Enviar Tandi-Invoice"
+             Actualizar_IFSType="Button"
+             Actualizar_IFSButton="Button"
+             Actualizar_IFSOnClick="actualizarIFS(Grid)" Actualizar_IFS="ACTUALIZAR IFS"
 
     />
 </Grid>

@@ -71,5 +71,8 @@ Route::post('enviarFactura', [
     'as'=>'enviar.factura',
     'uses'=>'FacturacionElectronicaController@enviarFacturaTandi'
 ]);
-
+Route::post('actualizarIFS', [
+    'as'=>'actualizar.IFS',
+    'uses'=>'FacturacionElectronicaController@actualizarIFS'
+]);
 });

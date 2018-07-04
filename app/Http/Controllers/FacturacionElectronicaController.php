@@ -19,6 +19,7 @@ class FacturacionElectronicaController extends Controller
     {
         return response()->view("documentosElectronicos.layout.layoutFacturacion")->header('Content-Type', 'text/xml');
     }
+
     public function dataFacturacion($fechaInicio,$fechaFin,$compania){
 
         $facturaIFS = \DB::connection('oracle')->table('INSTANT_INVOICE')
@@ -55,6 +56,58 @@ class FacturacionElectronicaController extends Controller
     function cambiarExpresionRegular($cadena){
         return preg_replace('/[^\p{L}\p{N}\&%#\ С$\/=?\}\]\{\[+*~^;:,.-_ͼ\(\)\'\"]/u', '', $cadena);
     }
+    public function actualizarIFS(Request $request){
+        $compania = $request["COMPANY"];
+        $documentos= \DB::connection('ifscmi_int')->table('FE_DOCUMENTOS_ENVIADOS')
+            ->where('COMPANIA', $compania)
+            ->where('ERROR','OK')
+            ->select('TIPO_DOCUMENTO','NO_DOCUMENTO','COMPANIA')
+            ->get();
+        foreach ($documentos as $documento){
+            $FACTURA = \DB::connection('oracle')->table('INSTANT_INVOICE')
+                ->where('INVOICE_NO', $documento->no_documento)
+                ->where('COMPANY', $compania)
+                ->where('SERIES_ID', 'PR')
+                ->select('INVOICE_NO','INVOICE_ID','IDENTITY')
+                ->get()->first();
+
+            if(isset($FACTURA->invoice_no)){
+                $dato = explode('-',$FACTURA->invoice_no);
+
+                $receipt= \DB::connection('invoice')->table('RECEIPT')
+                    ->where('SERIAL', $dato[0].$dato[1])
+                    ->where('RECEIPT_NUMBER', $dato[2])
+                    ->where('RECEIPT_TYPE_ID','1')
+                    ->select('RECEIPT_ID')
+                    ->get()->first();
+
+                if(isset($receipt->receipt_id)){
+                    $autorizacion= \DB::connection('invoice')->table('AUTHORIZATION')
+                        ->where('receipt_id',$receipt->receipt_id)
+                        ->select('AUTHORIZATION_NUMBER','AUTHORIZATION_DATE')
+                        ->get()->first();
+
+                    if(isset($autorizacion->authorization_date)){
+                        $facturaElec = \DB::connection('oracle')->table('C_ELECTRONIC_INVOICE_AUTH_TAB')
+                            ->where('INVOICE_ID', $FACTURA->invoice_id)
+                            ->where('COMPANY', $compania)
+                            ->select('ROWSTATE')
+                            ->get()->first();
+                        if(isset($facturaElec->rowstate)){
+                            if($facturaElec->rowstate=='Preliminary'){
+                                \DB::connection('oracle')->table('C_ELECTRONIC_INVOICE_AUTH_TAB')
+                                    ->where('INVOICE_ID', $FACTURA->invoice_id)
+                                    ->where('COMPANY', $compania)
+                                    ->update(['C_SEND_AUTH_DATE' => $autorizacion->authorization_date,'C_AUTH_ID_SRI'=>$autorizacion->authorization_number,'USERID'=>'RVASCONEZ','C_RECEIVE_AUTH_DATE'=>$autorizacion->authorization_date,'C_ACCESS_KEY'=>$autorizacion->authorization_number,'C_EMISSION_TYPE'=>1,'ROWSTATE'=>'Authorized']);
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+    }
     public function enviarFacturaTandi(Request $request){
         $INVOICE_ID=$request["INVOICE_ID"];
         $codigoFactura = explode("-",$INVOICE_ID);
@@ -87,37 +140,11 @@ class FacturacionElectronicaController extends Controller
             ->select('ADDRESS_LOV')
             ->get()->first();
 
-           /* $xml = new DomDocument('1.0', 'UTF-8');
-            $raiz = $xml->createElement('factura');
+        $contactoCliente = \DB::connection('oracle')->table('CUSTOMER_INFO_CONTACT')
+            ->where('CUSTOMER_ID', $FACTURA->identity)
+            ->select(\DB::connection('oracle')->raw('PERSON_INFO_ADDRESS_API.Get_E_Mail(person_id,CONTACT_ADDRESS) as correoCliente'))
+            ->get()->first();
 
-            $domAttribute = $xml->createAttribute('id');
-            $domAttribute->value = 'comprobante';
-            $raiz->appendChild($domAttribute);
-            $domAttribute = $xml->createAttribute('version');
-            $domAttribute->value = '1.1.0';
-            $raiz->appendChild($domAttribute);
-            $xml->appendChild($raiz);
-            $razonSocial = 'SANTOSCMI S.A.';
-            $infoTributaria = $xml->createElement('infoTributaria');
-            $infoTributaria = $raiz->appendChild($infoTributaria);
-            $nodo = $xml->createElement('ambiente', $AMBIENTE->codigo);
-            $infoTributaria->appendChild($nodo);
-            $nodo = $xml->createElement('tipoEmision', '1');
-            $infoTributaria->appendChild($nodo);
-            $nodo = $xml->createElement('razonSocial', $razonSocial);
-            $infoTributaria->appendChild($nodo);
-            $nodo = $xml->createElement('ruc', '1791280733001');
-            $infoTributaria->appendChild($nodo);
-            $nodo = $xml->createElement('codDoc', '01');
-            $infoTributaria->appendChild($nodo);
-            $nodo = $xml->createElement('estab', $codigoFactura[0]);
-            $infoTributaria->appendChild($nodo);
-            $nodo = $xml->createElement('ptoEmi', $codigoFactura[1]);
-            $infoTributaria->appendChild($nodo);
-            $nodo = $xml->createElement('secuencial', $codigoFactura[2]);
-            $infoTributaria->appendChild($nodo);
-            $nodo = $xml->createElement('dirMatriz', $DIRECCION->address_lov);
-            $infoTributaria->appendChild($nodo);*/
             $tipoID = strlen($FACTURA->identity);
             $tipoIdentificacionComprador=0;
             if($tipoID==10){
@@ -134,30 +161,6 @@ class FacturacionElectronicaController extends Controller
                     $tipoIdentificacionComprador= '06';
                 }
             }
-           /* $infoFactura = $xml->createElement('infoFactura');
-            $infoFactura = $raiz->appendChild($infoFactura);
-            $nodo = $xml->createElement('fechaEmision', date('d/m/Y',strtotime($FACTURA->invoice_date)));
-            $infoFactura->appendChild($nodo);
-            $nodo = $xml->createElement('contribuyenteEspecial',"2289");
-            $infoFactura->appendChild($nodo);
-            $nodo = $xml->createElement('obligadoContabilidad', "SI");
-            $infoFactura->appendChild($nodo);
-            $nodo = $xml->createElement('tipoIdentificacionComprador', $tipoIdentificacionComprador);
-            $infoFactura->appendChild($nodo);
-            $nodo = $xml->createElement('razonSocialComprador', $FACTURA->name);
-            $infoFactura->appendChild($nodo);
-            $nodo = $xml->createElement('identificacionComprador', $FACTURA->identity);
-            $infoFactura->appendChild($nodo);
-             $nodo = $xml->createElement('direccionComprador', "PRUEBA DIRECCION");
-            $infoFactura->appendChild($nodo);
-            $nodo = $xml->createElement('direccionComprador', "PRUEBA DE FACTURA");
-            $infoFactura->appendChild($nodo);
-            $nodo = $xml->createElement('totalSinImpuestos', $FACTURA->net_amount);
-            $infoFactura->appendChild($nodo);
-            $nodo = $xml->createElement('totalDescuento', 0);
-            $infoFactura->appendChild($nodo);
-            $nodo = $xml->createElement('totalConImpuestos');
-            $totalConImpuestos = $infoFactura->appendChild($nodo);*/
 
             $IMPUESTOS = \DB::connection('oracle')->table('INSTANT_INVOICE_ITEM')
             ->where('INVOICE_ID', $FACTURA->invoice_id)
@@ -179,18 +182,7 @@ class FacturacionElectronicaController extends Controller
                     ->where('PORCENTAJE', $porcentaje->fee_rate)
                     ->get()->first();
 
-               /* $nodo = $xml->createElement('totalImpuesto');
-                $totalImpuesto = $totalConImpuestos->appendChild($nodo);
-                $nodo = $xml->createElement('codigo', $TABLA15->codigo_sri);
-                $totalImpuesto->appendChild($nodo);
-                $nodo = $xml->createElement('codigoPorcentaje', $TABLA16->codigo);
-                $totalImpuesto->appendChild($nodo);
-                $nodo = $xml->createElement('baseImponible', round($IMPUESTO->base_imponible,2));
-                $totalImpuesto->appendChild($nodo);
-                $nodo = $xml->createElement('tarifa', round($IMPUESTO->vat_percent,2));
-                $totalImpuesto->appendChild($nodo);
-                $nodo = $xml->createElement('valor', $IMPUESTO->impuesto);
-                $totalImpuesto->appendChild($nodo);*/
+
 
                 $a_totalConImpuestos["totalImpuesto"][$i] = array('codigo' => $TABLA16->codigo,
                     'codigoPorcentaje'  => $TABLA16->codigo,
@@ -200,26 +192,7 @@ class FacturacionElectronicaController extends Controller
                 );
                 $i++;
             }
-      /*  $nodo = $xml->createElement('propina', 0);
-        $infoFactura->appendChild($nodo);
-        $nodo = $xml->createElement('importeTotal', round($FACTURA->gross_amount,2));
-        $infoFactura->appendChild($nodo);
-        $nodo = $xml->createElement('moneda', "DOLAR");
-        $infoFactura->appendChild($nodo);
-        $nodo = $xml->createElement('pagos');
-        $PAGOS = $infoFactura->appendChild($nodo);
-        $nodo = $xml->createElement('pago');
-        $PAGO = $PAGOS->appendChild($nodo);
-        $nodo = $xml->createElement('formaPago',$FACTURA->payment_address_id);
-        $PAGO->appendChild($nodo);
-        $nodo = $xml->createElement('total',$FACTURA->gross_amount);
-        $PAGO->appendChild($nodo);
-        $nodo = $xml->createElement('plazo',30);
-        $PAGO->appendChild($nodo);
-        $nodo = $xml->createElement('unidadTiempo','dias');
-        $PAGO->appendChild($nodo);
-        $detalles = $xml->createElement('detalles');
-        $detalles = $raiz->appendChild($detalles);*/
+
         $a_pago= array();
         $dias= floatval($FACTURA->pay_term_description);
 
@@ -269,77 +242,20 @@ class FacturacionElectronicaController extends Controller
             );
             $i++;
 
-/*            $nodo = $xml->createElement('detalle');
-            $detalle = $detalles->appendChild($nodo);
-            $nodo = $xml->createElement('codigoPrincipal',$ITEM->object_id);
-            $detalle->appendChild($nodo);
-            //$nodo = $xml->createElement('descripcion',$ITEM->description);
-            //$nodo = $xml->createElement('descripcion',$this->cambiarExpresionRegular($ITEM->description));
-            $nodo = $xml->createElement('descripcion',"");
-            $detalle->appendChild($nodo);
-            $nodo = $xml->createElement('cantidad',$ITEM->quantity);
-            $detalle->appendChild($nodo);
-            $nodo = $xml->createElement('precioUnitario',abs(round($ITEM->price,2)));
-            $detalle->appendChild($nodo);
-            $nodo = $xml->createElement('descuento',0);
-            $detalle->appendChild($nodo);
-            $nodo = $xml->createElement('precioTotalSinImpuesto',abs(round($ITEM->net_curr_amount,2)));
-            $detalle->appendChild($nodo);
-
-
-            $nodo = $xml->createElement('impuestos');
-            $impuestos = $detalle->appendChild($nodo);
-            $nodo = $xml->createElement('impuesto');
-            $impuesto = $impuestos->appendChild($nodo);
-
-            $nodo = $xml->createElement('codigo', $TABLA15->codigo_sri);
-            $impuesto->appendChild($nodo);
-            $nodo = $xml->createElement('codigoPorcentaje', $TABLA16->codigo);
-            $impuesto->appendChild($nodo);
-            $nodo = $xml->createElement('tarifa', $ITEM->vat_percent);
-            $impuesto->appendChild($nodo);
-           $nodo = $xml->createElement('baseImponible', abs(round($ITEM->net_curr_amount,2)));
-            $impuesto->appendChild($nodo);
-            $nodo = $xml->createElement('valor', $ITEM->vat_curr_amount);
-            $impuesto->appendChild($nodo);*/
+        }
+        $errorFact="";
+        if(isset($CUSTOMER->address) &&  isset($contactoCliente->correocliente)) {
+            if ($CUSTOMER->address == "" || $contactoCliente->correocliente == "") {
+                $errorFact = "ERROR";
+            }
+        }else{
+            $errorFact = "ERROR";
 
         }
-
-       /* $infoAdicional = $xml->createElement('infoAdicional');
-        $infoAdicional = $raiz->appendChild($infoAdicional);
-        $campoAdicional = $xml->createElement('campoAdicional','RVASCONEZ');
-        $campoAdicional = $infoAdicional->appendChild($campoAdicional);
-        $domAttribute = $xml->createAttribute('nombre');
-        $domAttribute->value = 'CERTIFICADO PROPIETARIO';
-        $campoAdicional->appendChild($domAttribute);
-        $campoAdicional = $xml->createElement('campoAdicional','COMPANY');
-        $campoAdicional = $infoAdicional->appendChild($campoAdicional);
-        $domAttribute = $xml->createAttribute('nombre');
-        $domAttribute->value = 'EC01';
-        $campoAdicional->appendChild($domAttribute);
-        $campoAdicional = $xml->createElement('campoAdicional','INVOICE_ID');
-        $campoAdicional = $infoAdicional->appendChild($campoAdicional);
-        $domAttribute = $xml->createAttribute('nombre');
-        $domAttribute->value = $_POST["INVOICE_ID"];
-        $campoAdicional->appendChild($domAttribute);
-
-        $email = $xml->createElement('email','rvasconez@santoscmi.com');
-        $raiz->appendChild($email);
-        $nombreUsuario = $xml->createElement('nombreUsuario','mrodriguezt');
-        $raiz->appendChild($nombreUsuario);
-        $nombreUsuario = $xml->createElement('claveUsuario','mrodriguezt');
-        $raiz->appendChild($nombreUsuario);
-        $nombreUsuario = $xml->createElement('adicional');
-        $raiz->appendChild($nombreUsuario);
-
-
-        $xml->formatOutput = true;
-        //$path = public_path().'/rfq/';
-        $el_xml = $xml->saveXML();
-        $nombreArchivo = public_path()."/atsExport/FACTURA-".$FACTURA->invoice_no.".xml";
-        $xml->save($nombreArchivo);*/
-
-
+        if($errorFact!=""){
+            echo $errorFact;
+            die();
+        }
         $request = array('factura' => array(
             array(
                 'id'=> 'comprobante',
@@ -371,7 +287,7 @@ class FacturacionElectronicaController extends Controller
                 'pagos' => $a_pago
             ),
             'detalles' => $a_detalle,
-            'tipoNegociable' => array('correo'=>'mrodriguezt@santoscmi.com'),
+            'tipoNegociable' => array('correo'=>$contactoCliente->correocliente),
             'infoAdicional' => array(
                 'campoAdicional'=>array(
                     array(
@@ -394,7 +310,6 @@ class FacturacionElectronicaController extends Controller
             'claveUsuario' => 'mrodriguezt',
             'adicional' => ""
         );
-
 
 
 

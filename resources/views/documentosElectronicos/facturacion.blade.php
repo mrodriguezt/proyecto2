@@ -50,7 +50,11 @@
                                 COMPANY: $("#compania").val(),
                                 "_token": "{{ csrf_token() }}",},
                             success: function( msg ) {
-                                alert("La factura ha sido enviada a Tandi")
+                                if(msg=="ERROR"){
+                                    alert("FAVOR REVISAR CORREO Y MAIL DEL CLIENTE")
+                                }else {
+                                    alert("La factura ha sido enviada a Tandi")
+                                }
                             }
                         });
 
@@ -59,6 +63,20 @@
                 G.Reload();
             }
         }
+    }
+    function actualizarIFS(G){
+          $.ajax({
+                        type: "POST",
+                        url: '{{URL::route("actualizar.IFS")}}',
+                        data: {COMPANY: $("#compania").val(),
+                            "_token": "{{ csrf_token() }}",},
+                        success: function( msg ) {
+
+                            alert("DATOS ACTUALIZADOS EN IFS")
+                        }
+                    });
+
+
     }
     </script>
 @endsection
