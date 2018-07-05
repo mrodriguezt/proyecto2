@@ -75,4 +75,20 @@ Route::post('actualizarIFS', [
     'as'=>'actualizar.IFS',
     'uses'=>'FacturacionElectronicaController@actualizarIFS'
 ]);
+Route::get('facturacionElectronicaVT/', [
+    'as'=>'facturacion.electronicavt',
+    'uses'=>'FacturacionElectronicaController@facturacionElectronicaVT'
+]);
+Route::get('gridLayoutFacturacionVT/', [
+    'as'=>'gridLayoutFacturacionVT',
+    'uses'=>'FacturacionElectronicaController@layoutFacturacionVT'
+]);
+Route::get('gridDataFacturacionVT/{fecha_inicio}/{fecha_fin}/{compania}', [
+    'as'=>'gridDataFacturacionVT',
+    'uses'=>'FacturacionElectronicaController@dataFacturacionVT'
+]);
+Route::post('enviarFacturaVT', [
+    'as'=>'enviar.facturaVT',
+    'uses'=>'FacturacionElectronicaController@enviarFacturaVTTandi'
+]);
 });

@@ -45,6 +45,7 @@
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ route('facturacion.electronica') }}">Facturación</a></li>
+                                <li><a href="{{ route('facturacion.electronicavt') }}">Facturación Ventas a Teceros</a></li>
                             </ul>
                         </li>
                 </ul>
