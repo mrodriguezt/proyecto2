@@ -583,8 +583,13 @@ class AtsController extends Controller
                    ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
                    ->select(\DB::connection('oracle')->raw('SUM(CUSTOMER_ORDER_INV_ITEM.NET_CURR_AMOUNT) AS baseImponible'))
                    ->get()->first();
-               if($ventas!=null){
-                   $noObjetoIva->baseImponible = floatval($noObjetoIva->baseImponible)+floatval($ventas->baseImponible);
+               $noObjetoIva->baseImponible =0;
+               if($ventas!=null) {
+                   if (isset($noObjetoIva->baseImponible)) {
+                       $noObjetoIva->baseImponible += floatval($noObjetoIva->baseImponible);
+                   } else {
+                       $noObjetoIva->baseImponible += floatval($ventas->baseImponible);
+                   }
                }
            }
            if(isset($noObjetoIva->baseimponible)){
