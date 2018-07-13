@@ -182,11 +182,13 @@ class FacturacionElectronicaController extends Controller
             ->select('ADDRESS_LOV')
             ->get()->first();
 
-        $contactoCliente = \DB::connection('oracle')->table('CUSTOMER_INFO_CONTACT')
-            ->where('CUSTOMER_ID', $FACTURA->identity)
-            ->select(\DB::connection('oracle')->raw('PERSON_INFO_ADDRESS_API.Get_E_Mail(person_id,CONTACT_ADDRESS) as correoCliente'))
-            ->get()->first();
 
+        $contactoCliente = \DB::connection('oracle')->table('COMM_METHOD')
+            ->where('IDENTITY', $FACTURA->identity)
+            ->where('party_type_db','CUSTOMER')
+            ->where('method_id_db','E_MAIL')
+            ->select(\DB::connection('oracle')->raw('VALUE as correoCliente'))
+            ->get()->first();
         $tipoID = strlen($FACTURA->identity);
         $tipoIdentificacionComprador=0;
         if($tipoID==10){
@@ -450,9 +452,11 @@ class FacturacionElectronicaController extends Controller
             ->select('ADDRESS_LOV')
             ->get()->first();
 
-        $contactoCliente = \DB::connection('oracle')->table('CUSTOMER_INFO_CONTACT')
-            ->where('CUSTOMER_ID', $FACTURA->identity)
-            ->select(\DB::connection('oracle')->raw('PERSON_INFO_ADDRESS_API.Get_E_Mail(person_id,CONTACT_ADDRESS) as correoCliente'))
+        $contactoCliente = \DB::connection('oracle')->table('COMM_METHOD')
+            ->where('IDENTITY', $FACTURA->identity)
+            ->where('party_type_db','CUSTOMER')
+            ->where('method_id_db','E_MAIL')
+            ->select(\DB::connection('oracle')->raw('VALUE as correoCliente'))
             ->get()->first();
 
             $tipoID = strlen($FACTURA->identity);
