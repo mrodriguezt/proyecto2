@@ -453,14 +453,14 @@ class AtsController extends Controller
            ->whereIn('INSTANT_INVOICE.SERIES_ID', ['18','04','05'])
            ->where('INSTANT_INVOICE.COMPANY', $compania)
            ->where('CUSTOMER_INFO_VAT.COMPANY', $compania)
-           ->where('CUSTOMER_INFO_VAT.ADDRESS_ID','01')
+           ->whereIn('CUSTOMER_INFO_VAT.ADDRESS_ID',['01','03'])
            ->whereNotIn('INSTANT_INVOICE.OBJSTATE',['Preliminary','Cancelled'])
            ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
            ->select(\DB::connection('oracle')->raw('COUNT(instant_invoice.invoice_no) as NUMERO_COMPROBANTES'),'CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','INSTANT_INVOICE.SERIES_ID')
            ->groupBy('CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','INSTANT_INVOICE.SERIES_ID')
            ->get();
 
-
+        
        $aClientes = array();
        $creacionVentas=0;
        if($atsVentas != null && count($atsVentas)>0){
@@ -737,6 +737,7 @@ class AtsController extends Controller
            ->select(\DB::connection('oracle')->raw('COUNT(CUSTOMER_ORDER_INV_HEAD.INVOICE_ID) as NUMERO_COMPROBANTES'),'CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','CUSTOMER_ORDER_INV_HEAD.SERIES_ID')
            ->groupBy('CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','CUSTOMER_ORDER_INV_HEAD.SERIES_ID')
            ->get();
+
        if($atsVentas != null && count($atsVentas)>0 && $creacionVentas==0){
            $creacionVentas=1;
            $ventasNodo = $xml->createElement('ventas');
