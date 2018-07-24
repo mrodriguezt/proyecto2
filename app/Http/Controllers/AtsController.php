@@ -460,7 +460,7 @@ class AtsController extends Controller
            ->groupBy('CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','INSTANT_INVOICE.SERIES_ID')
            ->get();
 
-        
+
        $aClientes = array();
        $creacionVentas=0;
        if($atsVentas != null && count($atsVentas)>0){

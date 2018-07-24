@@ -243,7 +243,7 @@ class FacturacionElectronicaController extends Controller
             ->select('id_payment_form')
             ->get()->first();
 
-        $a_pago["pago"][0] = array('formaPago' =>$paymentTerms->id_payment_form,
+        $a_pago["pago"][0] = array('formaPago' =>20,
             'total'  => $FACTURA->gross_amount,
             'plazo'  => $dias,
             'unidadTiempo'  => "dias"
@@ -510,8 +510,8 @@ class FacturacionElectronicaController extends Controller
 
         $a_pago= array();
         $dias= floatval($FACTURA->pay_term_description);
-
-        $a_pago["pago"][0] = array('formaPago' =>$FACTURA->payment_address_id,
+    //$FACTURA->payment_address_id CAMBIO POR 20
+        $a_pago["pago"][0] = array('formaPago' =>20,
             'total'  => $FACTURA->gross_amount,
             'plazo'  => $dias,
             'unidadTiempo'  => "dias"
