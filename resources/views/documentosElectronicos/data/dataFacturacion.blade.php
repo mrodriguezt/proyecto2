@@ -14,6 +14,7 @@
                fecha_envio ="{{$factura->fecha_envio}}"
                envio ="{{$factura->usuario_envio}}"
                status ="{{$factura->objstate}}"
+               mensaje ="{{$factura->error}}"
             />
         @endforeach
     </B>

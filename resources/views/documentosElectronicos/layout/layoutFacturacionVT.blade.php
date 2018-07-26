@@ -10,7 +10,9 @@
         <C Name='valor_inc_imp' Width='100' Type='Float' CanEdit='0' Format='$#,###.##'/>
         <C Name='fecha_envio' Width='100' Type='Text' CanEdit='0'/>
         <C Name='envio' Width='100' Type='Text' CanEdit='0'/>
+        <C Name='mensaje' Width='100' Type='Lines' CanEdit='0'/>
         <C Name='status' Width='100' Type='Text' CanEdit='0'/>
+
     </Cols>
     <Header  Wrap="1"  Main ="1" Rows="2"
              fecha_emision="Fecha Emision"
@@ -22,6 +24,7 @@
              envio="Envio"
              status="Status"
              serie="Serie"
+             mensaje="Respuesta Tandi"
     />
     <Head>
         <I Kind='Filter'
