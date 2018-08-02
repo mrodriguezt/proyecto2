@@ -104,6 +104,7 @@ class FacturacionElectronicaController extends Controller
             ->where('ERROR','OK')
             ->select('TIPO_DOCUMENTO','NO_DOCUMENTO','COMPANIA')
             ->get();
+
         foreach ($documentos as $documento){
             $FACTURA = \DB::connection('oracle')->table('INSTANT_INVOICE')
                 ->where('INVOICE_NO', $documento->no_documento)
@@ -304,6 +305,10 @@ class FacturacionElectronicaController extends Controller
             echo $errorFact;
             die();
         }
+        $firmante="RVASCONEZ";
+        if($request["COMPANY"]=="EC03"){
+            $firmante="JLEON";
+        }
         $request = array('factura' => array(
             array(
                 'id'=> 'comprobante',
@@ -347,7 +352,7 @@ class FacturacionElectronicaController extends Controller
                         'nombre'=>'INVOICE_ID'
                     ),
                     array(
-                        '_'=>'RVASCONEZ',
+                        '_'=>$firmante,
                         'nombre'=>'CERTIFICADO PROPIETARIO'
                     )
                 )
@@ -572,6 +577,10 @@ class FacturacionElectronicaController extends Controller
             echo $errorFact;
             die();
         }
+        $firmante="RVASCONEZ";
+        if($request["COMPANY"]=="EC03"){
+            $firmante="JLEON";
+        }
         $request = array('factura' => array(
             array(
                 'id'=> 'comprobante',
@@ -615,7 +624,7 @@ class FacturacionElectronicaController extends Controller
                         'nombre'=>'INVOICE_ID'
                     ),
                     array(
-                        '_'=>'RVASCONEZ',
+                        '_'=>$firmante,
                         'nombre'=>'CERTIFICADO PROPIETARIO'
                     )
                 )
