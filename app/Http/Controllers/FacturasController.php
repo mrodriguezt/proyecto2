@@ -53,16 +53,16 @@ class FacturasController extends Controller
                                 ->get()->first();
 
                             if(!isset($facturaIFS->invoice_no)){
-                             //   echo $proveedor.$factura;
                                 $i++;
                                 $noExiste=1;
                                 $facturas[$i]["FACTURA"] = $factura;
                                 $facturas[$i]["RUC"] = $fields[2];
                                 $facturas[$i]["PROVEEDOR"] = $this->limpiaCadena($proveedor);
-////                            $mensaje[] = "La factura ".$factura. " del Proveedor ".$RUCproveedor."--".$this->limpiaCadena(strval($proveedor))." NO EXISTE EN EL SISTEMA";
+                                $facturas[$i]["MENSAJE"] ="FACTURA SIN INGRESO";
                                 $mensaje[] = "La factura ".$factura. " del Proveedor ".$RUCproveedor." NO EXISTE EN EL SISTEMA";
                             }else{
                                 $noExiste=0;
+
                             }
                         }else{
                             if(floatval($fields[0])>=0 && $noExiste==1){
@@ -87,11 +87,6 @@ class FacturasController extends Controller
     }
     public function subirXML(Request $request)
     {
-        /*$prueba = \DB::connection('clon')->table('C_VOUCHER_RETENTION_LINE')
-            ->where('TAX_CODE', '729A')
-            ->select('RETENTION_VALUE')
-            ->get()->first();
-*/
         $companias = Company_tab::select('COMPANY as value','NAME as label')->where('COUNTRY','EC')->whereNotNull('PERSON_TYPE')->get()->pluck('label','value');
 
         $compania = $request["compania"];
@@ -242,11 +237,6 @@ class FacturasController extends Controller
                                         $totalSinImpuestos = floatval($xml->infoFactura->totalSinImpuestos);
                                         $importeTotal = floatval($xml->infoFactura->importeTotal);
                                         $totalImpuestos = $importeTotal - $totalSinImpuestos;
-
-                                      /*  \DB::connection('oracle')->insert('insert into INVOICE_TAB (COMPANY,IDENTITY,PARTY_TYPE, INVOICE_ID, ROWVERSION, ROWSTATE, SERIES_ID, INVOICE_NO, CREATOR, INVOICE_DATE,DUE_DATE, CASH, COLLECT, INT_ALLOWED, INVOICE_TYPE, PAY_TERM_ID, AFF_BASE_LEDG_POST, AFF_LINE_POST, DELIVERY_DATE, ARRIVAL_DATE, CREATION_DATE, CURR_RATE, DIV_FACTOR, INVOICE_VERSION, GROSS_UP, PAY_TERM_BASE_DATE,C_AUTH_ID_SRI,NET_CURR_AMOUNT,VAT_CURR_AMOUNT)
-                                        values (\''.$compania.'\', \'' . $ruc . '\',\'SUPPLIER\', \'' . $invoiceID->valor . '\', \'1\', \'Preliminary\', \'01\',\'' . $noFactura . '\', \'MAN_SUPP_INVOICE_API\',TO_DATE(\'' . $fechaEmision . '\', \'DD/MM/RRRR\')
-                                        ,TO_DATE(\'' . $fecha . '\', \'DD/MM/RRRR\'), \'FALSE\', \'FALSE\', \'TRUE\', \'FAC_LOCAL\', \'5\', \'TRUE\', \'FALSE\',TO_DATE(\'' . $fecha . '\', \'DD/MM/RRRR\'),TO_DATE(\'' . $fecha . '\', \'DD/MM/RRRR\'),TO_DATE(\'' . $fecha . '\', \'DD/MM/RRRR\')
-                                        , \'1\', \'1\', \'1\', \'FALSE\',TO_DATE(\'' . $fecha . '\', \'DD/MM/RRRR\'),\'' . $claveAcceso . '\','. $totalSinImpuestos. ','.$totalImpuestos.')');*/
                                         $xmlTable = Xml::where('claveAcceso', $xml->infoTributaria->claveAcceso)->get()->first();
                                         if (!isset($xmlTable->id)) {
                                             Xml::insert([

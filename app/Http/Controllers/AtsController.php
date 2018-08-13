@@ -473,7 +473,7 @@ class AtsController extends Controller
            $vtasTerceros = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
                ->join('CUSTOMER_INFO', 'CUSTOMER_ORDER_INV_HEAD.IDENTITY', '=', 'customer_info.customer_id')
                ->join('CUSTOMER_INFO_VAT', 'customer_info.customer_id', '=', 'customer_info_vat.customer_id')
-               ->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
+               ->where('CUSTOMER_ORDER_INV_HEAD.SERIES_ID',$atsVenta->series_id)
                ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
                ->where('CUSTOMER_INFO_VAT.COMPANY', $compania)
                ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY',$atsVenta->customer_id)
@@ -527,7 +527,6 @@ class AtsController extends Controller
            $noObjetoIva = \DB::connection('oracle')->table('INSTANT_INVOICE')
                ->join('INSTANT_INVOICE_ITEM', 'INSTANT_INVOICE_ITEM.INVOICE_ID', '=', 'INSTANT_INVOICE.INVOICE_ID')
                ->where('INSTANT_INVOICE.SERIES_ID', $atsVenta->series_id)
-               //->whereIn('INSTANT_INVOICE.SERIES_ID', ['18','04','05'])
                ->where('INSTANT_INVOICE.COMPANY', $compania)
                ->where('INSTANT_INVOICE.IDENTITY', $atsVenta->customer_id)
                ->whereIn('INSTANT_INVOICE_ITEM.VAT_CODE', ['IVA_VEN_00%_NO_OBJET'])
@@ -539,7 +538,6 @@ class AtsController extends Controller
            if($vtasTerceros!=null) {
                $ventas = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
                    ->join('CUSTOMER_ORDER_INV_ITEM', 'CUSTOMER_ORDER_INV_ITEM.INVOICE_ID', '=', 'CUSTOMER_ORDER_INV_HEAD.INVOICE_ID')
-                   //->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
                    ->where('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', $atsVenta->series_id)
                    ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
                    ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
@@ -562,7 +560,6 @@ class AtsController extends Controller
            }
            $noObjetoIva = \DB::connection('oracle')->table('INSTANT_INVOICE')
                ->join('INSTANT_INVOICE_ITEM', 'INSTANT_INVOICE_ITEM.INVOICE_ID', '=', 'INSTANT_INVOICE.INVOICE_ID')
-               //->whereIn('INSTANT_INVOICE.SERIES_ID', ['18','04','05'])
                ->where('INSTANT_INVOICE.SERIES_ID', $atsVenta->series_id)
                ->where('INSTANT_INVOICE.COMPANY', $compania)
                ->where('INSTANT_INVOICE.IDENTITY', $atsVenta->customer_id)
@@ -571,10 +568,10 @@ class AtsController extends Controller
                ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
                ->select(\DB::connection('oracle')->raw('SUM(NET_CURR_AMOUNT) AS baseImponible'))
                ->get()->first();
+
            if($vtasTerceros!=null) {
                $ventas = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
                    ->join('CUSTOMER_ORDER_INV_ITEM', 'CUSTOMER_ORDER_INV_ITEM.INVOICE_ID', '=', 'CUSTOMER_ORDER_INV_HEAD.INVOICE_ID')
-                   //->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
                    ->where('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', $atsVenta->series_id)
                    ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
                    ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
@@ -583,15 +580,15 @@ class AtsController extends Controller
                    ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
                    ->select(\DB::connection('oracle')->raw('SUM(CUSTOMER_ORDER_INV_ITEM.NET_CURR_AMOUNT) AS baseImponible'))
                    ->get()->first();
-               $noObjetoIva->baseImponible =0;
-               if($ventas!=null) {
-                   if (isset($noObjetoIva->baseImponible)) {
-                       $noObjetoIva->baseImponible += floatval($noObjetoIva->baseImponible);
-                   } else {
-                       $noObjetoIva->baseImponible += floatval($ventas->baseImponible);
-                   }
+
+               if(!isset($noObjetoIva->baseimponible)) {
+                  $noObjetoIva->baseimponible = 0;
+               }
+               if (isset($ventas->baseimponible)) {
+                       $noObjetoIva->baseimponible += floatval($ventas->baseimponible);
                }
            }
+      
            if(isset($noObjetoIva->baseimponible)){
                $nodo = $xml->createElement('baseImponible',number_format(abs(floatval($noObjetoIva->baseimponible)),2,".",""));
 
@@ -602,7 +599,6 @@ class AtsController extends Controller
            }
            $noObjetoIva = \DB::connection('oracle')->table('INSTANT_INVOICE')
                ->join('INSTANT_INVOICE_ITEM', 'INSTANT_INVOICE_ITEM.INVOICE_ID', '=', 'INSTANT_INVOICE.INVOICE_ID')
-               //->whereIn('INSTANT_INVOICE.SERIES_ID', ['18','04','05'])
                ->where('INSTANT_INVOICE.SERIES_ID', $atsVenta->series_id)
                ->where('INSTANT_INVOICE.COMPANY', $compania)
                ->where('INSTANT_INVOICE.IDENTITY', $atsVenta->customer_id)
@@ -614,7 +610,6 @@ class AtsController extends Controller
            if($vtasTerceros!=null) {
                $ventas = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
                    ->join('CUSTOMER_ORDER_INV_ITEM', 'CUSTOMER_ORDER_INV_ITEM.INVOICE_ID', '=', 'CUSTOMER_ORDER_INV_HEAD.INVOICE_ID')
-                   //->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
                    ->where('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', $atsVenta->series_id)
                    ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
                    ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
@@ -638,7 +633,6 @@ class AtsController extends Controller
 
            $montoIva = \DB::connection('oracle')->table('INSTANT_INVOICE')
                ->join('INSTANT_INVOICE_ITEM', 'INSTANT_INVOICE_ITEM.INVOICE_ID', '=', 'INSTANT_INVOICE.INVOICE_ID')
-               //->whereIn('INSTANT_INVOICE.SERIES_ID', ['18','04','05'])
                ->where('INSTANT_INVOICE.SERIES_ID', $atsVenta->series_id)
                ->where('INSTANT_INVOICE.COMPANY', $compania)
                ->where('INSTANT_INVOICE.IDENTITY', $atsVenta->customer_id)
@@ -649,7 +643,6 @@ class AtsController extends Controller
            if($vtasTerceros!=null) {
                $ventas = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
                    ->join('CUSTOMER_ORDER_INV_ITEM', 'CUSTOMER_ORDER_INV_ITEM.INVOICE_ID', '=', 'CUSTOMER_ORDER_INV_HEAD.INVOICE_ID')
-                   //->whereIn('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', ['18','04','05'])
                    ->where('CUSTOMER_ORDER_INV_HEAD.SERIES_ID', $atsVenta->series_id)
                    ->where('CUSTOMER_ORDER_INV_HEAD.COMPANY', $compania)
                    ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)

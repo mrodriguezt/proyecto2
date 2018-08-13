@@ -33,6 +33,8 @@
                     <td>RUC</td>
                     <td>NOMBRE</td>
                     <td>VALOR</td>
+                    <td>MENSAJE</td>
+                    <td>SUBIR IFS</td>
                 </tr>
             @for($i=0;$i<count($facturas);$i++)
                 <tr>
@@ -41,6 +43,8 @@
                     <td>{{ $facturas[$i]["RUC"] }}</td>
                     <td>{{ $facturas[$i]["PROVEEDOR"] }}</td>
                     <td align="right">${{ number_format(floatval($facturas[$i]["VALOR"]),2) }}</td>
+                    <td>{{ $facturas[$i]["MENSAJE"] }}</td>
+                    <td> <a href="#" onclick="subirFactura()"><span class="badge">Subir</span></a></td>
                 </tr>
                 </tr>
             @endfor
