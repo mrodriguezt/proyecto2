@@ -91,4 +91,16 @@ Route::post('enviarFacturaVT', [
     'as'=>'enviar.facturaVT',
     'uses'=>'FacturacionElectronicaController@enviarFacturaVTTandi'
 ]);
+Route::get('gridLayoutDocumentos/', [
+    'as'=>'gridLayoutDocumentos',
+    'uses'=>'FacturasController@layoutDocumentos'
+]);
+Route::get('gridLayoutDocumentos/', [
+    'as'=>'gridLayoutDocumentos',
+    'uses'=>'FacturasController@layoutDocumentos'
+]);
+Route::get('gridDataDocumentos/{compania}', [
+    'as'=>'gridDataDocumentos',
+    'uses'=>'FacturasController@dataDocumentos'
+]);
 });

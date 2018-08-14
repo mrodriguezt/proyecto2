@@ -588,7 +588,7 @@ class AtsController extends Controller
                        $noObjetoIva->baseimponible += floatval($ventas->baseimponible);
                }
            }
-      
+
            if(isset($noObjetoIva->baseimponible)){
                $nodo = $xml->createElement('baseImponible',number_format(abs(floatval($noObjetoIva->baseimponible)),2,".",""));
 

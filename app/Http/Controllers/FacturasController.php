@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Documento_recibido;
 use App\Xml;
 use Illuminate\Http\Request;
 
 use App\Company_tab;
+use Illuminate\Support\Carbon;
+
 
 
 class FacturasController extends Controller
@@ -19,71 +22,198 @@ class FacturasController extends Controller
     }
     public function validarFacturas()
     {
-        $mensaje=[];
+        $mensaje="";
         $facturas= [];
         $companias = Company_tab::select('COMPANY as value','NAME as label')->where('COUNTRY','EC')->whereNotNull('PERSON_TYPE')->get()->pluck('label','value');
 
         return view('facturas.validar')->with('companias',$companias)->with('mensaje',$mensaje)->with('facturas',$facturas);
     }
+    public function addDocument($compania,$comprobante,$serie_comprobante,$ruc_emisor,$razon_social_emisor,$fecha_emision,$fecha_autorizacion,$tipo_emision,$documento_relacionado,$identificacion_receptor,$clave_acceso,$numero_autorizador,$importe_total,$mensaje,$voucher_no,$invoice_no){
+
+        $fecha_emision = Carbon::createFromFormat('d/m/Y',$fecha_emision)->format('Y-m-d');
+        $fecha_autorizacion = Carbon::createFromFormat('d/m/Y  H:i:s',$fecha_autorizacion)->format('Y-m-d H:i:s');
+        $documento = Documento_recibido::where("comprobante",$comprobante)->where("serie_comprobante",$serie_comprobante)
+                    ->where("ruc_emisor",$ruc_emisor)->where("company",$compania)->get()->first();
+        if(isset($documento->serie_comprobante)){
+            $documento->mensaje = $mensaje;
+            $documento->voucher_no = $voucher_no;
+            $documento->invoice_no = $invoice_no;
+            $documento->save();
+        }else {
+            Documento_recibido::insert(
+                [
+                    'company' => $compania,
+                    'comprobante' => $comprobante,
+                    'serie_comprobante' => $serie_comprobante,
+                    'ruc_emisor' => $ruc_emisor,
+                    'razon_social_emisor' => $razon_social_emisor,
+                    'fecha_emision' => $fecha_emision,
+                    'fecha_autorizacion' => $fecha_autorizacion,
+                    'tipo_emision' => $tipo_emision,
+                    'documento_relacionado' => $documento_relacionado,
+                    'identificacion_receptor' => $identificacion_receptor,
+                    'clave_acceso' => $clave_acceso,
+                    'numero_autorizador' => $numero_autorizador,
+                    'importe_total' => $importe_total,
+                    'mensaje' => $mensaje,
+                    'voucher_no' => $voucher_no,
+                    'invoice_no' => $invoice_no
+                ]
+
+            );
+        }
+    }
     public function validarArchivo(Request $request)
     {
         $companias = Company_tab::select('COMPANY as value','NAME as label')->where('COUNTRY','EC')->whereNotNull('PERSON_TYPE')->get()->pluck('label','value');
         $facturas= [];
+        $comprobantes= [];
+        $notasCredito= [];
         $compania = $request["compania"];
-        $noExiste=0;
+
         if($request->file('file')) {
             $file = $request->file('file');
             if($file->getClientMimeType()=="text/plain"){
                 $mensaje=array();
                 $archivo = fopen($file->getRealPath(), "r");
                 $i=-1;
-
+                $c=-1;
+                $nc=-1;
+                $esFactura=0;
                 while(!feof($archivo)) {
                     $linea = fgets($archivo);
                     $fields = explode("\t", $linea);
-                        if($fields[0]=="Factura"){
-                            $factura = $fields[1];
-                            $RUCproveedor = $fields[2];
-                            $proveedor = $fields[3];
-                            $facturaIFS = \DB::connection('oracle')->table('MAN_SUPP_INVOICE')
+                    $fields[0] = utf8_encode($fields[0]);
+
+                    switch ($fields[0]) {
+                        case "COMPROBANTE":
+                            $esFactura=0;
+                            break;
+                         case "Factura":
+                             $esFactura=1;
+                             $facturaIFS = \DB::connection('oracle')->table('MAN_SUPP_INVOICE')
+                                 ->where('COMPANY', $compania)
+                                 ->where('IDENTITY', $fields[2])
+                                 ->where('INVOICE_NO', $fields[1])
+                                 ->where('SERIES_ID','!=','04')
+                                 ->where('SERIES_ID','!=','05')
+                                 ->select('INVOICE_NO','SERIES_ID','VOUCHER_NO_REF')
+                                 ->get()->first();
+                             $i++;
+                             $facturas[$i]["comprobante"] = $fields[0];
+                             $facturas[$i]["serie_comprobante"] = $fields[1];
+                             $facturas[$i]["ruc_emisor"] =  $fields[2];
+                             $facturas[$i]["razon_social_emisor"] =  $this->limpiaCadena(utf8_encode($fields[3]));
+                             $facturas[$i]["fecha_emision"] = $fields[4];
+                             $facturas[$i]["fecha_autorizacion"] = $fields[5];
+                             $facturas[$i]["tipo_emision"] = $fields[6];
+                             $facturas[$i]["documento_relacionado"] = "";
+                             $facturas[$i]["identificacion_receptor"] = $fields[8];
+                             $facturas[$i]["clave_acceso"] = $fields[9];
+                             $facturas[$i]["numero_autorizador"] = $fields[10];
+                             if(isset($facturaIFS->invoice_no)){
+                                 $facturas[$i]["mensaje"] ="SI";
+                                 $facturas[$i]["invoice_no"] = $facturaIFS->invoice_no;
+                                 $facturas[$i]["voucher"] = $facturaIFS->voucher_no_ref;
+                             }else{
+                                 $facturas[$i]["mensaje"] ="NO";
+                                 $facturas[$i]["invoice_no"] = "";
+                                 $facturas[$i]["voucher"] = "";
+                             }
+                             $facturas[$i]["importe_total"] = 0;
+                            break;
+                        case "Notas de Crédito":
+                            $esFactura=0;
+                            $notaCredito = \DB::connection('oracle')->table('MAN_SUPP_INVOICE')
                                 ->where('COMPANY', $compania)
-                                ->where('IDENTITY', $RUCproveedor)
-                                ->where('INVOICE_NO', $factura)
-                                ->select('INVOICE_NO','SERIES_ID')
+                                ->where('IDENTITY', $fields[2])
+                                ->where('INVOICE_NO', $fields[1])
+                                ->where('SERIES_ID','=','04')
+                                ->select('INVOICE_NO','SERIES_ID','VOUCHER_NO_REF')
                                 ->get()->first();
-
-                            if(!isset($facturaIFS->invoice_no)){
-                                $i++;
-                                $noExiste=1;
-                                $facturas[$i]["FACTURA"] = $factura;
-                                $facturas[$i]["RUC"] = $fields[2];
-                                $facturas[$i]["PROVEEDOR"] = $this->limpiaCadena($proveedor);
-                                $facturas[$i]["MENSAJE"] ="FACTURA SIN INGRESO";
-                                $mensaje[] = "La factura ".$factura. " del Proveedor ".$RUCproveedor." NO EXISTE EN EL SISTEMA";
+                            $nc++;
+                            $notasCredito[$nc]["comprobante"] = $fields[0];
+                            $notasCredito[$nc]["serie_comprobante"] = $fields[1];
+                            $notasCredito[$nc]["ruc_emisor"] =  $fields[2];
+                            $notasCredito[$nc]["razon_social_emisor"] =  $this->limpiaCadena(utf8_encode($fields[3]));
+                            $notasCredito[$nc]["fecha_emision"] = $fields[4];
+                            $notasCredito[$nc]["fecha_autorizacion"] = $fields[5];
+                            $notasCredito[$nc]["tipo_emision"] = $fields[6];
+                            $notasCredito[$nc]["documento_relacionado"] =$fields[7];
+                            $notasCredito[$nc]["identificacion_receptor"] = $fields[8];
+                            $notasCredito[$nc]["clave_acceso"] = $fields[9];
+                            $notasCredito[$nc]["numero_autorizador"] = $fields[10];
+                            if(isset($notaCredito->invoice_no)){
+                                $notasCredito[$nc]["mensaje"] ="SI";
+                                $notasCredito[$nc]["invoice_no"] = $notaCredito->invoice_no;
+                                $notasCredito[$nc]["voucher"] = $notaCredito->voucher_no_ref;
                             }else{
-                                $noExiste=0;
-
+                                $notasCredito[$nc]["mensaje"] ="NO";
+                                $notasCredito[$nc]["invoice_no"] = "";
+                                $notasCredito[$nc]["voucher"] = "";
                             }
-                        }else{
-                            if(floatval($fields[0])>=0 && $noExiste==1){
-                               // echo $i."---".$fields[0]."<br>";
-                                $facturas[$i]["VALOR"] = $fields[0];
+                            $this->addDocument($compania,$fields[0],$fields[1],$fields[2],$this->limpiaCadena(utf8_encode($fields[3])),$fields[4],$fields[5],$fields[6],$fields[7],$fields[8],$fields[9],$fields[10],0, $notasCredito[$nc]["mensaje"],$notasCredito[$nc]["voucher"], $notasCredito[$nc]["invoice_no"]);
+
+                            break;
+                        case "Notas de Débito":
+                            $esFactura=0;
+                            break;
+                        case "Comprobante de Retención":
+                            $esFactura=0;
+                            $comprobante = \DB::connection('oracle')->table('BILL_OF_EXCHANGE')
+                                ->where('COMPANY', $compania)
+                                ->where('IDENTITY', $fields[2])
+                                ->where('LEDGER_ITEM_ID', $fields[1])
+                                ->where('LEDGER_ITEM_SERIES_ID', 'LIKE','07%')
+                                ->where('STATE', '!=','Cancelado')
+                                ->select('VOUCHER_NO','ADDRESS_DESC')
+                                ->get()->first();
+                            $c++;
+                            $comprobantes[$c]["comprobante"] = $fields[0];
+                            $comprobantes[$c]["serie_comprobante"] = $fields[1];
+                            $comprobantes[$c]["ruc_emisor"] =  $fields[2];
+                            $comprobantes[$c]["razon_social_emisor"] =  $this->limpiaCadena(utf8_encode($fields[3]));
+                            $comprobantes[$c]["fecha_emision"] = $fields[4];
+                            $comprobantes[$c]["fecha_autorizacion"] = $fields[5];
+                            $comprobantes[$c]["tipo_emision"] = $fields[6];
+                            $comprobantes[$c]["documento_relacionado"] = $fields[7];
+                            $comprobantes[$c]["identificacion_receptor"] = $fields[8];
+                            $comprobantes[$c]["clave_acceso"] = $fields[9];
+                            $comprobantes[$c]["numero_autorizador"] = $fields[10];
+                            if(isset($comprobante->voucher_no)){
+                                $comprobantes[$c]["mensaje"] ="SI";
+                                $comprobantes[$c]["voucher"] = $comprobante->voucher_no;
+                            }else{
+                                $comprobantes[$c]["mensaje"] ="NO";
+                                $comprobantes[$c]["voucher"] = "";
                             }
-
-                        }
-
+                            $this->addDocument($compania,$fields[0],$fields[1],$fields[2],$this->limpiaCadena(utf8_encode($fields[3])),$fields[4],$fields[5],$fields[6],$fields[7],$fields[8],$fields[9],$fields[10],0,$comprobantes[$c]["mensaje"],$comprobantes[$c]["voucher"],"");
+                            break;
+                        default:
+                            if($esFactura==1 && floatval($fields[0])>0) {
+                                $facturas[$i]["importe_total"] = floatval($fields[0]);
+                                $esFactura=0;
+                            }
+                    }
                 }
-                //print_r($facturas);
-//dd();
+                foreach ($facturas as $factura){
+                    $this->addDocument($compania,$factura["comprobante"],$factura["serie_comprobante"],$factura["ruc_emisor"],$this->limpiaCadena(utf8_encode($factura["razon_social_emisor"])),$factura["fecha_emision"],$factura["fecha_autorizacion"],$factura["tipo_emision"],"",$factura["identificacion_receptor"],$factura["clave_acceso"],$factura["numero_autorizador"],$factura["importe_total"],$factura["mensaje"],$factura["voucher"],$factura["invoice_no"]);
+                }
+                $mensaje = "El archivo ha sido subido exitosamente";
                 return view('facturas.validar')->with('mensaje',$mensaje)->with('companias',$companias)->with('facturas',$facturas);
             }else{
-                $mensaje[] = "El archivo debe ser .txt";
+                $mensaje = "El archivo debe ser .txt";
                 return view('facturas.validar')->with('mensaje',$mensaje)->with('companias',$companias)->with('facturas',$facturas);
             }
+
         }
+        $mensaje = "El archivo debe ser .txt";
+        return view('facturas.validar')->with('mensaje',$mensaje)->with('companias',$companias)->with('facturas',$facturas);
     }
     public function limpiaCadena($cadena) {
-        return (preg_replace('[^ A-Za-z0-9_-ñÑ]', '', $cadena));
+        //return (preg_replace('[^ A-Za-z0-9_-ñÑ]', '', $cadena));
+        return preg_replace("[^A-Za-z0-9]", "", $cadena);
+
     }
     public function subirXML(Request $request)
     {
@@ -328,5 +458,13 @@ class FacturasController extends Controller
         $datos = Xml::all();
         $data = [   "datos"=>$datos];
         return response()->view("facturas.dataXML",$data)->header('Content-Type', 'text/xml');
+    }
+    public function layoutDocumentos(){
+        return response()->view("facturas.layoutDocumentos")->header('Content-Type', 'text/xml');
+    }
+    public function dataDocumentos($compania){
+        $datos = Documento_recibido::where("company",$compania)->get();
+        $data = [   "documentos"=>$datos];
+        return response()->view("facturas.dataDocumentos",$data)->header('Content-Type', 'text/xml');
     }
 }
