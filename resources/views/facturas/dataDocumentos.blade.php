@@ -4,6 +4,7 @@
         @foreach ($documentos as $documento)
 
             <I id="{{ $documento->id}}"
+               codigo ="{{$documento->id}}"
                comprobante ="{{$documento->comprobante}}"
                serie_comprobante ="{{$documento->serie_comprobante}}"
                ruc_emisor ="{{$documento->ruc_emisor}}"

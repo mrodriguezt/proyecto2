@@ -1,7 +1,9 @@
 <Grid>
-    <Cfg id='reporteXML' Style='Light' Code='PTAEXXOQBFRYSC' Sort='comprobante' MaxHeight='1' MinTagHeight="400" ShowDeleted="1" Deleting="0" DateStrings='1'
-         IdNames='Project'  AppendId='1' FullId='1' IdChars='0123456789' Selecting='0' NumberId='1' LastId='1' CaseSensitiveId='1'/>
+    <Cfg id='reporteXML' Style='Light' Code='PTAEXXOQBFRYSC' Sort='comprobante' MaxHeight='1' MinTagHeight="400" ShowDeleted="1"
+         Deleting="0" DateStrings='1' Selecting='1'
+         IdNames='Project'  AppendId='1' FullId='1' IdChars='0123456789'  NumberId='1' LastId='1' CaseSensitiveId='1'/>
     <LeftCols>
+        <C Name='codigo' Width='100' Type='Int' CanEdit='0' Visible='0'/>
         <C Name='comprobante' Width='100' Type='Lines' CanEdit='0'/>
 
     </LeftCols>
@@ -46,10 +48,13 @@
            comprobante=''
            comprobanteButton='Defaults' comprobanteRange='1'
            comprobanteDefaults='|*RowsVariable|*FilterOff'
-           razon_social_emisor=''
-           razon_social_emisorButton='Defaults' razon_social_emisorRange='1'
-           razon_social_emisorrDefaults='|*RowsVariable|*FilterOff'
         />
     </Head>
-    <Toolbar id='toolbarDatos' Cells='Reload,Save,Export,Formula,ExpandAll,CollapseAll'/>
+
+    <Toolbar id="toolbarDatos" Cells="Export,Reload,Enviar_IFS,Formula"  Space="-1"
+             Enviar_IFSType="Button"
+             Enviar_IFSButton="Button"
+             Enviar_IFSOnClick="enviarIFS(Grid)" Enviar_IFS="Enviar a IFS"
+
+    />
 </Grid>

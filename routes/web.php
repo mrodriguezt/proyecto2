@@ -103,4 +103,8 @@ Route::get('gridDataDocumentos/{compania}', [
     'as'=>'gridDataDocumentos',
     'uses'=>'FacturasController@dataDocumentos'
 ]);
+Route::post('enviarDocumentoIFS', [
+    'as'=>'enviar.documentoIFS',
+    'uses'=>'FacturasController@enviarDocumentoIFS'
+]);
 });

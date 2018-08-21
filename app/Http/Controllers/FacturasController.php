@@ -18,15 +18,14 @@ class FacturasController extends Controller
         $mensaje="";
         $companias = Company_tab::select('COMPANY as value','NAME as label')->where('COUNTRY','EC')->whereNotNull('PERSON_TYPE')->get()->pluck('label','value');
 
-        return view('facturas.index')->with('mensaje',$mensaje)->with('companias',$companias);
+        return view('facturas.index')->with('mensaje',$mensaje)->with('companias',$companias)->with('compania','EC01');
     }
     public function validarFacturas()
     {
         $mensaje="";
-        $facturas= [];
         $companias = Company_tab::select('COMPANY as value','NAME as label')->where('COUNTRY','EC')->whereNotNull('PERSON_TYPE')->get()->pluck('label','value');
 
-        return view('facturas.validar')->with('companias',$companias)->with('mensaje',$mensaje)->with('facturas',$facturas);
+        return view('facturas.validar')->with('companias',$companias)->with('mensaje',$mensaje)->with('compania','EC01');;
     }
     public function addDocument($compania,$comprobante,$serie_comprobante,$ruc_emisor,$razon_social_emisor,$fecha_emision,$fecha_autorizacion,$tipo_emision,$documento_relacionado,$identificacion_receptor,$clave_acceso,$numero_autorizador,$importe_total,$mensaje,$voucher_no,$invoice_no){
 
@@ -70,6 +69,12 @@ class FacturasController extends Controller
         $comprobantes= [];
         $notasCredito= [];
         $compania = $request["compania"];
+        $companiaTab = \DB::connection('oracle')->table('COMPANY_INVOICE_INFO')
+            ->where('COMPANY', $compania)
+            ->select('VAT_NO')
+            ->get()->first();
+
+        $VAT_NO = $companiaTab->vat_no;
 
         if($request->file('file')) {
             $file = $request->file('file');
@@ -84,6 +89,9 @@ class FacturasController extends Controller
                     $linea = fgets($archivo);
                     $fields = explode("\t", $linea);
                     $fields[0] = utf8_encode($fields[0]);
+                   // $RUC = utf8_encode(trim($fields[8]));
+                    //if($VAT_NO==$RUC){
+
 
                     switch ($fields[0]) {
                         case "COMPROBANTE":
@@ -195,24 +203,56 @@ class FacturasController extends Controller
                                 $esFactura=0;
                             }
                     }
+ /*                   }else{
+                        $mensaje = 'El archivo no contiene información de la compañía '.$compania;
+                        return view('facturas.validar')->with('mensaje',$mensaje)->with('companias',$companias)->with('compania',$compania);
+                    }*/
                 }
+
                 foreach ($facturas as $factura){
                     $this->addDocument($compania,$factura["comprobante"],$factura["serie_comprobante"],$factura["ruc_emisor"],$this->limpiaCadena(utf8_encode($factura["razon_social_emisor"])),$factura["fecha_emision"],$factura["fecha_autorizacion"],$factura["tipo_emision"],"",$factura["identificacion_receptor"],$factura["clave_acceso"],$factura["numero_autorizador"],$factura["importe_total"],$factura["mensaje"],$factura["voucher"],$factura["invoice_no"]);
                 }
                 $mensaje = "El archivo ha sido subido exitosamente";
-                return view('facturas.validar')->with('mensaje',$mensaje)->with('companias',$companias)->with('facturas',$facturas);
+                return view('facturas.validar')->with('mensaje',$mensaje)->with('companias',$companias)->with('compania',$compania);
             }else{
                 $mensaje = "El archivo debe ser .txt";
-                return view('facturas.validar')->with('mensaje',$mensaje)->with('companias',$companias)->with('facturas',$facturas);
+                return view('facturas.validar')->with('mensaje',$mensaje)->with('companias',$companias)->with('compania',$compania);
             }
 
         }
         $mensaje = "El archivo debe ser .txt";
-        return view('facturas.validar')->with('mensaje',$mensaje)->with('companias',$companias)->with('facturas',$facturas);
+        return view('facturas.validar')->with('mensaje',$mensaje)->with('companias',$companias)->with('compania',$compania);
     }
     public function limpiaCadena($cadena) {
         //return (preg_replace('[^ A-Za-z0-9_-ñÑ]', '', $cadena));
         return preg_replace("[^A-Za-z0-9]", "", $cadena);
+
+    }
+
+    public function enviarDocumentoIFS(Request $request)
+    {
+
+        $documento = Documento_recibido::find($request["id"]);
+        $invoice = \DB::connection('oracle')->table('INVOICE_TAB')
+            ->where('IDENTITY', strval($documento->ruc_emisor))
+            ->where('INVOICE_NO', strval($documento->serie_comprobante))
+            ->where('ROWSTATE', '!=', 'Cancelled')
+            ->select('INVOICE_TAB.COMPANY')
+            ->get();
+
+        if(!isset($invoice->company)){
+            \DB::connection('clon')->table('INVOICE_TAB')->insert(
+                [
+                 'COMPANY' => 'EC01',
+                 'IDENTITY' => 'EC01',
+                 'PARTY_TYPE' => 'EC01',
+                 'INVOICE_ID' => 'EC01',
+                 'ROWVERSION' => 'EC01',
+
+                ]
+            );
+        }
+
 
     }
     public function subirXML(Request $request)
@@ -293,7 +333,6 @@ class FacturasController extends Controller
                                     copy($archivo, $destino);
 
                                     if ($invoices->count() > 0) {
-
                                         //$xml = Xml::where('')
                                         $xmlTable = Xml::where('claveAcceso', $xml->infoTributaria->claveAcceso)->get()->first();
                                         if (!isset($xmlTable->id)) {
@@ -464,7 +503,7 @@ class FacturasController extends Controller
     }
     public function dataDocumentos($compania){
         $datos = Documento_recibido::where("company",$compania)->get();
-        $data = [   "documentos"=>$datos];
+        $data = ["documentos"=>$datos];
         return response()->view("facturas.dataDocumentos",$data)->header('Content-Type', 'text/xml');
     }
 }
