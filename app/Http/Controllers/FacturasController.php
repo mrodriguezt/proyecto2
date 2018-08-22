@@ -234,6 +234,7 @@ class FacturasController extends Controller
 
         $documento = Documento_recibido::find($request["id"]);
         $invoice = \DB::connection('oracle')->table('INVOICE_TAB')
+            ->where('COMPANY', strval($documento->company))
             ->where('IDENTITY', strval($documento->ruc_emisor))
             ->where('INVOICE_NO', strval($documento->serie_comprobante))
             ->where('ROWSTATE', '!=', 'Cancelled')
@@ -241,19 +242,71 @@ class FacturasController extends Controller
             ->get();
 
         if(!isset($invoice->company)){
-            \DB::connection('clon')->table('INVOICE_TAB')->insert(
-                [
-                 'COMPANY' => 'EC01',
-                 'IDENTITY' => 'EC01',
-                 'PARTY_TYPE' => 'EC01',
-                 'INVOICE_ID' => 'EC01',
-                 'ROWVERSION' => 'EC01',
+            $invoiceID = \DB::connection('oracle')->table('dual')
+                ->select(\DB::connection('oracle')->raw('INVOICE_ID_SEQ.nextval AS VALOR'))
+                ->get()->first();
 
+            \DB::connection('oracle')->table('INVOICE_TAB')->insert(
+                [
+                 'COMPANY' => $documento->company,
+                 //'IDENTITY' =>'1709036949',
+                 'IDENTITY' => $documento->ruc_emisor,
+                 'PARTY_TYPE' => 'SUPPLIER',
+                 'INVOICE_ID' => $invoiceID->valor,
+                 'ROWVERSION' => '11',
+                 'ROWSTATE' => 'Preliminary',
+                 'SERIES_ID' => '01',
+                 'INVOICE_NO' => $documento->serie_comprobante,
+                 'HEAD_DATA' => '',
+                 'CREATOR' => 'MAN_SUPP_INVOICE_API',
+                 'INVOICE_DATE' => $documento->fecha_emision,
+                 'DUE_DATE' => $documento->fecha_emision,
+                 'CASH' => 'FALSE',
+                 'COLLECT' => 'FALSE',
+                 'INT_ALLOWED' => 'TRUE',
+                 'INVOICE_TYPE' => 'FAC_LOCAL',
+                 'PAY_TERM_ID' => '1IEM',
+                 'AFF_BASE_LEDG_POST' => 'TRUE',
+                 'AFF_LINE_POST' => 'FALSE',
+                 'DELIVERY_DATE' => $documento->fecha_emision,
+                 'ARRIVAL_DATE' => $documento->fecha_emision,
+                 'DELIVERY_ADDRESS_ID' => '1',
+                 'CREATION_DATE' => date('Y-m-d'),
+                 'PRELIM_CODE' => '*',
+                 'CURR_RATE' => '1',
+                 'DIV_FACTOR' => '1',
+                 'PL_PAY_DATE' => $documento->fecha_emision,
+                 'NET_CURR_AMOUNT' => $documento->importe_total,
+                 'VAT_CURR_AMOUNT' => 0,
+                 'NET_DOM_AMOUNT' =>  $documento->importe_total,
+                 'VAT_DOM_AMOUNT' => 0,
+                 'CURRENCY' => 'USD',
+                 'SENT' => 'FALSE',
+                 'MULTI_COMPANY_INVOICE' => 'FALSE',
+                 'ROWTYPE' => 'ManSuppInvoice',
+                 'TRANSFER_IDENTITY' => '*',
+                 'INVOICE_VERSION' => '1',
+                 'GROSS_UP' => 'FALSE',
+                 'PAY_TERM_BASE_DATE' => $documento->fecha_emision,
+                 'ADV_INV' => 'FALSE',
+                 'INVOICE_RECIPIENT' => 'IFSCMI',
+                 'PROPOSAL_EXIST' => 'FALSE',
+                 'TAX_CURR_RATE' => '1',
+                 'VOUCHER_TEXT' => $documento->ruc_emisor,
+                 'OLD_ADV_INV' => 'FALSE',
+                 'C_TERM_BILL' => $documento->fecha_emision,
+                 'C_INVOICE_TYPE' => 'SERVICES',
+                 'C_CASH_ACCOUNT' => 'CTA_PICHINCHA',
+                 'C_SUSTENANCE_ID' => '01',
+                 'C_AUTH_ID_SRI' => $documento->clave_acceso,
+                 'C_AUTHOR_PRINTED' => '9999',
+                 'ID_PAYMENT_TYPE' => '01',
+                 'C_ELECTRONIC_INVOICE' => 'TRUE'
                 ]
             );
+        }else{
+            echo "ERROR";
         }
-
-
     }
     public function subirXML(Request $request)
     {

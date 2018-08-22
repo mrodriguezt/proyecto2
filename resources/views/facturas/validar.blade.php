@@ -57,9 +57,9 @@
                                         },
                                         success: function (msg) {
                                             if (msg == "ERROR") {
-                                                alert("FAVOR REVISAR CORREO Y MAIL DEL CLIENTE")
+                                                alert("LA FACTURA YA EXISTE")
                                             } else {
-                                                alert("La factura ha sido enviada a Tandi")
+                                                alert("La factura ha sido enviada al IFS")
                                             }
                                         }
                                     });
