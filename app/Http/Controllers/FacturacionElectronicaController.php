@@ -113,7 +113,16 @@ class FacturacionElectronicaController extends Controller
                 ->select('INVOICE_NO','INVOICE_ID','IDENTITY')
                 ->get()->first();
 
-            if(isset($FACTURA->invoice_no)){
+
+            if(!isset($FACTURA->invoice_no)) {
+                $FACTURA = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
+                    ->where('INVOICE_NO', $documento->no_documento)
+                    ->where('COMPANY', $compania)
+                    ->where('SERIES_ID', 'PR')
+                    ->select('INVOICE_NO','INVOICE_ID','IDENTITY')
+                    ->get()->first();
+            }
+            if(isset($FACTURA->invoice_no)) {
                 $dato = explode('-',$FACTURA->invoice_no);
 
                 $receipt= \DB::connection('invoice')->table('RECEIPT')

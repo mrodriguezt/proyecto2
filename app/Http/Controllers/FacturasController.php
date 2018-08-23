@@ -311,7 +311,6 @@ class FacturasController extends Controller
     public function subirXML(Request $request)
     {
         $companias = Company_tab::select('COMPANY as value','NAME as label')->where('COUNTRY','EC')->whereNotNull('PERSON_TYPE')->get()->pluck('label','value');
-
         $compania = $request["compania"];
         if($request->file('image')){
             $file = $request->file('image');
@@ -556,7 +555,75 @@ class FacturasController extends Controller
     }
     public function dataDocumentos($compania){
         $datos = Documento_recibido::where("company",$compania)->get();
+
+        foreach($datos as $dato){
+            if($dato->mensaje=="NO"){
+                switch ($dato->comprobante) {
+                    case "COMPROBANTE":
+                        $esFactura=0;
+                        break;
+                    case "Factura":
+                        $esFactura=1;
+                        $facturaIFS = \DB::connection('oracle')->table('MAN_SUPP_INVOICE')
+                            ->where('COMPANY', $dato->company)
+                            ->where('IDENTITY', $dato->ruc_emisor)
+                            ->where('INVOICE_NO', $dato->serie_comprobante)
+                            ->where('SERIES_ID','=','01')
+                            ->select('INVOICE_NO','SERIES_ID','VOUCHER_NO_REF')
+                            ->get()->first();
+
+                        if(isset($facturaIFS->invoice_no)){
+                            $dato->mensaje ="SI";
+                            $dato->invoice_no = $facturaIFS->invoice_no;
+                            $dato->voucher_no = $facturaIFS->voucher_no_ref;
+                            $dato->save();
+                        }
+
+                        break;
+                    case "Notas de Crédito":
+                        $esFactura=0;
+                        $notaCredito = \DB::connection('oracle')->table('MAN_SUPP_INVOICE')
+                            ->where('COMPANY', $dato->company)
+                            ->where('IDENTITY',  $dato->ruc_emisor)
+                            ->where('INVOICE_NO',$dato->serie_comprobante)
+                            ->where('SERIES_ID','=','04')
+                            ->select('INVOICE_NO','SERIES_ID','VOUCHER_NO_REF')
+                            ->get()->first();
+                        if(isset($notaCredito->invoice_no)){
+                            $dato->mensaje ="SI";
+                            $dato->invoice_no = $notaCredito->invoice_no;
+                            $dato->voucher_no = $notaCredito->voucher_no_ref;
+                            $dato->save();
+                        }
+
+
+                        break;
+                    case "Notas de Débito":
+                        $esFactura=0;
+                        break;
+                    case "Comprobante de Retención":
+                        $esFactura=0;
+                        $comprobante = \DB::connection('oracle')->table('BILL_OF_EXCHANGE')
+                            ->where('COMPANY', $dato->company)
+                            ->where('IDENTITY',  $dato->ruc_emisor)
+                            ->where('LEDGER_ITEM_ID', $dato->serie_comprobante)
+                            ->where('LEDGER_ITEM_SERIES_ID', 'LIKE','07%')
+                            ->where('STATE', '!=','Cancelado')
+                            ->select('VOUCHER_NO','ADDRESS_DESC')
+                            ->get()->first();
+                        if(isset($comprobante->voucher_no)){
+                            $dato->mensaje ="SI";
+                            $dato->voucher_no = $comprobante->voucher_no_ref;
+                            $dato->save();
+                        }
+                        break;
+                }
+
+            }
+        }
+        $datos = Documento_recibido::where("company",$compania)->get();
         $data = ["documentos"=>$datos];
+
         return response()->view("facturas.dataDocumentos",$data)->header('Content-Type', 'text/xml');
     }
 }
