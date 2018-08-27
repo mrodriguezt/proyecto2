@@ -1,5 +1,5 @@
 <Grid>
-    <Cfg id='reporteXML' Style='Light' Code='PTAEXXOQBFRYSC' Sort='comprobante' MaxHeight='1' MinTagHeight="400" ShowDeleted="1"
+    <Cfg id='reporteXML' Style='Light' Paging='2' NoPager='1' Code='PTAEXXOQBFRYSC' Sort='comprobante' MaxHeight='1' MinTagHeight="400" ShowDeleted="1"
          Deleting="0" DateStrings='1' Selecting='1'
          IdNames='Project'  AppendId='1' FullId='1' IdChars='0123456789'  NumberId='1' LastId='1' CaseSensitiveId='1'/>
     <LeftCols>
