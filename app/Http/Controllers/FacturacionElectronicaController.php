@@ -181,7 +181,6 @@ class FacturacionElectronicaController extends Controller
             ->where('ADDRESS_ID', '01')
             ->select('ADDRESS')
             ->get()->first();
-
         $AMBIENTE= \DB::connection('ifscmi_int')->table('FE_TABLA_5')
             ->where('ACTIVO', '1')
             ->select('IP_WEBSERVICE','CODIGO')
@@ -191,8 +190,6 @@ class FacturacionElectronicaController extends Controller
             ->where('ADDRESS_ID', "1")
             ->select('ADDRESS_LOV')
             ->get()->first();
-
-
         $contactoCliente = \DB::connection('oracle')->table('COMM_METHOD')
             ->where('IDENTITY', $FACTURA->identity)
             ->where('party_type_db','CUSTOMER')

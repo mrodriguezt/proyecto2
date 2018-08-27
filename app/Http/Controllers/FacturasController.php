@@ -89,10 +89,16 @@ class FacturasController extends Controller
                     $linea = fgets($archivo);
                     $fields = explode("\t", $linea);
                     $fields[0] = utf8_encode($fields[0]);
-                   // $RUC = utf8_encode(trim($fields[8]));
-                    //if($VAT_NO==$RUC){
-
-
+                    $validacion = 0;
+                    if(isset($fields[8]) &&  $fields[0]=="Factura" && $validacion==0){
+                        $RUC = utf8_encode(trim($fields[8]));
+                        if($VAT_NO==$RUC) {
+                            $validacion = 1;
+                        }else{
+                            $mensaje = 'El archivo no contiene información de la compañía '.$compania;
+                            return view('facturas.validar')->with('mensaje',$mensaje)->with('companias',$companias)->with('compania',$compania);
+                        }
+                    }
                     switch ($fields[0]) {
                         case "COMPROBANTE":
                             $esFactura=0;
@@ -203,14 +209,10 @@ class FacturasController extends Controller
                                 $esFactura=0;
                             }
                     }
- /*                   }else{
-                        $mensaje = 'El archivo no contiene información de la compañía '.$compania;
-                        return view('facturas.validar')->with('mensaje',$mensaje)->with('companias',$companias)->with('compania',$compania);
-                    }*/
                 }
 
                 foreach ($facturas as $factura){
-                    $this->addDocument($compania,$factura["comprobante"],$factura["serie_comprobante"],$factura["ruc_emisor"],$this->limpiaCadena(utf8_encode($factura["razon_social_emisor"])),$factura["fecha_emision"],$factura["fecha_autorizacion"],$factura["tipo_emision"],"",$factura["identificacion_receptor"],$factura["clave_acceso"],$factura["numero_autorizador"],$factura["importe_total"],$factura["mensaje"],$factura["voucher"],$factura["invoice_no"]);
+                   $this->addDocument($compania,$factura["comprobante"],$factura["serie_comprobante"],$factura["ruc_emisor"],$this->limpiaCadena(utf8_encode($factura["razon_social_emisor"])),$factura["fecha_emision"],$factura["fecha_autorizacion"],$factura["tipo_emision"],"",$factura["identificacion_receptor"],$factura["clave_acceso"],$factura["numero_autorizador"],$factura["importe_total"],$factura["mensaje"],$factura["voucher"],$factura["invoice_no"]);
                 }
                 $mensaje = "El archivo ha sido subido exitosamente";
                 return view('facturas.validar')->with('mensaje',$mensaje)->with('companias',$companias)->with('compania',$compania);
