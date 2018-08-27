@@ -4,7 +4,7 @@
     <div class="form-row">
         <div class="form-group col-md-3">
             {!! Form::label('compania','Compania') !!}
-            {!! Form::select('compania',$companias,$compania,['class'=>'form-control select-proyecto','placeholder'=>'Seleccione la Compañia','required']) !!}
+            {!! Form::select('compania',$companias,$compania,['class'=>'form-control select-proyecto','placeholder'=>'Seleccione la Compañia','onchange'=>'buscarDatos()','required']) !!}
             <b>{{$mensaje}}</b>
         </div>
         <div class="form-group col-md-3">
@@ -38,6 +38,10 @@
 
         DisposeGrids();
         TreeGrid({Layout:{Url:"gridLayoutDocumentos"},Data:{Url:"gridDataDocumentos/"+$("#compania").val()},Debug:0},"facturacion");
+        function buscarDatos(){
+            DisposeGrids();
+            TreeGrid({Layout:{Url:"gridLayoutDocumentos"},Data:{Url:"gridDataDocumentos/"+$("#compania").val()},Debug:0},"facturacion");
+        }
         function enviarIFS(G) {
             GridActual = G;
             if (GridActual != "undefined") {
