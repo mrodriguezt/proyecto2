@@ -239,7 +239,6 @@ class FacturasController extends Controller
             ->where('COMPANY', strval($documento->company))
             ->where('IDENTITY', strval($documento->ruc_emisor))
             ->where('INVOICE_NO', strval($documento->serie_comprobante))
-            ->where('ROWSTATE', '!=', 'Cancelled')
             ->select('INVOICE_TAB.COMPANY')
             ->get();
 
