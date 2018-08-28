@@ -42,43 +42,53 @@
             DisposeGrids();
             TreeGrid({Layout:{Url:"gridLayoutDocumentos"},Data:{Url:"gridDataDocumentos/"+$("#compania").val()},Debug:0},"facturacion");
         }
+        var enviando=0;
         function enviarIFS(G) {
-            GridActual = G;
-            if (GridActual != "undefined") {
-                var R = GridActual.GetSelRows();
-                if (R.length) {
-                    for (var i = 0; i < R.length; i++) {
-                        if (Is(R[i], "Selected")) {
-                            var mensaje = GridActual.GetValue(R[i], "mensaje");
-                            if(mensaje=="NO"){
-                                if(GridActual.GetValue(R[i], "comprobante")=="Factura") {
-                                    $.ajax({
-                                        type: "POST",
-                                        url: '{{URL::route("enviar.documentoIFS")}}',
-                                        data: {
-                                            id: GridActual.GetValue(R[i], "codigo"),
-                                            "_token": "{{ csrf_token() }}",
-                                        },
-                                        success: function (msg) {
-                                            if (msg == "ERROR") {
-                                                alert("LA FACTURA YA EXISTE")
-                                            } else {
-                                                alert("La factura ha sido enviada al IFS")
+            if(enviando==0) {
+                enviando=1;
+                GridActual = G;
+                if (GridActual != "undefined") {
+                    var R = GridActual.GetSelRows();
+                    if (R.length) {
+                        for (var i = 0; i < R.length; i++) {
+                            if (Is(R[i], "Selected")) {
+                                var mensaje = GridActual.GetValue(R[i], "mensaje");
+                                if (mensaje == "NO") {
+                                    if (GridActual.GetValue(R[i], "comprobante") == "Factura") {
+                                       $.ajax({
+                                            type: "POST",
+                                            url: '{{URL::route("enviar.documentoIFS")}}',
+                                            data: {
+                                                id: GridActual.GetValue(R[i], "codigo"),
+                                                "_token": "{{ csrf_token() }}",
+                                            },
+                                            success: function (msg) {
+                                                if (msg == "ERROR") {
+                                                    alert("LA FACTURA YA EXISTE")
+                                                } else {
+                                                    alert("La factura ha sido enviada al IFS")
+                                                    enviando=0;
+                                                }
                                             }
-                                        }
-                                    });
-                                }else{
+                                        });
+                                        enviando=0;
+                                    } else {
 
-                                    alert("El Documento seleccionado debe ser una factura");
+                                        alert("El Documento seleccionado debe ser una factura");
+                                        enviando=0;
+                                    }
+                                } else {
+                                    alert("El Documento seleccionado " + GridActual.GetValue(R[i], "serie_comprobante") + " SI existe en IFS");
+                                    enviando=0;
                                 }
-                            }else{
-                                alert("El Documento seleccionado "+  GridActual.GetValue(R[i], "serie_comprobante")+" SI existe en IFS");
-                            }
 
+                            }
                         }
+                        G.Reload();
                     }
-                    G.Reload();
                 }
+            }else{
+                alert("Espere mientras se termina el proceso");
             }
         }
     </script>
