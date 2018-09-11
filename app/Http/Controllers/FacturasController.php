@@ -614,7 +614,7 @@ class FacturasController extends Controller
                             ->get()->first();
                         if(isset($comprobante->voucher_no)){
                             $dato->mensaje ="SI";
-                            $dato->voucher_no = $comprobante->voucher_no_ref;
+                            $dato->voucher_no = $comprobante->voucher_no;
                             $dato->save();
                         }
                         break;
