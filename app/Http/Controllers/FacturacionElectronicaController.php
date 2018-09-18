@@ -360,6 +360,10 @@ class FacturacionElectronicaController extends Controller
                     array(
                         '_'=>$firmante,
                         'nombre'=>'CERTIFICADO PROPIETARIO'
+                    ),
+                    array(
+                        '_'=>'OTROS CON UTILIZACION DEL SISTEMA FINANCIERO',
+                        'nombre'=>'FORMA PAGO'
                     )
                 )
             )
@@ -632,6 +636,10 @@ class FacturacionElectronicaController extends Controller
                     array(
                         '_'=>$firmante,
                         'nombre'=>'CERTIFICADO PROPIETARIO'
+                    ),
+                    array(
+                        '_'=>'OTROS CON UTILIZACION DEL SISTEMA FINANCIERO',
+                        'nombre'=>'FORMA PAGO'
                     )
                 )
             )

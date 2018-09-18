@@ -53,4 +53,17 @@ return [
         'prefix_schema'  => env('DB_SCHEMA_PREFIX_ORA', ''),
         'server_version' => env('DB_SERVER_VERSION_ORA', '11g'),
     ],
+    'evolution' => [
+        'driver'         => 'oracle',
+        'tns'            => env('DB_TNS_ORA', ''),
+        'host'           => env('DB_HOST_EVO', ''),
+        'port'           => env('DB_PORT_EVO', '1521'),
+        'database'       => env('DB_DATABASE_EVO', ''),
+        'username'       => env('DB_USERNAME_EVO', ''),
+        'password'       => env('DB_PASSWORD_EVO', ''),
+        'charset'        => env('DB_CHARSET_EVO', 'AL32UTF8'),
+        'prefix'         => env('DB_PREFIX_EVO', ''),
+        'prefix_schema'  => env('DB_SCHEMA_PREFIX_ORA', ''),
+        'server_version' => env('DB_SERVER_VERSION_ORA', '11g'),
+    ],
 ];

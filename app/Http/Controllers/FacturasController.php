@@ -233,7 +233,6 @@ class FacturasController extends Controller
 
     public function enviarDocumentoIFS(Request $request)
     {
-
         $documento = Documento_recibido::find($request["id"]);
         $invoice = \DB::connection('oracle')->table('INVOICE_TAB')
             ->where('COMPANY', strval($documento->company))
