@@ -45,7 +45,7 @@ class AtsController extends Controller
            ->get()->first();
 
        if ($compania == "EC03") {
-           $numEstabRuc = '002';
+           $numEstabRuc = '001';
        } else {
             $numEstabRuc = '001';
         }
