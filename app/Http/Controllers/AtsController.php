@@ -44,11 +44,11 @@ class AtsController extends Controller
            ->select('COMPANY_INVOICE_INFO.VAT_NO','COMPANY.NAME')
            ->get()->first();
 
-       if ($compania == "EC03") {
+       if ($compania == "EC03"){
            $numEstabRuc = '001';
-       } else {
-            $numEstabRuc = '001';
-        }
+       }else{
+           $numEstabRuc = '001';
+       }
 
        $ruc->name = $this->limpiarcadena($ruc->name);
        $xml = new DomDocument('1.0', 'UTF-8');

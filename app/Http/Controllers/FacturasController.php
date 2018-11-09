@@ -113,6 +113,7 @@ class FacturasController extends Controller
                                  ->where('SERIES_ID','!=','05')
                                  ->select('INVOICE_NO','SERIES_ID','VOUCHER_NO_REF')
                                  ->get()->first();
+
                              $i++;
                              $facturas[$i]["comprobante"] = $fields[0];
                              $facturas[$i]["serie_comprobante"] = $fields[1];
@@ -564,11 +565,13 @@ class FacturasController extends Controller
                         break;
                     case "Factura":
                         $esFactura=1;
+                      
                         $facturaIFS = \DB::connection('oracle')->table('MAN_SUPP_INVOICE')
                             ->where('COMPANY', $dato->company)
                             ->where('IDENTITY', $dato->ruc_emisor)
                             ->where('INVOICE_NO', $dato->serie_comprobante)
-                            ->where('SERIES_ID','=','01')
+                            ->where('SERIES_ID','!=','04')
+                            ->where('SERIES_ID','!=','05')
                             ->select('INVOICE_NO','SERIES_ID','VOUCHER_NO_REF')
                             ->get()->first();
 

@@ -29,8 +29,10 @@
 
 @section('js')
     <script>
-      /*  $( "#formularioATS" ).submit(function( event ) {
-            alert( "Handler for .submit() called." );
-        });*/
+    function crearNuevo(){
+
+
+    }
+
     </script>
 @endsection

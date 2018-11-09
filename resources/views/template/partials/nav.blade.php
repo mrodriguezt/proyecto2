@@ -23,13 +23,13 @@
            <ul class="nav navbar-nav navbar-right">
                <!-- Authentication Links -->
                   <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                Facturas Proveedores<span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ route('validar.facturas') }}">Validar Facturas SRI</a></li>
-                            </ul>
-                        </li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            Facturas Proveedores<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{ route('validar.facturas') }}">Validar Facturas SRI</a></li>
+                        </ul>
+                  </li>
                 </ul>
             </li>
         </ul>
@@ -106,16 +106,6 @@
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
-                                    @if (Auth::user()->area=='ADMIN')
-                                        <li>
-                                            {!! Form::open(['route'=>'cambiar.usuario','method'=>'POST']) !!}
-                                            {{ csrf_field() }}
-                                            <div class="form-group">
-                                            {!! Form::text('cambiarUsuario',null,['class'=>'form-control','placeholder'=>'Usuario','required']) !!}
-                                            </div>
-                                            {!! Form::close() !!}
-                                        </li>
-                                    @endif
                                 </ul>
                             </li>
                         @endif
