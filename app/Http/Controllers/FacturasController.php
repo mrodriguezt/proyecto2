@@ -565,7 +565,7 @@ class FacturasController extends Controller
                         break;
                     case "Factura":
                         $esFactura=1;
-                      
+
                         $facturaIFS = \DB::connection('oracle')->table('MAN_SUPP_INVOICE')
                             ->where('COMPANY', $dato->company)
                             ->where('IDENTITY', $dato->ruc_emisor)

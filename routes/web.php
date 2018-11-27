@@ -17,6 +17,8 @@ Route::get('/', function () {
 });
 Auth::routes();
 Route::group(['middleware'=>'auth'],function(){
+});
+
 Route::get('ats/', [
     'as'=>'ats',
     'uses'=>'AtsController@ats'
@@ -107,4 +109,4 @@ Route::post('enviarDocumentoIFS', [
     'as'=>'enviar.documentoIFS',
     'uses'=>'FacturasController@enviarDocumentoIFS'
 ]);
-});
+
