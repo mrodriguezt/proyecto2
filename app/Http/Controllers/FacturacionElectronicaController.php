@@ -407,7 +407,7 @@ class FacturacionElectronicaController extends Controller
                     if($resultado->response==2){
                         $error="Usuario WEBSERVICE Incorrecto";
                     }else{
-                        $error=$resultado->response;
+                        $error="OK";
                     }
                 }
                 if(isset($DOCUMENTOENVIADO->no_documento)){
