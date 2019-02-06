@@ -352,6 +352,7 @@ class AtsController extends Controller
                }
                $retencion = \DB::connection('oracle')->table('C_VOUCHER_RETENTION')
                    ->where('INVOICE_ID', $atsCompra->invoice_id)
+                   ->where('ROWSTATE', '!=','Cancelled')
                    ->select('RETENTION_NO', 'RETENTION_DATE', \DB::connection('oracle')->raw('C_ELECTRONIC_INVOICE_AUTH_API.Get_C_Auth_Id_Sri(COMPANY,C_INVOICE_ID) as AUTH_SRI'))
                    ->get()->first();
                if (isset($retencion->retention_no)) {
