@@ -75,7 +75,7 @@ class AtsController extends Controller
 
 
        $fechaFinMes =  date("d",(mktime(0,0,0,intval($mes)+1,1,$anio)-1));
-       //echo '2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes;
+       //echo $anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes;
 
 
        $atsCompras = \DB::connection('oracle')->table('MAN_SUPP_INVOICE')
@@ -86,7 +86,7 @@ class AtsController extends Controller
            ->where('MAN_SUPP_INVOICE.COMPANY', $compania)
            ->whereIn('MAN_SUPP_INVOICE.SERIES_ID',['01','02','03','04','05','06','07','08','09','10','11','12','15','16','18','19','20','21','22','23','24','41','42','43','44','45','47','48','49','50','51','52','294','344'])
            ->whereNotIn('MAN_SUPP_INVOICE.OBJSTATE',['Preliminary','Cancelled'])
-           ->whereRaw('MAN_SUPP_INVOICE.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+           ->whereRaw('MAN_SUPP_INVOICE.INVOICE_DATE BETWEEN ? and ? ', [$anio."-".$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
            ->select('SUPPLIER_INFO.NAME','SUPPLIER_INFO.PERSON_TYPE','MAN_SUPP_INVOICE.C_INVOICE_NO','MAN_SUPP_INVOICE.C_SERIES_ID','MAN_SUPP_INVOICE.C_SUBJECT_RETENTION','MAN_SUPP_INVOICE.C_DOUBLE_TRIBUTATION_DB','MAN_SUPP_INVOICE.C_TAX_REGIME_TEXT','MAN_SUPP_INVOICE.C_TAX_HAVEN_ID','MAN_SUPP_INVOICE.COUNTRY_CODE_SRI','MAN_SUPP_INVOICE.C_REG_TYPE_ID','MAN_SUPP_INVOICE.ID_PAYMENT_TYPE','MAN_SUPP_INVOICE.VAT_CURR_AMOUNT','MAN_SUPP_INVOICE.INVOICE_ID','MAN_SUPP_INVOICE.C_AUTH_ID_SRI','MAN_SUPP_INVOICE.VOUCHER_DATE_REF','MAN_SUPP_INVOICE.INVOICE_DATE','MAN_SUPP_INVOICE.SERIES_ID','MAN_SUPP_INVOICE.C_SUSTENANCE_ID','MAN_SUPP_INVOICE.IDENTITY','IDENTITY_INVOICE_INFO.TAX_ID_TYPE','IDENTITY_INVOICE_INFO.C_SUPP_REL_PARTY','MAN_SUPP_INVOICE.INVOICE_NO')
            ->get();
        //dd($atsCompras);
@@ -462,7 +462,7 @@ class AtsController extends Controller
            ->where('CUSTOMER_INFO_VAT.COMPANY', $compania)
            ->whereIn('CUSTOMER_INFO_VAT.ADDRESS_ID',['01','03'])
            ->whereNotIn('INSTANT_INVOICE.OBJSTATE',['Preliminary','Cancelled'])
-           ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+           ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
            ->select(\DB::connection('oracle')->raw('COUNT(instant_invoice.invoice_no) as NUMERO_COMPROBANTES'),'CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','INSTANT_INVOICE.SERIES_ID')
            ->groupBy('CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','INSTANT_INVOICE.SERIES_ID')
            ->get();
@@ -485,7 +485,7 @@ class AtsController extends Controller
                ->where('CUSTOMER_INFO_VAT.COMPANY', $compania)
                ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY',$atsVenta->customer_id)
                ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.OBJSTATE',['Preliminary','Cancelled'])
-               ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
                ->select(\DB::connection('oracle')->raw('COUNT(CUSTOMER_ORDER_INV_HEAD.INVOICE_ID) as NUMERO_COMPROBANTES'),'CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','CUSTOMER_ORDER_INV_HEAD.SERIES_ID')
                ->groupBy('CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','CUSTOMER_ORDER_INV_HEAD.SERIES_ID')
                ->get()->first();
@@ -538,7 +538,7 @@ class AtsController extends Controller
                ->where('INSTANT_INVOICE.IDENTITY', $atsVenta->customer_id)
                ->whereIn('INSTANT_INVOICE_ITEM.VAT_CODE', ['IVA_VEN_00%_NO_OBJET'])
                ->whereNotIn('INSTANT_INVOICE.OBJSTATE',['Preliminary','Cancelled'])
-               ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
                ->select(\DB::connection('oracle')->raw('SUM(NET_CURR_AMOUNT) AS baseNoGraIva'))
                ->get()->first();
 
@@ -550,7 +550,7 @@ class AtsController extends Controller
                    ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
                    ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE', ['IVA_VEN_00%_NO_OBJET'])
                    ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.OBJSTATE',['Preliminary','Cancelled'])
-                   ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+                   ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
                    ->select(\DB::connection('oracle')->raw('SUM(CUSTOMER_ORDER_INV_ITEM.NET_CURR_AMOUNT) AS baseNoGraIva'))
                    ->get()->first();
                if($ventas!=null){
@@ -572,7 +572,7 @@ class AtsController extends Controller
                ->where('INSTANT_INVOICE.IDENTITY', $atsVenta->customer_id)
                ->whereIn('INSTANT_INVOICE_ITEM.VAT_CODE', ['IVA_VEN_00%_LO_CRE','IVA_VEN_00%_RE_GA'])
                ->whereNotIn('INSTANT_INVOICE.OBJSTATE',['Preliminary','Cancelled'])
-               ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
                ->select(\DB::connection('oracle')->raw('SUM(NET_CURR_AMOUNT) AS baseImponible'))
                ->get()->first();
 
@@ -584,7 +584,7 @@ class AtsController extends Controller
                    ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
                    ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE', ['IVA_VEN_00%_LO_CRE','IVA_VEN_00%_RE_GA'])
                    ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.OBJSTATE',['Preliminary','Cancelled'])
-                   ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+                   ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
                    ->select(\DB::connection('oracle')->raw('SUM(CUSTOMER_ORDER_INV_ITEM.NET_CURR_AMOUNT) AS baseImponible'))
                    ->get()->first();
 
@@ -611,7 +611,7 @@ class AtsController extends Controller
                ->where('INSTANT_INVOICE.IDENTITY', $atsVenta->customer_id)
                ->whereIn('INSTANT_INVOICE_ITEM.VAT_CODE', ['IVA_VEN_12%_AF_CON','IVA_VEN_12%_AF_CRE','IVA_VEN_12%_LO_CON','IVA_VEN_12%_LO_CRE'])
                ->whereNotIn('INSTANT_INVOICE.OBJSTATE',['Preliminary','Cancelled'])
-               ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
                ->select(\DB::connection('oracle')->raw('SUM(NET_CURR_AMOUNT) AS base'))
                ->get()->first();
            if($vtasTerceros!=null) {
@@ -622,7 +622,7 @@ class AtsController extends Controller
                    ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
                    ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE',['IVA_VEN_12%_AF_CON','IVA_VEN_12%_AF_CRE','IVA_VEN_12%_LO_CON','IVA_VEN_12%_LO_CRE'])
                    ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.OBJSTATE',['Preliminary','Cancelled'])
-                   ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+                   ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
                    ->select(\DB::connection('oracle')->raw('SUM(CUSTOMER_ORDER_INV_ITEM.NET_CURR_AMOUNT) AS base'))
                    ->get()->first();
                if($ventas!=null){
@@ -644,7 +644,7 @@ class AtsController extends Controller
                ->where('INSTANT_INVOICE.COMPANY', $compania)
                ->where('INSTANT_INVOICE.IDENTITY', $atsVenta->customer_id)
                ->whereNotIn('INSTANT_INVOICE.OBJSTATE',['Preliminary','Cancelled'])
-               ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
                ->select(\DB::connection('oracle')->raw('SUM(VAT_CURR_AMOUNT) AS iva'))
                ->get()->first();
            if($vtasTerceros!=null) {
@@ -655,7 +655,7 @@ class AtsController extends Controller
                    ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
                    ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE',['IVA_VEN_12%_AF_CON','IVA_VEN_12%_AF_CRE','IVA_VEN_12%_LO_CON','IVA_VEN_12%_LO_CRE'])
                    ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.OBJSTATE',['Preliminary','Cancelled'])
-                   ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+                   ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
                    ->select(\DB::connection('oracle')->raw('SUM(CUSTOMER_ORDER_INV_ITEM.VAT_CURR_AMOUNT) AS iva'))
                    ->get()->first();
                if($ventas!=null){
@@ -676,7 +676,7 @@ class AtsController extends Controller
                ->where('COMPANY', $compania)
                ->where('BILL_TYPE', 'RIVA')
                ->where('OBJSTATE','!=','Cancelled')
-               ->whereRaw('VOUCHER_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->whereRaw('VOUCHER_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
                ->select(\DB::connection('oracle')->raw('SUM(FULL_CURR_AMOUNT) AS ret'))
                ->get()->first();
            if(isset($retenciones->ret) && $atsVenta->series_id!="04" && $atsVenta->series_id!="05"){
@@ -693,7 +693,7 @@ class AtsController extends Controller
                ->where('BILL_TYPE', 'RFTE')
                ->where('COMPANY', $compania)
                ->where('OBJSTATE','!=','Cancelled')
-               ->whereRaw('VOUCHER_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->whereRaw('VOUCHER_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
                ->select(\DB::connection('oracle')->raw('SUM(FULL_CURR_AMOUNT) AS ret'))
                // ->select('FULL_CURR_AMOUNT')
                ->get()->first();
@@ -733,7 +733,7 @@ class AtsController extends Controller
            ->where('CUSTOMER_INFO_VAT.COMPANY', $compania)
            ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.IDENTITY',$aClientes)
            ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.OBJSTATE',['Preliminary','Cancelled'])
-           ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+           ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
            ->select(\DB::connection('oracle')->raw('COUNT(CUSTOMER_ORDER_INV_HEAD.INVOICE_ID) as NUMERO_COMPROBANTES'),'CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','CUSTOMER_ORDER_INV_HEAD.SERIES_ID')
            ->groupBy('CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','CUSTOMER_ORDER_INV_HEAD.SERIES_ID')
            ->get();
@@ -789,7 +789,7 @@ class AtsController extends Controller
                ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
                ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE', ['IVA_VEN_00%_NO_OBJET'])
                ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.OBJSTATE',['Preliminary','Cancelled'])
-               ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
                ->select(\DB::connection('oracle')->raw('SUM(CUSTOMER_ORDER_INV_ITEM.NET_CURR_AMOUNT) AS baseNoGraIva'))
                ->get()->first();
 
@@ -808,7 +808,7 @@ class AtsController extends Controller
                ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
                ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE', ['IVA_VEN_00%_LO_CRE','IVA_VEN_00%_RE_GA'])
                ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.OBJSTATE',['Preliminary','Cancelled'])
-               ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
                ->select(\DB::connection('oracle')->raw('SUM(CUSTOMER_ORDER_INV_ITEM.NET_CURR_AMOUNT) AS baseImponible'))
                ->get()->first();
            if(isset($noObjetoIva->baseimponible)){
@@ -827,7 +827,7 @@ class AtsController extends Controller
                ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
                ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE',['IVA_VEN_12%_AF_CON','IVA_VEN_12%_AF_CRE','IVA_VEN_12%_LO_CON','IVA_VEN_12%_LO_CRE'])
                ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.OBJSTATE',['Preliminary','Cancelled'])
-               ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
                ->select(\DB::connection('oracle')->raw('SUM(CUSTOMER_ORDER_INV_ITEM.NET_CURR_AMOUNT) AS base'))
                ->get()->first();
 
@@ -847,7 +847,7 @@ class AtsController extends Controller
                ->where('CUSTOMER_ORDER_INV_HEAD.IDENTITY', $atsVenta->customer_id)
                ->whereIn('CUSTOMER_ORDER_INV_ITEM.VAT_CODE',['IVA_VEN_12%_AF_CON','IVA_VEN_12%_AF_CRE','IVA_VEN_12%_LO_CON','IVA_VEN_12%_LO_CRE'])
                ->whereNotIn('CUSTOMER_ORDER_INV_HEAD.OBJSTATE',['Preliminary','Cancelled'])
-               ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->whereRaw('CUSTOMER_ORDER_INV_HEAD.INVOICE_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
                ->select(\DB::connection('oracle')->raw('SUM(CUSTOMER_ORDER_INV_ITEM.VAT_CURR_AMOUNT) AS iva'))
                ->get()->first();
 
@@ -865,7 +865,7 @@ class AtsController extends Controller
                ->where('COMPANY', $compania)
                ->where('OBJSTATE', '!=','Cancelled')
                ->where('BILL_TYPE','RIVA')
-               ->whereRaw('VOUCHER_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->whereRaw('VOUCHER_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
                ->select(\DB::connection('oracle')->raw('SUM(FULL_CURR_AMOUNT) AS ret'))
                ->get()->first();
            if(isset($retenciones->ret)&& $atsVenta->series_id!="04" && $atsVenta->series_id!="05"){
@@ -882,7 +882,7 @@ class AtsController extends Controller
                ->where('COMPANY', $compania)
                ->where('OBJSTATE', '!=','Cancelled')
                ->where('BILL_TYPE', 'RFTE')
-               ->whereRaw('VOUCHER_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+               ->whereRaw('VOUCHER_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
                ->select(\DB::connection('oracle')->raw('SUM(FULL_CURR_AMOUNT) AS ret'))
                // ->select('FULL_CURR_AMOUNT')
                ->get()->first();
@@ -935,7 +935,7 @@ class AtsController extends Controller
            ->where('INSTANT_INVOICE.COMPANY', $compania)
            ->where('CUSTOMER_INFO_VAT.COMPANY', $compania)
            ->whereNotIn('INSTANT_INVOICE.OBJSTATE',['Preliminary','Cancelled'])
-           ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+           ->whereRaw('INSTANT_INVOICE.INVOICE_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
            ->select('C_INVOIC_EXPORTATION_DATA.COUNTRY_CODE_SRI','C_INVOIC_EXPORTATION_DATA.TAX_HAVEN_ID','C_INVOIC_EXPORTATION_DATA.C_TAX_REGIME','C_INVOIC_EXPORTATION_DATA.COUNTRY_CODE_SRI','C_INVOIC_EXPORTATION_DATA.EXPORTATION_CODE','C_INVOIC_EXPORTATION_DATA.OPERATION_ID','C_INVOIC_EXPORTATION_DATA.C_GRAVA_INCOME_TAX','C_INVOIC_EXPORTATION_DATA.C_TAX_VALUE','C_INVOIC_EXPORTATION_DATA.DISTRICT_CODE','C_INVOIC_EXPORTATION_DATA.YEAR','C_INVOIC_EXPORTATION_DATA.SCHAME_CODE','C_INVOIC_EXPORTATION_DATA.CORRELATIVE','C_INVOIC_EXPORTATION_DATA.CHECKER','C_INVOIC_EXPORTATION_DATA.TRANSPORT_DOCUMENT','C_INVOIC_EXPORTATION_DATA.TRANSACTION_DATE','C_INVOIC_EXPORTATION_DATA.NO_FUE','C_INVOIC_EXPORTATION_DATA.FOB_VALUE','C_INVOIC_EXPORTATION_DATA.FOB_VOUCHER',\DB::connection('oracle')->raw('(C_ELECTRONIC_INVOICE_AUTH_API.Get_C_Auth_Id_Sri(INSTANT_INVOICE.COMPANY,INSTANT_INVOICE.INVOICE_ID)) as SRI_AUTH'),'C_INVOIC_EXPORTATION_DATA.REG_TYPE_ID','CUSTOMER_INFO_VAT.TAX_ID_TYPE','customer_info.customer_id','customer_info_vat.c_related_party','customer_info.person_type','customer_info.name','INSTANT_INVOICE.SERIES_ID','INSTANT_INVOICE.INVOICE_NO','INSTANT_INVOICE.INVOICE_DATE')
            ->get();
        foreach ($exportaciones as $exportacion) {
@@ -1151,7 +1151,7 @@ class AtsController extends Controller
        $anulados = \DB::connection('oracle')->table('INSTANT_INVOICE')
            ->where('COMPANY', $compania)
            ->where('OBJSTATE','Cancelled')
-           ->whereRaw('INVOICE_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+           ->whereRaw('INVOICE_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
            ->select(\DB::connection('oracle')->raw('(C_ELECTRONIC_INVOICE_AUTH_API.Get_C_Auth_Id_Sri(COMPANY,INVOICE_ID)) as SRI_AUTH'),\DB::connection('oracle')->raw('(C_ELECTRONIC_INVOICE_AUTH_API.Get_Obj_State(COMPANY,INVOICE_ID)) as ESTADO_SRI_AUTH'),'INVOICE_NO','SERIES_ID')
            ->get();
 
@@ -1181,7 +1181,7 @@ class AtsController extends Controller
        $anulados = \DB::connection('oracle')->table('C_VOUCHER_RETENTION')
            ->where('COMPANY', $compania)
            ->where('OBJSTATE','Cancelled')
-           ->whereRaw('RETENTION_DATE BETWEEN ? and ? ', ['2018-'.$mes.'-01',"2018-".$mes."-".$fechaFinMes])
+           ->whereRaw('RETENTION_DATE BETWEEN ? and ? ', [$anio.'-'.$mes.'-01',$anio."-".$mes."-".$fechaFinMes])
            ->select(\DB::connection('oracle')->raw('(C_ELECTRONIC_INVOICE_AUTH_API.Get_C_Auth_Id_Sri(COMPANY,C_INVOICE_ID)) as SRI_AUTH'),\DB::connection('oracle')->raw('(C_ELECTRONIC_INVOICE_AUTH_API.Get_Obj_State(COMPANY,C_INVOICE_ID)) as ESTADO_SRI_AUTH'),'RETENTION_NO')
            ->get();
 
