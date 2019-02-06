@@ -65,7 +65,7 @@ class FacturacionElectronicaController extends Controller
     public function dataFacturacionVT($fechaInicio,$fechaFin,$compania){
 
         $facturaIFS = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_HEAD')
-            ->whereIn('SERIES_ID', ['PR','18'])
+          //  ->whereIn('SERIES_ID', ['PR','18'])
             ->whereBetween('INVOICE_DATE', [$fechaInicio,$fechaFin])
             ->where('COMPANY', $compania)
             ->select('INVOICE_NO','INVOICE_DATE','NAME','GROSS_AMOUNT','NET_AMOUNT','SERIES_ID','OBJSTATE')

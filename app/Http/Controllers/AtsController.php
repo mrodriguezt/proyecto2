@@ -387,7 +387,7 @@ class AtsController extends Controller
                    $nodo = $xml->createElement('ptoEmiModificado', $INVOICE_NO[1]);
                    $detalleCompras->appendChild($nodo);
                }else{
-                   dd($atsCompra->c_invoice_no);
+                   dd($atsCompra);
                }
 
 
