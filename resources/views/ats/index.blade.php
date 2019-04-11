@@ -17,7 +17,6 @@
             {!! Form::label('compania','Companias') !!}
             {!! Form::select('compania',$companias,null,['class'=>'form-control select-proyecto','placeholder'=>'Seleccione la Compañia','required']) !!}
         </div>
-
 <div class="form-group col-md-2">
     <BR>
     {!! Form::submit('Generar ATS',['class'=>'btn btn-primary']) !!}

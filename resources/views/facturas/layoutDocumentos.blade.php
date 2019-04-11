@@ -3,6 +3,7 @@
          Deleting="0" DateStrings='1' Selecting='1'
          IdNames='Project'  AppendId='1' FullId='1' IdChars='0123456789'  NumberId='1' LastId='1' CaseSensitiveId='1'/>
     <LeftCols>
+        <C Name='Existe' Width='50' Type='Int' CanEdit='0' />
         <C Name='codigo' Width='100' Type='Int' CanEdit='0' Visible='0'/>
         <C Name='comprobante' Width='100' Type='Lines' CanEdit='0'/>
 
@@ -21,6 +22,7 @@
         <C Name='mensaje' Width='60' Type='Text' CanEdit='0'/>
         <C Name='voucher_no' Width='100' Type='Text' CanEdit='0'/>
         <C Name='importe_total' Width='100' Type='Text' CanEdit='0'/>
+
     </Cols>
     <Header  Wrap="1"
              comprobante="Comprobante"

@@ -27,16 +27,20 @@ class FacturasController extends Controller
 
         return view('facturas.validar')->with('companias',$companias)->with('mensaje',$mensaje)->with('compania','EC01');;
     }
-    public function addDocument($compania,$comprobante,$serie_comprobante,$ruc_emisor,$razon_social_emisor,$fecha_emision,$fecha_autorizacion,$tipo_emision,$documento_relacionado,$identificacion_receptor,$clave_acceso,$numero_autorizador,$importe_total,$mensaje,$voucher_no,$invoice_no){
+    public function addDocument($compania,$comprobante,$serie_comprobante,$ruc_emisor,$razon_social_emisor,$fecha_emision,$fecha_autorizacion,$tipo_emision,$documento_relacionado,$identificacion_receptor,$clave_acceso,$numero_autorizador,$importe_total,$mensaje,$voucher_no,$invoice_no,$anio,$mes){
 
         $fecha_emision = Carbon::createFromFormat('d/m/Y',$fecha_emision)->format('Y-m-d');
         $fecha_autorizacion = Carbon::createFromFormat('d/m/Y  H:i:s',$fecha_autorizacion)->format('Y-m-d H:i:s');
-        $documento = Documento_recibido::where("comprobante",$comprobante)->where("serie_comprobante",$serie_comprobante)
+         $documento = Documento_recibido::where("comprobante",$comprobante)->where("serie_comprobante",$serie_comprobante)
                     ->where("ruc_emisor",$ruc_emisor)->where("company",$compania)->get()->first();
+
         if(isset($documento->serie_comprobante)){
             $documento->mensaje = $mensaje;
             $documento->voucher_no = $voucher_no;
             $documento->invoice_no = $invoice_no;
+            $documento->factura_existe = 1;
+            $documento->anio =  $anio;
+            $documento->mes = $mes;
             $documento->save();
         }else {
             Documento_recibido::insert(
@@ -56,6 +60,8 @@ class FacturasController extends Controller
                     'importe_total' => $importe_total,
                     'mensaje' => $mensaje,
                     'voucher_no' => $voucher_no,
+                    'anio' => $anio,
+                    'mes' => $mes,
                     'invoice_no' => $invoice_no
                 ]
 
@@ -64,6 +70,10 @@ class FacturasController extends Controller
     }
     public function validarArchivo(Request $request)
     {
+
+        Documento_recibido::where("anio",$request["anio"])->where("mes",$request["mes"])->where("company",$request["compania"])->
+                    update(['factura_existe' => 0]);
+
         $companias = Company_tab::select('COMPANY as value','NAME as label')->where('COUNTRY','EC')->whereNotNull('PERSON_TYPE')->get()->pluck('label','value');
         $facturas= [];
         $comprobantes= [];
@@ -115,7 +125,7 @@ class FacturasController extends Controller
                                  ->get()->first();
 
                              $i++;
-                             $facturas[$i]["comprobante"] = $fields[0];
+                             $facturas[$i]["comprobante"] = "Factura";
                              $facturas[$i]["serie_comprobante"] = $fields[1];
                              $facturas[$i]["ruc_emisor"] =  $fields[2];
                              $facturas[$i]["razon_social_emisor"] =  $this->limpiaCadena(utf8_encode($fields[3]));
@@ -167,7 +177,7 @@ class FacturasController extends Controller
                                 $notasCredito[$nc]["invoice_no"] = "";
                                 $notasCredito[$nc]["voucher"] = "";
                             }
-                            $this->addDocument($compania,$fields[0],$fields[1],$fields[2],$this->limpiaCadena(utf8_encode($fields[3])),$fields[4],$fields[5],$fields[6],$fields[7],$fields[8],$fields[9],$fields[10],0, $notasCredito[$nc]["mensaje"],$notasCredito[$nc]["voucher"], $notasCredito[$nc]["invoice_no"]);
+                            $this->addDocument($compania,$fields[0],$fields[1],$fields[2],$this->limpiaCadena(utf8_encode($fields[3])),$fields[4],$fields[5],$fields[6],$fields[7],$fields[8],$fields[9],$fields[10],0, $notasCredito[$nc]["mensaje"],$notasCredito[$nc]["voucher"], $notasCredito[$nc]["invoice_no"],$request["anio"],$request["mes"]);
 
                             break;
                         case "Notas de Débito":
@@ -202,7 +212,7 @@ class FacturasController extends Controller
                                 $comprobantes[$c]["mensaje"] ="NO";
                                 $comprobantes[$c]["voucher"] = "";
                             }
-                            $this->addDocument($compania,$fields[0],$fields[1],$fields[2],$this->limpiaCadena(utf8_encode($fields[3])),$fields[4],$fields[5],$fields[6],$fields[7],$fields[8],$fields[9],$fields[10],0,$comprobantes[$c]["mensaje"],$comprobantes[$c]["voucher"],"");
+                            $this->addDocument($compania,$fields[0],$fields[1],$fields[2],$this->limpiaCadena(utf8_encode($fields[3])),$fields[4],$fields[5],$fields[6],$fields[7],$fields[8],$fields[9],$fields[10],0,$comprobantes[$c]["mensaje"],$comprobantes[$c]["voucher"],"",$request["anio"],$request["mes"]);
                             break;
                         default:
                             if($esFactura==1 && floatval($fields[0])>0) {
@@ -211,9 +221,10 @@ class FacturasController extends Controller
                             }
                     }
                 }
-
+                //dd($facturas);
                 foreach ($facturas as $factura){
-                   $this->addDocument($compania,$factura["comprobante"],$factura["serie_comprobante"],$factura["ruc_emisor"],$this->limpiaCadena(utf8_encode($factura["razon_social_emisor"])),$factura["fecha_emision"],$factura["fecha_autorizacion"],$factura["tipo_emision"],"",$factura["identificacion_receptor"],$factura["clave_acceso"],$factura["numero_autorizador"],$factura["importe_total"],$factura["mensaje"],$factura["voucher"],$factura["invoice_no"]);
+                 //   dd($factura);
+                   $this->addDocument($compania,$factura["comprobante"],$factura["serie_comprobante"],$factura["ruc_emisor"],$this->limpiaCadena(utf8_encode($factura["razon_social_emisor"])),$factura["fecha_emision"],$factura["fecha_autorizacion"],$factura["tipo_emision"],"",$factura["identificacion_receptor"],$factura["clave_acceso"],$factura["numero_autorizador"],$factura["importe_total"],$factura["mensaje"],$factura["voucher"],$factura["invoice_no"],$request["anio"],$request["mes"]);
                 }
                 $mensaje = "El archivo ha sido subido exitosamente";
                 return view('facturas.validar')->with('mensaje',$mensaje)->with('companias',$companias)->with('compania',$compania);

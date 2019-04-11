@@ -19,6 +19,7 @@
                voucher_no ="{{$documento->voucher_no}}"
                mensaje ="{{$documento->mensaje}}"
                importe_total ="{{$documento->importe_total}}"
+               Existe ="{{$documento->factura_existe}}"
             />
         @endforeach
     </B>
