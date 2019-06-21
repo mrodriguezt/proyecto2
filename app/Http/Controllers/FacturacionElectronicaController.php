@@ -210,7 +210,7 @@ class FacturacionElectronicaController extends Controller
                 $tipoIdentificacionComprador= '04';
             }else{
                 $tipoIdentificacionComprador= '06';
-            }
+        }
         }
 
         $IMPUESTOS = \DB::connection('oracle')->table('CUSTOMER_ORDER_INV_ITEM')

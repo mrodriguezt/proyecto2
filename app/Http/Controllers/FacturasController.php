@@ -317,7 +317,7 @@ class FacturasController extends Controller
                 ]
             );
         }else{
-            echo "ERROR";
+            echo "ERROR LA FACTURA YA EXISTE";
         }
     }
     public function subirXML(Request $request)
@@ -569,7 +569,8 @@ class FacturasController extends Controller
         $datos = Documento_recibido::where("company",$compania)->get();
 
         foreach($datos as $dato){
-            if($dato->mensaje=="NO"){
+
+            if($dato->voucher_no_ref==""){
                 switch ($dato->comprobante) {
                     case "COMPROBANTE":
                         $esFactura=0;
@@ -591,7 +592,9 @@ class FacturasController extends Controller
                             $dato->invoice_no = $facturaIFS->invoice_no;
                             $dato->voucher_no = $facturaIFS->voucher_no_ref;
                             $dato->save();
+
                         }
+
 
                         break;
                     case "Notas de Crédito":
