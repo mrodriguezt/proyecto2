@@ -44,7 +44,7 @@ class LoginController extends Controller
     {
         return 'samaccountname'; //username
     }
-     public function samaccountname()
+    public function samaccountname()
     {
         return 'samaccountname'; //username
     }

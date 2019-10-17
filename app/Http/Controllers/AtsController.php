@@ -391,9 +391,13 @@ class AtsController extends Controller
                    dd($atsCompra);
                }
 
+                if(isset($INVOICE_NO[2])){
+                    $nodo = $xml->createElement('secModificado', intval($INVOICE_NO[2]));
+                    $detalleCompras->appendChild($nodo);
 
-               $nodo = $xml->createElement('secModificado', intval($INVOICE_NO[2]));
-               $detalleCompras->appendChild($nodo);
+                }else{
+                   dd($atsCompra->c_invoice_no);
+                }
                if (isset($authSri->c_auth_id_sri)){
                    $nodo = $xml->createElement('autModificado', $authSri->c_auth_id_sri);
                 }else{
