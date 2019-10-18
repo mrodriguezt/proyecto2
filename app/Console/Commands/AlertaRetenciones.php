@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Mail;
 use App\Mail\EnviarAlertaRetenciones;
+use App\Mail\EnviarAlertaRetencionesIAA;
 
 class AlertaRetenciones extends Command
 {
@@ -42,7 +43,7 @@ class AlertaRetenciones extends Command
         $facturasSinRetencion = array();
         $facturasSinAutorizacion = array();
         /* $facturas = \DB::connection('oracle')->table('MAN_SUPP_INVOICE')
-            ->where('INVOICE_DATE','>=','2018-01-01')
+            ->where('INVOICE_DATE','>=','2019-06-01')
             ->where('SERIES_ID','!=','SI')
             ->where('SERIES_ID','!=','41')
             ->where('SERIES_ID','!=','04')
@@ -110,8 +111,9 @@ class AlertaRetenciones extends Command
         }
 
         if(count($facturasSinRetencion)>0 || count($facturasSinAutorizacion)>0) {
-            Mail::to('apabon@aceroandes.com')->send(new EnviarAlertaRetenciones($facturasSinAutorizacion, $facturasSinRetencion));
-            Mail::to('mrodriguezt@santoscmi.com')->send(new EnviarAlertaRetenciones($facturasSinAutorizacion, $facturasSinRetencion));
+            /*Mail::to('apabon@aceroandes.com')->send(new EnviarAlertaRetencionesIAA($facturasSinAutorizacion, $facturasSinRetencion));
+            Mail::to('nalquinga@aceroandes.com')->send(new EnviarAlertaRetencionesIAA($facturasSinAutorizacion, $facturasSinRetencion));*/
+            Mail::to('mrodriguezt@santoscmi.com')->send(new EnviarAlertaRetencionesIAA($facturasSinAutorizacion, $facturasSinRetencion));
         }
     }
 }
