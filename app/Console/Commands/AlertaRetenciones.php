@@ -71,12 +71,12 @@ class AlertaRetenciones extends Command
 
         }
 
-        if(count($facturasSinRetencion)>0 || count($facturasSinAutorizacion)>0) {
+        /*if(count($facturasSinRetencion)>0 || count($facturasSinAutorizacion)>0) {
             Mail::to('jleon@santoscmi.com')->send(new EnviarAlertaRetenciones($facturasSinAutorizacion, $facturasSinRetencion));
             Mail::to('rvasconez@santoscmi.com')->send(new EnviarAlertaRetenciones($facturasSinAutorizacion, $facturasSinRetencion));
             Mail::to('rmorenol@santoscmi.com')->send(new EnviarAlertaRetenciones($facturasSinAutorizacion, $facturasSinRetencion));
         }
-
+*/
         $facturasSinRetencion = array();
         $facturasSinAutorizacion = array();
         $facturas = \DB::connection('oracle')->table('MAN_SUPP_INVOICE')
@@ -110,6 +110,7 @@ class AlertaRetenciones extends Command
         }
 
         if(count($facturasSinRetencion)>0 || count($facturasSinAutorizacion)>0) {
+            Mail::to('apabon@aceroandes.com')->send(new EnviarAlertaRetencionesIAA($facturasSinAutorizacion, $facturasSinRetencion));
             Mail::to('mrodriguezt@santoscmi.com')->send(new EnviarAlertaRetencionesIAA($facturasSinAutorizacion, $facturasSinRetencion));
         }
     }
