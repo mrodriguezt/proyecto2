@@ -80,7 +80,7 @@ class AlertaRetenciones extends Command
         $facturasSinRetencion = array();
         $facturasSinAutorizacion = array();
         $facturas = \DB::connection('oracle')->table('MAN_SUPP_INVOICE')
-            ->where('INVOICE_DATE','>=','2018-01-01')
+            ->where('INVOICE_DATE','>=','2019-10-01')
             ->where('SERIES_ID','!=','SI')
             ->where('SERIES_ID','!=','41')
             ->where('SERIES_ID','!=','04')
