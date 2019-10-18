@@ -41,7 +41,7 @@ class AlertaRetenciones extends Command
     {
         $facturasSinRetencion = array();
         $facturasSinAutorizacion = array();
-        $facturas = \DB::connection('oracle')->table('MAN_SUPP_INVOICE')
+        /* $facturas = \DB::connection('oracle')->table('MAN_SUPP_INVOICE')
             ->where('INVOICE_DATE','>=','2018-01-01')
             ->where('SERIES_ID','!=','SI')
             ->where('SERIES_ID','!=','41')
@@ -71,7 +71,7 @@ class AlertaRetenciones extends Command
 
         }
 
-        /*if(count($facturasSinRetencion)>0 || count($facturasSinAutorizacion)>0) {
+       if(count($facturasSinRetencion)>0 || count($facturasSinAutorizacion)>0) {
             Mail::to('jleon@santoscmi.com')->send(new EnviarAlertaRetenciones($facturasSinAutorizacion, $facturasSinRetencion));
             Mail::to('rvasconez@santoscmi.com')->send(new EnviarAlertaRetenciones($facturasSinAutorizacion, $facturasSinRetencion));
             Mail::to('rmorenol@santoscmi.com')->send(new EnviarAlertaRetenciones($facturasSinAutorizacion, $facturasSinRetencion));
