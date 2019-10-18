@@ -2,7 +2,7 @@
     <tbody>
     <tr>
         <td width="14%" rowspan="2" align="center">
-            <img height="44" width="120" src="http://appl.santoscmi.com/logoIAA.jpg"/>
+            <img height="80" width="120" src="http://appl.santoscmi.com/logoIAA.jpg"/>
         </td>
         <td height="45" width="64%" align="center">
             <strong>INDUSTRIA ACERO DE LOS ANDES</strong>
