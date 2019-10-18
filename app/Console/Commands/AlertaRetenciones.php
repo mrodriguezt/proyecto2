@@ -110,8 +110,8 @@ class AlertaRetenciones extends Command
         }
 
         if(count($facturasSinRetencion)>0 || count($facturasSinAutorizacion)>0) {
-            Mail::to('apabon@aceroandes.com')->send(new EnviarAlertaRetencionesIAA($facturasSinAutorizacion, $facturasSinRetencion));
-            Mail::to('mrodriguezt@santoscmi.com')->send(new EnviarAlertaRetencionesIAA($facturasSinAutorizacion, $facturasSinRetencion));
+            Mail::to('apabon@aceroandes.com')->send(new EnviarAlertaRetenciones($facturasSinAutorizacion, $facturasSinRetencion));
+            Mail::to('mrodriguezt@santoscmi.com')->send(new EnviarAlertaRetenciones($facturasSinAutorizacion, $facturasSinRetencion));
         }
     }
 }
