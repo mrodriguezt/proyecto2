@@ -10,7 +10,7 @@ class AtsController extends Controller
 {
    public function ats(){
 
-        $companias = Company_tab::select('COMPANY as value','NAME as label')->where('COUNTRY','EC')->whereNotNull('PERSON_TYPE')->get()->pluck('label','value');
+        $companias = Company_tab::select('COMPANY as value','NAME as label')->where('COUNTRY','EC')->where('COMPANY','EC05')->whereNotNull('PERSON_TYPE')->get()->pluck('label','value');
 
        return view('ats.index')->with('companias',$companias);
    }

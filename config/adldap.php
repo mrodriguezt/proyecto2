@@ -111,7 +111,7 @@ return [
                 |
                 */
 
-                'account_suffix' => env('ADLDAP_ACCOUNT_SUFFIX', '@santoscmi.com'),
+                'account_suffix' => env('ADLDAP_ACCOUNT_SUFFIX', '@aceroandes.com'),
 
                 /*
                 |--------------------------------------------------------------------------
@@ -129,7 +129,7 @@ return [
                 */
 
 
-                'domain_controllers' => explode(' ', env('ADLDAP_CONTROLLERS', 'srvcduio.santoscmi.com')),
+                'domain_controllers' => explode(' ', env('ADLDAP_CONTROLLERS', '192.168.105.1')),
 
                 /*
                 |--------------------------------------------------------------------------
@@ -169,7 +169,7 @@ return [
                 |
                 */
 
-                'base_dn' => env('ADLDAP_BASEDN', 'dc=santoscmi,dc=com'),
+                'base_dn' => env('ADLDAP_BASEDN', 'dc=aceroandes,dc=com'),
 
                 /*
                 |--------------------------------------------------------------------------
@@ -185,7 +185,7 @@ return [
                 */
 
                 'admin_account_prefix' => env('ADLDAP_ADMIN_ACCOUNT_PREFIX', ''),
-                'admin_account_suffix' => env('ADLDAP_ADMIN_ACCOUNT_SUFFIX', '@santoscmi.com'),
+                'admin_account_suffix' => env('ADLDAP_ADMIN_ACCOUNT_SUFFIX', '@aceroandes.com'),
 
                 /*
                 |--------------------------------------------------------------------------

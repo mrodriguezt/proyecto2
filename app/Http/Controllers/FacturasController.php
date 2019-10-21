@@ -18,14 +18,14 @@ class FacturasController extends Controller
         $mensaje="";
         $companias = Company_tab::select('COMPANY as value','NAME as label')->where('COUNTRY','EC')->whereNotNull('PERSON_TYPE')->get()->pluck('label','value');
 
-        return view('facturas.index')->with('mensaje',$mensaje)->with('companias',$companias)->with('compania','EC01');
+        return view('facturas.index')->with('mensaje',$mensaje)->with('companias',$companias)->with('compania','EC05');
     }
     public function validarFacturas()
     {
         $mensaje="";
-        $companias = Company_tab::select('COMPANY as value','NAME as label')->where('COUNTRY','EC')->whereNotNull('PERSON_TYPE')->get()->pluck('label','value');
+        $companias = Company_tab::select('COMPANY as value','NAME as label')->where('COUNTRY','EC')->where('COMPANY','EC05')->whereNotNull('PERSON_TYPE')->get()->pluck('label','value');
 
-        return view('facturas.validar')->with('companias',$companias)->with('mensaje',$mensaje)->with('compania','EC01');;
+        return view('facturas.validar')->with('companias',$companias)->with('mensaje',$mensaje)->with('compania','EC05');;
     }
     public function addDocument($compania,$comprobante,$serie_comprobante,$ruc_emisor,$razon_social_emisor,$fecha_emision,$fecha_autorizacion,$tipo_emision,$documento_relacionado,$identificacion_receptor,$clave_acceso,$numero_autorizador,$importe_total,$mensaje,$voucher_no,$invoice_no,$anio,$mes){
 
@@ -282,7 +282,7 @@ class FacturasController extends Controller
                  'AFF_LINE_POST' => 'FALSE',
                  'DELIVERY_DATE' => $documento->fecha_emision,
                  'ARRIVAL_DATE' => $documento->fecha_emision,
-                 'DELIVERY_ADDRESS_ID' => '1',
+                 'DELIVERY_ADDRESS_ID' => '01',
                  'CREATION_DATE' => date('Y-m-d'),
                  'PRELIM_CODE' => '*',
                  'CURR_RATE' => '1',
