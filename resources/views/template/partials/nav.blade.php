@@ -34,12 +34,12 @@
             </li>
         </ul>
 
-        <!-- <ul class="nav navbar-nav">
-           &nbsp; <li class="dropdown">
-               <!-- Right Side Of Navbar -->
-        <!-- <ul class="nav navbar-nav navbar-right">
-           <!-- Authentication Links -->
-    <!--  <li class="dropdown">
+        <ul class="nav navbar-nav">
+            &nbsp; <li class="dropdown">
+                <!-- Right Side Of Navbar -->
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- Authentication Links -->
+                        <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 Documentos Electrónicos<span class="caret"></span>
                             </a>
@@ -50,8 +50,8 @@
                         </li>
                 </ul>
             </li>
-        </ul>
-      <ul class="nav navbar-nav">
+            
+        <!--<ul class="nav navbar-nav">
             &nbsp; <li class="dropdown">
                 <!-- Right Side Of Navbar -->
         <!--     <ul class="nav navbar-nav navbar-right">
