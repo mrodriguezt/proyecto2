@@ -50,31 +50,13 @@
                         </li>
                 </ul>
             </li>
-            
-        <!--<ul class="nav navbar-nav">
-            &nbsp; <li class="dropdown">
-                <!-- Right Side Of Navbar -->
-        <!--     <ul class="nav navbar-nav navbar-right">
-                 <!-- Authentication Links -->
-        <!-- <li class="dropdown">
-             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                 Reportes <span class="caret"></span>
-             </a>
-             <ul class="dropdown-menu" role="menu">
-             </ul>
 
-         </li>-->
-
- </ul>
+        </ul>
 </li>
 </ul>
-
 <!-- Left Side Of Navbar -->
-        <ul class="nav navbar-nav">
-            &nbsp;
+        <ul class="nav navbar-nav">            &nbsp;
         </ul>
-
-      
         <ul class="nav navbar-nav navbar-right">        
             <!-- Authentication Links -->
             @if (Auth::guest())
@@ -101,7 +83,6 @@
                                                      document.getElementById('logout-form').submit();">
                                             Logout
                                         </a>
-
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>

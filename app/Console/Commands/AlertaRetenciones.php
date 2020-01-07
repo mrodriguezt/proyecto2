@@ -74,7 +74,7 @@ class AlertaRetenciones extends Command
 
        if(count($facturasSinRetencion)>0 || count($facturasSinAutorizacion)>0) {
             Mail::to('jleon@santoscmi.com')->send(new EnviarAlertaRetenciones($facturasSinAutorizacion, $facturasSinRetencion));
-            Mail::to('rvasconez@santoscmi.com')->send(new EnviarAlertaRetenciones($facturasSinAutorizacion, $facturasSinRetencion));
+            Mail::to('pmoya@santoscmi.com')->send(new EnviarAlertaRetenciones($facturasSinAutorizacion, $facturasSinRetencion));
             Mail::to('rmorenol@santoscmi.com')->send(new EnviarAlertaRetenciones($facturasSinAutorizacion, $facturasSinRetencion));
         }
 

@@ -71,9 +71,7 @@ class FacturasController extends Controller
     public function validarArchivo(Request $request)
     {
 
-        Documento_recibido::where("anio",$request["anio"])->where("mes",$request["mes"])->where("company",$request["compania"])->
-                    update(['factura_existe' => 0]);
-
+        Documento_recibido::where("anio",$request["anio"])->where("mes",$request["mes"])->where("company",$request["compania"])->update(['factura_existe' => 0]);
         $companias = Company_tab::select('COMPANY as value','NAME as label')->where('COUNTRY','EC')->whereNotNull('PERSON_TYPE')->get()->pluck('label','value');
         $facturas= [];
         $comprobantes= [];
