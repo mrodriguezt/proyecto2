@@ -5,7 +5,7 @@
     <div class="form-row">
         <div class="form-group col-md-2">
             {!! Form::label('anio','Año') !!}
-            {!! Form::select('anio',["2017"=>"2017","2018"=>"2018","2019"=>"2019"],null,['class'=>'form-control select-proyecto','placeholder'=>'Seleccione el Año','required']) !!}
+            {!! Form::select('anio',["2017"=>"2017","2018"=>"2018","2019"=>"2019","2020"=>"2020"],null,['class'=>'form-control select-proyecto','placeholder'=>'Seleccione el Año','required']) !!}
 
         </div>
         <div class="form-group col-md-2">
