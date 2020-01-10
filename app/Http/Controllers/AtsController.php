@@ -501,6 +501,9 @@ class AtsController extends Controller
 
            $detalleVentas = $xml->createElement('detalleVentas');
            $detalleVentas = $ventasNodo->appendChild($detalleVentas);
+           if($atsVenta->tax_id_type =='06_US' || $atsVenta->tax_id_type =='06_GB'){
+               $atsVenta->tax_id_type='06';
+           }
            $atsVenta->tax_id_type = str_replace("_BO","",$atsVenta->tax_id_type);
            $nodo = $xml->createElement('tpIdCliente',$atsVenta->tax_id_type);
            $detalleVentas->appendChild($nodo);

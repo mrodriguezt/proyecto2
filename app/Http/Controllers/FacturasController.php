@@ -567,7 +567,6 @@ class FacturasController extends Controller
         $datos = Documento_recibido::where("company",$compania)->get();
 
         foreach($datos as $dato){
-
             if($dato->voucher_no_ref==""){
                 switch ($dato->comprobante) {
                     case "COMPROBANTE":
