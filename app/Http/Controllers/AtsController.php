@@ -139,7 +139,7 @@ class AtsController extends Controller
            $sumaBases = 0;
            $gngiva = \DB::connection('oracle')->table('MAN_SUPP_INVOICE_ITEM')
                ->where('INVOICE_ID', $atsCompra->invoice_id)
-               ->where('VAT_CODE', 'IVA_COM_0%_NO_OBJETO')
+               ->whereIn('VAT_CODE', ['IVA_COM_0%_NO_OBJETO','NA'])
                ->select(\DB::connection('oracle')->raw('SUM(NET_CURR_AMOUNT) as basenograiva'))
                ->get()->first();
            if (isset($gngiva->basenograiva)) {
